@@ -370,10 +370,10 @@
     <value>Саволлар статистикаси</value>
   </data>
   <data name="dash.title" xml:space="preserve">
-    <value>ТЕСТ &lt;span&gt;СТАТИСТИКАСИ&lt;/span&gt;</value>
+    <value>Саволлар &lt;span&gt;базаси&lt;/span&gt;</value>
   </data>
   <data name="dash.total" xml:space="preserve">
-    <value>Жами саволлар сони</value>
+    <value>Жами саволлар</value>
   </data>
   <data name="dash.allTypes" xml:space="preserve">
     <value>Барча тест турлари бўйича</value>
@@ -406,7 +406,7 @@
     <value>Реал</value>
   </data>
   <data name="dash.translations" xml:space="preserve">
-    <value>Таржималар ҳолати</value>
+    <value>Таржималар</value>
   </data>
   <data name="dash.withRu" xml:space="preserve">
     <value>Рус таржимаси бор</value>
@@ -1781,5 +1781,107 @@
   </data>
   <data name="users.hidePassword" xml:space="preserve">
     <value>Паролни яшириш</value>
+  </data>
+  <data name="users.phone" xml:space="preserve">
+    <value>Телефон рақами</value>
+  </data>
+  <data name="users.phoneHint" xml:space="preserve">
+    <value>Ўқувчи учун мажбурий. Масалан: +998 90 123 45 67 ёки 90 123 45 67</value>
+  </data>
+  <data name="err.phoneRequired" xml:space="preserve">
+    <value>Ўқувчининг телефон рақамини киритинг</value>
+  </data>
+  <data name="err.phoneFormat" xml:space="preserve">
+    <value>Телефон рақами нотўғри. Масалан: +998 90 123 45 67</value>
+  </data>
+  <data name="users.deviceRuleOff" xml:space="preserve">
+    <value>Ҳозир битта қурилма қоидаси ўчирилган — ўқувчи исталган қурилмадан кира олади. Ёқиш: Қурилма сўровлари саҳифаси.</value>
+  </data>
+  <data name="dev.ruleTitle" xml:space="preserve">
+    <value>Битта қурилма қоидаси (ўқувчилар)</value>
+  </data>
+  <data name="dev.ruleOn" xml:space="preserve">
+    <value>Ёқилган</value>
+  </data>
+  <data name="dev.ruleOff" xml:space="preserve">
+    <value>Ўчирилган</value>
+  </data>
+  <data name="dev.ruleOnDesc" xml:space="preserve">
+    <value>Ҳар бир ўқувчи фақат битта қурилмадан киради. Бошқа қурилмадан кириш учун сизнинг тасдиғингиз керак.</value>
+  </data>
+  <data name="dev.ruleOffDesc" xml:space="preserve">
+    <value>Ўқувчилар исталган қурилмадан (телефон, компьютер) чекловсиз кира олади.</value>
+  </data>
+  <data name="dev.ruleComputers" xml:space="preserve">
+    <value>Компьютер (ўқув маркази) ҳисоблари доим фақат ўз компьютеридан киради.</value>
+  </data>
+  <data name="dev.ruleEnable" xml:space="preserve">
+    <value>Қоидани ёқиш</value>
+  </data>
+  <data name="dev.ruleDisable" xml:space="preserve">
+    <value>Қоидани ўчириш</value>
+  </data>
+  <data name="dev.ruleEnableConfirm" xml:space="preserve">
+    <value>Битта қурилма қоидасини ёқасизми? Ҳар бир ўқувчи кейинги кирган қурилмасига боғланади, бошқа қурилмалардан эса фақат сизнинг тасдиғингиз билан кира олади.</value>
+  </data>
+  <data name="dev.ruleDisableConfirm" xml:space="preserve">
+    <value>Битта қурилма қоидасини ўчирасизми? Ўқувчилар исталган қурилмадан кира олади.</value>
+  </data>
+  <data name="dev.ruleChangedOn" xml:space="preserve">
+    <value>Битта қурилма қоидаси ёқилди</value>
+  </data>
+  <data name="dev.ruleChangedOff" xml:space="preserve">
+    <value>Битта қурилма қоидаси ўчирилди — ўқувчилар исталган қурилмадан кира олади</value>
+  </data>
+  <data name="dash.bilets" xml:space="preserve">
+    <value>Билетлар</value>
+  </data>
+  <data name="dash.topics" xml:space="preserve">
+    <value>Мавзулар</value>
+  </data>
+  <data name="dash.withImage" xml:space="preserve">
+    <value>Расмли саволлар</value>
+  </data>
+  <data name="dash.lead" xml:space="preserve">
+    <value>Билетлар, мавзулар, расмлар ва таржималар ҳолати</value>
+  </data>
+  <data name="dash.live" xml:space="preserve">
+    <value>Маълумотлар жорий</value>
+  </data>
+  <data name="dash.unit" xml:space="preserve">
+    <value>та савол</value>
+  </data>
+  <data name="dash.perBilet" xml:space="preserve">
+    <value>саволдан</value>
+  </data>
+  <data name="dash.biletsDesc" xml:space="preserve">
+    <value>Ҳар бирида {n} та савол</value>
+  </data>
+  <data name="dash.pdd" xml:space="preserve">
+    <value>ЙҲҚ</value>
+  </data>
+  <data name="dash.topicsDesc" xml:space="preserve">
+    <value>Йўл ҳаракати қоидалари бўлимлари</value>
+  </data>
+  <data name="dash.withoutImage" xml:space="preserve">
+    <value>Расмсиз саволлар</value>
+  </data>
+  <data name="dash.imageShare" xml:space="preserve">
+    <value>расмли</value>
+  </data>
+  <data name="dash.translationsDesc" xml:space="preserve">
+    <value>Ҳар бир тилда матни бор саволлар сони</value>
+  </data>
+  <data name="dash.langUz" xml:space="preserve">
+    <value>Ўзбекча (лотин)</value>
+  </data>
+  <data name="dash.langRu" xml:space="preserve">
+    <value>Русча</value>
+  </data>
+  <data name="dash.langUzk" xml:space="preserve">
+    <value>Ўзбекча (кирилл)</value>
+  </data>
+  <data name="dash.complete" xml:space="preserve">
+    <value>Тўлиқ</value>
   </data>
 </root>

@@ -11,8 +11,6 @@ namespace propro.Controllers.Api
     [Route("api/content")]
     public class ContentApiController : ApiControllerBase
     {
-        private const int QuestionsPerBilet = 20;
-
         private readonly AppDbContext _db;
         private readonly QuestionBank _bank;
         private readonly ResultsService _results;
@@ -45,14 +43,14 @@ namespace propro.Controllers.Api
             };
             if (take == -1) return Error(404, "not_found", "Test turi topilmadi.");
 
-            var list = take is int n ? await _bank.RandomAsync(n) : (await _bank.AllAsync()).ToList();
+            var list = take is int n ? await _bank.RandomAsync(n) : QuestionBank.Shuffled(await _bank.TestPoolAsync()).ToList();
             return Ok(list.Select(QuestionJson.From));
         }
 
         [HttpGet("bilets")]
         public async Task<IActionResult> Bilets()
         {
-            var total = (int)Math.Ceiling((await _bank.AllAsync()).Count / (double)QuestionsPerBilet);
+            var total = (await _bank.BiletsAsync()).Count;
             return Ok(new { total });
         }
 
@@ -62,19 +60,16 @@ namespace propro.Controllers.Api
             var (_, fail) = await RequireSubscriptionAsync(_db);
             if (fail != null) return fail;
 
-            var all = await _bank.AllAsync();
-            var total = (int)Math.Ceiling(all.Count / (double)QuestionsPerBilet);
+            var bilets = await _bank.BiletsAsync();
+            var total = bilets.Count;
             if (number < 1 || number > total) return Error(404, "not_found", $"Bilet raqami 1 dan {total} gacha bo'lishi kerak.");
-            return Ok(all.Skip((number - 1) * QuestionsPerBilet).Take(QuestionsPerBilet).Select(QuestionJson.From));
+            return Ok(QuestionBank.Shuffled(bilets[number - 1]).Select(QuestionJson.From)); // faqat bilet ichida aralashadi
         }
 
         [HttpGet("topics")]
         public async Task<IActionResult> TopicList()
         {
-            var counts = (await _bank.AllAsync())
-                .Where(q => !string.IsNullOrWhiteSpace(q.Topic))
-                .GroupBy(q => q.Topic!.Trim())
-                .ToDictionary(g => g.Key, g => g.Count());
+            var counts = (await _bank.ByTopicAsync()).ToDictionary(kv => kv.Key, kv => kv.Value.Count);
 
             return Ok(Topics.All.Select((t, i) => new
             {
@@ -94,10 +89,7 @@ namespace propro.Controllers.Api
             if (fail != null) return fail;
 
             topic = (topic ?? "").Trim();
-            var list = (await _bank.AllAsync())
-                .Where(q => !string.IsNullOrWhiteSpace(q.Topic) && q.Topic.Trim().Equals(topic, StringComparison.OrdinalIgnoreCase))
-                .ToArray();
-            Random.Shared.Shuffle(list);
+            var list = QuestionBank.Shuffled(await _bank.TopicQuestionsAsync(topic));
             return Ok(list.Select(QuestionJson.From));
         }
 

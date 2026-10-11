@@ -32,20 +32,16 @@ namespace propro.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBiletQuestions(int biletNumber)
         {
-            const int questionsPerBilet = 20;
-            // Savollar xotiradagi keshdan (Id bo'yicha tartiblangan)
-            var allQuestions = await _bank.AllAsync();
-
-            var totalBilets = (int)Math.Ceiling(allQuestions.Count / (double)questionsPerBilet);
+            // Biletlar xotiradagi keshdan (ptest bazasi, bilet tartibida)
+            var bilets = await _bank.BiletsAsync();
+            var totalBilets = bilets.Count;
 
             if (biletNumber < 1 || biletNumber > totalBilets)
                 return BadRequest(_t["bilet.range"].Value.Replace("{max}", totalBilets.ToString()));
 
-            var biletQuestions = allQuestions
-                .Skip((biletNumber - 1) * questionsPerBilet)
-                .Take(questionsPerBilet)
-                //.OrderBy(q => Guid.NewGuid())
-               .Select(QuestionJson.From)
+            // Savollar faqat shu bilet ichida aralashtiriladi (boshqa biletga o'tmaydi)
+            var biletQuestions = QuestionBank.Shuffled(bilets[biletNumber - 1])
+                .Select(QuestionJson.From)
                 .ToList();
 
             return Json(new
@@ -59,9 +55,7 @@ namespace propro.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllBilets()
         {
-            const int questionsPerBilet = 20;
-            var totalQuestions = (await _bank.AllAsync()).Count;
-            var totalBilets = (int)Math.Ceiling(totalQuestions / (double)questionsPerBilet);
+            var totalBilets = (await _bank.BiletsAsync()).Count;
 
             return Json(new { totalBilets });
         }

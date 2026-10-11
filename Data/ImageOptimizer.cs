@@ -19,6 +19,13 @@ public class ImageOptimizer
 
     private static readonly string[] Extensions = { ".png", ".jpg", ".jpeg", ".webp" };
 
+    /// <summary>
+    /// ptest rasmlari (pt_*.webp) import paytida eng uzun tomoni 1280px, WebP 86 sifat bilan siqilgan.
+    /// To'liq o'lchamda ularni qayta siqmaymiz (sifat 80 ga tushib ketmasin) — asl fayl beriladi.
+    /// </summary>
+    public const string PreOptimizedPrefix = "pt_";
+    public const int PreOptimizedMaxSide = 1280;
+
     private readonly string _uploads;
     private readonly Dictionary<string, string> _roots;
     private readonly string _cacheRoot;
@@ -58,6 +65,10 @@ public class ImageOptimizer
 
         // Faqat uploads ichidagi oddiy fayl nomi (yo'l bilan chiqib ketishning oldini olish)
         if (fileName != Path.GetFileName(fileName) || !IsSupported(fileName)) return Task.FromResult<string?>(null);
+
+        if (size >= PreOptimizedMaxSide && fileName.StartsWith(PreOptimizedPrefix, StringComparison.OrdinalIgnoreCase) &&
+            fileName.EndsWith(".webp", StringComparison.OrdinalIgnoreCase))
+            return Task.FromResult<string?>(null);
 
         var source = Path.Combine(root, fileName);
         var info = new FileInfo(source);

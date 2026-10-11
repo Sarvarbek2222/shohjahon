@@ -93,7 +93,7 @@ public static class ApiTokens
             ? await db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id)
             : null;
 
-        bool otherDevice = user != null && user.IsRestricted && user.DeviceId != null && device != user.DeviceId;
+        bool otherDevice = user != null && SiteSettings.DeviceRuleApplies(user) && user.DeviceId != null && device != user.DeviceId;
         if (user == null || !user.IsActive || user.SecurityStamp != stamp || otherDevice)
             ctx.Fail("session_revoked");
     }

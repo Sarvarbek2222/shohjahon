@@ -28,6 +28,8 @@ public static class DbUpgrade
         {
             await EnsureUsersTableAsync(db, log);
             await EnsureUserAccessAsync(db, log);
+            await SiteSettings.LoadAsync(db);
+            log.LogInformation("Bitta qurilma qoidasi (o'quvchilar): {State}", SiteSettings.SingleDevice ? "yoqilgan" : "o'chirilgan");
             var users = scope.ServiceProvider.GetRequiredService<UserService>();
             var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             await users.EnsureDefaultSuperAdminAsync(config, log);
@@ -57,6 +59,15 @@ public static class DbUpgrade
 
         try
         {
+            await EnsureQuestionSourceColumnsAsync(db, log);
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, "Questions jadvaliga Source/BiletNumber/BiletOrder ustunlarini qo'shishda xatolik");
+        }
+
+        try
+        {
             await UpgradeSchemaAsync(db, log);
             await MigrateDataAsync(db, log);
         }
@@ -65,6 +76,38 @@ public static class DbUpgrade
             // Sayt ishlashda davom etsin, xato jurnalga yoziladi
             log.LogError(ex, "Bazani 3 tilli tuzilishga o'tkazishda xatolik");
         }
+
+        try
+        {
+            await FillPtestCyrillicAsync(db, log);
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, "ptest savollari uchun kirillcha matn yaratishda xatolik");
+        }
+    }
+
+    /// <summary>
+    /// ptest savollari lotinda keladi. Eski bazadan tarjimasi topilmaganlarining kirillchasi bo'sh bo'lsa —
+    /// lotin matnidan transliteratsiya qilinadi. Tayyor (admin kiritgan) kirill matniga tegilmaydi.
+    /// </summary>
+    private static async Task FillPtestCyrillicAsync(AppDbContext db, ILogger log)
+    {
+        var questions = await db.Questions.Include(q => q.Options)
+            .Where(q => q.Source == QuestionSources.Ptest &&
+                        ((q.QuestionUZK == null || q.QuestionUZK == "") ||
+                         q.Options.Any(o => o.OptionUZK == null || o.OptionUZK == "")))
+            .ToListAsync();
+        if (questions.Count == 0) return;
+
+        foreach (var q in questions)
+        {
+            if (string.IsNullOrWhiteSpace(q.QuestionUZK)) q.QuestionUZK = Translit.ToCyrillic(q.QuestionUZ);
+            foreach (var o in q.Options)
+                if (string.IsNullOrWhiteSpace(o.OptionUZK)) o.OptionUZK = Translit.ToCyrillic(o.OptionUZ);
+        }
+        await db.SaveChangesAsync();
+        log.LogInformation("ptest: {Count} ta savolga kirillcha matn yozildi", questions.Count);
     }
 
     private static async Task EnsureUsersTableAsync(AppDbContext db, ILogger log)
@@ -115,6 +158,17 @@ CREATE TABLE `Users` (
             if (await ColumnExistsAsync(conn, "Users", name)) continue;
             await ExecAsync(conn, $"ALTER TABLE `Users` ADD COLUMN `{name}` {type}");
             log.LogInformation("Users.{Column} ustuni qo'shildi", name);
+        }
+
+        if (!await TableExistsAsync(conn, "AppSettings"))
+        {
+            await ExecAsync(conn, @"
+CREATE TABLE `AppSettings` (
+    `Key` varchar(64) CHARACTER SET utf8mb4 NOT NULL,
+    `Value` varchar(255) CHARACTER SET utf8mb4 NULL,
+    PRIMARY KEY (`Key`)
+) CHARACTER SET=utf8mb4");
+            log.LogInformation("AppSettings jadvali yaratildi");
         }
 
         if (!await TableExistsAsync(conn, "UserDeviceRequests"))
@@ -279,6 +333,48 @@ CREATE TABLE `Payments` (
             await db.SaveChangesAsync();
             log.LogWarning("Boshlang'ich obuna tariflari qo'shildi — narxlarni admin panelida tekshiring!");
         }
+    }
+
+    /// <summary>
+    /// Ikki savollar bazasi bitta jadvalda: Source = 'old' (eski, mavzular uchun) yoki 'ptest' (biletlar va testlar uchun).
+    /// Mavjud savollar avtomatik 'old' bo'lib qoladi.
+    /// </summary>
+    private static async Task EnsureQuestionSourceColumnsAsync(AppDbContext db, ILogger log)
+    {
+        var conn = db.Database.GetDbConnection();
+        if (conn.State != ConnectionState.Open) await conn.OpenAsync();
+        if (!await TableExistsAsync(conn, "Questions")) return;
+
+        if (!await ColumnExistsAsync(conn, "Questions", "Source"))
+        {
+            await ExecAsync(conn, "ALTER TABLE `Questions` ADD COLUMN `Source` varchar(16) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'old'");
+            log.LogInformation("Questions.Source ustuni qo'shildi (mavjud savollar — 'old')");
+        }
+        if (!await ColumnExistsAsync(conn, "Questions", "BiletNumber"))
+            await ExecAsync(conn, "ALTER TABLE `Questions` ADD COLUMN `BiletNumber` int NULL");
+        if (!await ColumnExistsAsync(conn, "Questions", "BiletOrder"))
+            await ExecAsync(conn, "ALTER TABLE `Questions` ADD COLUMN `BiletOrder` int NULL");
+
+        // Savol <-> mavzu (bir savol bir nechta mavzuda bo'lishi mumkin); savol o'chirilsa bog'lanishi ham o'chadi
+        if (!await TableExistsAsync(conn, "QuestionTopics"))
+        {
+            await CreateWithFallbackAsync(conn, log, ",\n  CONSTRAINT `FK_QuestionTopics_Questions` FOREIGN KEY (`QuestionId`) REFERENCES `Questions` (`Id`) ON DELETE CASCADE", fk => $@"
+CREATE TABLE `QuestionTopics` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `QuestionId` int NOT NULL,
+  `Topic` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `SortOrder` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `IX_QuestionTopics_QuestionId_Topic` (`QuestionId`, `Topic`),
+  KEY `IX_QuestionTopics_Topic_SortOrder` (`Topic`, `SortOrder`){fk}
+) CHARACTER SET utf8mb4");
+            log.LogInformation("QuestionTopics jadvali yaratildi");
+        }
+
+        var hasIndex = await ScalarLongAsync(conn,
+            "SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'Questions' AND INDEX_NAME = 'IX_Questions_Source_Bilet'");
+        if (hasIndex == 0)
+            await ExecAsync(conn, "CREATE INDEX `IX_Questions_Source_Bilet` ON `Questions` (`Source`, `BiletNumber`, `BiletOrder`)");
     }
 
     private static async Task UpgradeSchemaAsync(AppDbContext db, ILogger log)

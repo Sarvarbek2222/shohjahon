@@ -1,591 +1,305 @@
-﻿@{
+@model AdminDashboardModel
+@{
     Layout = "_AdminLayout";
     ViewData["TitleKey"] = "dash.pageTitle";
     ViewData["Title"] = L["dash.pageTitle"];
+
+    var imgPct = Model.Percent(Model.WithImage);
+    var noImgPct = 100 - imgPct;
+    var langs = new[]
+    {
+        (key: "dash.langUz",  code: "UZ", count: Model.WithUz,  color: "#ff2d4a"),
+        (key: "dash.langRu",  code: "RU", count: Model.WithRu,  color: "#4f8cff"),
+        (key: "dash.langUzk", code: "ЎЗ", count: Model.WithUzk, color: "#22c58b"),
+    };
 }
 
-
-
 <style>
-    :root {
-        --bg: #07080d;
-        --surface: #0d0f18;
-        --surface2: #131624;
-        --border: rgba(255,255,255,0.07);
-        --red: #ff2d4a;
-        --red-dim: rgba(255,45,74,0.10);
-        --text: #e8eaf0;
-        --muted: #5a6080;
-        --c1: #ff2d4a;
-        --c2: #29b6f6;
-        --c3: #00e676;
-        --c4: #ffa726;
-        --c5: #ce93d8;
-        --c6: #80cbc4;
-    }
-
-    *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: 'DM Sans', sans-serif;
-    }
-
-    /* ── PAGE ── */
-    .st-page {
-        max-width: 1300px;
+    .ds {
+        --ds-bg: #07080d;
+        --ds-card: #0d0f18;
+        --ds-card2: #11141f;
+        --ds-line: rgba(255,255,255,.07);
+        --ds-line2: rgba(255,255,255,.12);
+        --ds-text: #eef0f6;
+        --ds-sub: #9aa1b9;
+        --ds-mute: #626a87;
+        --ds-red: #ff2d4a;
+        --ds-blue: #4f8cff;
+        --ds-green: #22c58b;
+        --ds-amber: #f5a524;
+        max-width: 1240px;
         margin: 0 auto;
-        padding: 40px 32px 100px;
+        padding: 36px 32px 96px;
+        color: var(--ds-text);
+        font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        font-feature-settings: "tnum" 1, "cv11" 1;
     }
 
-    /* ── HEADER ── */
-    .st-header {
-        margin-bottom: 48px;
+    .ds *, .ds *::before, .ds *::after { box-sizing: border-box; }
+
+    /* ── Sarlavha ── */
+    .ds-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+    .ds-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ds-red); margin-bottom: 10px; }
+    .ds-eyebrow::before { content: ""; width: 22px; height: 2px; border-radius: 2px; background: var(--ds-red); }
+    .ds-title { margin: 0; font-size: clamp(1.7rem, 3vw, 2.25rem); font-weight: 800; letter-spacing: -.025em; line-height: 1.1; }
+    .ds-title span { color: var(--ds-red); }
+    .ds-lead { margin: 8px 0 0; color: var(--ds-sub); font-size: .95rem; }
+    .ds-status { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--ds-line); border-radius: 999px; background: var(--ds-card); color: var(--ds-sub); font-size: .8rem; font-weight: 500; }
+    .ds-status i { width: 8px; height: 8px; border-radius: 50%; background: var(--ds-green); box-shadow: 0 0 0 4px rgba(34,197,139,.15); }
+
+    /* ── Asosiy panel ── */
+    .ds-hero {
+        position: relative; overflow: hidden;
+        display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: center;
+        padding: 36px 40px; margin-bottom: 20px;
+        border: 1px solid var(--ds-line); border-radius: 20px;
+        background:
+            radial-gradient(900px 300px at -10% -40%, rgba(255,45,74,.16), transparent 60%),
+            linear-gradient(180deg, var(--ds-card2), var(--ds-card));
     }
+    .ds-hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+        background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+        background-size: 28px 28px; mask-image: linear-gradient(90deg, #000, transparent 70%); }
+    .ds-hero > * { position: relative; z-index: 1; }
 
-    .st-eyebrow {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.63rem;
-        font-weight: 700;
-        letter-spacing: 0.28em;
-        text-transform: uppercase;
-        color: var(--red);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
+    .ds-label { font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ds-sub); }
+    .ds-total { display: flex; align-items: baseline; gap: 14px; margin: 10px 0 6px; }
+    .ds-total-num { font-size: clamp(3.6rem, 8vw, 5.6rem); font-weight: 800; letter-spacing: -.045em; line-height: 1; }
+    .ds-total-unit { color: var(--ds-sub); font-size: 1rem; font-weight: 500; }
+    .ds-formula { display: inline-flex; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 14px; border: 1px solid var(--ds-line); border-radius: 12px; background: rgba(255,255,255,.02); color: var(--ds-sub); font-size: .88rem; }
+    .ds-formula b { color: var(--ds-text); font-weight: 700; }
+    .ds-formula em { font-style: normal; color: var(--ds-mute); }
 
-        .st-eyebrow::before {
-            content: '';
-            width: 24px;
-            height: 2px;
-            background: var(--red);
-            border-radius: 2px;
-        }
+    /* Rasmlar nisbati — halqa */
+    .ds-split { display: flex; align-items: center; gap: 28px; justify-content: flex-end; }
+    .ds-ring { --p: 0; position: relative; width: 168px; height: 168px; flex: none; border-radius: 50%;
+        background: conic-gradient(var(--ds-red) calc(var(--p) * 1%), rgba(255,255,255,.07) 0);
+        transition: --p 1.2s cubic-bezier(.2,.7,.2,1); }
+    .ds-ring::before { content: ""; position: absolute; inset: 16px; border-radius: 50%; background: var(--ds-card); box-shadow: inset 0 0 0 1px var(--ds-line); }
+    .ds-ring-in { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+    .ds-ring-in strong { font-size: 2rem; font-weight: 800; letter-spacing: -.03em; }
+    .ds-ring-in span { font-size: .72rem; color: var(--ds-sub); text-transform: uppercase; letter-spacing: .08em; }
+    .ds-legend { display: grid; gap: 14px; min-width: 190px; }
+    .ds-leg { display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 10px; }
+    .ds-leg i { width: 10px; height: 10px; border-radius: 3px; }
+    .ds-leg span { color: var(--ds-sub); font-size: .88rem; }
+    .ds-leg b { font-size: 1rem; font-weight: 700; }
+    .ds-leg small { grid-column: 2 / 4; margin-top: -8px; color: var(--ds-mute); font-size: .75rem; }
 
-    .st-title {
-        font-family: 'Syne', sans-serif;
-        font-size: clamp(2rem, 4vw, 3rem);
-        font-weight: 800;
-        line-height: 1;
-        color: #fff;
-        letter-spacing: -0.02em;
-    }
+    /* ── Kartalar ── */
+    .ds-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .ds-card { position: relative; padding: 22px 22px 20px; border: 1px solid var(--ds-line); border-radius: 16px; background: var(--ds-card);
+        transition: border-color .2s, transform .2s, background .2s; }
+    .ds-card:hover { border-color: var(--ds-line2); transform: translateY(-2px); background: var(--ds-card2); }
+    .ds-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .ds-ico { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 11px; color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 28%, transparent); }
+    .ds-ico svg { width: 20px; height: 20px; }
+    .ds-chip { padding: 4px 9px; border-radius: 999px; font-size: .72rem; font-weight: 600; color: var(--ds-sub); background: rgba(255,255,255,.04); border: 1px solid var(--ds-line); }
+    .ds-num { font-size: 2.15rem; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
+    .ds-name { margin-top: 8px; font-size: .9rem; font-weight: 600; color: var(--ds-text); }
+    .ds-desc { margin-top: 4px; font-size: .8rem; color: var(--ds-mute); }
+    .ds-bar { height: 6px; margin-top: 16px; border-radius: 6px; background: rgba(255,255,255,.06); overflow: hidden; }
+    .ds-bar > i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--c); transition: width 1.2s cubic-bezier(.2,.7,.2,1); }
 
-        .st-title span {
-            color: var(--red);
-        }
+    /* ── Tarjimalar ── */
+    .ds-panel { padding: 26px 28px; border: 1px solid var(--ds-line); border-radius: 18px; background: var(--ds-card); }
+    .ds-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+    .ds-panel-title { margin: 0; font-size: 1.05rem; font-weight: 700; }
+    .ds-panel-sub { margin: 4px 0 0; color: var(--ds-mute); font-size: .82rem; }
+    .ds-langs { display: grid; gap: 4px; }
+    .ds-lang { display: grid; grid-template-columns: 44px minmax(140px, 1.1fr) minmax(0, 2fr) 170px; align-items: center; gap: 22px; padding: 14px 6px; border-top: 1px solid var(--ds-line); }
+    .ds-lang:first-child { border-top: 0; }
+    .ds-code { width: 44px; height: 32px; display: grid; place-items: center; border-radius: 9px; font-size: .74rem; font-weight: 800; letter-spacing: .04em; color: var(--c); background: color-mix(in srgb, var(--c) 13%, transparent); }
+    .ds-lang-name { font-weight: 600; font-size: .92rem; }
+    .ds-lang .ds-bar { margin: 0; height: 8px; }
+    .ds-lang-val { display: flex; align-items: center; justify-content: flex-end; gap: 10px; font-size: .88rem; color: var(--ds-sub); white-space: nowrap; }
+    .ds-lang-val b { color: var(--ds-text); font-weight: 700; }
+    .ds-ok { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px; font-size: .7rem; font-weight: 700; color: var(--ds-green); background: rgba(34,197,139,.12); }
+    .ds-ok.part { color: var(--ds-amber); background: rgba(245,165,36,.12); }
 
-    /* ── HERO CARD ── */
-    .st-hero {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 48px 52px;
-        margin-bottom: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 32px;
-        position: relative;
-        overflow: hidden;
-    }
-
-        .st-hero::before {
-            content: '';
-            position: absolute;
-            right: -60px;
-            top: -60px;
-            width: 280px;
-            height: 280px;
-            background: radial-gradient(circle, rgba(255,45,74,0.12) 0%, transparent 65%);
-            pointer-events: none;
-        }
-
-        .st-hero::after {
-            content: 'TOTAL';
-            position: absolute;
-            right: 40px;
-            bottom: -10px;
-            font-family: 'Syne', sans-serif;
-            font-size: 7rem;
-            font-weight: 800;
-            color: rgba(255,255,255,0.025);
-            pointer-events: none;
-            letter-spacing: -0.04em;
-        }
-
-    .st-hero-left {
-    }
-
-    .st-hero-label {
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 12px;
-    }
-
-    .st-hero-num {
-        font-family: 'Syne', sans-serif;
-        font-size: clamp(4rem, 8vw, 7rem);
-        font-weight: 800;
-        line-height: 1;
-        color: #fff;
-    }
-
-        .st-hero-num span {
-            color: var(--red);
-        }
-
-    .st-hero-sub {
-        font-size: 0.85rem;
-        color: var(--muted);
-        font-weight: 300;
-        margin-top: 10px;
-    }
-
-    .st-hero-right {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        min-width: 200px;
-    }
-
-    .st-hero-bar-item {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .st-bar-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .st-bar-name {
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--muted);
-    }
-
-    .st-bar-val {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.75rem;
-        font-weight: 800;
-        color: #fff;
-    }
-
-    .st-bar-track {
-        height: 4px;
-        background: rgba(255,255,255,0.06);
-        border-radius: 4px;
-        overflow: hidden;
-    }
-
-    .st-bar-fill {
-        height: 100%;
-        border-radius: 4px;
-        transition: width 1s ease;
-    }
-
-    /* ── GRID ── */
-    .st-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-    }
-
-    /* ── STAT CARD ── */
-    .st-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 32px 28px;
-        position: relative;
-        overflow: hidden;
-        transition: background 0.25s, transform 0.25s, border-color 0.25s;
-        cursor: default;
-    }
-
-        .st-card:hover {
-            background: var(--surface2);
-            transform: translateY(-4px);
-        }
-
-        .st-card::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.35s ease;
-        }
-
-        .st-card:hover::before {
-            transform: scaleX(1);
-        }
-
-    .st-card-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-
-    .st-card-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-    }
-
-    .st-card-tag {
-        font-size: 0.6rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        padding: 3px 10px;
-        border-radius: 2px;
-        border: 1px solid;
-    }
-
-    .st-card-num {
-        font-family: 'Syne', sans-serif;
-        font-size: 3rem;
-        font-weight: 800;
-        line-height: 1;
-        margin-bottom: 8px;
-    }
-
-    .st-card-label {
-        font-size: 0.78rem;
-        color: var(--muted);
-        font-weight: 300;
-        letter-spacing: 0.04em;
-    }
-
-    /* color variants */
-    .st-card[data-color="1"]::before {
-        background: var(--c1);
-    }
-
-    .st-card[data-color="1"] .st-card-num {
-        color: var(--c1);
-    }
-
-    .st-card[data-color="1"] .st-card-icon {
-        background: rgba(255,45,74,0.1);
-        border: 1px solid rgba(255,45,74,0.15);
-    }
-
-    .st-card[data-color="1"] .st-card-tag {
-        color: var(--c1);
-        background: rgba(255,45,74,0.1);
-        border-color: rgba(255,45,74,0.2);
-    }
-
-    .st-card[data-color="2"]::before {
-        background: var(--c2);
-    }
-
-    .st-card[data-color="2"] .st-card-num {
-        color: var(--c2);
-    }
-
-    .st-card[data-color="2"] .st-card-icon {
-        background: rgba(41,182,246,0.1);
-        border: 1px solid rgba(41,182,246,0.15);
-    }
-
-    .st-card[data-color="2"] .st-card-tag {
-        color: var(--c2);
-        background: rgba(41,182,246,0.1);
-        border-color: rgba(41,182,246,0.2);
-    }
-
-    .st-card[data-color="3"]::before {
-        background: var(--c3);
-    }
-
-    .st-card[data-color="3"] .st-card-num {
-        color: var(--c3);
-    }
-
-    .st-card[data-color="3"] .st-card-icon {
-        background: rgba(0,230,118,0.1);
-        border: 1px solid rgba(0,230,118,0.15);
-    }
-
-    .st-card[data-color="3"] .st-card-tag {
-        color: var(--c3);
-        background: rgba(0,230,118,0.1);
-        border-color: rgba(0,230,118,0.2);
-    }
-
-    .st-card[data-color="4"]::before {
-        background: var(--c4);
-    }
-
-    .st-card[data-color="4"] .st-card-num {
-        color: var(--c4);
-    }
-
-    .st-card[data-color="4"] .st-card-icon {
-        background: rgba(255,167,38,0.1);
-        border: 1px solid rgba(255,167,38,0.15);
-    }
-
-    .st-card[data-color="4"] .st-card-tag {
-        color: var(--c4);
-        background: rgba(255,167,38,0.1);
-        border-color: rgba(255,167,38,0.2);
-    }
-
-    .st-card[data-color="5"]::before {
-        background: var(--c5);
-    }
-
-    .st-card[data-color="5"] .st-card-num {
-        color: var(--c5);
-    }
-
-    .st-card[data-color="5"] .st-card-icon {
-        background: rgba(206,147,216,0.1);
-        border: 1px solid rgba(206,147,216,0.15);
-    }
-
-    .st-card[data-color="5"] .st-card-tag {
-        color: var(--c5);
-        background: rgba(206,147,216,0.1);
-        border-color: rgba(206,147,216,0.2);
-    }
-
-    .st-card[data-color="6"]::before {
-        background: var(--c6);
-    }
-
-    .st-card[data-color="6"] .st-card-num {
-        color: var(--c6);
-    }
-
-    .st-card[data-color="6"] .st-card-icon {
-        background: rgba(128,203,196,0.1);
-        border: 1px solid rgba(128,203,196,0.15);
-    }
-
-    .st-card[data-color="6"] .st-card-tag {
-        color: var(--c6);
-        background: rgba(128,203,196,0.1);
-        border-color: rgba(128,203,196,0.2);
-    }
-
-    /* count-up */
-    .count-num {
-        display: inline-block;
-    }
-
-    /* ── RESPONSIVE ── */
+    @@media (max-width: 1100px) { .ds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @@media (max-width: 900px) {
-        .st-page {
-            padding: 24px 16px 60px;
-        }
-
-        .st-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .st-hero {
-            flex-direction: column;
-            padding: 36px 28px;
-        }
-
-        .st-hero-right {
-            width: 100%;
-            min-width: unset;
-        }
+        .ds { padding: 28px 18px 80px; }
+        .ds-hero { grid-template-columns: 1fr; padding: 28px 24px; gap: 28px; }
+        .ds-split { justify-content: flex-start; }
+        .ds-lang { grid-template-columns: 44px 1fr auto; }
+        .ds-lang .ds-bar { grid-column: 1 / -1; order: 4; }
     }
-
-    @@media (max-width: 560px) {
-        .st-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .st-card {
-            padding: 22px 16px;
-        }
-
-        .st-card-num {
-            font-size: 2.2rem;
-        }
+    @@media (max-width: 520px) {
+        .ds-grid { grid-template-columns: 1fr; }
+        .ds-split { flex-direction: column; align-items: flex-start; }
+    }
+    @@media (prefers-reduced-motion: reduce) {
+        .ds-card, .ds-bar > i, .ds-ring { transition: none; }
+        .ds-card:hover { transform: none; }
     }
 </style>
 
-<div class="st-page">
+<div class="ds">
 
-    <!-- HEADER -->
-    <div class="st-header">
-        <div class="st-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
-        <h1 class="st-title" data-i18n-html="dash.title">@L.Html("dash.title")</h1>
+    <div class="ds-head">
+        <div>
+            <div class="ds-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
+            <h1 class="ds-title" data-i18n-html="dash.title">@L.Html("dash.title")</h1>
+            <p class="ds-lead" data-i18n="dash.lead">@L["dash.lead"]</p>
+        </div>
+        <div class="ds-status"><i></i><span data-i18n="dash.live">@L["dash.live"]</span></div>
     </div>
 
-    <!-- HERO -->
-    <div class="st-hero">
-        <div class="st-hero-left">
-            <div class="st-hero-label" data-i18n="dash.total">@L["dash.total"]</div>
-            <div class="st-hero-num"><span class="count-num" data-target="@ViewBag.TotalQuestions">0</span></div>
-            <div class="st-hero-sub" data-i18n="dash.allTypes">@L["dash.allTypes"]</div>
+    <!-- Jami savollar + rasmlar nisbati -->
+    <section class="ds-hero">
+        <div>
+            <div class="ds-label" data-i18n="dash.total">@L["dash.total"]</div>
+            <div class="ds-total">
+                <span class="ds-total-num" data-count="@Model.TotalQuestions">@Model.TotalQuestions</span>
+                <span class="ds-total-unit" data-i18n="dash.unit">@L["dash.unit"]</span>
+            </div>
+            <div class="ds-formula">
+                <b>@Model.BiletCount</b> <span data-i18n="dash.bilets">@L["dash.bilets"]</span>
+                <em>×</em>
+                <b>@Model.QuestionsPerBilet</b> <span data-i18n="dash.perBilet">@L["dash.perBilet"]</span>
+            </div>
         </div>
-        <div class="st-hero-right">
-            @{
-                var total = (int)(ViewBag.TotalQuestions ?? 1);
-                var bars = new[] {
-            ((key: "dash.bar", n: "40"),  (int)(ViewBag.Test40  ?? 0), "#ff2d4a"),
-            ((key: "dash.bar", n: "60"),  (int)(ViewBag.Test60  ?? 0), "#29b6f6"),
-            ((key: "dash.bar", n: "80"),  (int)(ViewBag.Test80  ?? 0), "#00e676"),
-            ((key: "dash.bar", n: "100"), (int)(ViewBag.Test100 ?? 0), "#ffa726"),
-            ((key: "dash.bar", n: "160"), (int)(ViewBag.Test160 ?? 0), "#ce93d8"),
-            ((key: "dash.real", n: ""),   (int)(ViewBag.RealExam?? 0), "#80cbc4"),
-            };
-            }
-            @foreach (var (name, val, color) in bars)
+
+        <div class="ds-split">
+            <div class="ds-ring" data-ring="@imgPct" role="img" aria-label="@L["dash.withImage"]: @imgPct%">
+                <div class="ds-ring-in">
+                    <strong>@imgPct%</strong>
+                    <span data-i18n="dash.imageShare">@L["dash.imageShare"]</span>
+                </div>
+            </div>
+            <div class="ds-legend">
+                <div class="ds-leg">
+                    <i style="background:var(--ds-red)"></i>
+                    <span data-i18n="dash.withImage">@L["dash.withImage"]</span>
+                    <b>@Model.WithImage</b>
+                    <small>@imgPct%</small>
+                </div>
+                <div class="ds-leg">
+                    <i style="background:rgba(255,255,255,.18)"></i>
+                    <span data-i18n="dash.withoutImage">@L["dash.withoutImage"]</span>
+                    <b>@Model.WithoutImage</b>
+                    <small>@noImgPct%</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Asosiy ko'rsatkichlar -->
+    <section class="ds-grid">
+        <article class="ds-card" style="--c:var(--ds-red)">
+            <div class="ds-card-top">
+                <div class="ds-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 5v12" stroke-dasharray="2 2.5"/></svg></div>
+                <span class="ds-chip">@Model.BiletCount × @Model.QuestionsPerBilet</span>
+            </div>
+            <div class="ds-num" data-count="@Model.BiletCount">@Model.BiletCount</div>
+            <div class="ds-name" data-i18n="dash.bilets">@L["dash.bilets"]</div>
+            <div class="ds-desc" data-i18n="dash.biletsDesc" data-i18n-args='{"n":@Model.QuestionsPerBilet}'>@L.F("dash.biletsDesc", ("n", Model.QuestionsPerBilet))</div>
+        </article>
+
+        <article class="ds-card" style="--c:var(--ds-blue)">
+            <div class="ds-card-top">
+                <div class="ds-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h6l2 2h8v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 13h8M8 16h5"/></svg></div>
+                <span class="ds-chip" data-i18n="dash.pdd">@L["dash.pdd"]</span>
+            </div>
+            <div class="ds-num" data-count="@Model.TopicCount">@Model.TopicCount</div>
+            <div class="ds-name" data-i18n="dash.topics">@L["dash.topics"]</div>
+            <div class="ds-desc" data-i18n="dash.topicsDesc">@L["dash.topicsDesc"]</div>
+        </article>
+
+        <article class="ds-card" style="--c:var(--ds-green)">
+            <div class="ds-card-top">
+                <div class="ds-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m4 17 4.5-4.5 3.5 3.5 3-3 5 5"/></svg></div>
+                <span class="ds-chip">@imgPct%</span>
+            </div>
+            <div class="ds-num" data-count="@Model.WithImage">@Model.WithImage</div>
+            <div class="ds-name" data-i18n="dash.withImage">@L["dash.withImage"]</div>
+            <div class="ds-bar"><i data-w="@imgPct"></i></div>
+        </article>
+
+        <article class="ds-card" style="--c:var(--ds-amber)">
+            <div class="ds-card-top">
+                <div class="ds-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5h7l4.5 4.5v10a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19V6A1.5 1.5 0 0 1 7 4.5z"/><path d="M14 4.5V9h4.5M8.5 13h7M8.5 16h4.5"/></svg></div>
+                <span class="ds-chip">@noImgPct%</span>
+            </div>
+            <div class="ds-num" data-count="@Model.WithoutImage">@Model.WithoutImage</div>
+            <div class="ds-name" data-i18n="dash.withoutImage">@L["dash.withoutImage"]</div>
+            <div class="ds-bar"><i data-w="@noImgPct"></i></div>
+        </article>
+    </section>
+
+    <!-- Tarjimalar -->
+    <section class="ds-panel">
+        <div class="ds-panel-head">
+            <div>
+                <h2 class="ds-panel-title" data-i18n="dash.translations">@L["dash.translations"]</h2>
+                <p class="ds-panel-sub" data-i18n="dash.translationsDesc">@L["dash.translationsDesc"]</p>
+            </div>
+        </div>
+        <div class="ds-langs">
+            @foreach (var lang in langs)
             {
-                var pct = total > 0 ? (int)((double)val / total * 100) : 0;
-                <div class="st-hero-bar-item">
-                    <div class="st-bar-top">
-                        <span class="st-bar-name" data-i18n="@name.key" data-i18n-args='{"n":"@name.n"}'>@L.F(name.key, ("n", name.n))</span>
-                        <span class="st-bar-val">@val</span>
-                    </div>
-                    <div class="st-bar-track">
-                        <div class="st-bar-fill" style="width:@pct%; background:@color;"></div>
-                    </div>
+                var pct = Model.Percent(lang.count);
+                <div class="ds-lang" style="--c:@lang.color">
+                    <span class="ds-code">@lang.code</span>
+                    <span class="ds-lang-name" data-i18n="@lang.key">@L[lang.key]</span>
+                    <div class="ds-bar"><i data-w="@pct"></i></div>
+                    <span class="ds-lang-val">
+                        <span><b>@lang.count</b> / @Model.TotalQuestions</span>
+                        @if (pct >= 100)
+                        {
+                            <span class="ds-ok" data-i18n="dash.complete">@L["dash.complete"]</span>
+                        }
+                        else
+                        {
+                            <span class="ds-ok part">@pct%</span>
+                        }
+                    </span>
                 </div>
             }
         </div>
-    </div>
-
-    <!-- CARDS GRID -->
-    <div class="st-grid">
-
-        <div class="st-card" data-color="1">
-            <div class="st-card-top">
-                <div class="st-card-icon">⚡</div>
-                <span class="st-card-tag" data-i18n="dash.tagFast">@L["dash.tagFast"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.Test40">0</span></div>
-            <div class="st-card-label" data-i18n="dash.card" data-i18n-args='{"n":40}'>@L.F("dash.card", ("n", 40))</div>
-        </div>
-
-        <div class="st-card" data-color="2">
-            <div class="st-card-top">
-                <div class="st-card-icon">📘</div>
-                <span class="st-card-tag" data-i18n="dash.tagMid">@L["dash.tagMid"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.Test60">0</span></div>
-            <div class="st-card-label" data-i18n="dash.card" data-i18n-args='{"n":60}'>@L.F("dash.card", ("n", 60))</div>
-        </div>
-
-        <div class="st-card" data-color="3">
-            <div class="st-card-top">
-                <div class="st-card-icon">📗</div>
-                <span class="st-card-tag" data-i18n="dash.tagExt">@L["dash.tagExt"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.Test80">0</span></div>
-            <div class="st-card-label" data-i18n="dash.card" data-i18n-args='{"n":80}'>@L.F("dash.card", ("n", 80))</div>
-        </div>
-
-        <div class="st-card" data-color="4">
-            <div class="st-card-top">
-                <div class="st-card-icon">📙</div>
-                <span class="st-card-tag" data-i18n="dash.tagFull">@L["dash.tagFull"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.Test100">0</span></div>
-            <div class="st-card-label" data-i18n="dash.card" data-i18n-args='{"n":100}'>@L.F("dash.card", ("n", 100))</div>
-        </div>
-
-        <div class="st-card" data-color="5">
-            <div class="st-card-top">
-                <div class="st-card-icon">📒</div>
-                <span class="st-card-tag" data-i18n="dash.tagSpecial">@L["dash.tagSpecial"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.Test160">0</span></div>
-            <div class="st-card-label" data-i18n="dash.card" data-i18n-args='{"n":160}'>@L.F("dash.card", ("n", 160))</div>
-        </div>
-
-        <div class="st-card" data-color="6">
-            <div class="st-card-top">
-                <div class="st-card-icon">🎯</div>
-                <span class="st-card-tag" data-i18n="dash.tagReal">@L["dash.tagReal"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.RealExam">0</span></div>
-            <div class="st-card-label" data-i18n="dash.real">@L["dash.real"]</div>
-        </div>
-
-
-        <div class="st-card" data-color="2">
-            <div class="st-card-top">
-                <div class="st-card-icon">🇷🇺</div>
-                <span class="st-card-tag">@L["lang.ru"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.WithRu">0</span></div>
-            <div class="st-card-label" data-i18n="dash.withRu">@L["dash.withRu"]</div>
-        </div>
-
-        <div class="st-card" data-color="3">
-            <div class="st-card-top">
-                <div class="st-card-icon">🇺🇿</div>
-                <span class="st-card-tag">@L["lang.uzk"]</span>
-            </div>
-            <div class="st-card-num"><span class="count-num" data-target="@ViewBag.WithUzk">0</span></div>
-            <div class="st-card-label" data-i18n="dash.withUzk">@L["dash.withUzk"]</div>
-        </div>
-
-    </div>
+    </section>
 </div>
 
 <script>
-    // Count-up animation
-    function countUp(el) {
-        const target = parseInt(el.dataset.target) || 0;
-        const duration = 1200;
-        const step = target / (duration / 16);
-        let current = 0;
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                el.textContent = target;
-                clearInterval(timer);
-                return;
-            }
-            el.textContent = Math.floor(current);
-        }, 16);
-    }
+    (function () {
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.querySelectorAll('.count-num').forEach(countUp);
-                obs.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.3 });
+        // Sonlar 0 dan sanab chiqadi (animatsiya o'chirilgan bo'lsa — darhol yakuniy qiymat)
+        function countUp(el) {
+            const target = parseInt(el.dataset.count, 10) || 0;
+            if (reduce || target === 0) { el.textContent = String(target); return; }
+            const start = performance.now(), dur = 1100;
+            const tick = now => {
+                const t = Math.min(1, (now - start) / dur), e = 1 - Math.pow(1 - t, 3);
+                el.textContent = String(Math.round(target * e));
+                if (t < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        }
 
-    document.querySelectorAll('.st-hero, .st-card').forEach(el => obs.observe(el));
+        function reveal(root) {
+            root.querySelectorAll('[data-count]').forEach(countUp);
+            root.querySelectorAll('[data-w]').forEach(b => b.style.width = b.dataset.w + '%');
+            root.querySelectorAll('[data-ring]').forEach(r => {
+                const p = parseInt(r.dataset.ring, 10) || 0;
+                if (reduce) { r.style.setProperty('--p', p); return; }
+                const start = performance.now();
+                const tick = now => {
+                    const t = Math.min(1, (now - start) / 1200), e = 1 - Math.pow(1 - t, 3);
+                    r.style.setProperty('--p', (p * e).toFixed(1));
+                    if (t < 1) requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            });
+        }
+
+        const blocks = document.querySelectorAll('.ds-hero, .ds-card, .ds-panel');
+        if (!('IntersectionObserver' in window)) { blocks.forEach(reveal); return; }
+        const obs = new IntersectionObserver(entries => entries.forEach(e => {
+            if (e.isIntersecting) { reveal(e.target); obs.unobserve(e.target); }
+        }), { threshold: .25 });
+        blocks.forEach(b => obs.observe(b));
+    })();
 </script>

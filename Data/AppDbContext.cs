@@ -13,9 +13,17 @@ public class AppDbContext : DbContext
     public DbSet<DeviceRequest> DeviceRequests { get; set; }
     public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
     public DbSet<Payment> Payments { get; set; }
+    public DbSet<QuestionTopic> QuestionTopics { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<QuestionTopic>(b =>
+        {
+            b.ToTable("QuestionTopics");
+            b.HasIndex(x => new { x.Topic, x.SortOrder });
+            b.HasIndex(x => new { x.QuestionId, x.Topic }).IsUnique();
+        });
+
         modelBuilder.Entity<AppUser>(b =>
         {
             b.ToTable("Users");

@@ -29,6 +29,24 @@
         <div class="us-alert err" role="alert" data-i18n="@errKey">@L[errKey]</div>
     }
 
+    @{ var ruleOn = (bool)ViewBag.SingleDevice; }
+    <div class="us-rule @(ruleOn ? "on" : "off")">
+        <div>
+            <div class="us-rule-title">
+                <span data-i18n="dev.ruleTitle">@L["dev.ruleTitle"]</span>
+                <span class="us-pill @(ruleOn ? "on" : "off")" data-i18n="@(ruleOn ? "dev.ruleOn" : "dev.ruleOff")">@L[ruleOn ? "dev.ruleOn" : "dev.ruleOff"]</span>
+            </div>
+            <p class="us-hint" data-i18n="@(ruleOn ? "dev.ruleOnDesc" : "dev.ruleOffDesc")">@L[ruleOn ? "dev.ruleOnDesc" : "dev.ruleOffDesc"]</p>
+            <p class="us-hint" data-i18n="dev.ruleComputers">@L["dev.ruleComputers"]</p>
+        </div>
+        <form asp-action="SingleDevice" method="post">
+            <input type="hidden" name="on" value="@(ruleOn ? "false" : "true")" />
+            <button type="submit" class="us-btn @(ruleOn ? "us-btn-ghost" : "us-btn-primary") us-btn-sm"
+                    onclick="return confirm(I18n.t('@(ruleOn ? "dev.ruleDisableConfirm" : "dev.ruleEnableConfirm")'))"
+                    data-i18n="@(ruleOn ? "dev.ruleDisable" : "dev.ruleEnable")">@L[ruleOn ? "dev.ruleDisable" : "dev.ruleEnable"]</button>
+        </form>
+    </div>
+
     <h2 class="us-h2">
         <span data-i18n="dev.pending">@L["dev.pending"]</span>
         <span class="us-count-badge @(Model.Count == 0 ? "zero" : "")">@Model.Count</span>

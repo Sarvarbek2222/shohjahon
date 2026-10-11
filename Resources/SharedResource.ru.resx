@@ -370,7 +370,7 @@
     <value>Статистика вопросов</value>
   </data>
   <data name="dash.title" xml:space="preserve">
-    <value>СТАТИСТИКА &lt;span&gt;ТЕСТОВ&lt;/span&gt;</value>
+    <value>База &lt;span&gt;вопросов&lt;/span&gt;</value>
   </data>
   <data name="dash.total" xml:space="preserve">
     <value>Всего вопросов</value>
@@ -406,7 +406,7 @@
     <value>Реальный</value>
   </data>
   <data name="dash.translations" xml:space="preserve">
-    <value>Состояние переводов</value>
+    <value>Переводы</value>
   </data>
   <data name="dash.withRu" xml:space="preserve">
     <value>Есть перевод на русский</value>
@@ -1781,5 +1781,107 @@
   </data>
   <data name="users.hidePassword" xml:space="preserve">
     <value>Скрыть пароль</value>
+  </data>
+  <data name="users.phone" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="users.phoneHint" xml:space="preserve">
+    <value>Обязательно для ученика. Например: +998 90 123 45 67 или 90 123 45 67</value>
+  </data>
+  <data name="err.phoneRequired" xml:space="preserve">
+    <value>Введите номер телефона ученика</value>
+  </data>
+  <data name="err.phoneFormat" xml:space="preserve">
+    <value>Неверный номер телефона. Например: +998 90 123 45 67</value>
+  </data>
+  <data name="users.deviceRuleOff" xml:space="preserve">
+    <value>Сейчас правило одного устройства выключено — ученик может входить с любого устройства. Включить: страница «Запросы устройств».</value>
+  </data>
+  <data name="dev.ruleTitle" xml:space="preserve">
+    <value>Правило одного устройства (ученики)</value>
+  </data>
+  <data name="dev.ruleOn" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="dev.ruleOff" xml:space="preserve">
+    <value>Выключено</value>
+  </data>
+  <data name="dev.ruleOnDesc" xml:space="preserve">
+    <value>Каждый ученик входит только с одного устройства. Для входа с другого нужно ваше подтверждение.</value>
+  </data>
+  <data name="dev.ruleOffDesc" xml:space="preserve">
+    <value>Ученики могут входить с любого устройства (телефон, компьютер) без ограничений.</value>
+  </data>
+  <data name="dev.ruleComputers" xml:space="preserve">
+    <value>Аккаунты компьютеров (учебного центра) всегда входят только со своего компьютера.</value>
+  </data>
+  <data name="dev.ruleEnable" xml:space="preserve">
+    <value>Включить правило</value>
+  </data>
+  <data name="dev.ruleDisable" xml:space="preserve">
+    <value>Выключить правило</value>
+  </data>
+  <data name="dev.ruleEnableConfirm" xml:space="preserve">
+    <value>Включить правило одного устройства? Каждый ученик будет привязан к устройству следующего входа, а с других — только с вашего подтверждения.</value>
+  </data>
+  <data name="dev.ruleDisableConfirm" xml:space="preserve">
+    <value>Выключить правило одного устройства? Ученики смогут входить с любого устройства.</value>
+  </data>
+  <data name="dev.ruleChangedOn" xml:space="preserve">
+    <value>Правило одного устройства включено</value>
+  </data>
+  <data name="dev.ruleChangedOff" xml:space="preserve">
+    <value>Правило одного устройства выключено — ученики могут входить с любого устройства</value>
+  </data>
+  <data name="dash.bilets" xml:space="preserve">
+    <value>Билеты</value>
+  </data>
+  <data name="dash.topics" xml:space="preserve">
+    <value>Темы</value>
+  </data>
+  <data name="dash.withImage" xml:space="preserve">
+    <value>Вопросы с изображением</value>
+  </data>
+  <data name="dash.lead" xml:space="preserve">
+    <value>Билеты, темы, изображения и переводы</value>
+  </data>
+  <data name="dash.live" xml:space="preserve">
+    <value>Данные актуальны</value>
+  </data>
+  <data name="dash.unit" xml:space="preserve">
+    <value>вопросов</value>
+  </data>
+  <data name="dash.perBilet" xml:space="preserve">
+    <value>вопросов в каждом</value>
+  </data>
+  <data name="dash.biletsDesc" xml:space="preserve">
+    <value>В каждом по {n} вопросов</value>
+  </data>
+  <data name="dash.pdd" xml:space="preserve">
+    <value>ПДД</value>
+  </data>
+  <data name="dash.topicsDesc" xml:space="preserve">
+    <value>Разделы правил дорожного движения</value>
+  </data>
+  <data name="dash.withoutImage" xml:space="preserve">
+    <value>Вопросы без изображения</value>
+  </data>
+  <data name="dash.imageShare" xml:space="preserve">
+    <value>с картинкой</value>
+  </data>
+  <data name="dash.translationsDesc" xml:space="preserve">
+    <value>Количество вопросов с текстом на каждом языке</value>
+  </data>
+  <data name="dash.langUz" xml:space="preserve">
+    <value>Узбекский (латиница)</value>
+  </data>
+  <data name="dash.langRu" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="dash.langUzk" xml:space="preserve">
+    <value>Узбекский (кириллица)</value>
+  </data>
+  <data name="dash.complete" xml:space="preserve">
+    <value>Полностью</value>
   </data>
 </root>

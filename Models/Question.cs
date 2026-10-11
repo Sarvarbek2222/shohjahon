@@ -2,6 +2,17 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+/// <summary>
+/// Savol qaysi bazadan kelgani. Bitta jadvalda ikki baza saqlanadi:
+///   Old   — eski savollar: faqat "Mavzular" bo'limi uchun;
+///   Ptest — ptest.uz biletlari: biletlar va qolgan barcha test turlari uchun.
+/// </summary>
+public static class QuestionSources
+{
+    public const string Old = "old";
+    public const string Ptest = "ptest";
+}
+
 public class Question
 {
     public int Id { get; set; }
@@ -22,6 +33,13 @@ public class Question
     public string? ExplanationUZ { get; set; }
     public string? ExplanationUZK { get; set; }
     public string? ExplanationRU { get; set; }
+
+    // Manba va bilet joylashuvi (QuestionSources). Admin qo'shgan yangi savollar asosiy bazaga (ptest) tushadi:
+    // biletda bo'lmaydi, lekin test turlarida va (Topic tanlangan bo'lsa) o'z mavzusida chiqadi.
+    [MaxLength(16)]
+    public string Source { get; set; } = QuestionSources.Ptest;
+    public int? BiletNumber { get; set; }  // ptest: 1..66
+    public int? BiletOrder { get; set; }   // ptest: biletdagi tartib raqami 1..20
 
     public List<Option> Options { get; set; } = new List<Option>();
 

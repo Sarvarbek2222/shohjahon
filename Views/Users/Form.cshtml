@@ -56,6 +56,20 @@
         </div>
 
         <div class="us-field">
+            <label class="us-label" for="Phone"><span data-i18n="users.phone">@L["users.phone"]</span> <span class="us-req" id="phoneReq">*</span></label>
+            <input asp-for="Phone" type="tel" inputmode="tel" class="us-input @(FieldError("Phone") != null ? "invalid" : "")"
+                   maxlength="24" autocomplete="off" placeholder="+998 90 123 45 67" />
+            @if (FieldError("Phone") is string phe)
+            {
+                <span class="us-field-err">@phe</span>
+            }
+            else
+            {
+                <span class="us-hint" data-i18n="users.phoneHint">@L["users.phoneHint"]</span>
+            }
+        </div>
+
+        <div class="us-field">
             <label class="us-label" for="Role" data-i18n="users.role">@L["users.role"]</label>
             <select asp-for="Role" class="us-input">
                 @foreach (var r in Roles.All)
@@ -225,7 +239,14 @@
                                 onclick="return confirm(I18n.t('users.resetDeviceConfirm'))" data-i18n="users.resetDevice">@L["users.resetDevice"]</button>
                     }
                 </div>
-                <p class="us-hint" data-i18n="users.deviceHint">@L["users.deviceHint"]</p>
+                @if (SiteSettings.SingleDevice || Model.IsComputer)
+                {
+                    <p class="us-hint" data-i18n="users.deviceHint">@L["users.deviceHint"]</p>
+                }
+                else
+                {
+                    <p class="us-hint" data-i18n="users.deviceRuleOff">@L["users.deviceRuleOff"]</p>
+                }
             </fieldset>
         }
 
@@ -297,6 +318,14 @@
                 inp.focus();
             });
         });
+
+        function refreshPhoneReq() {
+            var comp = document.querySelector('input[name="IsComputer"][value="true"]');
+            document.getElementById("phoneReq").hidden = role.value === "superadmin" || (comp && comp.checked);
+        }
+        document.querySelectorAll('input[name="IsComputer"]').forEach(function (r) { r.addEventListener("change", refreshPhoneReq); });
+        role.addEventListener("change", refreshPhoneReq);
+        refreshPhoneReq();
 
         function refreshRole() {
             var admin = role.value === "superadmin";

@@ -19,11 +19,10 @@ namespace propro.Controllers
         {
             // 1️⃣ Bazadagi barcha savollarni olamiz
             // Barcha savollar — xotiradagi keshdan
-            var allQuestions = await _bank.AllAsync();
+            var allQuestions = await _bank.TestPoolAsync();
 
             // 2️⃣ Savollarni tasodifiy tartibda aralashtiramiz
-            var shuffledQuestions = allQuestions
-                //.OrderBy(q => Guid.NewGuid()) // random tartib
+            var shuffledQuestions = QuestionBank.Shuffled(allQuestions)
                 .Select(QuestionJson.From)
                 .ToList();
 

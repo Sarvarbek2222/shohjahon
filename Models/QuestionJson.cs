@@ -22,7 +22,10 @@ public static class QuestionJson
         explanationUZK = Or(q.ExplanationUZK, q.ExplanationUZ),
 
         options = q.Options
-            .OrderBy(o => Guid.NewGuid())
+            // ptest variantlari asl tartibda (F1..F5, "yuqoridagilarning hammasi" kabi javoblar joyida qolsin),
+            // eski savollar variantlari — aralashtirib
+            .OrderBy(o => q.Source == QuestionSources.Ptest ? o.Id : 0)
+            .ThenBy(o => q.Source == QuestionSources.Ptest ? Guid.Empty : Guid.NewGuid())
             .Select(o => new
             {
                 id = o.Id,

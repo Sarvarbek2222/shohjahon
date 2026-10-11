@@ -30,12 +30,11 @@ public class HomeController : Controller
     {
         if (User.IsInRole(Roles.SuperAdmin)) return RedirectToAction("Index1", "Question");
 
-        var all = await _bank.AllAsync();
         var model = new HomeModel
         {
-            BankSize = all.Count,
-            BiletCount = (int)Math.Ceiling(all.Count / 20.0),
-            TopicCount = all.Select(q => q.Topic?.Trim()).Where(t => !string.IsNullOrEmpty(t)).Distinct().Count(),
+            BankSize = (await _bank.TestPoolAsync()).Count,
+            BiletCount = (await _bank.BiletsAsync()).Count,
+            TopicCount = (await _bank.ByTopicAsync()).Count(kv => kv.Value.Count > 0),
         };
         return View(model);
     }

@@ -1,0 +1,1983 @@
+{
+ "108 km soat tezlikda harakatlanayotgan transport vositasi 1 sekundda qancha masofani bosib o'tadi||15 m|25 m|30 m": {
+  "options": {
+   "15 m": "15 м",
+   "25 m": "25 м",
+   "30 m": "30 м"
+  },
+  "question": "Какое расстояние проезжает за 1 секунду транспортное средство, движущееся со скоростью 108 км/ч?",
+  "uz": "108 km/soat tezlikda harakatlanayotgan transport vositasi 1 sekundda qancha masofani bosib o'tadi?"
+ },
+ "agar haydovchi o'zi xarakatlanayotgan yo'lning qoplamasini bor yo'kligini aniklay olmasa qorongi vaqt loy kor va imtiyoz belgilari bo'lmasa||barchasi to'gri|o'zini asosiy yo'lda deb hisoblashi kerak|o'zini ikkinchi darajali yo'lda deb xisoblashi kerak": {
+  "options": {
+   "barchasi to'gri": "Всё верно",
+   "o'zini asosiy yo'lda deb hisoblashi kerak": "Должен считать, что находится на главной дороге",
+   "o'zini ikkinchi darajali yo'lda deb xisoblashi kerak": "Должен считать, что находится на второстепенной дороге"
+  },
+  "question": "Как должен считать водитель, если он не может определить наличие покрытия на дороге, по которой движется (тёмное время суток, грязь, снег), а знаков приоритета нет?",
+  "uz": "Agar haydovchi o'zi xarakatlanayotgan yo'lning qoplamasini bor- yo'kligini aniklay olmasa ( qorongi vaqt, loy, kor) va imtiyoz belgilari bo'lmasa )?"
+ },
+ "agar tegishli belgilar bilan belgilangan qiyaliklarda yuzma yuz kelayotgan transportlarning o'tib ketishi qiyin bo'lsa yo'l berish zarur||balandlikka harakatlanayotgan transport vositasiga|belgilangan yo'nalishdagi transport vositasiga|pastlik tomon harakatlanayotgan transport vositasiga": {
+  "options": {
+   "balandlikka harakatlanayotgan transport vositasiga": "Транспортному средству, движущемуся на подъём",
+   "belgilangan yo'nalishdagi transport vositasiga": "Маршрутному транспортному средству",
+   "pastlik tomon harakatlanayotgan transport vositasiga": "Транспортному средству, движущемуся на спуск"
+  },
+  "question": "Если на спусках, обозначенных соответствующими знаками, встречный разъезд затруднён, необходимо уступить дорогу:",
+  "uz": "Agar tegishli belgilar bilan belgilangan qiyaliklarda yuzma-yuz kelayotgan transportlarning o'tib ketishi qiyin bo'lsa, yo'l berish zarur:"
+ },
+ "aholi yashash joylaridan tashqari joylarda xavfli yo'l qismi boshlangunga qadar qancha masofa oralig'ida ogohlantirish belgilari o'rnatiladi||150 300 m|400 500 m|50 100 m": {
+  "options": {
+   "150 300 m": "150–300 м",
+   "400 500 m": "400–500 м",
+   "50 100 m": "50–100 м"
+  },
+  "question": "На каком расстоянии до начала опасного участка дороги устанавливаются предупреждающие знаки вне населённых пунктов?",
+  "uz": "Aholi yashash joylaridan tashqari joylarda xavfli yo‘l qismi boshlangunga qadar qancha masofa oralig‘ida ogohlantirish belgilari o‘rnatiladi?"
+ },
+ "avtomagistrallarda transport vositalarining atayin to'xtashi qaysi joylarda ruxsat etilgan||to'xtab turish uchun to'xtab turish joyi yoki dam olish joyi belgilari bilan belgilangan maxsus maydonchalarda|yo'lning 100 m dan ko'proq qismi ko'rinadigan va harakat bo'laklari soni to'rttadan ortiq bo'lgan joylarda|yo'lning qatnov qismining chetki o'ng bo'lagida": {
+  "options": {
+   "to'xtab turish uchun to'xtab turish joyi yoki dam olish joyi belgilari bilan belgilangan maxsus maydonchalarda": "На специальных площадках для стоянки, обозначенных знаками «Место стоянки» или «Место отдыха»",
+   "yo'lning 100 m dan ko'proq qismi ko'rinadigan va harakat bo'laklari soni to'rttadan ortiq bo'lgan joylarda": "В местах, где дорога просматривается более чем на 100 м и число полос движения больше четырёх",
+   "yo'lning qatnov qismining chetki o'ng bo'lagida": "На крайней правой полосе проезжей части"
+  },
+  "question": "В каких местах на автомагистралях разрешена преднамеренная остановка транспортных средств?",
+  "uz": "Avtomagistrallarda transport vositalarining atayin to'xtashi qaysi joylarda ruxsat etilgan?"
+ },
+ "avtomagistrallarda yuk avtomobillariga yo'lning chetki chap qatorida harakatlanishga ruxsat etiladimi||ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли грузовым автомобилям движение по крайней левой полосе на автомагистралях?",
+  "uz": "Avtomagistrallarda yuk avtomobillariga yo'lning chetki chap qatorida harakatlanishga ruxsat etiladimi?"
+ },
+ "avtomobil haydovchisi qaysi yo'nalish bo'yicha to'g'ri burilmoqda||chapdagi rasmda|ikkalasi ham to'g'ri|o'ngdagi rasmda": {
+  "options": {
+   "chapdagi rasmda": "На левом рисунке",
+   "ikkalasi ham to'g'ri": "Обе правильные",
+   "o'ngdagi rasmda": "На правом рисунке"
+  },
+  "question": "По какой траектории правильно поворачивает водитель автомобиля?",
+  "uz": "Avtomobil haydovchisi qaysi yo‘nalish bo‘yicha to‘g‘ri burilmoqda?"
+ },
+ "avtomobillarning bir qator bo'lib harakatlanishi uchun yetarlicha keng bo'lgan yo'l chiziqlari bilan belgilangan yoki belgilanmagan yo'l qatnov qismining har qanday bo'ylama bo'lagi nima deb ataladi||harakatlanish tasmasi|qatnov qismi|yo'l yoqasi|yondosh hudud": {
+  "options": {
+   "harakatlanish tasmasi": "Полоса движения",
+   "qatnov qismi": "Проезжая часть",
+   "yo'l yoqasi": "Обочина",
+   "yondosh hudud": "Прилегающая территория"
+  },
+  "question": "Как называется любая из продольных полос проезжей части, обозначенная или не обозначенная разметкой и имеющая ширину, достаточную для движения автомобилей в один ряд?",
+  "uz": "Avtomobillarning bir qator bo'lib harakatlanishi uchun yetarlicha keng bo'lgan, yo'l chiziqlari bilan belgilangan yoki belgilanmagan yo'l qatnov qismining har qanday bo'ylama bo'lagi nima deb ataladi?"
+ },
+ "aylanma harakatlanish chorrahasida||harakatlanayotgan transport vositalari aylanaga kirib kelayotgan transport vositalariga nisbatan ustunlikka imtiyozga ega|harakatlanayotgan transport vositalariga nisbatan aylanaga kirib kelayotgan transport vositalari ustunlikka imtiyozga ega": {
+  "options": {
+   "harakatlanayotgan transport vositalari aylanaga kirib kelayotgan transport vositalariga nisbatan ustunlikka imtiyozga ega": "Транспортные средства, движущиеся по кругу, имеют преимущество перед транспортными средствами, въезжающими на круг",
+   "harakatlanayotgan transport vositalariga nisbatan aylanaga kirib kelayotgan transport vositalari ustunlikka imtiyozga ega": "Транспортные средства, въезжающие на круг, имеют преимущество перед транспортными средствами, движущимися по кругу"
+  },
+  "question": "На перекрёстке с круговым движением...",
+  "uz": "Aylanma harakatlanish chorrahasida..."
+ },
+ "balandlikda nishablikda trotuar yo'q yo'lda to'xtagan avtomobilni o'z o'zidan harakatlanib ketishini oldini olish maqsadida oldingi g'ildiraklarni qanday burab qo'yish kerak||a va c|a va d|b va c|b va d": {
+  "options": {
+   "a va c": "А и С",
+   "a va d": "А и Д",
+   "b va c": "Б и С",
+   "b va d": "Б и Д"
+  },
+  "question": "Как следует повернуть передние колёса автомобиля, остановившегося на подъёме (спуске) на дороге без тротуара, чтобы предотвратить его самопроизвольное движение?",
+  "uz": "Balandlikda (nishablikda) trotuar yo'q yo'lda to'xtagan avtomobilni o'z-o'zidan harakatlanib ketishini oldini olish maqsadida oldingi g'ildiraklarni qanday burab qo'yish kerak?"
+ },
+ "belgilangan yo'nalishdagi transport vositalari yoki taksilarning to'xtab turish maydonchalaridan ular bo'lmagan hollarda yo'nalishli transport vositalari harakatiga xalaqit bermasa belgi ko'rsatkichlaridan qanday masofada to'xtash va to'xtab turish taqiqlanadi||10 m|15 m|20 m|25 m|5 m": {
+  "options": {
+   "10 m": "10 м",
+   "15 m": "15 м",
+   "20 m": "20 м",
+   "25 m": "25 м",
+   "5 m": "5 м"
+  },
+  "question": "На каком расстоянии от указателей мест остановки маршрутных транспортных средств или стоянки такси запрещены остановка и стоянка (при их отсутствии — если это не мешает движению маршрутных транспортных средств)?",
+  "uz": "Belgilangan yo'nalishdagi transport vositalari yoki taksilarning to'xtab turish maydonchalaridan ular bo'lmagan hollarda, (yo'nalishli transport vositalari harakatiga xalaqit bermasa) belgi ko'rsatkichlaridan qanday masofada to'xtash va to'xtab turish taqiqlanadi?"
+ },
+ "belgilardan qaysi biri qatnov qismi kesishmasi hududini bildiradi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какой из знаков обозначает зону пересечения проезжих частей?",
+  "uz": "Belgilardan qaysi biri qatnov qismi kesishmasi hududini bildiradi?"
+ },
+ "bir yo'nalishda harakatlanayotgan burilishga kirishmagan relssiz transport vositasidan o'zib ketishga ruxsat beriladi||faqat chap tomondan|faqat o'ng tomondan|har ikki tomondan": {
+  "options": {
+   "faqat chap tomondan": "Только слева",
+   "faqat o'ng tomondan": "Только справа",
+   "har ikki tomondan": "С обеих сторон"
+  },
+  "question": "Опережение безрельсового транспортного средства, движущегося в попутном направлении (не приступившего к повороту), разрешается:",
+  "uz": "Bir yo‘nalishda harakatlanayotgan (burilishga kirishmagan) relssiz transport vositasidan o‘zib ketishga ruxsat beriladi:"
+ },
+ "bu belgi nimani bildiradi||boshqa qatnov qismiga qayta tizilishning dastlabki ko'rsatkichi|qarama qarshi yo'nalish bo'lagiga chiqishning boshlang'ich ko'rsatkichi|to'siqlarni aylanib o'tishning dastlabki ko'rsatkichi": {
+  "options": {
+   "boshqa qatnov qismiga qayta tizilishning dastlabki ko'rsatkichi": "Предварительный указатель перестроения на другую проезжую часть",
+   "qarama qarshi yo'nalish bo'lagiga chiqishning boshlang'ich ko'rsatkichi": "Предварительный указатель выезда на полосу встречного движения",
+   "to'siqlarni aylanib o'tishning dastlabki ko'rsatkichi": "Предварительный указатель объезда препятствия"
+  },
+  "question": "Что означает этот знак?",
+  "uz": "Bu belgi nimani bildiradi?"
+ },
+ "bu belgilardan qaysi biri maktab va maktabgacha talim tashkilotlari oldida o'rnatiladi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какой из этих знаков устанавливается перед школами и дошкольными образовательными организациями?",
+  "uz": "Bu belgilardan qaysi biri maktab va maktabgacha talim tashkilotlari oldida o'rnatiladi?"
+ },
+ "bu holatta siz qanday yo'l tutishingiz kerak||chapga burilib to'siqni aylanib o'ting|ovozli ishora berib tezlikni oshiring|to'xtovsiz harakatni davom ettiring|zarur bo'lganda tezlikni to'xtaydigan darajada kamaytiring": {
+  "options": {
+   "chapga burilib to'siqni aylanib o'ting": "Повернуть налево и объехать препятствие",
+   "ovozli ishora berib tezlikni oshiring": "Подать звуковой сигнал и увеличить скорость",
+   "to'xtovsiz harakatni davom ettiring": "Продолжить движение без остановки",
+   "zarur bo'lganda tezlikni to'xtaydigan darajada kamaytiring": "Снизить скорость, при необходимости вплоть до остановки"
+  },
+  "question": "Как вы должны поступить в этой ситуации?",
+  "uz": "Bu holatta siz qanday yo'l tutishingiz kerak?"
+ },
+ "bu joyda quvib o'tishga ruxsat etilganmi||agar quvib o'tish temir yo'l kesishmasigacha tugasa ruxsat etiladi|quvib o'tilayotgan transport vositasi 40 km soat dan kam tezlik bilan harakatlanganda ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "agar quvib o'tish temir yo'l kesishmasigacha tugasa ruxsat etiladi": "Разрешён, если обгон будет закончен до железнодорожного переезда",
+   "quvib o'tilayotgan transport vositasi 40 km soat dan kam tezlik bilan harakatlanganda ruxsat etiladi": "Разрешён, если обгоняемое транспортное средство движется со скоростью менее 40 км/ч",
+   "taqiqlanadi": "Запрещён"
+  },
+  "question": "Разрешён ли обгон в этом месте?",
+  "uz": "Bu joyda quvib o'tishga ruxsat etilganmi?"
+ },
+ "bu qo'shimcha axborot yo'l belgisi qaysi yo'l belgisi bilan birgalikda qo'llaniladi||a|b|c": {
+  "options": {
+   "a": "А",
+   "b": "Б",
+   "c": "С"
+  },
+  "question": "С каким дорожным знаком применяется этот знак дополнительной информации?",
+  "uz": "Bu qo'shimcha-axborot yo'l belgisi qaysi yo'l belgisi bilan birgalikda qo'llaniladi?"
+ },
+ "bu taniqlik belgisi o'rnatiladi||portlovchi va tez alangalanuvchi yukni tashiyotgan transport vositalariga|vaqtinchalik tamirlash ishlari olib borilayotgan yo'l qismlariga|xaydovchi staji 2 yildan kam bulgan xaydovchilar boshqarayot mexanik transport vositalari": {
+  "options": {
+   "portlovchi va tez alangalanuvchi yukni tashiyotgan transport vositalariga": "На транспортных средствах, перевозящих взрывчатые и легковоспламеняющиеся грузы",
+   "vaqtinchalik tamirlash ishlari olib borilayotgan yo'l qismlariga": "На участках дороги, где ведутся временные ремонтные работы",
+   "xaydovchi staji 2 yildan kam bulgan xaydovchilar boshqarayot mexanik transport vositalari": "На механических транспортных средствах, которыми управляют водители со стажем менее 2 лет"
+  },
+  "question": "Этот опознавательный знак устанавливается:",
+  "uz": "Bu taniqlik belgisi o'rnatiladi:"
+ },
+ "bu to'xtash yotiq chiziq qaysi yo'l belgisi bilan qo'llaniladi||to'xtamasdan xarakatlanish taqiqlangan belgisi bilan|yo'l bering belgisi bilan|yo'l bering belgisi bilan va to'xtamasdan harakatlanish taqiqlangan belgisi bilan": {
+  "options": {
+   "to'xtamasdan xarakatlanish taqiqlangan belgisi bilan": "Со знаком «Движение без остановки запрещено»",
+   "yo'l bering belgisi bilan": "Со знаком «Уступите дорогу»",
+   "yo'l bering belgisi bilan va to'xtamasdan harakatlanish taqiqlangan belgisi bilan": "Со знаком «Уступите дорогу» и со знаком «Движение без остановки запрещено»"
+  },
+  "question": "С каким дорожным знаком применяется эта горизонтальная линия разметки «стоп-линия»?",
+  "uz": "Bu «to'xtash» yotiq chiziq qaysi yo'l belgisi bilan qo'llaniladi?"
+ },
+ "bu yo'l belgisi bildiradi||belgida ko'rsatilgandan ortiq yuk ko'taruvchi yuk avtomobillari va transport vositalari tarkibi tirkamali yuk avtomobillari ning harakat qilishi taqiqlanadi|umumiy haqiqiy vazni yo'lovchilar va yuk vaznini qo'shgan holda belgida ko'rsatilgandan ortiq bo'lgan transport vositalari shu jumladan tirkamali transport vositalarining harakat qilishi taqiqlanadi": {
+  "options": {
+   "belgida ko'rsatilgandan ortiq yuk ko'taruvchi yuk avtomobillari va transport vositalari tarkibi tirkamali yuk avtomobillari ning harakat qilishi taqiqlanadi": "Запрещается движение грузовых автомобилей и составов транспортных средств (грузовых автомобилей с прицепами) грузоподъёмностью более указанной на знаке.",
+   "umumiy haqiqiy vazni yo'lovchilar va yuk vaznini qo'shgan holda belgida ko'rsatilgandan ortiq bo'lgan transport vositalari shu jumladan tirkamali transport vositalarining harakat qilishi taqiqlanadi": "Запрещается движение транспортных средств, в том числе составов транспортных средств, общая фактическая масса которых (с учётом массы пассажиров и груза) больше указанной на знаке"
+  },
+  "question": "Этот дорожный знак означает:",
+  "uz": "Bu yo'l belgisi bildiradi:"
+ },
+ "bu yotiq chiziqlardan qaysi biri belgilangan yo'nalishdagi transport vositalarining to'xtash joyini bildiradi||a|a va b|a va v|b|v": {
+  "options": {
+   "a": "«А»",
+   "a va b": "«А» и «Б»",
+   "a va v": "«А» и «В»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какая из этих линий горизонтальной разметки обозначает место остановки маршрутных транспортных средств?",
+  "uz": "Bu yotiq chiziqlardan qaysi biri belgilangan yo'nalishdagi transport vositalarining to'xtash joyini bildiradi?"
+ },
+ "bunday holatda qaysi haydovchi yo'l berishi kerak||avtomobil haydovchisi|tramvay haydovchisi": {
+  "options": {
+   "avtomobil haydovchisi": "Водитель автомобиля",
+   "tramvay haydovchisi": "Водитель трамвая"
+  },
+  "question": "Какой водитель должен уступить дорогу в такой ситуации?",
+  "uz": "Bunday holatda qaysi haydovchi yo‘l berishi kerak?"
+ },
+ "chorrahada qaysi yo'nalishlarda harakat qilishga ruxsat etiladi||a b g d|b v g d|faqat g va e": {
+  "options": {
+   "a b g d": "«А», «Б», «Г», «Д»",
+   "b v g d": "«Б», «В», «Г», «Д»",
+   "faqat g va e": "Только «Г» и «Е»"
+  },
+  "question": "В каких направлениях разрешено движение на перекрёстке?",
+  "uz": "Chorrahada qaysi yo'nalishlarda harakat qilishga ruxsat etiladi?"
+ },
+ "chorrahadan oxirgi bo'lib qaysi avtomobil o'tadi||ko'k avtomobil|qizil avtomobil|sariq avtomobil|yashil avtomobil": {
+  "options": {
+   "ko'k avtomobil": "Синий автомобиль",
+   "qizil avtomobil": "Красный автомобиль",
+   "sariq avtomobil": "Жёлтый автомобиль",
+   "yashil avtomobil": "Зелёный автомобиль"
+  },
+  "question": "Какой автомобиль проедет перекрёсток последним?",
+  "uz": "Chorrahadan oxirgi bo'lib qaysi avtomobil o'tadi?"
+ },
+ "chorrahaga kirishda siz||birinchi o'tish huquqiga egasiz|har ikkisiga ham yo'l berishingiz kerak|mototsiklga yo'l berishingiz kerak": {
+  "options": {
+   "birinchi o'tish huquqiga egasiz": "Имеете право проехать первым",
+   "har ikkisiga ham yo'l berishingiz kerak": "Должны уступить дорогу обоим",
+   "mototsiklga yo'l berishingiz kerak": "Должны уступить дорогу мотоциклу"
+  },
+  "question": "При въезде на перекрёсток вы:",
+  "uz": "Chorrahaga kirishda Siz:"
+ },
+ "chorrahani birinchi bo'lib kesib o'tadi||ko'k avtomobil|qizil avtomobil|yashil avtomobil": {
+  "options": {
+   "ko'k avtomobil": "Синий автомобиль",
+   "qizil avtomobil": "Красный автомобиль",
+   "yashil avtomobil": "Зелёный автомобиль"
+  },
+  "question": "Кто проедет перекрёсток первым?",
+  "uz": "Chorrahani birinchi bo'lib kesib o'tadi?"
+ },
+ "chorrahani birinchi bo'lib qaysi transport vositasi kesib o'tadi||barcha transport vositalari bir vaqtda|yengil avtomobil|yuk avtomobili|yuk avtomobili va avtobus bir vaqtda": {
+  "options": {
+   "barcha transport vositalari bir vaqtda": "Все транспортные средства одновременно",
+   "yengil avtomobil": "Легковой автомобиль",
+   "yuk avtomobili": "Грузовой автомобиль",
+   "yuk avtomobili va avtobus bir vaqtda": "Грузовой автомобиль и автобус одновременно"
+  },
+  "question": "Какое транспортное средство проедет перекрёсток первым?",
+  "uz": "Chorrahani birinchi bo‘lib qaysi transport vositasi kesib o‘tadi?"
+ },
+ "chorrahani ikkinchi bo'lib kesib o'tadi||ko'k avtomobil|qizil avtomobil|yashil avtomobil": {
+  "options": {
+   "ko'k avtomobil": "Синий автомобиль",
+   "qizil avtomobil": "Красный автомобиль",
+   "yashil avtomobil": "Зелёный автомобиль"
+  },
+  "question": "Кто проедет перекрёсток вторым?",
+  "uz": "Chorrahani ikkinchi bo'lib kesib o'tadi?"
+ },
+ "doimiy va vaqtinchalik yo'l belgilari ma'no jixatidan bir birini inkor etganda qaysi biriga amal qilasiz||doimiy yo'l belgisiga|vaqtinchalik yo'l belgisiga": {
+  "options": {
+   "doimiy yo'l belgisiga": "Постоянному дорожному знаку",
+   "vaqtinchalik yo'l belgisiga": "Временному дорожному знаку"
+  },
+  "question": "Каким знакам вы будете подчиняться, если значения постоянных и временных дорожных знаков противоречат друг другу?",
+  "uz": "Doimiy va vaqtinchalik yo'l belgilari ma'no jixatidan bir birini inkor etganda qaysi biriga amal qilasiz?"
+ },
+ "g'ildiraklarni yo'l bilan ilashishi yo'qolganda kuchli yomg'ir sel yoki suv toshgan yo'l qismlari haydovchi||dvigatel bilan tormozlash orqali tezlikni kamaytirishi lozim|tezlikni oshirishi lozim|tormoz tepkisini keskin bosish bilan tezlikni kamaytirishi lozim": {
+  "options": {
+   "dvigatel bilan tormozlash orqali tezlikni kamaytirishi lozim": "Должен снизить скорость торможением двигателем",
+   "tezlikni oshirishi lozim": "Должен увеличить скорость",
+   "tormoz tepkisini keskin bosish bilan tezlikni kamaytirishi lozim": "Должен снизить скорость резким нажатием на педаль тормоза"
+  },
+  "question": "При потере сцепления колёс с дорогой (сильный дождь, сель или затопленные участки дороги) водитель:",
+  "uz": "G'ildiraklarni yo'l bilan ilashishi yo'qolganda (kuchli yomg'ir, sel yoki suv toshgan yo'l qismlari) haydovchi:"
+ },
+ "harakatlanish bo'lagi||avtomobillarning bir qator bo'lib harakatlanishi uchun yetarlicha keng bo'lgan yo'l chiziqlari bilan belgilangan yoki belgilanmagan yo'l qatnov qismining har qanday bo'ylama bo'lagi|yo'lning relssiz transport vositalari harakati uchun mo'ljallangan qismi|yo'lning yonma yon joylashgan qatnov qismlarini ajratuvchi transport vositalari harakatlanishi yoki to'xtashi uchun mo'ljallanmagan yo'l sathidan baland va yoki 1 1 yotiq chizig'i bilan belgilangan qismi": {
+  "options": {
+   "avtomobillarning bir qator bo'lib harakatlanishi uchun yetarlicha keng bo'lgan yo'l chiziqlari bilan belgilangan yoki belgilanmagan yo'l qatnov qismining har qanday bo'ylama bo'lagi": "Любая из продольных полос проезжей части, обозначенная или не обозначенная разметкой и имеющая ширину, достаточную для движения автомобилей в один ряд",
+   "yo'lning relssiz transport vositalari harakati uchun mo'ljallangan qismi": "Элемент дороги, предназначенный для движения безрельсовых транспортных средств",
+   "yo'lning yonma yon joylashgan qatnov qismlarini ajratuvchi transport vositalari harakatlanishi yoki to'xtashi uchun mo'ljallanmagan yo'l sathidan baland va yoki 1 1 yotiq chizig'i bilan belgilangan qismi": "Элемент дороги, разделяющий смежные проезжие части, не предназначенный для движения или остановки транспортных средств, возвышающийся над уровнем дороги и (или) обозначенный горизонтальной разметкой 1.1"
+  },
+  "question": "Полоса движения:",
+  "uz": "Harakatlanish bo'lagi:"
+ },
+ "harakatlanish qaysi yo'nalishga ruxsat etilgan||barcha yo'nalishda ruxsat etiladi|faqat to'g'riga|faqat to'g'riga va o'ngga|harakatlanish taqiqlanadi": {
+  "options": {
+   "barcha yo'nalishda ruxsat etiladi": "Разрешено во всех направлениях",
+   "faqat to'g'riga": "Только прямо",
+   "faqat to'g'riga va o'ngga": "Только прямо и направо",
+   "harakatlanish taqiqlanadi": "Движение запрещено"
+  },
+  "question": "В каком направлении разрешено движение?",
+  "uz": "Harakatlanish qaysi yo‘nalishga ruxsat etilgan?"
+ },
+ "haydovchi yaqinlashib kelayotgan poyezdni o'tkazib yuborishi uchun to'xtash yotiq chizig'i yoki to'xtamasdan harakatlanish taqiqlangan belgisidan qanday masofada to'xtashi kerak||1 5 m|10 m|2 5 m|5 m|bevosita to'xtash yotiq chizig'i yoki belgi oldida": {
+  "options": {
+   "1 5 m": "1,5 м",
+   "10 m": "10 м",
+   "2 5 m": "2,5 м",
+   "5 m": "5 м",
+   "bevosita to'xtash yotiq chizig'i yoki belgi oldida": "Непосредственно перед стоп-линией или знаком"
+  },
+  "question": "На каком расстоянии от стоп-линии или знака «Движение без остановки запрещено» должен остановиться водитель, чтобы пропустить приближающийся поезд?",
+  "uz": "Haydovchi yaqinlashib kelayotgan poyezdni o'tkazib yuborishi uchun «To'xtash» yotiq chizig'i yoki «To'xtamasdan harakatlanish taqiqlangan» belgisidan qanday masofada to'xtashi kerak?"
+ },
+ "haydovchiga ko'prikda turgan yo'lovchini chiqarish uchun orqaga harakatlanishga ruxsat etiladimi||agar boshqa yo'l harakati qatnashchilariga xalaqit bermasa ruxsat etiladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "agar boshqa yo'l harakati qatnashchilariga xalaqit bermasa ruxsat etiladi": "Разрешается, если это не мешает другим участникам дорожного движения",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли водителю двигаться задним ходом на мосту, чтобы посадить стоящего пассажира?",
+  "uz": "Haydovchiga ko'prikda turgan yo'lovchini chiqarish uchun orqaga harakatlanishga ruxsat etiladimi"
+ },
+ "haydovchiga transport vositasini boshqarish vaqtida telefondan foydalanishga ruxsat etiladimi||20 km soat tezlikda harakatlanayotganda ruxsat etiladi|qo'lni ishlatmasdan texnik vosilalardan foydalanish gaplashishga ruxsat etiladi|ruxsat etiladi": {
+  "options": {
+   "20 km soat tezlikda harakatlanayotganda ruxsat etiladi": "Разрешается при движении со скоростью 20 км/ч",
+   "qo'lni ishlatmasdan texnik vosilalardan foydalanish gaplashishga ruxsat etiladi": "Разрешается разговаривать с использованием технических средств, позволяющих вести переговоры без помощи рук",
+   "ruxsat etiladi": "Разрешается"
+  },
+  "question": "Разрешается ли водителю пользоваться телефоном во время управления транспортным средством?",
+  "uz": "Haydovchiga transport vositasini boshqarish vaqtida telefondan foydalanishga ruxsat etiladimi?"
+ },
+ "imtiyoz belgilari qaysi joylarda harakatlanish navbatini belgilaydi||faqat chorrahalarda|faqat yo'ining tor qismlarida|har ikkala javob ham to'g'ri": {
+  "options": {
+   "faqat chorrahalarda": "Только на перекрёстках",
+   "faqat yo'ining tor qismlarida": "Только на узких участках дороги",
+   "har ikkala javob ham to'g'ri": "Оба ответа верны"
+  },
+  "question": "В каких местах знаки приоритета устанавливают очерёдность проезда?",
+  "uz": "Imtiyoz belgilari qaysi joylarda harakatlanish navbatini belgilaydi?"
+ },
+ "ko'k avtomobil chorrahani kesib o'tadi||birinchi bo'lib|ikkinchi bo'lib|oxirgi bo'lib|uchinchi bo'lib": {
+  "options": {
+   "birinchi bo'lib": "Первым",
+   "ikkinchi bo'lib": "Вторым",
+   "oxirgi bo'lib": "Последним",
+   "uchinchi bo'lib": "Третьим"
+  },
+  "question": "Синий автомобиль проедет перекрёсток:",
+  "uz": "Ko'k avtomobil chorrahani kesib o'tadi:"
+ },
+ "ko'k avtomobil qaysi tomondan aylanib o'tishi kerak||chap tomonidan|har ikki tomonidan ruxsat etiladi|har ikki tomonidan taqiqlanadi|o'ng tomonidan": {
+  "options": {
+   "chap tomonidan": "Слева",
+   "har ikki tomonidan ruxsat etiladi": "Разрешается с обеих сторон",
+   "har ikki tomonidan taqiqlanadi": "Запрещается с обеих сторон",
+   "o'ng tomonidan": "Справа"
+  },
+  "question": "С какой стороны синий автомобиль должен объехать препятствие?",
+  "uz": "Ko'k avtomobil qaysi tomondan aylanib o'tishi kerak?"
+ },
+ "ko'k mashina haydovchisiga bu holatda o'ngga burilishga ruxsat etiladimi||ruxsat etiladi|ruxsat etilmaydi": {
+  "options": {
+   "ruxsat etiladi": "Разрешается",
+   "ruxsat etilmaydi": "Не разрешается"
+  },
+  "question": "Разрешается ли водителю синего автомобиля в данной ситуации повернуть направо?",
+  "uz": "Ko'k mashina haydovchisiga bu holatda o'ngga burilishga ruxsat etiladimi?"
+ },
+ "ko'k qizil chiroq mayoqchasi va maxsus tovushli ishorasi yoqilgan maxsus transport vositasi sidirg'a oq chiziq bilan ajratilgan belgilangan yo'nalishli transport vositalari uchun ajratilgan tasma bo'yicha harakatlanishga ruxsat beriladimi||faqat belgilangan yo'nalishli transport vositalari yo'q bo'lganda ruxsat etiladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "faqat belgilangan yo'nalishli transport vositalari yo'q bo'lganda ruxsat etiladi": "Разрешается только при отсутствии маршрутных транспортных средств",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли специальному транспортному средству с включёнными сине-красным проблесковым маячком и специальным звуковым сигналом двигаться по полосе для маршрутных транспортных средств, отделённой сплошной белой линией?",
+  "uz": "Ko‘k-qizil chiroq mayoqchasi va maxsus tovushli ishorasi yoqilgan maxsus transport vositasi, sidirg‘a oq chiziq bilan ajratilgan, belgilangan yo‘nalishli transport vositalari uchun ajratilgan tasma bo‘yicha harakatlanishga ruxsat beriladimi?"
+ },
+ "ko'k rangli yalt yalt etuvchi mayokchalari va maxsus tovushli ishorasi yokilgan maxsus transport vositasi chorraxani nechanchi bo'lib kesib o'tadi||birinchi|ikkinchi|oxirgi": {
+  "options": {
+   "birinchi": "Первым",
+   "ikkinchi": "Вторым",
+   "oxirgi": "Последним"
+  },
+  "question": "Каким по очереди проедет перекрёсток специальное транспортное средство с включёнными проблесковыми маячками синего цвета и специальным звуковым сигналом?",
+  "uz": "Ko'k rangli yalt-yalt etuvchi mayokchalari va maxsus tovushli ishorasi yokilgan maxsus transport vositasi chorraxani nechanchi bo'lib kesib o'tadi?"
+ },
+ "ko'rsatilgan belgilardan qaysi biri bolalar deb nomlanadi||1|2|3": {
+  "options": {
+   "1": "1",
+   "2": "2",
+   "3": "3"
+  },
+  "question": "Какой из указанных знаков называется «Дети»?",
+  "uz": "Ko'rsatilgan belgilardan qaysi biri bolalar deb nomlanadi?"
+ },
+ "ko'rsatilgan belgilardan qaysi biri yo'lning ko'rinish masofasi cheklangan joylarda majburan to'xtagan transport vositalarini belgilash uchun qo'llaniladi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какой из указанных знаков применяется для обозначения вынужденно остановившегося транспортного средства в местах с ограниченной видимостью дороги?",
+  "uz": "Ko'rsatilgan belgilardan qaysi biri yo'lning ko'rinish masofasi cheklangan joylarda majburan to'xtagan transport vositalarini belgilash uchun qo'llaniladi?"
+ },
+ "ko'rsatilgan holatda a tasma bo'ylab ko'k va qizil rangli yonuvchi maxsus transport vositasi harakatlanishiga ruxsat etildimi||ruxsat etiladi|taqiqlanadi|yo'nalishli transport vositasiga xalaqit bermasa ruxsat etiladi": {
+  "options": {
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается",
+   "yo'nalishli transport vositasiga xalaqit bermasa ruxsat etiladi": "Разрешается, если это не мешает маршрутному транспортному средству"
+  },
+  "question": "Разрешено ли в показанной ситуации движение по полосе «А» специальному транспортному средству с включёнными синим и красным маячками?",
+  "uz": "Ko'rsatilgan holatda \"A\" tasma bo'ylab ko'k va qizil rangli yonuvchi maxsus transport vositasi harakatlanishiga ruxsat etildimi?"
+ },
+ "ko'rsatilgan holatda avtomobil haydovchisiga orqaga harakatlanishga ruxsat etiladimi||piyodaga xalaqit bermasa ruxsat etiladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "piyodaga xalaqit bermasa ruxsat etiladi": "Разрешается, если это не мешает пешеходу",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли водителю автомобиля в показанной ситуации движение задним ходом?",
+  "uz": "Ko'rsatilgan holatda avtomobil haydovchisiga orqaga harakatlanishga ruxsat etiladimi?"
+ },
+ "ko'rsatilgan holatda qaysi tomondan o'zib ketishga ruxsat etiladi||chap tomondan|istalgan tomondan|o'ng tomondan": {
+  "options": {
+   "chap tomondan": "Слева",
+   "istalgan tomondan": "С любой стороны",
+   "o'ng tomondan": "Справа"
+  },
+  "question": "С какой стороны разрешается опережение в показанной ситуации?",
+  "uz": "Ko'rsatilgan holatda qaysi tomondan o'zib ketishga ruxsat etiladi?"
+ },
+ "ko'rsatilgan joyda qora avtomobilga to'xtashga ruxsat etiladimi||ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли остановка чёрному автомобилю в указанном месте?",
+  "uz": "Ko'rsatilgan joyda qora avtomobilga to'xtashga ruxsat etiladimi?"
+ },
+ "ko'rsatilgan qaysi belgi reversiv harakat boshlanishi haqida axborot beradi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какой из указанных знаков информирует о начале реверсивного движения?",
+  "uz": "Ko'rsatilgan qaysi belgi reversiv harakat boshlanishi haqida axborot beradi?"
+ },
+ "ko'rsatilgan qaysi belgi yo'lning o'ta sirpanchiq bo'lgan qismini bildiradi||a|a va b|v": {
+  "options": {
+   "a": "А",
+   "a va b": "А и Б",
+   "v": "В"
+  },
+  "question": "Какой из указанных знаков обозначает особо скользкий участок дороги?",
+  "uz": "Ko'rsatilgan qaysi belgi yo'lning o'ta sirpanchiq bo'lgan qismini bildiradi?"
+ },
+ "ko'rsatilgan qaysi yo'l belgisi yengil yo'nalishsiz taksilarga yo'lovchilarni tushurish chiqarish yuklarni ortish tushurish vaqtida tasir qilmaydi||faqat a|faqat b|faqat b c d|hammasi": {
+  "options": {
+   "faqat a": "Только А",
+   "faqat b": "Только Б",
+   "faqat b c d": "Только Б, С, Д",
+   "hammasi": "Все"
+  },
+  "question": "Действие какого из указанных дорожных знаков не распространяется на легковые такси во время посадки и высадки пассажиров (погрузки и разгрузки грузов)?",
+  "uz": "Ko'rsatilgan qaysi yo'l belgisi yengil yo'nalishsiz taksilarga yo'lovchilarni tushurish-chiqarish (yuklarni ortish-tushurish) vaqtida tasir qilmaydi?"
+ },
+ "ko'rsatilgan xolatda qayrilib olishga ruxsat etiladimi||ruxsat beriladi|takiklanadi": {
+  "options": {
+   "ruxsat beriladi": "Разрешается",
+   "takiklanadi": "Запрещается"
+  },
+  "question": "Разрешается ли разворот в показанной ситуации?",
+  "uz": "Ko'rsatilgan xolatda qayrilib olishga ruxsat etiladimi?"
+ },
+ "ko'rsatilgan yo'l belgilaridan qaysi biri taqiqlovchi belgilar ilgari kiritgan barcha cheklovlarni bekor qiladi||a va b|barchasi|v|v va g": {
+  "options": {
+   "a va b": "А и Б",
+   "barchasi": "Все",
+   "v": "В",
+   "v va g": "В и Г"
+  },
+  "question": "Какой из указанных дорожных знаков отменяет все ограничения, ранее введённые запрещающими знаками?",
+  "uz": "Ko'rsatilgan yo'l belgilaridan qaysi biri taqiqlovchi belgilar ilgari kiritgan barcha cheklovlarni bekor qiladi?"
+ },
+ "ko'rsatilgan yo'l belgilarining qaysi birida eng kam tezlikda harakatlanish kerak||chapdagi belgida|har ikkisida|o'ngdagi belgida": {
+  "options": {
+   "chapdagi belgida": "При левом знаке",
+   "har ikkisida": "При обоих",
+   "o'ngdagi belgida": "При правом знаке"
+  },
+  "question": "При каком из указанных дорожных знаков необходимо двигаться с минимальной скоростью?",
+  "uz": "Ko'rsatilgan yo'l belgilarining qaysi birida eng kam tezlikda harakatlanish kerak?"
+ },
+ "kunning qorong'i vaqtida va yetarlicha ko'rinmaydigan sharoitlarda yo'lda qoldirilgan yo'l mashinalari qurilish materiallari qurilmalar va hokazolar belgilanishi kerak||barcha sanab o'tilgan hollar bajarilishi kerak|qizil yoki sariq yoritkich chiroqlari bilan|tegishli yo'l belgilari bilan|yo'naltiruvchi va tevaragini o'rovchi moslamalar bilan": {
+  "options": {
+   "barcha sanab o'tilgan hollar bajarilishi kerak": "Должно быть выполнено всё перечисленное",
+   "qizil yoki sariq yoritkich chiroqlari bilan": "Красными или жёлтыми сигнальными фонарями",
+   "tegishli yo'l belgilari bilan": "Соответствующими дорожными знаками",
+   "yo'naltiruvchi va tevaragini o'rovchi moslamalar bilan": "Направляющими и ограждающими устройствами"
+  },
+  "question": "Оставленные на дороге в тёмное время суток и в условиях недостаточной видимости дорожные машины, строительные материалы, устройства и т. п. должны быть обозначены:",
+  "uz": "Kunning qorong'i vaqtida va yetarlicha ko'rinmaydigan sharoitlarda yo'lda qoldirilgan yo'l mashinalari, qurilish materiallari, qurilmalar va hokazolar belgilanishi kerak:"
+ },
+ "l toifadagi transport vositalari shina protektori naqshi necha mm bo'lishi kerak||0 4 mm|0 6 mm|0 8 mm": {
+  "options": {
+   "0 4 mm": "0,4 мм",
+   "0 6 mm": "0,6 мм",
+   "0 8 mm": "0,8 мм"
+  },
+  "question": "Какой должна быть глубина рисунка протектора шин транспортных средств категории L?",
+  "uz": "L toifadagi transport vositalari shina protektori naqshi necha mm bo'lishi kerak?"
+ },
+ "l toifasi bu||mototransport vositalari|yo'lovchi tashuvchi transport vositalari|yuk avtomobillari": {
+  "options": {
+   "mototransport vositalari": "Мототранспортные средства",
+   "yo'lovchi tashuvchi transport vositalari": "Транспортные средства для перевозки пассажиров",
+   "yuk avtomobillari": "Грузовые автомобили"
+  },
+  "question": "Категория L — это?",
+  "uz": "L- toifasi bu?"
+ },
+ "maxsus avtomatlashtirilgan foto va video qayd etish texnika vositalari orqali qayd etilgan yo'l harakati qoidalarini buzganlik uchun kimlar ma'muriy javobgarlikka tortiladi||1 va 2 javoblarda ko'rsatilgan holatlar|transport vositasidan foydalanish uchun mas'ul bo'lgan shaxs|transport vositasining haydovchisi|transport vositasining mulkdori|yuridik shaxsning navbatchi mexanigi": {
+  "options": {
+   "1 va 2 javoblarda ko'rsatilgan holatlar": "Случаи, указанные в ответах 1 и 2",
+   "transport vositasidan foydalanish uchun mas'ul bo'lgan shaxs": "Лицо, ответственное за эксплуатацию транспортного средства",
+   "transport vositasining haydovchisi": "Водитель транспортного средства",
+   "transport vositasining mulkdori": "Собственник транспортного средства",
+   "yuridik shaxsning navbatchi mexanigi": "Дежурный механик юридического лица"
+  },
+  "question": "Кто привлекается к административной ответственности за нарушения правил дорожного движения, зафиксированные специальными автоматизированными техническими средствами фото- и видеофиксации?",
+  "uz": "Maxsus avtomatlashtirilgan foto va video qayd etish texnika vositalari orqali qayd etilgan yo'l harakati qoidalarini buzganlik uchun kimlar ma'muriy javobgarlikka tortiladi?"
+ },
+ "maxsus avtomatlashtirilgan foto va video qayd etish texnika vositalari orqali yo'l harakati qoidalari buzilganligi qayd etilgan taqdirda huquqbuzarlikning takroriyligi hisobga olinadimi||hisobga olinadi|hisobga olinmaydi": {
+  "options": {
+   "hisobga olinadi": "Учитывается",
+   "hisobga olinmaydi": "Не учитывается"
+  },
+  "question": "Учитывается ли повторность правонарушения, если нарушение правил дорожного движения зафиксировано специальными автоматизированными техническими средствами фото- и видеофиксации?",
+  "uz": "Maxsus avtomatlashtirilgan foto va video qayd etish texnika vositalari orqali yo'l harakati qoidalari buzilganligi qayd etilgan taqdirda, huquqbuzarlikning takroriyligi hisobga olinadimi?"
+ },
+ "mayoqchasi yoqilgan transport vositasiga harakatni to'g'riga davom ettirishga ruxsat beriladimi||ruxsat beriladi|taqiqlanadi": {
+  "options": {
+   "ruxsat beriladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли транспортному средству с включённым проблесковым маячком продолжить движение прямо?",
+  "uz": "Mayoqchasi yoqilgan transport vositasiga harakatni to'g'riga davom ettirishga ruxsat beriladimi?"
+ },
+ "mazkur joyda yo'lovchilarni tushirish yoki chiqarish uchun to'xtashga ruxsat etiladimi||faqat taksi haydovchilariga ruxsat etiladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "faqat taksi haydovchilariga ruxsat etiladi": "Разрешается только водителям такси",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли в данном месте остановка для посадки или высадки пассажиров?",
+  "uz": "Mazkur joyda yo‘lovchilarni tushirish yoki chiqarish uchun to‘xtashga ruxsat etiladimi?"
+ },
+ "mazkur tik chiziqlar nimani anglatadi||boshqa joylardagi to'siqlarning yon yuzalarini bildiradi|yo'lnig kichik radiusli burilishlarini yo'l chetiga o'rnatilgan to'siqlarning yon yuzalarini bildiradi": {
+  "options": {
+   "boshqa joylardagi to'siqlarning yon yuzalarini bildiradi": "Обозначают боковые поверхности ограждений в других местах",
+   "yo'lnig kichik radiusli burilishlarini yo'l chetiga o'rnatilgan to'siqlarning yon yuzalarini bildiradi": "Обозначают боковые поверхности ограждений, установленных на обочинах на закруглениях дороги малого радиуса"
+  },
+  "question": "Что означают эти линии вертикальной разметки?",
+  "uz": "Mazkur tik chiziqlar nimani anglatadi?"
+ },
+ "mazkur yo'l belgisi||doimiy belgi xisoblanadi|mavsumiy belgi xisoblanadi|vaqtinchalik belgi xisoblanadi": {
+  "options": {
+   "doimiy belgi xisoblanadi": "Является постоянным знаком",
+   "mavsumiy belgi xisoblanadi": "Является сезонным знаком",
+   "vaqtinchalik belgi xisoblanadi": "Является временным знаком"
+  },
+  "question": "Данный дорожный знак:",
+  "uz": "Mazkur yo'l belgisi:"
+ },
+ "mototsikl haydovchisi qoidani buzayaptimi||ha|yo'q": {
+  "options": {
+   "ha": "Да",
+   "yo'q": "Нет"
+  },
+  "question": "Нарушает ли правила водитель мотоцикла?",
+  "uz": "Mototsikl haydovchisi qoidani buzayaptimi?"
+ },
+ "n2 n3 o3 o4 m2 m3 toifadagi avtotransport vositalarining orqa devoriga yozilishi kerak||taniqlik va raqam belgilari|transport vositasining tegishligi haqida taniqlik belgisi|yaxshi ko'rinadigan raqam belgisi": {
+  "options": {
+   "taniqlik va raqam belgilari": "Опознавательные и номерные знаки",
+   "transport vositasining tegishligi haqida taniqlik belgisi": "Опознавательный знак о принадлежности транспортного средства",
+   "yaxshi ko'rinadigan raqam belgisi": "Хорошо видимый регистрационный номерной знак"
+  },
+  "question": "Что должно быть нанесено на заднюю стенку автотранспортных средств категорий N2, N3, O3, O4, M2, M3?",
+  "uz": "N2; N3; O3; O4; M2; M3 toifadagi avtotransport vositalarining orqa devoriga yozilishi kerak?"
+ },
+ "navbat bilan yilt yilt etib turuvchi ikkita qizil yoritgichlar quyidagi manoga ega||alohida ehtiyotkorlik bilan harakatlanishga ruxsat etadi|boshqa haydovchilarga qatnov qismiga maxsus transport vositalarining o'tganini xabar qiladi|harakatni taqiqlaydi": {
+  "options": {
+   "alohida ehtiyotkorlik bilan harakatlanishga ruxsat etadi": "Разрешают движение с особой осторожностью",
+   "boshqa haydovchilarga qatnov qismiga maxsus transport vositalarining o'tganini xabar qiladi": "Информируют других водителей о проезде специальных транспортных средств по проезжей части",
+   "harakatni taqiqlaydi": "Запрещают движение"
+  },
+  "question": "Два попеременно мигающих красных сигнала имеют следующее значение:",
+  "uz": "Navbat bilan yilt-yilt etib turuvchi ikkita qizil yoritgichlar quyidagi manoga ega:"
+ },
+ "o'ngga burilganda shu belgi bilan belgilangan bo'lakka o'tishga ruxsat etiladimi||agar bo'lak qolgan harakat qismidan yotiq uzluksiz chiziq bilan ajratilmagan bo'lsa ruxsat etiladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "agar bo'lak qolgan harakat qismidan yotiq uzluksiz chiziq bilan ajratilmagan bo'lsa ruxsat etiladi": "Разрешается, если полоса не отделена от остальной проезжей части сплошной линией разметки",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли при повороте направо въезжать на полосу, обозначенную этим знаком?",
+  "uz": "O'ngga burilganda shu belgi bilan belgilangan bo'lakka o'tishga ruxsat etiladimi?"
+ },
+ "o'zbekiston respublikasi yo'l harakati qoidalari nima uchun tashkil etilgan||avtomobil oynalarini qoraytirish tartibini belgilash uchun|transport vositalarini davlat ro'yxatidan o'tkazish va jarimalarni undirish maqsadida|yo'l harakati qoidalarini yanada takomillashtirish yo'l transport hodisalarining oldini olish yo'l harakati xavfsizligini nazorat qilish va samaradorligini oshirish maqsadida|yo'llardagi chuqurliklarni va yo'l ishlarini ta'mirlash uchun": {
+  "options": {
+   "avtomobil oynalarini qoraytirish tartibini belgilash uchun": "Для установления порядка тонирования стёкол автомобилей",
+   "transport vositalarini davlat ro'yxatidan o'tkazish va jarimalarni undirish maqsadida": "В целях государственной регистрации транспортных средств и взыскания штрафов",
+   "yo'l harakati qoidalarini yanada takomillashtirish yo'l transport hodisalarining oldini olish yo'l harakati xavfsizligini nazorat qilish va samaradorligini oshirish maqsadida": "В целях дальнейшего совершенствования правил дорожного движения, предупреждения дорожно-транспортных происшествий, контроля за безопасностью дорожного движения и повышения его эффективности",
+   "yo'llardagi chuqurliklarni va yo'l ishlarini ta'mirlash uchun": "Для ремонта ям на дорогах и дорожных работ"
+  },
+  "question": "Для чего установлены Правила дорожного движения Республики Узбекистан?",
+  "uz": "O'zbekiston Respublikasi yo'l harakati qoidalari nima uchun tashkil etilgan?"
+ },
+ "o'zbekiston respublikasi yo'l harakati to'g'risida gi qonunining asosiy maqsadi nimadan iborat||avtotransport vositasi oynalarining tusini o'zgartirishga qoraytirishga ruxsatnoma berishdan iborat|transport vositalarini texnik ko'rikdan o'tkazishdan iborat|yo'l harakati sohasidagi munosabatlarni tartibga solishdan iborat": {
+  "options": {
+   "avtotransport vositasi oynalarining tusini o'zgartirishga qoraytirishga ruxsatnoma berishdan iborat": "В выдаче разрешений на изменение цвета (тонирование) стёкол автотранспортных средств",
+   "transport vositalarini texnik ko'rikdan o'tkazishdan iborat": "В проведении технического осмотра транспортных средств",
+   "yo'l harakati sohasidagi munosabatlarni tartibga solishdan iborat": "В регулировании отношений в сфере дорожного движения"
+  },
+  "question": "В чём состоит основная цель Закона Республики Узбекистан «О дорожном движении»?",
+  "uz": "O'zbekiston Respublikasi «Yo'l harakati to'g'risida»gi Qonunining asosiy maqsadi nimadan iborat?"
+ },
+ "odam tashish uchun mo'ljallangan yuk avtomobili yukhonasiga o'rnatilgan o'rindiqlar yukhona pastki qismidan qancha balandlikda mahkamlangan bo'lishi kerak||0 3 0 5 metr|0 6 0 7 metr|0 8 0 9 metr": {
+  "options": {
+   "0 3 0 5 metr": "0,3–0,5 метра",
+   "0 6 0 7 metr": "0,6–0,7 метра",
+   "0 8 0 9 metr": "0,8–0,9 метра"
+  },
+  "question": "На какой высоте от пола кузова должны быть закреплены сиденья, установленные в кузове грузового автомобиля, предназначенного для перевозки людей?",
+  "uz": "Odam tashish uchun mo'ljallangan yuk avtomobili yukhonasiga o'rnatilgan o'rindiqlar, yukhona pastki qismidan qancha balandlikda mahkamlangan bo'lishi kerak?"
+ },
+ "old chiroqlar va orqa gabarit chiroqlari ishlamyotagan transport vositasi harakatini davom ettirishi taqiqlanadi||barcha javoblarda ko'rsatilgan holatlarda|faqat etarli ko'rinmaslikda|faqat kunning qorong'i vaqtida": {
+  "options": {
+   "barcha javoblarda ko'rsatilgan holatlarda": "Во всех указанных в ответах случаях",
+   "faqat etarli ko'rinmaslikda": "Только в условиях недостаточной видимости",
+   "faqat kunning qorong'i vaqtida": "Только в тёмное время суток"
+  },
+  "question": "Продолжение движения транспортного средства с неработающими фарами и задними габаритными огнями запрещается:",
+  "uz": "Old chiroqlar va orqa gabarit chiroqlari ishlamyotagan transport vositasi harakatini davom ettirishi taqiqlanadi:"
+ },
+ "oq avtomobil qaysi yo'nalishga harakatlanishga ruxsat etiladi||faqat to'g'riga|harakatlanish taqiqlanadi|to'g'riga chapga va orqaga qayrilishga|to'g'riga va chapga": {
+  "options": {
+   "faqat to'g'riga": "Только прямо",
+   "harakatlanish taqiqlanadi": "Движение запрещено",
+   "to'g'riga chapga va orqaga qayrilishga": "Прямо, налево и разворот",
+   "to'g'riga va chapga": "Прямо и налево"
+  },
+  "question": "В каком направлении разрешено движение белому автомобилю?",
+  "uz": "Oq avtomobil qaysi yo'nalishga harakatlanishga ruxsat etiladi?"
+ },
+ "oq qizil 1 14 4 zebra yo'l chizig'i qanday joylarda piyodalar o'tish joyini belgilash uchun chiziladi||barcha javoblar to'g'ri|maktab va maktabgacha talimmuassasalari oldida|piyodalar gavjum bo'lgan joylarda|savdo madaniy maishiy xizmatko'rsatish binolari oldida": {
+  "options": {
+   "barcha javoblar to'g'ri": "Все ответы верны",
+   "maktab va maktabgacha talimmuassasalari oldida": "Перед школами и дошкольными образовательными учреждениями",
+   "piyodalar gavjum bo'lgan joylarda": "В местах с интенсивным пешеходным движением",
+   "savdo madaniy maishiy xizmatko'rsatish binolari oldida": "Перед зданиями торговли, культурно-бытового обслуживания"
+  },
+  "question": "В каких местах для обозначения пешеходного перехода наносится бело-красная разметка (1.14.4 «зебра»)?",
+  "uz": "Oq-qizil (1.14.4 zebra) yo'l chizig'i qanday joylarda piyodalar o'tish joyini belgilash uchun chiziladi?"
+ },
+ "piyodalar o'tish joyiga qancha masofa yetmasdan to'xtash va to'xtab turishga ruxsat beriladi||10 metr|3 metr|5 metr": {
+  "options": {
+   "10 metr": "10 метров",
+   "3 metr": "3 метра",
+   "5 metr": "5 метров"
+  },
+  "question": "За сколько метров до пешеходного перехода разрешаются остановка и стоянка?",
+  "uz": "Piyodalar o'tish joyiga qancha masofa yetmasdan to'xtash va to'xtab turishga ruxsat beriladi?"
+ },
+ "piyodalar to'xtab turgan avtobus va trolleybusning qaysi tomonidan yo'lni kesib o'tishlari kerak||istalgan tomonidan|oldi tomonidan|orqa tomonidan": {
+  "options": {
+   "istalgan tomonidan": "С любой стороны",
+   "oldi tomonidan": "Спереди",
+   "orqa tomonidan": "Сзади"
+  },
+  "question": "С какой стороны пешеходы должны переходить дорогу у стоящих автобуса и троллейбуса?",
+  "uz": "Piyodalar to'xtab turgan avtobus va trolleybusning qaysi tomonidan yo'lni kesib o'tishlari kerak?"
+ },
+ "piyodalar yo'lni kesib o'tishda qayerdan o'tishlari kerak||piyodalar o'tish joylaridan|piyodalar o'tish joylaridan va yer osti o'tish joylaridan|yer osti o'tish joylaridan": {
+  "options": {
+   "piyodalar o'tish joylaridan": "По пешеходным переходам",
+   "piyodalar o'tish joylaridan va yer osti o'tish joylaridan": "По пешеходным и подземным переходам",
+   "yer osti o'tish joylaridan": "По подземным переходам"
+  },
+  "question": "Где пешеходы должны переходить дорогу?",
+  "uz": "Piyodalar yo'lni kesib o'tishda qayerdan o'tishlari kerak?"
+ },
+ "piyodalar yo'lning qatnov qismini qayerlaridan kesib o'tishlari kerak||chorrahalarda trotuarlar yoki yo'l yoqasi chiziqlari bo'ylab|hamma javoblar to'g'ri|piyodalar o'tish joyidan|piyodalar yer osti va yer usti o'tish joylaridan": {
+  "options": {
+   "chorrahalarda trotuarlar yoki yo'l yoqasi chiziqlari bo'ylab": "На перекрёстках по линии тротуаров или обочин",
+   "hamma javoblar to'g'ri": "Все ответы верны",
+   "piyodalar o'tish joyidan": "По пешеходному переходу",
+   "piyodalar yer osti va yer usti o'tish joylaridan": "По подземным и надземным пешеходным переходам"
+  },
+  "question": "В каких местах пешеходы должны переходить проезжую часть?",
+  "uz": "Piyodalar yo'lning qatnov qismini qayerlaridan kesib o'tishlari kerak?"
+ },
+ "qanday hollarda haydovchisi bo'lmagan transport vositalarini shatakka olish mumkin||barcha hollarda|egiluvchan yoki qattiq ulangichda shatakka olishda|qattiq ulagichning tuzilishi shatakka olingan transport vositalarini shatakka olgan transport vositalarining izidan harakatlanishini taminlaganda|qattiq ulangichda shatakka olishda": {
+  "options": {
+   "barcha hollarda": "Во всех случаях",
+   "egiluvchan yoki qattiq ulangichda shatakka olishda": "При буксировке на гибкой или жёсткой сцепке",
+   "qattiq ulagichning tuzilishi shatakka olingan transport vositalarini shatakka olgan transport vositalarining izidan harakatlanishini taminlaganda": "Когда конструкция жёсткой сцепки обеспечивает движение буксируемого транспортного средства по траектории буксирующего",
+   "qattiq ulangichda shatakka olishda": "При буксировке на жёсткой сцепке"
+  },
+  "question": "В каких случаях допускается буксировка транспортных средств без водителя?",
+  "uz": "Qanday hollarda haydovchisi bo'lmagan transport vositalarini shatakka olish mumkin?"
+ },
+ "qatnov qismi chetidagi piyoda yalt yalt etuvchi mayoqcha va maxsus tovushli ishoralarni yoqib kelayotgan transport vositasi yaqinlashib qolganda qanday yo'l tutishi kerak||agar piyodalar o'tish joyida bo'lsa qatnov qismidan o'tishi|mumkin qadar tezroq qatnov qismidan o'tib olishi|qatnov qismidan o'tmasligi": {
+  "options": {
+   "agar piyodalar o'tish joyida bo'lsa qatnov qismidan o'tishi": "Переходить проезжую часть, если он находится на пешеходном переходе",
+   "mumkin qadar tezroq qatnov qismidan o'tib olishi": "Как можно быстрее перейти проезжую часть",
+   "qatnov qismidan o'tmasligi": "Не переходить проезжую часть"
+  },
+  "question": "Как должен поступить пешеход, находящийся у края проезжей части, при приближении транспортного средства с включёнными проблесковым маячком и специальным звуковым сигналом?",
+  "uz": "Qatnov qismi chetidagi piyoda, yalt-yalt etuvchi mayoqcha va maxsus tovushli ishoralarni yoqib kelayotgan transport vositasi yaqinlashib qolganda qanday yo‘l tutishi kerak?"
+ },
+ "qatnov qismlari kesishmasi bu||yo'llarning o'zaro bir sathda kesishadigan tutashadigan va ayriladigan joyi|yo'llarning qatnov qismlari o'zaro kesishib o'tadigan va tasavvur qilinadigan chiziqlar bilan aniqlangan hudud|yo'lning yonma yon joylashgan qatnov qismlarini ajratuvchi transport vositalari harakatlanishi yoki to'xtashi uchun mo'ljallanmagan yo'l sathidan ko'tarilgan yoki maysazor ariq maxsus to'siqlar bilan ajratilgan baland qismi": {
+  "options": {
+   "yo'llarning o'zaro bir sathda kesishadigan tutashadigan va ayriladigan joyi": "Место пересечения, примыкания или разветвления дорог на одном уровне",
+   "yo'llarning qatnov qismlari o'zaro kesishib o'tadigan va tasavvur qilinadigan chiziqlar bilan aniqlangan hudud": "Территория, на которой пересекаются проезжие части дорог, ограниченная воображаемыми линиями",
+   "yo'lning yonma yon joylashgan qatnov qismlarini ajratuvchi transport vositalari harakatlanishi yoki to'xtashi uchun mo'ljallanmagan yo'l sathidan ko'tarilgan yoki maysazor ariq maxsus to'siqlar bilan ajratilgan baland qismi": "Элемент дороги, разделяющий смежные проезжие части, не предназначенный для движения или остановки транспортных средств, приподнятый над уровнем дороги или отделённый газоном, арыком, специальными ограждениями"
+  },
+  "question": "Пересечение проезжих частей — это ...",
+  "uz": "Qatnov qismlari kesishmasi - bu ..."
+ },
+ "qattiq ulagichda orasidagi masofa 3 metr bo'lsa shatakka olishga ruxsat etiladimi||ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли буксировка на жёсткой сцепке, если расстояние между транспортными средствами 3 метра?",
+  "uz": "Qattiq ulagichda orasidagi masofa 3 metr bo'lsa shatakka olishga ruxsat etiladimi?"
+ },
+ "qattiq ulagichda shatakka olishda transport vositalari orasidagi masofa qancha bo'lganda harakatlanishi mumkin||3 metr|5 metr|6 metr|hech qaysisi": {
+  "options": {
+   "3 metr": "3 метра",
+   "5 metr": "5 метров",
+   "6 metr": "6 метров",
+   "hech qaysisi": "Ни при каком"
+  },
+  "question": "При каком расстоянии между транспортными средствами разрешается движение при буксировке на жёсткой сцепке?",
+  "uz": "Qattiq ulagichda shatakka olishda transport vositalari orasidagi masofa qancha bo'lganda harakatlanishi mumkin?"
+ },
+ "qaysi avtomobil haydovchisi qoidani buzib harakatlanmoqda||chapdagi rasmda|ikkala rasmda|o'ngdagi rasmda": {
+  "options": {
+   "chapdagi rasmda": "На левом рисунке",
+   "ikkala rasmda": "На обоих рисунках",
+   "o'ngdagi rasmda": "На правом рисунке"
+  },
+  "question": "Водитель какого автомобиля движется с нарушением правил?",
+  "uz": "Qaysi avtomobil haydovchisi qoidani buzib harakatlanmoqda?"
+ },
+ "qaysi avtomobil haydovchisi yo'l berishi kerak||ko'k avtomobil|qizil avtomobil": {
+  "options": {
+   "ko'k avtomobil": "Синего автомобиля",
+   "qizil avtomobil": "Красного автомобиля"
+  },
+  "question": "Водитель какого автомобиля должен уступить дорогу?",
+  "uz": "Qaysi avtomobil haydovchisi yo‘l berishi kerak?"
+ },
+ "qaysi avtomobil to'xtash qoidasini buzdi||har ikkisi buzdi|har ikkisi ham buzmadi|yashil avtomobil": {
+  "options": {
+   "har ikkisi buzdi": "Оба нарушили",
+   "har ikkisi ham buzmadi": "Оба не нарушили",
+   "yashil avtomobil": "Зелёный автомобиль"
+  },
+  "question": "Какой автомобиль нарушил правила остановки?",
+  "uz": "Qaysi avtomobil to'xtash qoidasini buzdi?"
+ },
+ "qaysi belgi falokatli holatlar uchun kirish yo'lini bildiradi||a va d|s|v": {
+  "options": {
+   "a va d": "А и Д",
+   "s": "С",
+   "v": "В"
+  },
+  "question": "Какой знак обозначает аварийный въезд?",
+  "uz": "Qaysi belgi falokatli holatlar uchun kirish yo'lini bildiradi?"
+ },
+ "qaysi belgi haydovchiga kesib o'tilayotgan yo'lda harakatlanayotgan transport vositalariga yo'l berish lozimligini bildiradi||a|b|b va g|g|v": {
+  "options": {
+   "a": "А",
+   "b": "Б",
+   "b va g": "Б и Г",
+   "g": "Г",
+   "v": "В"
+  },
+  "question": "Какой знак означает, что водитель должен уступить дорогу транспортным средствам, движущимся по пересекаемой дороге?",
+  "uz": "Qaysi belgi haydovchiga kesib o'tilayotgan yo'lda harakatlanayotgan transport vositalariga yo'l berish lozimligini bildiradi?"
+ },
+ "qaysi belgi piyodalar utish joyini bildiradi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какой знак обозначает пешеходный переход?",
+  "uz": "Qaysi belgi piyodalar utish joyini bildiradi?"
+ },
+ "qaysi belgi svetaforning tartibga soluvchining taqiqlovchi ishorasida transport vositalari to'xtaydigan joyni bildiradi||a|b|g|v": {
+  "options": {
+   "a": "А",
+   "b": "Б",
+   "g": "Г",
+   "v": "В"
+  },
+  "question": "Какой знак обозначает место остановки транспортных средств при запрещающем сигнале светофора (регулировщика)?",
+  "uz": "Qaysi belgi svetaforning (tartibga soluvchining) taqiqlovchi ishorasida transport vositalari to'xtaydigan joyni bildiradi?"
+ },
+ "qaysi belgi to'xtash chizig'i oldida u bo'lmaganda kesib o'tiladigan qatnov qismining chetida to'xtamasdan harakatlanishni taqiqlaydi||a|a va g|b|b va v|g": {
+  "options": {
+   "a": "А",
+   "a va g": "А и Г",
+   "b": "Б",
+   "b va v": "Б и В",
+   "g": "Г"
+  },
+  "question": "Какой знак запрещает движение без остановки перед стоп-линией, а при её отсутствии — перед краем пересекаемой проезжей части?",
+  "uz": "Qaysi belgi to'xtash chizig'i oldida, u bo'lmaganda, kesib o'tiladigan qatnov qismining chetida to'xtamasdan harakatlanishni taqiqlaydi?"
+ },
+ "qaysi belgi velosiped yo'lkasini ko'rsatadi||a|s|v": {
+  "options": {
+   "a": "А",
+   "s": "С",
+   "v": "В"
+  },
+  "question": "Какой знак обозначает велосипедную дорожку?",
+  "uz": "Qaysi belgi velosiped yo'lkasini ko'rsatadi?"
+ },
+ "qaysi belgi velosipedchilar va individual harakatlanish vositalari uchun tasmani bildiradi||1|2|3": {
+  "options": {
+   "1": "1",
+   "2": "2",
+   "3": "3"
+  },
+  "question": "Какой знак обозначает полосу для велосипедистов и средств индивидуальной мобильности?",
+  "uz": "Qaysi belgi velosipedchilar va individual harakatlanish vositalari uchun tasmani bildiradi?"
+ },
+ "qaysi belgi xavfli yuk tashiyotgan transport vositalarining harakatlanishini taqiqlangan deb nomlanadi||a|s|v": {
+  "options": {
+   "a": "А",
+   "s": "С",
+   "v": "В"
+  },
+  "question": "Какой знак называется «Движение транспортных средств с опасными грузами запрещено»?",
+  "uz": "Qaysi belgi \"Xavfli yuk tashiyotgan transport vositalarining harakatlanishini taqiqlangan\" deb nomlanadi?"
+ },
+ "qaysi belgi yo'lning tor qismlarida ro'paradan kelayotgan transport vositasiga yo'l berish lozimligini bildiradi||a|a va g|b|b va v|g": {
+  "options": {
+   "a": "А",
+   "a va g": "А и Г",
+   "b": "Б",
+   "b va v": "Б и В",
+   "g": "Г"
+  },
+  "question": "Какой знак означает, что на узких участках дороги необходимо уступить дорогу встречному транспортному средству?",
+  "uz": "Qaysi belgi yo'lning tor qismlarida ro'paradan kelayotgan transport vositasiga yo'l berish lozimligini bildiradi?"
+ },
+ "qaysi belgilar yuk avtomobillariga quvib o'tish taqiqlangan hududning oxirini bildiradi||a|a b v|a va b|b": {
+  "options": {
+   "a": "А",
+   "a b v": "А, Б, В",
+   "a va b": "А и Б",
+   "b": "Б"
+  },
+  "question": "Какие знаки обозначают конец зоны запрещения обгона для грузовых автомобилей?",
+  "uz": "Qaysi belgilar yuk avtomobillariga quvib o'tish taqiqlangan hududning oxirini bildiradi?"
+ },
+ "qaysi belgilarda oyning juft kunlarida tuxtash mumkin||chapdagi rasmda|o'ngdagi rasmda|xar ikkisida mumkun": {
+  "options": {
+   "chapdagi rasmda": "На левом рисунке",
+   "o'ngdagi rasmda": "На правом рисунке",
+   "xar ikkisida mumkun": "Можно при обоих"
+  },
+  "question": "При каких знаках можно останавливаться по чётным числам месяца?",
+  "uz": "Qaysi belgilarda oyning juft kunlarida tuxtash mumkin?"
+ },
+ "qaysi haydovchi to'xtab turish qoidasini buzmagan||hech kim buzmadi|mototsikl haydovchisi|trotuarda to'xtab turgan avtomobil haydovchisi": {
+  "options": {
+   "hech kim buzmadi": "Никто не нарушил",
+   "mototsikl haydovchisi": "Водитель мотоцикла",
+   "trotuarda to'xtab turgan avtomobil haydovchisi": "Водитель автомобиля, стоящего на тротуаре"
+  },
+  "question": "Какой водитель не нарушил правила стоянки?",
+  "uz": "Qaysi haydovchi to'xtab turish qoidasini buzmagan?"
+ },
+ "qaysi holatda yengil avtomobillarning tormoz tizimi nosoz deb hisoblanadi va ulardan foydalanish taqiqlanadi soatiga 40 km tezlikda tormoz berilganda||barcha sanab o'tilganlarda|tormozlanish yo'li 1981 yil 1 yanvardan keyin ishlab chiqarilgan avtomobillar uchun 12 2 metrdan ortiq bo'lsa|tormozlanish yo'li 1981 yil 1 yanvargacha ishlab chiqarilgan avtomobillar uchun 14 5 metrdan ortiq bo'lsa": {
+  "options": {
+   "barcha sanab o'tilganlarda": "Во всех перечисленных случаях",
+   "tormozlanish yo'li 1981 yil 1 yanvardan keyin ishlab chiqarilgan avtomobillar uchun 12 2 metrdan ortiq bo'lsa": "Если тормозной путь автомобилей, выпущенных после 1 января 1981 года, превышает 12,2 метра",
+   "tormozlanish yo'li 1981 yil 1 yanvargacha ishlab chiqarilgan avtomobillar uchun 14 5 metrdan ortiq bo'lsa": "Если тормозной путь автомобилей, выпущенных до 1 января 1981 года, превышает 14,5 метра"
+  },
+  "question": "В каком случае тормозная система легковых автомобилей считается неисправной и их эксплуатация запрещается (при торможении со скорости 40 км/ч)?",
+  "uz": "Qaysi holatda yengil avtomobillarning tormoz tizimi nosoz deb hisoblanadi va ulardan foydalanish taqiqlanadi (soatiga 40 km tezlikda tormoz berilganda)?"
+ },
+ "qaysi javobda ruxsat etilgan harakatlanish yo'nalishlari to'g'ri ko'rsatilgan||a|a va b|a va v|b|v": {
+  "options": {
+   "a": "«А»",
+   "a va b": "«А» и «Б»",
+   "a va v": "«А» и «В»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "В каком ответе правильно указаны разрешённые направления движения?",
+  "uz": "Qaysi javobda ruxsat etilgan harakatlanish yo'nalishlari to'g'ri ko'rsatilgan?"
+ },
+ "qaysi rasmda ajratuvchi mintaqa ko'rsatilgan||a|a va b|b|hech qaysida": {
+  "options": {
+   "a": "А",
+   "a va b": "А и Б",
+   "b": "Б",
+   "hech qaysida": "Ни на одном"
+  },
+  "question": "На каком рисунке показана разделительная полоса?",
+  "uz": "Qaysi rasmda ajratuvchi mintaqa ko'rsatilgan?"
+ },
+ "qaysi rasmda ikkita qatnov qismiga ega yo'l ko'rsatilingan||birinchisida|ikkala rasmda|ikkinchisida": {
+  "options": {
+   "birinchisida": "На первом",
+   "ikkala rasmda": "На обоих рисунках",
+   "ikkinchisida": "На втором"
+  },
+  "question": "На каком рисунке показана дорога, имеющая две проезжие части?",
+  "uz": "Qaysi rasmda ikkita qatnov qismiga ega yo'l ko'rsatilingan?"
+ },
+ "qaysi rasmda piyodalarning tashkiliy jamlanmasi yo'lning qatnov qismida qoidani buzmay xarakatlanmokda||1|1 2|2": {
+  "options": {
+   "1": "1",
+   "1 2": "1, 2",
+   "2": "2"
+  },
+  "question": "На каком рисунке организованная группа пешеходов движется по проезжей части без нарушения правил?",
+  "uz": "Qaysi rasmda piyodalarning tashkiliy jamlanmasi yo'lning qatnov qismida qoidani buzmay xarakatlanmokda?"
+ },
+ "qaysi rasmda quvib o'tish taqiqlanadi||1 2 va 3|1 va 3|2 va 3|faqat 2": {
+  "options": {
+   "1 2 va 3": "1, 2 и 3",
+   "1 va 3": "1 и 3",
+   "2 va 3": "2 и 3",
+   "faqat 2": "Только 2"
+  },
+  "question": "На каком рисунке обгон запрещён?",
+  "uz": "Qaysi rasmda quvib o'tish taqiqlanadi?"
+ },
+ "qaysi rasmdagi avtomobil haydovchisi yuk tashish qoidasini buzayapti||a|a va b|b": {
+  "options": {
+   "a": "А",
+   "a va b": "А и Б",
+   "b": "Б"
+  },
+  "question": "На каком рисунке водитель автомобиля нарушает правила перевозки грузов?",
+  "uz": "Qaysi rasmdagi avtomobil haydovchisi yuk tashish qoidasini buzayapti?"
+ },
+ "qaysi rasmdagi avtomobil haydovchisiga to'g'riga harakatlanishga ruxsat etilgan||1 rasmdagi avtomobil haydovchisiga|2 rasmdagi avtomobil haydovchisiga|har ikki rasmdagi avtomobil haydovchisiga ruxsat etilgan|har ikki rasmdagi avtomobil haydovchisiga taqiqlangan": {
+  "options": {
+   "1 rasmdagi avtomobil haydovchisiga": "Водителю автомобиля на рисунке 1",
+   "2 rasmdagi avtomobil haydovchisiga": "Водителю автомобиля на рисунке 2",
+   "har ikki rasmdagi avtomobil haydovchisiga ruxsat etilgan": "Разрешено водителям автомобилей на обоих рисунках",
+   "har ikki rasmdagi avtomobil haydovchisiga taqiqlangan": "Запрещено водителям автомобилей на обоих рисунках"
+  },
+  "question": "На каком рисунке водителю автомобиля разрешено движение прямо?",
+  "uz": "Qaysi rasmdagi avtomobil haydovchisiga to'g'riga harakatlanishga ruxsat etilgan?"
+ },
+ "qaysi rasmdagi piyoda qatnov qismini qoidani buzgan holda kesib o'tadi||ikkinchi rasmda|ikkinchi uchinchi va to'rtinchi rasmlarda|ikkinchi va uchinchi rasmlarda|uchinchi rasmda|uchinchi va to'rtinchi rasmlarda": {
+  "options": {
+   "ikkinchi rasmda": "На втором рисунке",
+   "ikkinchi uchinchi va to'rtinchi rasmlarda": "На втором, третьем и четвёртом рисунках",
+   "ikkinchi va uchinchi rasmlarda": "На втором и третьем рисунках",
+   "uchinchi rasmda": "На третьем рисунке",
+   "uchinchi va to'rtinchi rasmlarda": "На третьем и четвёртом рисунках"
+  },
+  "question": "На каком рисунке пешеход переходит проезжую часть с нарушением правил?",
+  "uz": "Qaysi rasmdagi piyoda qatnov qismini qoidani buzgan holda kesib o'tadi?"
+ },
+ "qaysi rasmdagi piyoda qatnov qismini qoidani buzmagan holda kesib o'tadi||birinchi ikkinchi to'rtinchi rasmlarda|ikkinchi uchinchi va to'rtinchi rasmlarda|ikkinchi va uchinchi rasmlarda|uchinchi va to'rtinchi rasmlarda": {
+  "options": {
+   "birinchi ikkinchi to'rtinchi rasmlarda": "На первом, втором и четвёртом рисунках",
+   "ikkinchi uchinchi va to'rtinchi rasmlarda": "На втором, третьем и четвёртом рисунках",
+   "ikkinchi va uchinchi rasmlarda": "На втором и третьем рисунках",
+   "uchinchi va to'rtinchi rasmlarda": "На третьем и четвёртом рисунках"
+  },
+  "question": "На каком рисунке пешеход переходит проезжую часть без нарушения правил?",
+  "uz": "Qaysi rasmdagi piyoda qatnov qismini qoidani buzmagan holda kesib o'tadi?"
+ },
+ "qaysi rasmdagi qizil avtomobil haydovchisi yo'l berishi kerak||1 rasmdagi qizil avtomobil haydovchisi|2 rasmdagi qizil avtomobil haydovchisi|har ikki rasmdagi qizil avtomobil haydovchisi": {
+  "options": {
+   "1 rasmdagi qizil avtomobil haydovchisi": "Водитель красного автомобиля на рисунке 1",
+   "2 rasmdagi qizil avtomobil haydovchisi": "Водитель красного автомобиля на рисунке 2",
+   "har ikki rasmdagi qizil avtomobil haydovchisi": "Водители красного автомобиля на обоих рисунках"
+  },
+  "question": "На каком рисунке водитель красного автомобиля должен уступить дорогу?",
+  "uz": "Qaysi rasmdagi qizil avtomobil haydovchisi yo'l berishi kerak?"
+ },
+ "qaysi rasmdagi xaydovchilar tuxtash qoidasini buzdilar||1|1 2|1 3|2|3": {
+  "options": {
+   "1": "1",
+   "1 2": "1, 2",
+   "1 3": "1, 3",
+   "2": "2",
+   "3": "3"
+  },
+  "question": "На каком рисунке водители нарушили правила остановки?",
+  "uz": "Qaysi rasmdagi xaydovchilar tuxtash qoidasini buzdilar?"
+ },
+ "qaysi rasmlarda quvib o'tish ko'rsatilgan||barcha rasmlarda|faqat birinchi ikkinchi va to'rtinchi rasmlarda|faqat birinchi rasmda|faqat birinchi va ikkinchi rasmlarda|faqat birinchi va uchinchi rasmlarda": {
+  "options": {
+   "barcha rasmlarda": "На всех рисунках",
+   "faqat birinchi ikkinchi va to'rtinchi rasmlarda": "Только на первом, втором и четвёртом рисунках",
+   "faqat birinchi rasmda": "Только на первом рисунке",
+   "faqat birinchi va ikkinchi rasmlarda": "Только на первом и втором рисунках",
+   "faqat birinchi va uchinchi rasmlarda": "Только на первом и третьем рисунках"
+  },
+  "question": "На каких рисунках показан обгон?",
+  "uz": "Qaysi rasmlarda quvib o'tish ko'rsatilgan?"
+ },
+ "qaysi transport vositalariga harakatlanishga ruxsat etiladi||qizil sariq va yashil avtomobillarga|yashil ko'k va qizil avtomobillarga|yashil ko'k va qora avtomobillarga": {
+  "options": {
+   "qizil sariq va yashil avtomobillarga": "Красному, жёлтому и зелёному автомобилям",
+   "yashil ko'k va qizil avtomobillarga": "Зелёному, синему и красному автомобилям",
+   "yashil ko'k va qora avtomobillarga": "Зелёному, синему и чёрному автомобилям"
+  },
+  "question": "Каким транспортным средствам разрешено движение?",
+  "uz": "Qaysi transport vositalariga harakatlanishga ruxsat etiladi?"
+ },
+ "qaysi transport vositalariga yo'lovchilarni tushurishga ruxsat etiladi||a|b|v|xech qaysi biriga": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»",
+   "xech qaysi biriga": "Ни одному из них"
+  },
+  "question": "Каким транспортным средствам разрешается высадка пассажиров?",
+  "uz": "Qaysi transport vositalariga yo'lovchilarni tushurishga ruxsat etiladi?"
+ },
+ "qaysi transport vositalarining haydovchilari to'xtab turish qoidasini buzdilar||a va b|b v va g|b va g|faqat g|v va g": {
+  "options": {
+   "a va b": "«А» и «Б»",
+   "b v va g": "«Б», «В» и «Г»",
+   "b va g": "«Б» и «Г»",
+   "faqat g": "Только «Г»",
+   "v va g": "«В» и «Г»"
+  },
+  "question": "Водители каких транспортных средств нарушили правила стоянки?",
+  "uz": "Qaysi transport vositalarining haydovchilari to'xtab turish qoidasini buzdilar?"
+ },
+ "qaysi transport vositasi birinchi harakatlanish huquqiga ega||bir vaqtda harakatlanishi mumkin|ppx ichki ishlar xizmati avtomobili|tez yordam avtomobil|yong'in xavfsizligi xizmati avtomobili": {
+  "options": {
+   "bir vaqtda harakatlanishi mumkin": "Могут двигаться одновременно",
+   "ppx ichki ishlar xizmati avtomobili": "Автомобиль ППС (службы внутренних дел)",
+   "tez yordam avtomobil": "Автомобиль скорой медицинской помощи",
+   "yong'in xavfsizligi xizmati avtomobili": "Автомобиль пожарной службы"
+  },
+  "question": "Какое транспортное средство имеет право двигаться первым?",
+  "uz": "Qaysi transport vositasi birinchi harakatlanish huquqiga ega?"
+ },
+ "qaysi transport vositasi birinchi harakatlanish huquqiga ega||ko'k avtomobil|qizil avtomobil": {
+  "options": {
+   "ko'k avtomobil": "Синий автомобиль",
+   "qizil avtomobil": "Красный автомобиль"
+  },
+  "question": "Какое транспортное средство имеет право двигаться первым?",
+  "uz": "Qaysi transport vositasi birinchi harakatlanish huquqiga ega?"
+ },
+ "qaysi transport vositasi oxirgi bo'lib harakatlanadi||avtobus|barchasi bir vaqtda|yengil avtomobil|yuk avtomobili": {
+  "options": {
+   "avtobus": "Автобус",
+   "barchasi bir vaqtda": "Все одновременно",
+   "yengil avtomobil": "Легковой автомобиль",
+   "yuk avtomobili": "Грузовой автомобиль"
+  },
+  "question": "Какое транспортное средство будет двигаться последним?",
+  "uz": "Qaysi transport vositasi oxirgi bo‘lib harakatlanadi?"
+ },
+ "qaysi transport vositasi qayta tizilishda imtiyozga ega||o'zaro kelishgan holda|oq|qizil": {
+  "options": {
+   "o'zaro kelishgan holda": "По взаимной договорённости",
+   "oq": "Белое",
+   "qizil": "Красное"
+  },
+  "question": "Какое транспортное средство имеет преимущество при перестроении?",
+  "uz": "Qaysi transport vositasi qayta tizilishda imtiyozga ega?"
+ },
+ "qaysi transport vositasi to'g'ri harakatlanmoqda||barchasi to'g'ri|qizil va sariq avtomobil|sariq va yashil avtomobil|yashil va qizil avtomobil": {
+  "options": {
+   "barchasi to'g'ri": "Все правильно",
+   "qizil va sariq avtomobil": "Красный и жёлтый автомобили",
+   "sariq va yashil avtomobil": "Жёлтый и зелёный автомобили",
+   "yashil va qizil avtomobil": "Зелёный и красный автомобили"
+  },
+  "question": "Какое транспортное средство движется правильно?",
+  "uz": "Qaysi transport vositasi to'g'ri harakatlanmoqda?"
+ },
+ "qaysi transport vositasi yo'l berishi kerak||ko'k|o'zaro kelishuvga binoan harakatlanish|qizil": {
+  "options": {
+   "ko'k": "Синее",
+   "o'zaro kelishuvga binoan harakatlanish": "Движение по взаимной договорённости",
+   "qizil": "Красное"
+  },
+  "question": "Какое транспортное средство должно уступить дорогу?",
+  "uz": "Qaysi transport vositasi yo'l berishi kerak?"
+ },
+ "qaysi transport vositasi yo'l berishi kerak||oq avtomobil|yashil avtomobil": {
+  "options": {
+   "oq avtomobil": "Белый автомобиль",
+   "yashil avtomobil": "Зелёный автомобиль"
+  },
+  "question": "Какое транспортное средство должно уступить дорогу?",
+  "uz": "Qaysi transport vositasi yo‘l berishi kerak?"
+ },
+ "qaysi transport vositasi yo'l berishi kerak||qizil avtomobil|yashil avtomobil": {
+  "options": {
+   "qizil avtomobil": "Красный автомобиль",
+   "yashil avtomobil": "Зелёный автомобиль"
+  },
+  "question": "Какое транспортное средство должно уступить дорогу?",
+  "uz": "Qaysi transport vositasi yo'l berishi kerak?"
+ },
+ "qaysi transport vositasining haydovchisi to'xtash qoidasini buzdi||faqat avtomobil haydovchisi|faqat mototsikl haydovchisi|har ikkisi buzdi|hech kim buzmadi": {
+  "options": {
+   "faqat avtomobil haydovchisi": "Только водитель автомобиля",
+   "faqat mototsikl haydovchisi": "Только водитель мотоцикла",
+   "har ikkisi buzdi": "Оба нарушили",
+   "hech kim buzmadi": "Никто не нарушил"
+  },
+  "question": "Водитель какого транспортного средства нарушил правила остановки?",
+  "uz": "Qaysi transport vositasining haydovchisi to'xtash qoidasini buzdi?"
+ },
+ "qaysi transport vositasining haydovchisi yo'l berishi kerak||tez yordam avtomobilining haydovchisi|yengil avtomobilining haydovchisi": {
+  "options": {
+   "tez yordam avtomobilining haydovchisi": "Водитель автомобиля скорой медицинской помощи",
+   "yengil avtomobilining haydovchisi": "Водитель легкового автомобиля"
+  },
+  "question": "Водитель какого транспортного средства должен уступить дорогу?",
+  "uz": "Qaysi transport vositasining haydovchisi yo'l berishi kerak?"
+ },
+ "qaysi transport vositasining haydovchisi yo'naltirgich bo'yicha burilayotib qoidani buzadi||har ikki haydovchi buzadi|har ikki haydovchi buzmadi|ko'k avtomobil haydovchisi|sariq avtomobil haydovchisi": {
+  "options": {
+   "har ikki haydovchi buzadi": "Оба водителя нарушают",
+   "har ikki haydovchi buzmadi": "Оба водителя не нарушили",
+   "ko'k avtomobil haydovchisi": "Водитель синего автомобиля",
+   "sariq avtomobil haydovchisi": "Водитель жёлтого автомобиля"
+  },
+  "question": "Водитель какого транспортного средства нарушает правила, поворачивая по стрелке?",
+  "uz": "Qaysi transport vositasining haydovchisi yo‘naltirgich bo‘yicha burilayotib qoidani buzadi?"
+ },
+ "qaysi transport vositasining xaydovchisi axoli punktlarida to'xtash qoidasini buzmoqda||ko'k avtomobil xaydovchisi|sariq avtomobil xaydovchisi|xar ikkisi buzdi|xar ikkisi buzmadi": {
+  "options": {
+   "ko'k avtomobil xaydovchisi": "Водитель синего автомобиля",
+   "sariq avtomobil xaydovchisi": "Водитель жёлтого автомобиля",
+   "xar ikkisi buzdi": "Оба нарушили",
+   "xar ikkisi buzmadi": "Оба не нарушили"
+  },
+  "question": "Водитель какого транспортного средства нарушает правила остановки в населённом пункте?",
+  "uz": "Qaysi transport vositasining xaydovchisi axoli punktlarida to'xtash qoidasini buzmoqda?"
+ },
+ "qaysi yo'l belgilari yo'lning tor qismida haydovchiga ustunlik beradi||a va v|b va g|b va v|v": {
+  "options": {
+   "a va v": "А и В",
+   "b va g": "Б и Г",
+   "b va v": "Б и В",
+   "v": "В"
+  },
+  "question": "Какие дорожные знаки дают водителю преимущество на узком участке дороги?",
+  "uz": "Qaysi yo'l belgilari yo'lning tor qismida haydovchiga ustunlik beradi?"
+ },
+ "qaysi yo'l belgisi barcha transport vositalarining harakatini istisnosiz taqiqlaydi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какой дорожный знак запрещает движение всех транспортных средств без исключения?",
+  "uz": "Qaysi yo'l belgisi barcha transport vositalarining harakatini istisnosiz taqiqlaydi?"
+ },
+ "qaysi yo'ldan harakatlanishga ruxsat etilgan||a|a va b|b": {
+  "options": {
+   "a": "«А»",
+   "a va b": "«А» и «Б»",
+   "b": "«Б»"
+  },
+  "question": "По какой дороге разрешено движение?",
+  "uz": "Qaysi yo'ldan harakatlanishga ruxsat etilgan?"
+ },
+ "qaysi yo'nalishda qayrilib olishga ruxsat beradi||barchasi|faqat a va c|faqat b|faqat c": {
+  "options": {
+   "barchasi": "Во всех",
+   "faqat a va c": "Только А и С",
+   "faqat b": "Только Б",
+   "faqat c": "Только С"
+  },
+  "question": "В каком направлении разрешается разворот?",
+  "uz": "Qaysi yo‘nalishda qayrilib olishga ruxsat beradi?"
+ },
+ "qaysi yo'nalishlarda harakatlanishga ruxsat etilgan||a b v va g|a b va v|a va b|faqat a|faqat b": {
+  "options": {
+   "a b v va g": "«А», «Б», «В» и «Г»",
+   "a b va v": "«А», «Б» и «В»",
+   "a va b": "«А» и «Б»",
+   "faqat a": "Только «А»",
+   "faqat b": "Только «Б»"
+  },
+  "question": "В каких направлениях разрешено движение?",
+  "uz": "Qaysi yo'nalishlarda harakatlanishga ruxsat etilgan?"
+ },
+ "qaysi yo'nalishlarga harakatlanishga ruxsat etiladi||barcha yo'nalishlarga|barcha yo'nalishlarga o'nga burilish va qayrilishdan tashqari|faqat to'g'riga|to'g'riga chapga va qayrilishga": {
+  "options": {
+   "barcha yo'nalishlarga": "Во всех направлениях",
+   "barcha yo'nalishlarga o'nga burilish va qayrilishdan tashqari": "Во всех направлениях, кроме поворота направо и разворота",
+   "faqat to'g'riga": "Только прямо",
+   "to'g'riga chapga va qayrilishga": "Прямо, налево и разворот"
+  },
+  "question": "В каких направлениях разрешено движение?",
+  "uz": "Qaysi yo‘nalishlarga harakatlanishga ruxsat etiladi?"
+ },
+ "qaysi yo'nalishlarga harakatlanishga ruxsat etiladi||barcha yo'nalishlarga|barcha yo'nalishlarga o'ngga burilish va qayrilishdan tashqari|faqat to'g'riga|to'g'riga chapga va qayrilishga": {
+  "options": {
+   "barcha yo'nalishlarga": "Во всех направлениях",
+   "barcha yo'nalishlarga o'ngga burilish va qayrilishdan tashqari": "Во всех направлениях, кроме поворота направо и разворота",
+   "faqat to'g'riga": "Только прямо",
+   "to'g'riga chapga va qayrilishga": "Прямо, налево и разворот"
+  },
+  "question": "В каких направлениях разрешено движение?",
+  "uz": "Qaysi yo'nalishlarga harakatlanishga ruxsat etiladi?"
+ },
+ "qaysi yotik yo'l chizigi baland piyodalar utish joyini bildiradi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какая линия горизонтальной разметки обозначает приподнятый пешеходный переход?",
+  "uz": "Qaysi yotik yo'l chizigi baland piyodalar utish joyini bildiradi?"
+ },
+ "qaysi yotiq yo'l chizig'i avtomobil yo'llarida 3d kurinishidagi baland piyodalar utish joyini bildiradi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какая линия горизонтальной разметки обозначает на автомобильных дорогах приподнятый пешеходный переход в 3D-исполнении?",
+  "uz": "Qaysi yotiq yo'l chizig'i avtomobil yo'llarida 3D kurinishidagi baland piyodalar utish joyini bildiradi?"
+ },
+ "qaysi yotiq yo'l chizig'i avtomobil yo'llarida 3d kurinishidagi piyodalar utish joyini bildiradi||a|b|v": {
+  "options": {
+   "a": "«А»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какая линия горизонтальной разметки обозначает на автомобильных дорогах пешеходный переход в 3D-исполнении?",
+  "uz": "Qaysi yotiq yo'l chizig'i avtomobil yo'llarida 3D kurinishidagi piyodalar utish joyini bildiradi?"
+ },
+ "qizil avtomobil chorrahani kesib o'tadi||birinchi bo'lib|ikkinchi bo'lib|uchinchi bo'lib": {
+  "options": {
+   "birinchi bo'lib": "Первым",
+   "ikkinchi bo'lib": "Вторым",
+   "uchinchi bo'lib": "Третьим"
+  },
+  "question": "Красный автомобиль проедет перекрёсток:",
+  "uz": "Qizil avtomobil chorrahani kesib o'tadi:"
+ },
+ "qizil avtomobil chorrahani nechanchi bo'lib kesib o'tadi||ikkinchi bo'lib ayni vaqtda ko'k bilan birga|ikkinchi bo'lib sariqdan keyin|uchinchi bo'lib yashil sariqdan keyin": {
+  "options": {
+   "ikkinchi bo'lib ayni vaqtda ko'k bilan birga": "Вторым, одновременно с синим",
+   "ikkinchi bo'lib sariqdan keyin": "Вторым, после жёлтого",
+   "uchinchi bo'lib yashil sariqdan keyin": "Третьим, после зелёного и жёлтого"
+  },
+  "question": "Каким по очереди красный автомобиль проедет перекрёсток?",
+  "uz": "Qizil avtomobil chorrahani nechanchi bo'lib kesib o'tadi?"
+ },
+ "qizil avtomobil haydovchisi qoidani buzib harakatlanmoqdami||buzdi|buzmadi": {
+  "options": {
+   "buzdi": "Нарушил",
+   "buzmadi": "Не нарушил"
+  },
+  "question": "Движется ли водитель красного автомобиля с нарушением правил?",
+  "uz": "Qizil avtomobil haydovchisi qoidani buzib harakatlanmoqdami?"
+ },
+ "qizil avtomobil xaydovchisi qaysi yo'nalishlarda xarakatlanishiga ruxsat berilgan||chapga va qayrilib olishga|faqat chapga|to'g'riga va chapga": {
+  "options": {
+   "chapga va qayrilib olishga": "Налево и разворот",
+   "faqat chapga": "Только налево",
+   "to'g'riga va chapga": "Прямо и налево"
+  },
+  "question": "В каких направлениях разрешено движение водителю красного автомобиля?",
+  "uz": "Qizil avtomobil xaydovchisi qaysi yo'nalishlarda xarakatlanishiga ruxsat berilgan?"
+ },
+ "qizil avtomobilga qaysi yo'nalishlar bo'yicha harakatlanishga ruxsat etiladi||faqat chapga|faqat to'g'riga|to'g'riga va chapga|to'g'riga va qayrilib olishga": {
+  "options": {
+   "faqat chapga": "Только налево",
+   "faqat to'g'riga": "Только прямо",
+   "to'g'riga va chapga": "Прямо и налево",
+   "to'g'riga va qayrilib olishga": "Прямо и разворот"
+  },
+  "question": "В каких направлениях разрешено движение красному автомобилю?",
+  "uz": "Qizil avtomobilga qaysi yo'nalishlar bo'yicha harakatlanishga ruxsat etiladi?"
+ },
+ "qizil avtomobilning haydovchisi yalt yalt etuvchi chiroq mayoqcha va maxsus tovushli ishora yoqilgan transport vositasiga yaqinlashib kelayotganda nima qilishi kerak||harakat bo'lagini o'zgartirmasdan to'xtashi va majburiy to'xtash chiroqlarini yoqishi|tezlikni pasaytirish va boshqa qatorga o'tish bilan bog'liq keskin manyovrlarga yo'l qo'ymasdan harakatni davom ettirish|yo'l berishi": {
+  "options": {
+   "harakat bo'lagini o'zgartirmasdan to'xtashi va majburiy to'xtash chiroqlarini yoqishi": "Остановиться, не меняя полосы движения, и включить аварийную сигнализацию",
+   "tezlikni pasaytirish va boshqa qatorga o'tish bilan bog'liq keskin manyovrlarga yo'l qo'ymasdan harakatni davom ettirish": "Продолжить движение, снизив скорость и не допуская резких манёвров, связанных с перестроением",
+   "yo'l berishi": "Уступить дорогу"
+  },
+  "question": "Как должен поступить водитель красного автомобиля при приближении транспортного средства с включёнными проблесковым маячком и специальным звуковым сигналом?",
+  "uz": "Qizil avtomobilning haydovchisi, yalt-yalt etuvchi chiroq-mayoqcha va maxsus tovushli ishora yoqilgan transport vositasiga yaqinlashib kelayotganda nima qilishi kerak?"
+ },
+ "qo'l jarohatlanganda jabrlanuvchining ko'ylagi kiyimi qanday yechilsa to'g'ri bo'ladi||kiyim boshni ikkala qo'ldan bir vaqtda yechish|kiyim boshni yechishni kasal qo'ldan boshlash so'ng sog' qo'lni bo'shatish|kiyim boshni yechishni sog' qo'ldan boshlash so'ng kasal qo'lni bo'shatish": {
+  "options": {
+   "kiyim boshni ikkala qo'ldan bir vaqtda yechish": "Снимать одежду одновременно с обеих рук",
+   "kiyim boshni yechishni kasal qo'ldan boshlash so'ng sog' qo'lni bo'shatish": "Начать снимать одежду с больной руки, затем освободить здоровую руку",
+   "kiyim boshni yechishni sog' qo'ldan boshlash so'ng kasal qo'lni bo'shatish": "Начать снимать одежду со здоровой руки, затем освободить больную руку"
+  },
+  "question": "Как правильно снять рубашку, одежду с пострадавшего при травме руки?",
+  "uz": "Qo'l jarohatlanganda jabrlanuvchining ko'ylagi, kiyimi qanday yechilsa to'g'ri bo'ladi?"
+ },
+ "qoidalarda nechta asosiy tushuncha va atamalardan foydalaniladi||56|65|77|78": {
+  "options": {
+   "56": "56",
+   "65": "65",
+   "77": "77",
+   "78": "78"
+  },
+  "question": "Сколько основных понятий и терминов используется в Правилах?",
+  "uz": "Qoidalarda nechta asosiy tushuncha va atamalardan foydalaniladi?"
+ },
+ "qora avtomobil qaysi transport vositasiga yo'l berishi kerak||faqat ko'k avtomobilga|faqat oq avtomobilga|har ikki avtomobilga|hech qaysi biriga": {
+  "options": {
+   "faqat ko'k avtomobilga": "Только синему автомобилю",
+   "faqat oq avtomobilga": "Только белому автомобилю",
+   "har ikki avtomobilga": "Обоим автомобилям",
+   "hech qaysi biriga": "Ни одному из них"
+  },
+  "question": "Какому транспортному средству должен уступить дорогу чёрный автомобиль?",
+  "uz": "Qora avtomobil qaysi transport vositasiga yo'l berishi kerak?"
+ },
+ "qornidan yopiq jarohat olgan jabrlanuvchi qanday tashiladi||yarim o'tkazilgan holatda tizzalari tanaga yaqinlashtiriladi|yonboshi yoki orqasiga yotqizilgan holatda lat egan joyga issiq grelka qo'yiladi|yotqizilgan holatda lat egan joyiga sovuq narsa muz malham qo'yiladi": {
+  "options": {
+   "yarim o'tkazilgan holatda tizzalari tanaga yaqinlashtiriladi": "В полусидячем положении, колени подтянуты к животу",
+   "yonboshi yoki orqasiga yotqizilgan holatda lat egan joyga issiq grelka qo'yiladi": "В положении лёжа на боку или на спине, к месту ушиба прикладывают тёплую грелку",
+   "yotqizilgan holatda lat egan joyiga sovuq narsa muz malham qo'yiladi": "В положении лёжа, к месту ушиба прикладывают холод (лёд, компресс)"
+  },
+  "question": "Как транспортируют пострадавшего с закрытой травмой живота?",
+  "uz": "Qornidan yopiq jarohat olgan jabrlanuvchi qanday tashiladi?"
+ },
+ "quvib o'tishga taalluqli belgilarni ko'rsating||a va b|a va s|b va s": {
+  "options": {
+   "a va b": "А и Б",
+   "a va s": "А и С",
+   "b va s": "Б и С"
+  },
+  "question": "Укажите знаки, относящиеся к обгону.",
+  "uz": "Quvib o'tishga taalluqli belgilarni ko'rsating?"
+ },
+ "quvib o'tishni boshlashdan oldin haydovchi shunga ishonch hosil qilishi kerakki||barcha ko'rsatilgan harakatlarni bajara olishida|quvib o'tishni tugallaganda quvib o'tilayotgan transport vositasiga to'sqinlik tug'dirmasdan ilgarigi egallagan bo'lagiga qayta olishiga|shu bo'lakda oldinda ketayotgan transport vositasining haydovchisi burilishga chapga qayta tizilishga ishora bermaganligiga|to'sqinlik tug'dirishi mumkin bo'lgan o'zidan keyin kelayotgan biron bir haydovchi quvib o'tishni boshlamagan bo'lsa": {
+  "options": {
+   "barcha ko'rsatilgan harakatlarni bajara olishida": "Он может выполнить все указанные действия",
+   "quvib o'tishni tugallaganda quvib o'tilayotgan transport vositasiga to'sqinlik tug'dirmasdan ilgarigi egallagan bo'lagiga qayta olishiga": "По завершении обгона он сможет, не создавая помех обгоняемому транспортному средству, вернуться на ранее занимаемую полосу",
+   "shu bo'lakda oldinda ketayotgan transport vositasining haydovchisi burilishga chapga qayta tizilishga ishora bermaganligiga": "Водитель транспортного средства, движущегося впереди по той же полосе, не подал сигнал поворота (перестроения) налево",
+   "to'sqinlik tug'dirishi mumkin bo'lgan o'zidan keyin kelayotgan biron bir haydovchi quvib o'tishni boshlamagan bo'lsa": "Ни один из водителей, движущихся позади и которым он может создать помеху, не начал обгон"
+  },
+  "question": "Перед началом обгона водитель должен убедиться в том, что:",
+  "uz": "Quvib o'tishni boshlashdan oldin haydovchi shunga ishonch hosil qilishi kerakki:"
+ },
+ "quyidagi 3 24 yuqori tezlik cheklangan yo'l belgisining ta'sirini qaysi belgilar bekor qiladi||barcha javoblar tugri|fakat birinchisi|fakat ikkinchisi|fakat turtinchisi|fakat uchinchisi": {
+  "options": {
+   "barcha javoblar tugri": "Все ответы верны",
+   "fakat birinchisi": "Только первый",
+   "fakat ikkinchisi": "Только второй",
+   "fakat turtinchisi": "Только четвёртый",
+   "fakat uchinchisi": "Только третий"
+  },
+  "question": "Какие знаки отменяют действие дорожного знака 3.24 «Ограничение максимальной скорости»?",
+  "uz": "Quyidagi 3.24. \"Yuqori tezlik cheklangan\" yo‘l belgisining ta’sirini qaysi belgilar bekor qiladi?"
+ },
+ "quyidagi belgilardan qaysi biri haydovchini boshqa xavf xatarlar to'g'risida ogohlantiradi||a|b|b": {
+  "options": {
+   "a": "А",
+   "b": "Б"
+  },
+  "question": "Какой из следующих знаков предупреждает водителя о прочих опасностях?",
+  "uz": "Quyidagi belgilardan qaysi biri haydovchini boshqa xavf-xatarlar to'g'risida ogohlantiradi?"
+ },
+ "quyidagi joyda tuxtashga ruxsat beriladimi||ruxsat beriladi|taqiqlanadi|tuxtagan transport vositasi bilan sidirga chizik orasidagi masofa 3 metrdan kup bulsa ruxsat beriladi": {
+  "options": {
+   "ruxsat beriladi": "Разрешается",
+   "taqiqlanadi": "Запрещается",
+   "tuxtagan transport vositasi bilan sidirga chizik orasidagi masofa 3 metrdan kup bulsa ruxsat beriladi": "Разрешается, если расстояние между остановившимся транспортным средством и сплошной линией более 3 метров"
+  },
+  "question": "Разрешается ли остановка в данном месте?",
+  "uz": "Quyidagi joyda tuxtashga ruxsat beriladimi?"
+ },
+ "quyidagi qaysi hollarda ypx xodimi haydovchi yoki yo'lovchilardan transport vositasi kabinasidan chiqishini talab qilishga haqli||haydovchi transport vositasini mast holda boshqarayotgan deb hisoblashga yetarli asoslar mavjud bo'lganda|ko'rsatilgan barcha hollarda|transport vositasidagi texnik nosozlikni va yuk tashish qoidasi buzilganligini bartaraf etish maqsadida|transport vositasiga tegishli hujjatlar yoki unda olib ketilayotgan yuk hujjatlari mavjudligini tekshirish zarurati yuzaga kelganda": {
+  "options": {
+   "haydovchi transport vositasini mast holda boshqarayotgan deb hisoblashga yetarli asoslar mavjud bo'lganda": "При наличии достаточных оснований полагать, что водитель управляет транспортным средством в состоянии опьянения.",
+   "ko'rsatilgan barcha hollarda": "Во всех указанных случаях.",
+   "transport vositasidagi texnik nosozlikni va yuk tashish qoidasi buzilganligini bartaraf etish maqsadida": "В целях устранения технической неисправности транспортного средства и нарушения правил перевозки грузов.",
+   "transport vositasiga tegishli hujjatlar yoki unda olib ketilayotgan yuk hujjatlari mavjudligini tekshirish zarurati yuzaga kelganda": "При возникновении необходимости проверить наличие документов на транспортное средство или на перевозимый в нём груз."
+  },
+  "question": "В каких из следующих случаев сотрудник ДПС вправе потребовать от водителя или пассажиров выйти из кабины транспортного средства?",
+  "uz": "Quyidagi qaysi hollarda YPX xodimi haydovchi yoki yo‘lovchilardan transport vositasi kabinasidan chiqishini talab qilishga haqli?"
+ },
+ "quyidagi qaysi sidirg'a chiziqlarini bosib o'tish mumkin||1 1 1 3 yo'l chiziqlarini|1 3 yo'l chizig'ini|avtomagistralda majburiy to'xtaganda qatnov qismining chetini bildiruvchi sidirg'a chiziqn|qatnov qismini tasmalarga ajratuvchi sidirg'a chiziqni": {
+  "options": {
+   "1 1 1 3 yo'l chiziqlarini": "Линии разметки 1.1, 1.3",
+   "1 3 yo'l chizig'ini": "Линию разметки 1.3",
+   "avtomagistralda majburiy to'xtaganda qatnov qismining chetini bildiruvchi sidirg'a chiziqn": "Сплошную линию, обозначающую край проезжей части, при вынужденной остановке на автомагистрали",
+   "qatnov qismini tasmalarga ajratuvchi sidirg'a chiziqni": "Сплошную линию, разделяющую проезжую часть на полосы"
+  },
+  "question": "Какие из следующих сплошных линий разрешается пересекать?",
+  "uz": "Quyidagi qaysi sidirg'a chiziqlarini bosib o'tish mumkin?"
+ },
+ "quyidagi qaysi ta'rif n2 toifaga tegishli||yuk tashish uchun mo'ljallangan eng yuqori vazni 12 t dan ortiq bo'lgan avtotransport vositalari|yuk tashish uchun mo'ljallangan eng yuqori vazni 3 5 t dan ortiq lekin 12 t dan oshmaydigan avtotransport vositalari|yuk tashish uchun mo'ljallangan eng yuqori vazni 3 5 t dan oshmaydigan avtotransport vositalari": {
+  "options": {
+   "yuk tashish uchun mo'ljallangan eng yuqori vazni 12 t dan ortiq bo'lgan avtotransport vositalari": "Автотранспортные средства, предназначенные для перевозки грузов, имеющие максимальную массу более 12 т",
+   "yuk tashish uchun mo'ljallangan eng yuqori vazni 3 5 t dan ortiq lekin 12 t dan oshmaydigan avtotransport vositalari": "Автотранспортные средства, предназначенные для перевозки грузов, имеющие максимальную массу более 3,5 т, но не более 12 т",
+   "yuk tashish uchun mo'ljallangan eng yuqori vazni 3 5 t dan oshmaydigan avtotransport vositalari": "Автотранспортные средства, предназначенные для перевозки грузов, имеющие максимальную массу не более 3,5 т"
+  },
+  "question": "Какое из следующих определений относится к категории N2?",
+  "uz": "Quyidagi qaysi ta'rif N2 toifaga tegishli?"
+ },
+ "quyidagi taniqlik belgilaridan qaysi biri haydovchining xohishiga ko'ra o'rnatilishi mumkin||1 2|2 3|2 3|barcha belgilar": {
+  "options": {
+   "1 2": "1, 2",
+   "2 3": "2, 3",
+   "barcha belgilar": "Все знаки"
+  },
+  "question": "Какой из следующих опознавательных знаков может быть установлен по желанию водителя?",
+  "uz": "Quyidagi taniqlik belgilaridan qaysi biri haydovchining xohishiga ko'ra o'rnatilishi mumkin?"
+ },
+ "quyidagi taniqlik belgilaridan qaysi biri haydovchining xohishiga ko'ra o'rnatilishi mumkin||barcha belgilar|haydovchilikni endi boshlagan shaxs belgisi|nogiron haydovchi boshqarayotgan avtomobil belgisi|shifokor haydovchi boshqarayotgan avtomobil belgisi": {
+  "options": {
+   "barcha belgilar": "Все знаки",
+   "haydovchilikni endi boshlagan shaxs belgisi": "Знак «Начинающий водитель»",
+   "nogiron haydovchi boshqarayotgan avtomobil belgisi": "Знак «Управляет водитель-инвалид»",
+   "shifokor haydovchi boshqarayotgan avtomobil belgisi": "Знак «Врач»"
+  },
+  "question": "Какой из следующих опознавательных знаков может быть установлен по желанию водителя?",
+  "uz": "Quyidagi taniqlik belgilaridan qaysi biri haydovchining xohishiga ko'ra o'rnatilishi mumkin?"
+ },
+ "ruxsat etilgan harakatlanish yo'nalishini ko'rsating||a va b|b va v|faqat a|faqat b|faqat v": {
+  "options": {
+   "a va b": "«А» и «Б»",
+   "b va v": "«Б» и «В»",
+   "faqat a": "Только «А»",
+   "faqat b": "Только «Б»",
+   "faqat v": "Только «В»"
+  },
+  "question": "Укажите разрешённое направление движения:",
+  "uz": "Ruxsat etilgan harakatlanish yo'nalishini ko'rsating:"
+ },
+ "sanab o'tilgan hollarning qay birida qatnov qismining o'ng chetidan yoki yo'lning o'ng yoqasidan qayrilishga ruxsat etiladi||chorrahalardan tashqarida agar qatnov qismining kengligi chetki chap holatdan qayrilish uchun yetarli bo'lmasa|tartibga solingan chorrahalarda|tartibga solinmaydigan chorrahalarda agar qayrilishni amalga oshirayotgan transport vositasi asosiy yo'lda bo'lsa": {
+  "options": {
+   "chorrahalardan tashqarida agar qatnov qismining kengligi chetki chap holatdan qayrilish uchun yetarli bo'lmasa": "Вне перекрёстков, если ширина проезжей части недостаточна для разворота из крайнего левого положения",
+   "tartibga solingan chorrahalarda": "На регулируемых перекрёстках",
+   "tartibga solinmaydigan chorrahalarda agar qayrilishni amalga oshirayotgan transport vositasi asosiy yo'lda bo'lsa": "На нерегулируемых перекрёстках, если разворачивающееся транспортное средство находится на главной дороге"
+  },
+  "question": "В каком из перечисленных случаев разрешается разворот от правого края проезжей части или с правой обочины?",
+  "uz": "Sanab o'tilgan hollarning qay birida qatnov qismining o'ng chetidan yoki yo'lning o'ng yoqasidan qayrilishga ruxsat etiladi?"
+ },
+ "sariq avtomobil chorrahadan nechanchi bo'lib kesib o'tadi||birinchi|ikkinchi|oxirgi|uchinchi": {
+  "options": {
+   "birinchi": "Первым",
+   "ikkinchi": "Вторым",
+   "oxirgi": "Последним",
+   "uchinchi": "Третьим"
+  },
+  "question": "Каким по очереди жёлтый автомобиль проедет перекрёсток?",
+  "uz": "Sariq avtomobil chorrahadan nechanchi bo'lib kesib o'tadi?"
+ },
+ "sariq uzuq uzuq yotiq chiziq qaysi yo'l belgisi bilan qo'llanilishi mumkin||oyning toq sonli kunlarida to'xtab turish taqiqlangan|to'xtab turish taqiqlangan|to'xtash taqiqlangan": {
+  "options": {
+   "oyning toq sonli kunlarida to'xtab turish taqiqlangan": "«Стоянка запрещена по нечётным числам месяца»",
+   "to'xtab turish taqiqlangan": "«Стоянка запрещена»",
+   "to'xtash taqiqlangan": "«Остановка запрещена»"
+  },
+  "question": "С каким дорожным знаком может применяться жёлтая прерывистая линия горизонтальной разметки?",
+  "uz": "Sariq uzuq-uzuq yotiq chiziq qaysi yo'l belgisi bilan qo'llanilishi mumkin?"
+ },
+ "siz ro'paradan yaqinlashayotgan yuk avtomobiliga yo'l berishingiz kerakmi||ha|yo'q": {
+  "options": {
+   "ha": "Да",
+   "yo'q": "Нет"
+  },
+  "question": "Должны ли вы уступить дорогу встречному грузовому автомобилю?",
+  "uz": "Siz ro'paradan yaqinlashayotgan yuk avtomobiliga yo'l berishingiz kerakmi?"
+ },
+ "suratlarning qaysi birida quvib o'tish ko'rsatilgan||a|a va b|b": {
+  "options": {
+   "a": "«А»",
+   "a va b": "«А» и «Б»",
+   "b": "«Б»"
+  },
+  "question": "На каком из рисунков показан обгон?",
+  "uz": "Suratlarning qaysi birida quvib o'tish ko'rsatilgan?"
+ },
+ "svetoforlarda qanday rangli yorug'lik ishoralari qo'llaniladi||yashil sariq qizi|yashil sariq qizil va oq|yashil sariq qizil va qora": {
+  "options": {
+   "yashil sariq qizi": "Зелёный, жёлтый, красный",
+   "yashil sariq qizil va oq": "Зелёный, жёлтый, красный и белый",
+   "yashil sariq qizil va qora": "Зелёный, жёлтый, красный и чёрный"
+  },
+  "question": "Сигналы какого цвета применяются в светофорах?",
+  "uz": "Svetoforlarda qanday rangli yorug'lik ishoralari qo'llaniladi?"
+ },
+ "tartibga solinmagan chorrahada qaysi belgi albatta to'xtashni talab qiladi||b va s|faqat a|faqat b|xammasi": {
+  "options": {
+   "b va s": "Б и С",
+   "faqat a": "Только А",
+   "faqat b": "Только Б",
+   "xammasi": "Все"
+  },
+  "question": "Какой знак на нерегулируемом перекрёстке обязательно требует остановки?",
+  "uz": "Tartibga solinmagan chorrahada qaysi belgi albatta to'xtashni talab qiladi?"
+ },
+ "tartibga soluvchining nechta ishorasi mavjud||2 ta|3 ta|4 ta": {
+  "options": {
+   "2 ta": "2",
+   "3 ta": "3",
+   "4 ta": "4"
+  },
+  "question": "Сколько сигналов у регулировщика?",
+  "uz": "Tartibga soluvchining nechta ishorasi mavjud?"
+ },
+ "tartibga soluvchining qo'llari har ikki yonga cho'zilganda qanday ma'noni bildiradi||chap va o'ng tomondan tramvaylarga chapga relssiz transport vositalariga o'ngga harakatlanishga ruxsat etiladi|chap va o'ng tomondan tramvaylarga to'g'riga relssiz transport vositalariga to'g'riga o'ngga va chapga harakatlanishga ruxsat etiladi|chap va o'ng tomondan tramvaylarga to'g'riga relssiz transport vositalariga to'g'riga va o'ngga harakatlanishga ruxsat etiladi old va orqa tomondan esa harakat taqiqlanadi": {
+  "options": {
+   "chap va o'ng tomondan tramvaylarga chapga relssiz transport vositalariga o'ngga harakatlanishga ruxsat etiladi": "Со стороны левого и правого бока разрешено движение трамваям — налево, безрельсовым транспортным средствам — направо",
+   "chap va o'ng tomondan tramvaylarga to'g'riga relssiz transport vositalariga to'g'riga o'ngga va chapga harakatlanishga ruxsat etiladi": "Со стороны левого и правого бока разрешено движение трамваям — прямо, безрельсовым транспортным средствам — прямо, направо и налево",
+   "chap va o'ng tomondan tramvaylarga to'g'riga relssiz transport vositalariga to'g'riga va o'ngga harakatlanishga ruxsat etiladi old va orqa tomondan esa harakat taqiqlanadi": "Со стороны левого и правого бока разрешено движение трамваям — прямо, безрельсовым транспортным средствам — прямо и направо; со стороны груди и спины движение запрещено"
+  },
+  "question": "Что означает сигнал регулировщика, когда его руки вытянуты в стороны?",
+  "uz": "Tartibga soluvchining qo'llari har ikki yonga cho'zilganda qanday ma'noni bildiradi?"
+ },
+ "tashilayotgan yuk dyhx xizmatining ruxsatisiz transport vositasi o'lchamlarining orqa nuqtasidan eng katta miqdorda qanday chiqib turishi mumkin||1 0 m|1 5 m|2 0 m|2 5 m|4 0 m": {
+  "options": {
+   "1 0 m": "1,0 м",
+   "1 5 m": "1,5 м",
+   "2 0 m": "2,0 м",
+   "2 5 m": "2,5 м",
+   "4 0 m": "4,0 м"
+  },
+  "question": "На какое наибольшее расстояние перевозимый груз может выступать за заднюю точку габарита транспортного средства без разрешения службы ГСБДД?",
+  "uz": "Tashilayotgan yuk DYHX xizmatining ruxsatisiz transport vositasi o'lchamlarining orqa nuqtasidan eng katta miqdorda qanday chiqib turishi mumkin?"
+ },
+ "tezkor va maxsus xizmatlarning transport vositalari yo'l xarakatining boshqa qatnashchilariga nisbatan imtiyozga ega bo'lishi uchun||ko'k yoki qizil yoxud ko'k va qizil rangli yalt yalt etuvchi mayoqchalar yoqilgan bo'lishi shart|maxsus tovushli ishora yoqilgan|xar ikkalasi yoqilgan bo'lishi shart": {
+  "options": {
+   "ko'k yoki qizil yoxud ko'k va qizil rangli yalt yalt etuvchi mayoqchalar yoqilgan bo'lishi shart": "Должны быть включены проблесковые маячки синего или красного либо синего и красного цвета",
+   "maxsus tovushli ishora yoqilgan": "Должен быть включён специальный звуковой сигнал",
+   "xar ikkalasi yoqilgan bo'lishi shart": "Должно быть включено и то, и другое"
+  },
+  "question": "Чтобы транспортные средства оперативных и специальных служб имели преимущество перед другими участниками дорожного движения:",
+  "uz": "Tezkor va maxsus xizmatlarning transport vositalari yo'l xarakatining boshqa qatnashchilariga nisbatan imtiyozga ega bo'lishi uchun:"
+ },
+ "tirbandlik sababli to'xtab turgan qaysi avtomobil qoidani buzmayapti||har ikkisi buzayapti|har ikkisi buzmayapti|qizil avtomobil|sariq avtomobil": {
+  "options": {
+   "har ikkisi buzayapti": "Оба нарушают",
+   "har ikkisi buzmayapti": "Оба не нарушают",
+   "qizil avtomobil": "Красный автомобиль",
+   "sariq avtomobil": "Жёлтый автомобиль"
+  },
+  "question": "Какой из автомобилей, остановившихся из-за затора, не нарушает правила?",
+  "uz": "Tirbandlik sababli to'xtab turgan qaysi avtomobil qoidani buzmayapti?"
+ },
+ "to'liq vazni 3 5 tonnadan ortiq bo'lgan yuk avtomobiliga qaysi yo'nalishlarda harakatlanish taqiqlanadi||barcha yo'nalishlarda|chapga va o'ngga|faqat to'g'riga": {
+  "options": {
+   "barcha yo'nalishlarda": "Во всех направлениях",
+   "chapga va o'ngga": "Налево и направо",
+   "faqat to'g'riga": "Только прямо"
+  },
+  "question": "В каких направлениях запрещено движение грузовому автомобилю с полной массой более 3,5 тонны?",
+  "uz": "To‘liq vazni 3,5 tonnadan ortiq bo‘lgan yuk avtomobiliga qaysi yo‘nalishlarda harakatlanish taqiqlanadi?"
+ },
+ "to'liq vazni 3 5 tonnadan ortiq bo'lgan yuk avtomobilining qaysi yo'nalishlarda harakatlanishiga ruxsat etiladi||barcha yo'nalishlarda|chapga va o'ngga|faqat to'g'riga|to'g'riga va qayrilib olishga": {
+  "options": {
+   "barcha yo'nalishlarda": "Во всех направлениях",
+   "chapga va o'ngga": "Налево и направо",
+   "faqat to'g'riga": "Только прямо",
+   "to'g'riga va qayrilib olishga": "Прямо и разворот"
+  },
+  "question": "В каких направлениях разрешено движение грузовому автомобилю с полной массой более 3,5 тонны?",
+  "uz": "To‘liq vazni 3,5 tonnadan ortiq bo‘lgan yuk avtomobilining qaysi yo‘nalishlarda harakatlanishiga ruxsat etiladi?"
+ },
+ "to'xtab turish qoidasini kim buzmadi||a va b|faqat a|faqat b": {
+  "options": {
+   "a va b": "А и Б",
+   "faqat a": "Только А",
+   "faqat b": "Только Б"
+  },
+  "question": "Кто не нарушил правила стоянки?",
+  "uz": "To'xtab turish qoidasini kim buzmadi?"
+ },
+ "to'xtash yo'li deb nimaga aytiladi||avtomobilda xavfning haydovchiga ma'lum bo'lgan paytidan boshlab to'la to'xtagunga qadar bosib o'tilgan masofa|xavfning haydovchiga ma'lum bo'lgan paytidan tormozlash boshlanguncha avtomobilda o'tilgan masofa": {
+  "options": {
+   "avtomobilda xavfning haydovchiga ma'lum bo'lgan paytidan boshlab to'la to'xtagunga qadar bosib o'tilgan masofa": "Расстояние, пройденное автомобилем с момента обнаружения водителем опасности до полной остановки",
+   "xavfning haydovchiga ma'lum bo'lgan paytidan tormozlash boshlanguncha avtomobilda o'tilgan masofa": "Расстояние, пройденное автомобилем с момента обнаружения водителем опасности до начала торможения"
+  },
+  "question": "Что называется остановочным путём?",
+  "uz": "To'xtash yo'li deb nimaga aytiladi?"
+ },
+ "tormozlanish bo'lagi bo'lgan yo'lda qaysi transport vositasi o'ngga chiqish qoidasini buzdi||har ikki transport vositasi|har ikki transport vositasi to'g'ri burilyapti|sariq avtomobil": {
+  "options": {
+   "har ikki transport vositasi": "Оба транспортных средства",
+   "har ikki transport vositasi to'g'ri burilyapti": "Оба транспортных средства поворачивают правильно",
+   "sariq avtomobil": "Жёлтый автомобиль"
+  },
+  "question": "Какое транспортное средство нарушило правила выезда направо на дороге с полосой торможения?",
+  "uz": "Tormozlanish bo'lagi bo'lgan yo'lda qaysi transport vositasi o'ngga chiqish qoidasini buzdi?"
+ },
+ "transport vositalarining temir yo'l kesishmasiga qancha masofadan yaqinroqda to'xtab turishlari taqiqlanadi||100 m|150 m|25 m|300 m|50 m": {
+  "options": {
+   "100 m": "100 м",
+   "150 m": "150 м",
+   "25 m": "25 м",
+   "300 m": "300 м",
+   "50 m": "50 м"
+  },
+  "question": "Ближе какого расстояния от железнодорожного переезда запрещена стоянка транспортных средств?",
+  "uz": "Transport vositalarining temir yo'l kesishmasiga qancha masofadan yaqinroqda to'xtab turishlari taqiqlanadi?"
+ },
+ "transport vositasining bir o'qiga izlari har xil naqshli shinalar o'rnatishga ruxsat etiladimi||avtomobilning faqat orqa o'qiga oldingi boshqaruvchi ko'prik bilan birga ruxsat etiladi|faqat yuk avtomobiliga ruxsat etiladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "avtomobilning faqat orqa o'qiga oldingi boshqaruvchi ko'prik bilan birga ruxsat etiladi": "Разрешается только на заднюю ось автомобиля вместе с передним ведущим мостом",
+   "faqat yuk avtomobiliga ruxsat etiladi": "Разрешается только на грузовые автомобили",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли устанавливать на одну ось транспортного средства шины с различным рисунком протектора?",
+  "uz": "Transport vositasining bir o'qiga izlari har xil naqshli shinalar o'rnatishga ruxsat etiladimi?"
+ },
+ "transport vositasining haydovchisi agar svetoforning ruxsat etuvchi yoritgichi yoqilsa yu harakat yo'nalishining qatnov qismidan o'tishga ulgurmagan piyodalar bo'lsa nima qilishi kerak||ehtiyotkorlik choralariga rioya etgan holda piyodalarning o'tish joyidan o'tishi|mazkur yo'nalishning qatnov qismidan piyodalarning o'tib olishiga imkon berishi|tezlikni kamaytirishi tovush ishorasini berishi va eng kam tezlik bilan piyodalarning o'tish joyidan o'tishi|tovush ishorasini berishi va tezlikni kamaytirmay piyodalarning o'tish joyidan o'tishi": {
+  "options": {
+   "ehtiyotkorlik choralariga rioya etgan holda piyodalarning o'tish joyidan o'tishi": "Проехать пешеходный переход, соблюдая меры предосторожности",
+   "mazkur yo'nalishning qatnov qismidan piyodalarning o'tib olishiga imkon berishi": "Дать пешеходам возможность закончить переход проезжей части данного направления",
+   "tezlikni kamaytirishi tovush ishorasini berishi va eng kam tezlik bilan piyodalarning o'tish joyidan o'tishi": "Снизить скорость, подать звуковой сигнал и проехать пешеходный переход с минимальной скоростью",
+   "tovush ishorasini berishi va tezlikni kamaytirmay piyodalarning o'tish joyidan o'tishi": "Подать звуковой сигнал и проехать пешеходный переход, не снижая скорости"
+  },
+  "question": "Как должен поступить водитель транспортного средства, если включился разрешающий сигнал светофора, а на проезжей части остались пешеходы, не успевшие закончить переход в данном направлении?",
+  "uz": "Transport vositasining haydovchisi, agar svetoforning ruxsat etuvchi yoritgichi yoqilsa-yu, harakat yo'nalishining qatnov qismidan o'tishga ulgurmagan piyodalar bo'lsa, nima qilishi kerak?"
+ },
+ "trotuar yoki piyodalar yo'lkasi bo'lmaganda piyodalar velosiped yo'lkasi bo'ylab harakat qila oladilarmi||agar velosipedlarning harakatlanishini qiyinlashtirmasa harakat qila oladilar|harakat qila oladilar|harakat qila olmaydilar": {
+  "options": {
+   "agar velosipedlarning harakatlanishini qiyinlashtirmasa harakat qila oladilar": "Могут, если не затрудняют движение велосипедистов",
+   "harakat qila oladilar": "Могут",
+   "harakat qila olmaydilar": "Не могут"
+  },
+  "question": "Могут ли пешеходы двигаться по велосипедной дорожке при отсутствии тротуара или пешеходной дорожки?",
+  "uz": "Trotuar yoki piyodalar yo'lkasi bo'lmaganda, piyodalar velosiped yo'lkasi bo'ylab harakat qila oladilarmi?"
+ },
+ "tumanga qarshi chiroqlarni qorong'i vaqtda yo'lning yoritilmagan qismlarida uzoqni yorituvchi chiroqlar bilan birga qo'lllash mumkinmi||ha|yo'q": {
+  "options": {
+   "ha": "Да",
+   "yo'q": "Нет"
+  },
+  "question": "Можно ли использовать противотуманные фары вместе с фарами дальнего света в тёмное время суток на неосвещённых участках дороги?",
+  "uz": "Tumanga qarshi chiroqlarni qorong'i vaqtda yo'lning yoritilmagan qismlarida uzoqni yorituvchi chiroqlar bilan birga qo'lllash mumkinmi?"
+ },
+ "tumanga qarshi faralardan foydalanish mumkin||mexanik transport vositasini shatakka olganda|sanab o'tilgan barcha hollarda|yetarlicha ko'rinmaydigan sharoitlarda": {
+  "options": {
+   "mexanik transport vositasini shatakka olganda": "При буксировке механического транспортного средства",
+   "sanab o'tilgan barcha hollarda": "Во всех перечисленных случаях",
+   "yetarlicha ko'rinmaydigan sharoitlarda": "В условиях недостаточной видимости"
+  },
+  "question": "Противотуманные фары можно использовать:",
+  "uz": "Tumanga qarshi faralardan foydalanish mumkin:"
+ },
+ "turar joy dahalarida eng katta tezlikda harakatlanishga ruxsat etiladi||20 km soat|30 km soat|40 km soat|5km soat": {
+  "options": {
+   "20 km soat": "20 км/ч",
+   "30 km soat": "30 км/ч",
+   "40 km soat": "40 км/ч",
+   "5km soat": "5 км/ч"
+  },
+  "question": "В жилых зонах разрешается движение с максимальной скоростью:",
+  "uz": "Turar joy dahalarida eng katta tezlikda harakatlanishga ruxsat etiladi:"
+ },
+ "turar joy dahalaridan chiqishda haydovchilar||boshqa harakat qatnashchilariga nisbatan imtiyozga ega|boshqa harakat qatnashchilariga yo'l berishi kerak": {
+  "options": {
+   "boshqa harakat qatnashchilariga nisbatan imtiyozga ega": "Имеют преимущество перед другими участниками движения",
+   "boshqa harakat qatnashchilariga yo'l berishi kerak": "Должны уступить дорогу другим участникам движения"
+  },
+  "question": "При выезде из жилой зоны водители:",
+  "uz": "Turar joy dahalaridan chiqishda haydovchilar:"
+ },
+ "ushbu belgi axoli punktlarida xavfli yo'l kismi boshlanishidan qancha masofa oldin o'rnatiladi||150 300 m|50 100 m|xavfli yo'l qismi oldiga o'rnatiladi": {
+  "options": {
+   "150 300 m": "150–300 м",
+   "50 100 m": "50–100 м",
+   "xavfli yo'l qismi oldiga o'rnatiladi": "Устанавливается непосредственно перед опасным участком дороги"
+  },
+  "question": "На каком расстоянии до начала опасного участка дороги устанавливается этот знак в населённых пунктах?",
+  "uz": "Ushbu belgi axoli punktlarida xavfli yo'l kismi boshlanishidan qancha masofa oldin o'rnatiladi?"
+ },
+ "ushbu belgilardan qaysi biri bir yoki bir necha bo'laklarda harakatlanish yo'nalishi qaraama qarshi tomonga o'zgarishi mumkin bo'lgan yo'l qismining boshlanishini bildiradi||a|b|v": {
+  "options": {
+   "a": "А",
+   "b": "Б",
+   "v": "В"
+  },
+  "question": "Какой из этих знаков обозначает начало участка дороги, на котором на одной или нескольких полосах направление движения может меняться на противоположное?",
+  "uz": "Ushbu belgilardan qaysi biri-bir yoki bir necha bo'laklarda harakatlanish yo'nalishi qaraama-qarshi tomonga o'zgarishi mumkin bo'lgan yo'l qismining boshlanishini bildiradi?"
+ },
+ "ushbu belgilardan qaysi biri notekis yo'l deb ataladi||a|b|c": {
+  "options": {
+   "a": "А",
+   "b": "Б",
+   "c": "С"
+  },
+  "question": "Какой из этих знаков называется «Неровная дорога»?",
+  "uz": "Ushbu belgilardan qaysi biri \"Notekis yo'l\" deb ataladi?"
+ },
+ "ushbu belgilardan qaysi biri oldinda yo'l qoplamasi ustida suniy notekslik borligi haqida ogohlantiradi||a|a va s|s|v": {
+  "options": {
+   "a": "А",
+   "a va s": "А и С",
+   "s": "С",
+   "v": "В"
+  },
+  "question": "Какой из этих знаков предупреждает о наличии впереди искусственной неровности на дорожном покрытии?",
+  "uz": "Ushbu belgilardan qaysi biri oldinda yo'l qoplamasi ustida suniy notekslik borligi haqida ogohlantiradi?"
+ },
+ "ushbu joyda qaysi avtomobil haydovchisi to'xtash qoidasini buzdi||faqat oq avtomobil|faqat sariq avtomobil|har ikkisi buzdi|har ikkisi buzmadi": {
+  "options": {
+   "faqat oq avtomobil": "Только белый автомобиль",
+   "faqat sariq avtomobil": "Только жёлтый автомобиль",
+   "har ikkisi buzdi": "Оба нарушили",
+   "har ikkisi buzmadi": "Оба не нарушили"
+  },
+  "question": "Водитель какого автомобиля нарушил правила остановки в этом месте?",
+  "uz": "Ushbu joyda qaysi avtomobil haydovchisi to'xtash qoidasini buzdi?"
+ },
+ "ushbu ko'rsatilgan yo'l nechta qatnov qismiga ega||bitta|ikkita|sakkizta": {
+  "options": {
+   "bitta": "Одну",
+   "ikkita": "Две",
+   "sakkizta": "Восемь"
+  },
+  "question": "Сколько проезжих частей имеет показанная дорога?",
+  "uz": "Ushbu ko'rsatilgan yo'l nechta qatnov qismiga ega?"
+ },
+ "ushbu qo'shimcha axborot belgisi qaysi yo'l belgisi bilan qo'llaniladi||1|2|3|4": {
+  "options": {
+   "1": "1",
+   "2": "2",
+   "3": "3",
+   "4": "4"
+  },
+  "question": "С каким дорожным знаком применяется этот знак дополнительной информации?",
+  "uz": "Ushbu qo'shimcha axborot belgisi qaysi yo'l belgisi bilan qo'llaniladi?"
+ },
+ "ushbu svetofor tramvayga qaysi yo'nalishda xarakatlanishga ruxsat beradi||barcha yo'nalishlarda xarakatlanish taqiqlanadi|barcha yo'nalishlarga|faqat to'g'riga": {
+  "options": {
+   "barcha yo'nalishlarda xarakatlanish taqiqlanadi": "Движение во всех направлениях запрещено",
+   "barcha yo'nalishlarga": "Во всех направлениях",
+   "faqat to'g'riga": "Только прямо"
+  },
+  "question": "В каком направлении этот светофор разрешает движение трамваю?",
+  "uz": "Ushbu svetofor tramvayga qaysi yo'nalishda xarakatlanishga ruxsat beradi?"
+ },
+ "ushbu transport vositasi qaysi yo'nalishda xarakatlanishiga ruxsat etiladi||barcha yo'nalishlarga|faqat to'g'riga|faqat to'g'riga va qayrilib olishga|to'g'riga va o'ngga": {
+  "options": {
+   "barcha yo'nalishlarga": "Во всех направлениях",
+   "faqat to'g'riga": "Только прямо",
+   "faqat to'g'riga va qayrilib olishga": "Только прямо и разворот",
+   "to'g'riga va o'ngga": "Прямо и направо"
+  },
+  "question": "В каком направлении разрешено движение этому транспортному средству?",
+  "uz": "Ushbu transport vositasi qaysi yo'nalishda xarakatlanishiga ruxsat etiladi?"
+ },
+ "ushbu transport vositasiga chorraxa orqali qaysi yo'nalishlar bo'yicha xarakatlanishga ruxsat etiladi||barcha yo'nalishlarga|faqat chapga va qayrilib olishga|faqat o'ngga|faqat to'g'riga va o'ngga|faqat to'griga": {
+  "options": {
+   "barcha yo'nalishlarga": "Во всех направлениях",
+   "faqat chapga va qayrilib olishga": "Только налево и разворот",
+   "faqat o'ngga": "Только направо",
+   "faqat to'g'riga va o'ngga": "Только прямо и направо",
+   "faqat to'griga": "Только прямо"
+  },
+  "question": "В каких направлениях разрешено движение через перекрёсток этому транспортному средству?",
+  "uz": "Ushbu transport vositasiga chorraxa orqali qaysi yo'nalishlar bo'yicha xarakatlanishga ruxsat etiladi?"
+ },
+ "ushbu transport vositasiga sidirg'a chiziqni bosib o'tib yo'l yoqasida to'xtashga ruxsat beriladimi||faqat aholi punktlarida ruxsat beriladi|faqat majburiy to'xtash holatida ruxsat beriladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "faqat aholi punktlarida ruxsat beriladi": "Разрешается только в населённых пунктах",
+   "faqat majburiy to'xtash holatida ruxsat beriladi": "Разрешается только при вынужденной остановке",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли этому транспортному средству, пересекая сплошную линию, остановиться на обочине?",
+  "uz": "Ushbu transport vositasiga sidirg'a chiziqni bosib o'tib, yo'l yoqasida to'xtashga ruxsat beriladimi?"
+ },
+ "ushbu vaziyatda qaysi transport vositasining xaydovchisi yo'l berishi kerak||oq avtomobil xaydovchisi|qizil avtomobil xaydovchisi": {
+  "options": {
+   "oq avtomobil xaydovchisi": "Водитель белого автомобиля",
+   "qizil avtomobil xaydovchisi": "Водитель красного автомобиля"
+  },
+  "question": "Водитель какого транспортного средства должен уступить дорогу в данной ситуации?",
+  "uz": "Ushbu vaziyatda qaysi transport vositasining xaydovchisi yo'l berishi kerak?"
+ },
+ "ushbu vaziyatda siz||belgi oldida to'xtashingiz va svetoforning ruxsat beruvchi ishorasini kutishingiz kerak|to'xtamasdan harakatni davom ettirishingiz mumkin": {
+  "options": {
+   "belgi oldida to'xtashingiz va svetoforning ruxsat beruvchi ishorasini kutishingiz kerak": "Должны остановиться перед знаком и дождаться разрешающего сигнала светофора",
+   "to'xtamasdan harakatni davom ettirishingiz mumkin": "Можете продолжить движение без остановки"
+  },
+  "question": "В данной ситуации вы",
+  "uz": "Ushbu vaziyatda siz"
+ },
+ "ushbu vaziyatda xaydovchilar birinchi temir yo'l iziga eng kamida necha metr qolganda tuxtashlari kerak||10 metr|3 metr|5 metr": {
+  "options": {
+   "10 metr": "10 метров",
+   "3 metr": "3 метра",
+   "5 metr": "5 метров"
+  },
+  "question": "В данной ситуации на каком минимальном расстоянии до первого железнодорожного пути должны остановиться водители?",
+  "uz": "Ushbu vaziyatda xaydovchilar birinchi temir yo'l iziga eng kamida necha metr qolganda tuxtashlari kerak?"
+ },
+ "ushbu yo'l belgisi qaysi transport vositalarining harakatlanishini taqiqlaydi||barcha javoblar to'g'ri|ruxsat etilgan to'la vazni 3 5 tonnadan ortiq bo'lgan yuk avtomobillarini|xavfli yuk tashiyotgan transport vositalarining harakatlanishini": {
+  "options": {
+   "barcha javoblar to'g'ri": "Все ответы верны",
+   "ruxsat etilgan to'la vazni 3 5 tonnadan ortiq bo'lgan yuk avtomobillarini": "Грузовых автомобилей с разрешённой максимальной массой более 3,5 тонны",
+   "xavfli yuk tashiyotgan transport vositalarining harakatlanishini": "Транспортных средств, перевозящих опасные грузы"
+  },
+  "question": "Движение каких транспортных средств запрещает этот дорожный знак?",
+  "uz": "Ushbu yo'l belgisi qaysi transport vositalarining harakatlanishini taqiqlaydi?"
+ },
+ "ushbu yo'l chizig'i sizga qanday manyovr bajarishni taqiqlaydi||aylanib o'tishni|qayralib olishni|quvib o'tishni|sanab o'tilgan barcha manyovrlarga ruxsat beriladi": {
+  "options": {
+   "aylanib o'tishni": "Объезд",
+   "qayralib olishni": "Разворот",
+   "quvib o'tishni": "Обгон",
+   "sanab o'tilgan barcha manyovrlarga ruxsat beriladi": "Разрешаются все перечисленные манёвры"
+  },
+  "question": "Какой манёвр запрещает вам выполнять эта линия разметки?",
+  "uz": "Ushbu yo'l chizig'i sizga qanday manyovr bajarishni taqiqlaydi?"
+ },
+ "ushbu yotiq chiziqlardan qaysi biri belgilangan yo'nalishdagi transport vositalari uchun to'xtashga ruxsat beradi||a|a b v|b|v": {
+  "options": {
+   "a": "«А»",
+   "a b v": "«А», «Б», «В»",
+   "b": "«Б»",
+   "v": "«В»"
+  },
+  "question": "Какая из этих линий горизонтальной разметки разрешает остановку маршрутных транспортных средств?",
+  "uz": "Ushbu yotiq chiziqlardan qaysi biri belgilangan yo'nalishdagi transport vositalari uchun to'xtashga ruxsat beradi?"
+ },
+ "ushbu yotiq yo'l chizig'i qaysi gurux yo'l belgilarini takrorlaydi||axborot ko'rsatgich belgilarni|imtiyoz belgilarni|ogoxlantiruvchi belgilarni|taqiqlovchi belgilarni": {
+  "options": {
+   "axborot ko'rsatgich belgilarni": "Информационно-указательные знаки",
+   "imtiyoz belgilarni": "Знаки приоритета",
+   "ogoxlantiruvchi belgilarni": "Предупреждающие знаки",
+   "taqiqlovchi belgilarni": "Запрещающие знаки"
+  },
+  "question": "Какую группу дорожных знаков дублирует эта линия горизонтальной разметки?",
+  "uz": "Ushbu yotiq yo'l chizig'i qaysi gurux yo'l belgilarini takrorlaydi?"
+ },
+ "velosiped yo'lkasi bilan kesishuvga qanchadan kam masofa qolganda to'xtash taqiqlanadi||10 metr|15 metr|30 metr": {
+  "options": {
+   "10 metr": "10 метров",
+   "15 metr": "15 метров",
+   "30 metr": "30 метров"
+  },
+  "question": "Ближе какого расстояния до пересечения с велосипедной дорожкой запрещена остановка?",
+  "uz": "Velosiped yo'lkasi bilan kesishuvga qanchadan kam masofa qolganda to'xtash taqiqlanadi?"
+ },
+ "velosipedchilar va individual harakatlanish vositalarida ishonchli oyoq qo'ygich bilan jihozlangan qo'shimcha o'rindiqda necha yoshgacha bo'lgan bolani tashish mumkin||10 yoshgacha|12 yoshgacha|14 yoshgacha|7 yoshgacha": {
+  "options": {
+   "10 yoshgacha": "До 10 лет",
+   "12 yoshgacha": "До 12 лет",
+   "14 yoshgacha": "До 14 лет",
+   "7 yoshgacha": "До 7 лет"
+  },
+  "question": "До какого возраста можно перевозить ребёнка на велосипеде и средстве индивидуальной мобильности на дополнительном сиденье, оборудованном надёжными подножками?",
+  "uz": "Velosipedchilar va individual harakatlanish vositalarida ishonchli oyoq qo'ygich bilan jihozlangan qo'shimcha o'rindiqda necha yoshgacha bo'lgan bolani tashish mumkin?"
+ },
+ "xavfsiz oraliq masofani ko'rsating||a va v|b|v": {
+  "options": {
+   "a va v": "А и В",
+   "b": "Б",
+   "v": "В"
+  },
+  "question": "Укажите безопасную дистанцию.",
+  "uz": "Xavfsiz oraliq masofani ko'rsating?"
+ },
+ "yashil avtomobil chorrahadan nechanchi bo'lib o'tadi||birinchi|ikkinchi": {
+  "options": {
+   "birinchi": "Первым",
+   "ikkinchi": "Вторым"
+  },
+  "question": "Каким по очереди зелёный автомобиль проедет перекрёсток?",
+  "uz": "Yashil avtomobil chorrahadan nechanchi bo'lib o'tadi?"
+ },
+ "yengil avtomobil qaysi yo'nalish bo'yicha to'g'ri burilmoqda||1|1 va 2|2": {
+  "options": {
+   "1": "1",
+   "1 va 2": "1 и 2",
+   "2": "2"
+  },
+  "question": "По какой траектории правильно поворачивает легковой автомобиль?",
+  "uz": "Yengil avtomobil qaysi yo‘nalish bo‘yicha to‘g‘ri burilmoqda?"
+ },
+ "yengil avtomobilning tom qismiga o'rnatilgan ushbu yuk transport vositasining gabaritlaridan oldi va orqasiga necha metrgacha chiqib turishiga ruxsat etiladi||0 5 m|1 m|2 55 m|2 m": {
+  "options": {
+   "0 5 m": "0,5 м",
+   "1 m": "1 м",
+   "2 55 m": "2,55 м",
+   "2 m": "2 м"
+  },
+  "question": "На сколько метров вперёд и назад разрешается выступать за габариты транспортного средства этому грузу, установленному на крыше легкового автомобиля?",
+  "uz": "Yengil avtomobilning tom qismiga o‘rnatilgan ushbu yuk transport vositasining gabaritlaridan oldi va orqasiga necha metrgacha chiqib turishiga ruxsat etiladi?"
+ },
+ "yo'l patrul xizmati xodimlari yo'l patrul xizmati xodimlarining yo'l harakati qatnashchilari bilan o'zaro munosabatlari hamda maxsus moslamalardan foydalanishi tartibi to'g'risida gi nizomga ko'ra qanday huquqlarga ega||ko'rsatilgan barcha javoblar|kuzatish|maxsus tadbirlar o'tkazish|ta'qib qilish|yo'l transport hodisasining oldini olish va harakat xavfsizligini ta'minlash": {
+  "options": {
+   "ko'rsatilgan barcha javoblar": "Все указанные ответы",
+   "kuzatish": "Наблюдение",
+   "maxsus tadbirlar o'tkazish": "Проведение специальных мероприятий",
+   "ta'qib qilish": "Преследование",
+   "yo'l transport hodisasining oldini olish va harakat xavfsizligini ta'minlash": "Предупреждение дорожно-транспортных происшествий и обеспечение безопасности движения"
+  },
+  "question": "Какими правами обладают сотрудники дорожно-патрульной службы согласно Положению «О порядке взаимоотношений сотрудников дорожно-патрульной службы с участниками дорожного движения и использования ими специальных средств»?",
+  "uz": "Yo'l-patrul xizmati xodimlari \"Yo'l-patrul xizmati xodimlarining yo'l harakati qatnashchilari bilan o'zaro munosabatlari hamda maxsus moslamalardan foydalanishi tartibi to'g'risida\"gi nizomga ko'ra qanday huquqlarga ega?"
+ },
+ "yo'ldagi biror to'siq tufayli xavf yuzaga kelganda yoxud ob havo sharoitiga bog'liq holda transport vositasi harakatini to'xtatish||majburiy to'xtash|yo'l harakati xavfsizligini ta'minlash|yo'l transport hodisasi": {
+  "options": {
+   "majburiy to'xtash": "Вынужденная остановка",
+   "yo'l harakati xavfsizligini ta'minlash": "Обеспечение безопасности дорожного движения",
+   "yo'l transport hodisasi": "Дорожно-транспортное происшествие"
+  },
+  "question": "Прекращение движения транспортного средства из-за возникновения опасности, вызванной каким-либо препятствием на дороге, либо в связи с погодными условиями...",
+  "uz": "Yo'ldagi biror to'siq tufayli xavf yuzaga kelganda yoxud ob-havo sharoitiga bog'liq holda transport vositasi harakatini to'xtatish..."
+ },
+ "yo'lning ushbu qismida yo'lovchilarni chiqarish uchun haydovchi orqaga harakatlanishiga ruxsat etiladimi||agar haydovchi yo'nalishsiz yengil taksi bo'lsa ruxsat etiladi|ruxsat etiladi|taqiqlanadi": {
+  "options": {
+   "agar haydovchi yo'nalishsiz yengil taksi bo'lsa ruxsat etiladi": "Разрешается, если это немаршрутное легковое такси",
+   "ruxsat etiladi": "Разрешается",
+   "taqiqlanadi": "Запрещается"
+  },
+  "question": "Разрешается ли водителю на этом участке дороги движение задним ходом для высадки пассажиров?",
+  "uz": "Yo‘lning ushbu qismida yo‘lovchilarni chiqarish uchun haydovchi orqaga harakatlanishiga ruxsat etiladimi?"
+ },
+ "yo'lning xavfli burilishlarida oldingi uzatmali avtomobilning orqa o'qi yon tomonga sirpanganda siz qanday harakat qilasiz||gaz berishni kamaytirib rul chambaragi bilan boshqaruvni barqarorlashtirasiz|gaz pedalini ko'proq bosib rul chambaragini o'zgartirmasdan sirpanishdan olib chiqasiz|gaz pedalini ohista bosib avtomobilni rul chambaragini to'g'rilab avtomobilni sirpanishdan olib chiqib ketasiz|tormozlab turib rul chambaragini sirpangan tomonga burasiz": {
+  "options": {
+   "gaz berishni kamaytirib rul chambaragi bilan boshqaruvni barqarorlashtirasiz": "Уменьшите подачу топлива и стабилизируете управление рулевым колесом",
+   "gaz pedalini ko'proq bosib rul chambaragini o'zgartirmasdan sirpanishdan olib chiqasiz": "Сильнее нажав на педаль акселератора, выведете автомобиль из заноса, не меняя положения рулевого колеса",
+   "gaz pedalini ohista bosib avtomobilni rul chambaragini to'g'rilab avtomobilni sirpanishdan olib chiqib ketasiz": "Плавно нажимая на педаль акселератора и выравнивая рулевое колесо, выведете автомобиль из заноса",
+   "tormozlab turib rul chambaragini sirpangan tomonga burasiz": "Притормаживая, повернёте рулевое колесо в сторону заноса"
+  },
+  "question": "Как вы будете действовать при заносе задней оси переднеприводного автомобиля на опасном повороте дороги?",
+  "uz": "Yo'lning xavfli burilishlarida oldingi uzatmali avtomobilning orqa o'qi yon tomonga sirpanganda siz qanday harakat qilasiz?"
+ },
+ "yo'naltirgichlar bilan ko'rsatilgan qaysi yo'nalishlarda harakatlanishga ruxsat etilgan||a|a va b|b": {
+  "options": {
+   "a": "«А»",
+   "a va b": "«А» и «Б»",
+   "b": "«Б»"
+  },
+  "question": "В каких направлениях, указанных стрелками, разрешено движение?",
+  "uz": "Yo'naltirgichlar bilan ko'rsatilgan qaysi yo'nalishlarda harakatlanishga ruxsat etilgan?"
+ },
+ "yo'naltirgichlar bilan ko'rsatilgan qaysi yo'nalishlarda xarakat ruxsat etilgan||barcha yo'nalishlarga|faqat chapga|faqat o'ngga|faqat to'griga|faqat tug'riga va o'ngga": {
+  "options": {
+   "barcha yo'nalishlarga": "Во всех направлениях",
+   "faqat chapga": "Только налево",
+   "faqat o'ngga": "Только направо",
+   "faqat to'griga": "Только прямо",
+   "faqat tug'riga va o'ngga": "Только прямо и направо"
+  },
+  "question": "В каких направлениях, указанных стрелками, разрешено движение?",
+  "uz": "yo'naltirgichlar bilan ko'rsatilgan qaysi yo'nalishlarda xarakat ruxsat etilgan?"
+ },
+ "ypx xodimi qaysi holatda haydovchidan transport vositasidan tushishini talab qilishi mumkin||haydovchi haydovchilik guvohnomasini ko'rsatishni istamasa|haydovchi yo'l harakati qoidasini buzgan bo'lsa|haydovchining mast holatda transport vositasini boshqarayotganligini ko'rsatuvchi yetarli asoslar mavjud bo'lsa|sanab o'tilgan barcha hollarda": {
+  "options": {
+   "haydovchi haydovchilik guvohnomasini ko'rsatishni istamasa": "Если водитель отказывается предъявить водительское удостоверение",
+   "haydovchi yo'l harakati qoidasini buzgan bo'lsa": "Если водитель нарушил правила дорожного движения",
+   "haydovchining mast holatda transport vositasini boshqarayotganligini ko'rsatuvchi yetarli asoslar mavjud bo'lsa": "При наличии достаточных оснований полагать, что водитель управляет транспортным средством в состоянии опьянения",
+   "sanab o'tilgan barcha hollarda": "Во всех перечисленных случаях"
+  },
+  "question": "В каком случае сотрудник ДПС может потребовать от водителя выйти из транспортного средства?",
+  "uz": "YPX xodimi qaysi holatda haydovchidan transport vositasidan tushishini talab qilishi mumkin?"
+ }
+}

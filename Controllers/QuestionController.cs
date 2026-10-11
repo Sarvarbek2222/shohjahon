@@ -35,17 +35,28 @@ public class QuestionController : Controller
         return View(questions);
     }
 
+    /// <summary>Admin bosh sahifasi: savollar bazasi ko'rsatkichlari (xotiradagi keshdan).</summary>
     public async Task<IActionResult> Index1()
     {
-        var questions = await _context.Questions.ToListAsync();
+        // "Jami savollar" — biletlardagi savollar (66 × 20 = 1320)
+        var bilets = await _bank.BiletsAsync();
+        var questions = bilets.SelectMany(b => b).ToList();
+        var byTopic = await _bank.ByTopicAsync();
 
-        // Jami savollar
-        ViewBag.TotalQuestions = questions.Count;
-        // Tarjimalar holati
-        ViewBag.WithRu = questions.Count(q => !string.IsNullOrWhiteSpace(q.QuestionRU));
-        ViewBag.WithUzk = questions.Count(q => !string.IsNullOrWhiteSpace(q.QuestionUZK));
+        var model = new AdminDashboardModel
+        {
+            TotalQuestions = questions.Count,
+            BiletCount = bilets.Count,
+            QuestionsPerBilet = bilets.Count == 0 ? 0 : bilets.Max(b => b.Count),
+            TopicCount = byTopic.Count(kv => kv.Value.Count > 0),
+            WithImage = questions.Count(q => !string.IsNullOrWhiteSpace(q.ImageUrl)),
+            WithUz = questions.Count(q => !string.IsNullOrWhiteSpace(q.QuestionUZ)),
+            WithRu = questions.Count(q => !string.IsNullOrWhiteSpace(q.QuestionRU)),
+            WithUzk = questions.Count(q => !string.IsNullOrWhiteSpace(q.QuestionUZK)),
+        };
+        model.WithoutImage = model.TotalQuestions - model.WithImage;
 
-        return View();
+        return View(model);
     }
 
     public IActionResult Create()

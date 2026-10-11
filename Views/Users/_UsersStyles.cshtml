@@ -139,6 +139,18 @@
     .us-form-actions { display: flex; gap: 10px; justify-content: space-between; margin-top: 8px; }
 
     .us-page [hidden] { display: none !important; }
+    .us-req { color: #ff8a9b; }
+    .us-phone { color: var(--text); text-decoration: none; font-variant-numeric: tabular-nums; }
+    .us-phone:hover { color: #29b6f6; }
+
+    /* Bitta qurilma qoidasi */
+    .us-rule { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+        padding: 16px 18px; margin-bottom: 8px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); }
+    .us-rule.on { border-left: 3px solid #00e676; }
+    .us-rule.off { border-left: 3px solid #f59e0b; }
+    .us-rule-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .us-rule .us-hint { display: block; margin: 2px 0 0; max-width: 70ch; }
+    .us-rule form { margin: 0; }
 
     /* Hisob turi tanlovi */
     .us-kind { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }

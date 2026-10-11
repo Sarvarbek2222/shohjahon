@@ -20,19 +20,9 @@ namespace propro.Controllers
         // =========================
         public async Task<IActionResult> Index()
         {
-            var countsRaw = await _context.Questions
-                .Where(q => !string.IsNullOrWhiteSpace(q.Topic))
-                .Select(q => q.Topic!.Trim())
-                .GroupBy(t => t)
-                .Select(g => new
-                {
-                    Topic = g.Key,
-                    Count = g.Count()
-                })
-                .ToListAsync();
-
-            ViewBag.Counts = countsRaw
-                .ToDictionary(x => x.Topic, x => x.Count);
+            // Mavzu -> savollar soni (xotiradagi keshdan; ptest mavzulari QuestionTopics jadvalidan)
+            ViewBag.Counts = (await _bank.ByTopicAsync())
+                .ToDictionary(kv => kv.Key, kv => kv.Value.Count);
 
             return View(Topics.All);
         }
@@ -71,23 +61,8 @@ namespace propro.Controllers
 
                 topic = topic.Trim();
 
-                // Savollar xotiradagi keshdan
-                var allQuestions = await _bank.AllAsync();
-
-                // Topic bo'yicha filter
-                var filteredQuestions = allQuestions
-                    .Where(q =>
-                        !string.IsNullOrWhiteSpace(q.Topic) &&
-                        q.Topic.Trim().Equals(
-                            topic,
-                            StringComparison.OrdinalIgnoreCase
-                        )
-                    )
-                    .ToList();
-
-                // JSON uchun tayyorlash
-                var randomQuestions = filteredQuestions
-                    .OrderBy(q => Guid.NewGuid())
+                // Mavzu savollari xotiradagi keshdan (bir savol bir nechta mavzuda bo'lishi mumkin)
+                var randomQuestions = QuestionBank.Shuffled(await _bank.TopicQuestionsAsync(topic))
                     .Select(QuestionJson.From)
                     .ToList();
 

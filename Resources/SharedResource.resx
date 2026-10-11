@@ -370,10 +370,10 @@
     <value>Savollar statistikasi</value>
   </data>
   <data name="dash.title" xml:space="preserve">
-    <value>TEST &lt;span&gt;STATISTIKASI&lt;/span&gt;</value>
+    <value>Savollar &lt;span&gt;bazasi&lt;/span&gt;</value>
   </data>
   <data name="dash.total" xml:space="preserve">
-    <value>Jami savollar soni</value>
+    <value>Jami savollar</value>
   </data>
   <data name="dash.allTypes" xml:space="preserve">
     <value>Barcha test turlari bo'yicha</value>
@@ -406,7 +406,7 @@
     <value>Real</value>
   </data>
   <data name="dash.translations" xml:space="preserve">
-    <value>Tarjimalar holati</value>
+    <value>Tarjimalar</value>
   </data>
   <data name="dash.withRu" xml:space="preserve">
     <value>Rus tarjimasi bor</value>
@@ -1781,5 +1781,107 @@
   </data>
   <data name="users.hidePassword" xml:space="preserve">
     <value>Parolni yashirish</value>
+  </data>
+  <data name="users.phone" xml:space="preserve">
+    <value>Telefon raqami</value>
+  </data>
+  <data name="users.phoneHint" xml:space="preserve">
+    <value>O'quvchi uchun majburiy. Masalan: +998 90 123 45 67 yoki 90 123 45 67</value>
+  </data>
+  <data name="err.phoneRequired" xml:space="preserve">
+    <value>O'quvchining telefon raqamini kiriting</value>
+  </data>
+  <data name="err.phoneFormat" xml:space="preserve">
+    <value>Telefon raqami noto'g'ri. Masalan: +998 90 123 45 67</value>
+  </data>
+  <data name="users.deviceRuleOff" xml:space="preserve">
+    <value>Hozir bitta qurilma qoidasi o'chirilgan — o'quvchi istalgan qurilmadan kira oladi. Yoqish: Qurilma so'rovlari sahifasi.</value>
+  </data>
+  <data name="dev.ruleTitle" xml:space="preserve">
+    <value>Bitta qurilma qoidasi (o'quvchilar)</value>
+  </data>
+  <data name="dev.ruleOn" xml:space="preserve">
+    <value>Yoqilgan</value>
+  </data>
+  <data name="dev.ruleOff" xml:space="preserve">
+    <value>O'chirilgan</value>
+  </data>
+  <data name="dev.ruleOnDesc" xml:space="preserve">
+    <value>Har bir o'quvchi faqat bitta qurilmadan kiradi. Boshqa qurilmadan kirish uchun sizning tasdig'ingiz kerak.</value>
+  </data>
+  <data name="dev.ruleOffDesc" xml:space="preserve">
+    <value>O'quvchilar istalgan qurilmadan (telefon, kompyuter) cheklovsiz kira oladi.</value>
+  </data>
+  <data name="dev.ruleComputers" xml:space="preserve">
+    <value>Kompyuter (o'quv markazi) hisoblari doim faqat o'z kompyuteridan kiradi.</value>
+  </data>
+  <data name="dev.ruleEnable" xml:space="preserve">
+    <value>Qoidani yoqish</value>
+  </data>
+  <data name="dev.ruleDisable" xml:space="preserve">
+    <value>Qoidani o'chirish</value>
+  </data>
+  <data name="dev.ruleEnableConfirm" xml:space="preserve">
+    <value>Bitta qurilma qoidasini yoqasizmi? Har bir o'quvchi keyingi kirgan qurilmasiga bog'lanadi, boshqa qurilmalardan esa faqat sizning tasdig'ingiz bilan kira oladi.</value>
+  </data>
+  <data name="dev.ruleDisableConfirm" xml:space="preserve">
+    <value>Bitta qurilma qoidasini o'chirasizmi? O'quvchilar istalgan qurilmadan kira oladi.</value>
+  </data>
+  <data name="dev.ruleChangedOn" xml:space="preserve">
+    <value>Bitta qurilma qoidasi yoqildi</value>
+  </data>
+  <data name="dev.ruleChangedOff" xml:space="preserve">
+    <value>Bitta qurilma qoidasi o'chirildi — o'quvchilar istalgan qurilmadan kira oladi</value>
+  </data>
+  <data name="dash.bilets" xml:space="preserve">
+    <value>Biletlar</value>
+  </data>
+  <data name="dash.topics" xml:space="preserve">
+    <value>Mavzular</value>
+  </data>
+  <data name="dash.withImage" xml:space="preserve">
+    <value>Rasmli savollar</value>
+  </data>
+  <data name="dash.lead" xml:space="preserve">
+    <value>Biletlar, mavzular, rasmlar va tarjimalar holati</value>
+  </data>
+  <data name="dash.live" xml:space="preserve">
+    <value>Ma'lumotlar joriy</value>
+  </data>
+  <data name="dash.unit" xml:space="preserve">
+    <value>ta savol</value>
+  </data>
+  <data name="dash.perBilet" xml:space="preserve">
+    <value>savoldan</value>
+  </data>
+  <data name="dash.biletsDesc" xml:space="preserve">
+    <value>Har birida {n} ta savol</value>
+  </data>
+  <data name="dash.pdd" xml:space="preserve">
+    <value>YHQ</value>
+  </data>
+  <data name="dash.topicsDesc" xml:space="preserve">
+    <value>Yo'l harakati qoidalari bo'limlari</value>
+  </data>
+  <data name="dash.withoutImage" xml:space="preserve">
+    <value>Rasmsiz savollar</value>
+  </data>
+  <data name="dash.imageShare" xml:space="preserve">
+    <value>rasmli</value>
+  </data>
+  <data name="dash.translationsDesc" xml:space="preserve">
+    <value>Har bir tilda matni bor savollar soni</value>
+  </data>
+  <data name="dash.langUz" xml:space="preserve">
+    <value>O'zbekcha (lotin)</value>
+  </data>
+  <data name="dash.langRu" xml:space="preserve">
+    <value>Ruscha</value>
+  </data>
+  <data name="dash.langUzk" xml:space="preserve">
+    <value>O'zbekcha (kirill)</value>
+  </data>
+  <data name="dash.complete" xml:space="preserve">
+    <value>To'liq</value>
   </data>
 </root>

@@ -363,3 +363,12 @@ MigrationBackup/
 FodyWeavers.xsd
 # Mobil ilova API tokenlari imzo kaliti (maxfiy, avtomatik yaratiladi)
 App_Data/jwt.key
+
+# --- AvtoPravaSam_ptest ---
+# Rasmlar keshi (sayt o'zi qayta yaratadi)
+App_Data/img-cache/
+# Bazaning zaxira nusxalari — foydalanuvchilar ma'lumoti bor, repozitoriyga yuklanmaydi
+tools/backup_*.sql
+# Vaqtinchalik fayllar
+tools/__pycache__/
+tools/ru_todo.json

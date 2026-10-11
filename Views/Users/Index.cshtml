@@ -140,6 +140,7 @@
                         <tr>
                             <th data-i18n="users.username">@L["users.username"]</th>
                             <th class="hide-sm" data-i18n="users.fullName">@L["users.fullName"]</th>
+                            <th class="hide-sm" data-i18n="users.phone">@L["users.phone"]</th>
                             <th data-i18n="users.role">@L["users.role"]</th>
                             <th data-i18n="users.status">@L["users.status"]</th>
                             <th data-i18n="users.access">@L["users.access"]</th>
@@ -165,7 +166,8 @@
                             if (u.IsRestricted && u.DeviceId == null) tags.Add("nodevice");
                             if (u.IsComputer && u.IsRestricted) tags.Add("computer");
 
-                            <tr data-search="@((u.Username + " " + u.FullName).ToLowerInvariant())" data-tags="@string.Join(" ", tags)" data-role="@u.Role">
+                            var phone = UserService.FormatPhone(u.Phone);
+                            <tr data-search="@((u.Username + " " + u.FullName + " " + phone + " " + new string((u.Phone ?? "").Where(char.IsDigit).ToArray())).ToLowerInvariant())" data-tags="@string.Join(" ", tags)" data-role="@u.Role">
                                 <td>
                                     <span class="us-login">@u.Username</span>
                                     @if (isMe)
@@ -174,6 +176,16 @@
                                     }
                                 </td>
                                 <td class="hide-sm">@(u.FullName ?? "—")</td>
+                                <td class="hide-sm us-nowrap">
+                                    @if (string.IsNullOrEmpty(phone))
+                                    {
+                                        <span class="us-muted">—</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="us-phone" href="tel:@u.Phone">@phone</a>
+                                    }
+                                </td>
                                 <td>
                                     <span class="us-pill @(u.Role == Roles.SuperAdmin ? "admin" : "user")" data-i18n="@roleKey">@L[roleKey]</span>
                                     @if (u.IsComputer && u.IsRestricted)
