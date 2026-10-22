@@ -1959,4 +1959,16 @@
   <data name="hm.topicsHint" xml:space="preserve">
     <value>Выберите тему — только её вопросы</value>
   </data>
+  <data name="test.confirmLabel" xml:space="preserve">
+    <value>Ваш ответ</value>
+  </data>
+  <data name="test.confirmQuestion" xml:space="preserve">
+    <value>Подтверждаете этот ответ?</value>
+  </data>
+  <data name="test.confirmYes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="test.confirmNo" xml:space="preserve">
+    <value>Нет</value>
+  </data>
 </root>

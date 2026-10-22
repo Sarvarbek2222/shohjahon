@@ -401,6 +401,65 @@
                     }
             }
     </style>
+    <style>
+        /* Javobni tasdiqlash kartasi (real imtihon) */
+        .ac-overlay {
+            position: fixed; inset: 0; z-index: 4000;
+            display: flex; align-items: center; justify-content: center; padding: 16px;
+            background: rgba(5, 8, 14, .74);
+            opacity: 0; transition: opacity .16s ease;
+        }
+        .ac-overlay[hidden] { display: none; }
+        .ac-overlay.show { opacity: 1; }
+        .ac-card {
+            width: 100%; max-width: 400px;
+            background: linear-gradient(180deg, #1b2130 0%, #141925 100%);
+            border: 1px solid rgba(255, 255, 255, .09);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+            padding: 20px 20px 18px;
+            color: #e8ecf4;
+            transform: translateY(10px) scale(.97); transition: transform .18s ease;
+        }
+        .ac-overlay.show .ac-card { transform: none; }
+        .ac-label {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            color: #8b95a8; margin-bottom: 12px;
+        }
+        .ac-label::before {
+            content: ""; width: 7px; height: 7px; border-radius: 50%;
+            background: #ff4d6a; box-shadow: 0 0 0 4px rgba(255, 77, 106, .18);
+        }
+        .ac-answer {
+            display: flex; align-items: stretch;
+            border-radius: 10px; overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .035);
+        }
+        .ac-key {
+            flex: 0 0 auto; min-width: 48px;
+            display: flex; align-items: center; justify-content: center;
+            background: #1f5d8c; color: #fff; font-weight: 800; font-size: 15px;
+        }
+        .ac-text {
+            padding: 12px 14px; font-size: 15px; line-height: 1.45; font-weight: 600;
+            max-height: 40vh; overflow-y: auto;
+        }
+        .ac-q { margin: 14px 2px 16px; font-size: 14px; color: #aab3c5; }
+        .ac-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ac-btn {
+            height: 44px; border-radius: 10px; border: 1px solid transparent;
+            font-weight: 700; font-size: 15px; cursor: pointer;
+            transition: transform .08s ease, filter .15s ease, background .15s ease;
+        }
+        .ac-btn:active { transform: scale(.97); }
+        .ac-btn:focus-visible { outline: 2px solid #7cc4ff; outline-offset: 2px; }
+        .ac-no { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .12); color: #e8ecf4; }
+        .ac-no:hover { background: rgba(255, 255, 255, .11); }
+        .ac-yes { background: linear-gradient(180deg, #22c55e, #16a34a); color: #fff; box-shadow: 0 6px 18px rgba(34, 197, 94, .28); }
+        .ac-yes:hover { filter: brightness(1.08); }
+    </style>
 </head>
 <body>
 
@@ -443,7 +502,22 @@
             </div>
         </div>
 
-        <div id="imageModal" style="display:none; position:fixed; z-index:5000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.92); align-items:center; justify-content:center;">
+        <div id="answerConfirm" class="ac-overlay" hidden>
+            <div class="ac-card" role="dialog" aria-modal="true" aria-labelledby="acLabel">
+                <div id="acLabel" class="ac-label" data-i18n="test.confirmLabel">@L["test.confirmLabel"]</div>
+                <div class="ac-answer">
+                    <div id="acKey" class="ac-key"></div>
+                    <div id="acText" class="ac-text"></div>
+                </div>
+                <div class="ac-q" data-i18n="test.confirmQuestion">@L["test.confirmQuestion"]</div>
+                <div class="ac-actions">
+                    <button id="acNo" type="button" class="ac-btn ac-no" data-i18n="test.confirmNo">@L["test.confirmNo"]</button>
+                    <button id="acYes" type="button" class="ac-btn ac-yes" data-i18n="test.confirmYes">@L["test.confirmYes"]</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="imageModal"style="display:none; position:fixed; z-index:5000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.92); align-items:center; justify-content:center;">
             <span id="closeModal" style="position:absolute; top:16px; right:24px; font-size:40px; color:white; cursor:pointer; z-index:5001; line-height:1;">×</span>
             <img id="modalImg" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:92vw; height:90vh; object-fit:contain;">
         </div>
@@ -557,7 +631,7 @@
                         }
                     } else {
                         div.onclick = () => {
-                            selectAnswer(q, o);
+                            askConfirm(q, o, index);
                         };
                     }
 
@@ -580,6 +654,40 @@
                     }
                 }, 500);
             }
+
+            // Javobni tasdiqlash kartasi: "Ha" — javob qabul qilinadi, "Yo'q" — boshqa variant tanlash mumkin
+            let pendingAnswer = null;
+
+            function askConfirm(q, o, index) {
+                if (answers[q.id] !== undefined || isReviewMode) return;
+                pendingAnswer = { q, o, index };
+                renderConfirm();
+                const box = document.getElementById("answerConfirm");
+                box.hidden = false;
+                requestAnimationFrame(() => box.classList.add("show"));
+                document.getElementById("acYes").focus();
+            }
+
+            function renderConfirm() {
+                if (!pendingAnswer) return;
+                document.getElementById("acKey").textContent = "F" + (pendingAnswer.index + 1);
+                document.getElementById("acText").textContent = getOptionText(pendingAnswer.o);
+            }
+
+            function closeConfirm(accept) {
+                const p = pendingAnswer;
+                pendingAnswer = null;
+                const box = document.getElementById("answerConfirm");
+                box.classList.remove("show");
+                box.hidden = true;
+                if (accept && p) selectAnswer(p.q, p.o);
+            }
+
+            document.getElementById("acYes").onclick = () => closeConfirm(true);
+            document.getElementById("acNo").onclick = () => closeConfirm(false);
+            document.getElementById("answerConfirm").onclick = function (e) {
+                if (e.target === this) closeConfirm(false);
+            };
 
             document.getElementById("finishBtn").onclick = () => {
                 finishTest();
@@ -690,6 +798,13 @@
             };
 
             document.addEventListener("keydown", function(e) {
+                if (pendingAnswer) {
+                    // Karta ochiq: Enter — Ha, Esc — Yo'q; boshqa tugmalar (F1..F4, strelkalar) ishlamaydi
+                    if (e.key === "Escape") { e.preventDefault(); closeConfirm(false); }
+                    else if (e.key === "Enter") { e.preventDefault(); closeConfirm(true); }
+                    else if (e.key !== "Tab") e.preventDefault();
+                    return;
+                }
                 if (e.key === "Escape") { document.getElementById("imageModal").style.display = "none"; return; }
                 if (e.key === "ArrowRight" && currentIndex < questions.length - 1) { currentIndex++; renderQuestion(); return; }
                 if (e.key === "ArrowLeft" && currentIndex > 0) { currentIndex--; renderQuestion(); return; }
@@ -703,7 +818,7 @@
                         const o = q.options[order[fNum]];
                         if (o) {
                             e.preventDefault();
-                            selectAnswer(q, o);
+                            askConfirm(q, o, fNum);
                         }
                     }
                 }
@@ -743,6 +858,7 @@
             document.addEventListener("i18n:change", () => {
                 renderQuestion();
                 renderResultText();
+                renderConfirm();
             });
     </script>
 
