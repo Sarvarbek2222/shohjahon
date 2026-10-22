@@ -1947,4 +1947,16 @@
   <data name="hm.practiceShort" xml:space="preserve">
     <value>Tasodifiy savollar — har safar yangi to'plam</value>
   </data>
+  <data name="hm.statTopics" xml:space="preserve">
+    <value>mavzu</value>
+  </data>
+  <data name="hm.statQuestions" xml:space="preserve">
+    <value>savol</value>
+  </data>
+  <data name="hm.statBilets" xml:space="preserve">
+    <value>bilet</value>
+  </data>
+  <data name="hm.topicsHint" xml:space="preserve">
+    <value>Mavzuni tanlang — faqat shu mavzu savollari</value>
+  </data>
 </root>

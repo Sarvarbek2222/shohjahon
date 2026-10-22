@@ -1947,4 +1947,16 @@
   <data name="hm.practiceShort" xml:space="preserve">
     <value>Случайные вопросы — каждый раз новый набор</value>
   </data>
+  <data name="hm.statTopics" xml:space="preserve">
+    <value>тем</value>
+  </data>
+  <data name="hm.statQuestions" xml:space="preserve">
+    <value>вопросов</value>
+  </data>
+  <data name="hm.statBilets" xml:space="preserve">
+    <value>билетов</value>
+  </data>
+  <data name="hm.topicsHint" xml:space="preserve">
+    <value>Выберите тему — только её вопросы</value>
+  </data>
 </root>

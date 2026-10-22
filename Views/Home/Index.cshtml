@@ -7,11 +7,11 @@
     // Mashq turlari: (controller, matn kaliti, savollar soni, daraja kaliti)
     var practice = new[]
     {
-        ("Testforty", "nav.q20", 20, "hm.lvl1"),
-        ("Testsixty", "nav.q40", 40, "hm.lvl2"),
-        ("Testeighty", "nav.q80", 80, "hm.lvl3"),
-        ("Testhundred", "nav.q100", 100, "hm.lvl4"),
-        ("Testhundredsixty", "nav.q200", 200, "hm.lvl5"),
+        ("Testforty", "nav.q20", 20, "hm.lvl1", "#22c55e", 1),
+        ("Testsixty", "nav.q40", 40, "hm.lvl2", "#14b8a6", 2),
+        ("Testeighty", "nav.q80", 80, "hm.lvl3", "#38bdf8", 3),
+        ("Testhundred", "nav.q100", 100, "hm.lvl4", "#a78bfa", 4),
+        ("Testhundredsixty", "nav.q200", 200, "hm.lvl5", "#ff4d6a", 5),
     };
 }
 <!DOCTYPE html>
@@ -30,6 +30,7 @@
         body.hm { margin: 0; background: var(--ca-bg); color: var(--ca-text); font-family: var(--ca-font); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
         .hm *, .hm *::before, .hm *::after { box-sizing: border-box; }
         .hm [hidden] { display: none !important; }
+        .hm-header::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,45,74,.55), rgba(56,189,248,.35), transparent); }
         .hm-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
         /* ── Ikki ustun: chapda Mavzular, o'ngda qolgan bo'limlar — bitta ekranga sig'adi ── */
@@ -40,7 +41,9 @@
         }
         .hm-right { display: grid; grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr); gap: 14px; min-height: 0; }
         .hm-block-title { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 8px; }
-        .hm-block-title h2 { margin: 0; font-size: .95rem; font-weight: 800; color: #fff; }
+        .hm-block-title h2 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: .95rem; font-weight: 800; color: #fff; }
+        .hm-h-ic { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--ca-brand-soft); color: #ff8a9b; }
+        .hm-h-ic svg { width: 15px; height: 15px; }
         .hm-block-title span { font-size: .78rem; color: var(--ca-muted); }
         .hm-block { display: flex; flex-direction: column; min-height: 0; }
 
@@ -53,12 +56,25 @@
             border: 1px solid rgba(255,45,74,.32);
         }
         .hm-topics::after { content: ""; position: absolute; inset: auto -30% -45% -10%; height: 90%; background: radial-gradient(closest-side, rgba(255,45,74,.22), transparent); z-index: -1; }
+        .hm-topics::before {
+            content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .55;
+            background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+            background-size: 44px 44px;
+            -webkit-mask-image: radial-gradient(120% 90% at 70% 40%, #000 30%, transparent 75%); mask-image: radial-gradient(120% 90% at 70% 40%, #000 30%, transparent 75%);
+        }
+        .hm-stats { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+        .hm-stats > div { min-width: 92px; padding: 10px 14px; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); backdrop-filter: blur(6px); }
+        .hm-stats b { display: block; font-size: 1.35rem; font-weight: 900; line-height: 1.1; color: #fff; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+        .hm-stats span { font-size: .74rem; font-weight: 600; color: #b9bcc8; }
         .hm-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(255,45,74,.16); color: #ff8a9b; font-size: .74rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
         .hm-badge i { width: 8px; height: 8px; border-radius: 50%; background: #ff2d4a; box-shadow: 0 0 0 4px rgba(255,45,74,.25); }
         .hm-topics h1 { margin: 14px 0 6px; font-size: clamp(2rem, 3.6vw, 3.1rem); font-weight: 900; line-height: 1.05; letter-spacing: -.02em; color: #fff; }
         .hm-topics-desc { margin: 0; max-width: 46ch; color: #d6d8e0; font-size: clamp(.9rem, 1.1vw, 1rem); line-height: 1.55; }
-        .hm-car { flex: 1 1 auto; min-height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; margin: 6px 0; }
-        .hm-car img { max-width: min(560px, 100%); max-height: 100%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 26px 34px rgba(0,0,0,.55)); }
+        .hm-car { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; margin: 6px 0; }
+        .hm-car::before { content: ""; position: absolute; width: 70%; aspect-ratio: 2; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,90,60,.30), transparent); filter: blur(10px); }
+        .hm-car::after { content: ""; position: absolute; bottom: 10%; width: 62%; height: 18px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.65), transparent); }
+        .hm-car img { position: relative; z-index: 1; max-width: min(560px, 100%); max-height: 100%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 22px 26px rgba(0,0,0,.5)); transition: transform .4s ease; }
+        .hm-topics:hover .hm-car img { transform: translateX(6px) scale(1.015); }
         .hm-chips { flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; overflow: hidden; }
         .hm-chip.cut { display: none; }
         .hm-chip {
@@ -112,13 +128,22 @@
             border-radius: 16px; text-decoration: none; color: var(--ca-text); background: var(--ca-surface); border: 1px solid var(--ca-border);
             transition: transform .18s, border-color .18s, box-shadow .18s, background .18s;
         }
-        .hm-tile:hover { transform: translateY(-3px); border-color: rgba(255,45,74,.45); box-shadow: var(--ca-shadow); background: linear-gradient(180deg, rgba(255,45,74,.08), var(--ca-surface)); color: var(--ca-text); }
+        .hm-tile { overflow: hidden; isolation: isolate; }
+        .hm-tile::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--acc); opacity: .85; }
+        .hm-tile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(90% 70% at 20% 0%, color-mix(in srgb, var(--acc) 16%, transparent), transparent 70%); opacity: .7; transition: opacity .2s; }
+        .hm-tile:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--acc) 55%, transparent); box-shadow: 0 14px 34px color-mix(in srgb, var(--acc) 18%, transparent); color: var(--ca-text); }
+        .hm-tile:hover::after { opacity: 1; }
+        .hm-tile-bars { position: absolute; left: 14px; top: 16px; display: flex; gap: 3px; align-items: flex-end; }
+        .hm-tile-bars i { width: 4px; border-radius: 2px; background: rgba(255,255,255,.14); }
+        .hm-tile-bars i:nth-child(1) { height: 6px; } .hm-tile-bars i:nth-child(2) { height: 9px; } .hm-tile-bars i:nth-child(3) { height: 12px; }
+        .hm-tile-bars i:nth-child(4) { height: 15px; } .hm-tile-bars i:nth-child(5) { height: 18px; }
+        .hm-tile-bars i.on { background: var(--acc); }
         .hm-tile-num { font-size: clamp(1.6rem, 2.4vw, 2.3rem); font-weight: 900; line-height: 1; color: #fff; letter-spacing: -.03em; }
         .hm-tile-unit { font-size: .78rem; font-weight: 700; color: var(--ca-muted); }
-        .hm-tile-lvl { margin-top: 6px; align-self: flex-start; font-size: .68rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--ca-brand-soft); color: #ff8a9b; white-space: nowrap; }
+        .hm-tile-lvl { margin-top: 6px; align-self: flex-start; font-size: .68rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: color-mix(in srgb, var(--acc) 16%, transparent); color: var(--acc); white-space: nowrap; }
         .hm-tile-go { position: absolute; right: 10px; top: 10px; width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: rgba(255,255,255,.04); color: var(--ca-muted); transition: all .18s; }
         .hm-tile-go svg { width: 15px; height: 15px; }
-        .hm-tile:hover .hm-tile-go { background: var(--ca-brand); color: #fff; }
+        .hm-tile:hover .hm-tile-go { background: var(--acc); color: #0b0c10; }
 
         /* O'ng: Biletlar va Marafon */
         .hm-modes { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -134,8 +159,10 @@
         .hm-ic.amber { background: rgba(245,165,36,.14); color: #fbbf24; }
         .hm-mode h3 { margin: 0 0 3px; font-size: 1.02rem; font-weight: 800; color: #fff; }
         .hm-mode p { margin: 0; color: var(--ca-muted); font-size: .8rem; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .hm-mode > svg { width: 18px; height: 18px; color: var(--ca-muted); transition: transform .18s, color .18s; }
-        .hm-mode:hover > svg { transform: translateX(3px); color: var(--ca-brand); }
+        .hm-mode-num { text-align: right; line-height: 1; }
+        .hm-mode-num b { display: block; font-size: clamp(1.4rem, 2vw, 1.9rem); font-weight: 900; color: #fff; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+        .hm-mode-num small { font-size: .72rem; font-weight: 700; color: var(--ca-muted); }
+        .hm-mode:hover .hm-mode-num b { color: #ffb3bf; }
 
         /* O'ng: Real imtihon (eng oxirida) */
         .hm-exam {
@@ -192,7 +219,7 @@
     </style>
 </head>
 <body class="hm">
-    <header class="ui-header" id="hmHeader">
+    <header class="ui-header hm-header" id="hmHeader">
         <div class="ui-header-inner">
             <a class="ui-brand" asp-controller="Home" asp-action="Index" aria-label="AVTOPRAVA_SAM">
                 <img src="~/images/logo-96.png" alt="" />
@@ -215,6 +242,12 @@
             <h1 id="hmTopicsTitle" data-i18n="nav.topics">@L["nav.topics"]</h1>
             <p class="hm-topics-desc" data-i18n="hm.topicsBannerDesc">@L["hm.topicsBannerDesc"]</p>
 
+            <div class="hm-stats">
+                <div><b>@Model.TopicCount</b><span data-i18n="hm.statTopics">@L["hm.statTopics"]</span></div>
+                <div><b>@Model.BankSize</b><span data-i18n="hm.statQuestions">@L["hm.statQuestions"]</span></div>
+                <div><b>@Model.BiletCount</b><span data-i18n="hm.statBilets">@L["hm.statBilets"]</span></div>
+            </div>
+
             <div class="hm-car"><img src="~/images/avprsm1 rrr.png" alt="" decoding="async" /></div>
 
             @if (Model.TopTopics.Count > 0)
@@ -231,7 +264,7 @@
 
             <div class="hm-topics-foot">
                 <a class="hm-cta" asp-controller="Topic" asp-action="Index">@Icons.Book <span data-i18n="hm.allTopics">@L["hm.allTopics"]</span></a>
-                <span class="hm-topics-count">@L.F("hm.topicsFact1", ("n", Model.TopicCount)) · @L.F("hm.questionsInBank", ("n", Model.BankSize))</span>
+                <span class="hm-topics-count" data-i18n="hm.topicsHint">@L["hm.topicsHint"]</span>
             </div>
         </section>
 
@@ -251,14 +284,20 @@
 
             <section class="hm-block" aria-labelledby="hmPracticeTitle">
                 <div class="hm-block-title">
-                    <h2 id="hmPracticeTitle" data-i18n="hm.practiceTitle">@L["hm.practiceTitle"]</h2>
+                    <h2 id="hmPracticeTitle"><span class="hm-h-ic">@Icons.Target</span><span data-i18n="hm.practiceTitle">@L["hm.practiceTitle"]</span></h2>
                     <span data-i18n="hm.practiceShort">@L["hm.practiceShort"]</span>
                 </div>
                 <div class="hm-practice">
-                    @foreach (var (ctrl, key, n, lvl) in practice)
+                    @foreach (var (ctrl, key, n, lvl, color, level) in practice)
                     {
-                        <a class="hm-tile" asp-controller="@ctrl" asp-action="Index" aria-label="@L[key]">
+                        <a class="hm-tile" asp-controller="@ctrl" asp-action="Index" aria-label="@L[key]" style="--acc:@color">
                             <span class="hm-tile-go">@Icons.ArrowRight</span>
+                            <span class="hm-tile-bars" aria-hidden="true">
+                                @for (int b = 1; b <= 5; b++)
+                                {
+                                    <i class="@(b <= level ? "on" : "")"></i>
+                                }
+                            </span>
                             <span class="hm-tile-num">@n</span>
                             <span class="hm-tile-unit" data-i18n="hm.questions">@L["hm.questions"]</span>
                             <span class="hm-tile-lvl" data-i18n="@lvl">@L[lvl]</span>
@@ -269,7 +308,7 @@
 
             <section class="hm-block" aria-labelledby="hmModesTitle">
                 <div class="hm-block-title">
-                    <h2 id="hmModesTitle" data-i18n="hm.modesTitle">@L["hm.modesTitle"]</h2>
+                    <h2 id="hmModesTitle"><span class="hm-h-ic">@Icons.Sparkles</span><span data-i18n="hm.modesTitle">@L["hm.modesTitle"]</span></h2>
                 </div>
                 <div class="hm-modes">
                     <a class="hm-mode" asp-controller="Bilet" asp-action="Index">
@@ -278,7 +317,7 @@
                             <h3 data-i18n="nav.bilets">@L["nav.bilets"]</h3>
                             <p>@L.F("hm.biletsDesc", ("n", Model.BiletCount))</p>
                         </span>
-                        @Icons.ArrowRight
+                        <span class="hm-mode-num"><b>@Model.BiletCount</b><small data-i18n="hm.statBilets">@L["hm.statBilets"]</small></span>
                     </a>
                     <a class="hm-mode" asp-controller="TestAll" asp-action="Index">
                         <span class="hm-ic amber">@Icons.Flame</span>
@@ -286,7 +325,7 @@
                             <h3 data-i18n="nav.marathon">@L["nav.marathon"]</h3>
                             <p>@L.F("hm.marathonDesc", ("n", Model.BankSize))</p>
                         </span>
-                        @Icons.ArrowRight
+                        <span class="hm-mode-num"><b>@Model.BankSize</b><small data-i18n="hm.statQuestions">@L["hm.statQuestions"]</small></span>
                     </a>
                 </div>
             </section>
