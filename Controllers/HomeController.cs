@@ -36,6 +36,12 @@ public class HomeController : Controller
             BankSize = all.Count,
             BiletCount = (int)Math.Ceiling(all.Count / 20.0),
             TopicCount = all.Select(q => q.Topic?.Trim()).Where(t => !string.IsNullOrEmpty(t)).Distinct().Count(),
+            TopTopics = all.Where(q => !string.IsNullOrWhiteSpace(q.Topic))
+                .GroupBy(q => q.Topic!.Trim())
+                .Select(g => (g.Key, g.Count()))
+                .OrderByDescending(t => t.Item2)
+                .Take(12)
+                .ToList(),
         };
         return View(model);
     }

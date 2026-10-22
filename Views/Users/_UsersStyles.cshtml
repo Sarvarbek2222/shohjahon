@@ -139,6 +139,26 @@
     .us-form-actions { display: flex; gap: 10px; justify-content: space-between; margin-top: 8px; }
 
     .us-page [hidden] { display: none !important; }
+    .us-phone-field { position: relative; display: flex; align-items: stretch; }
+    .us-phone-cc {
+        display: flex; align-items: center; padding: 0 12px; border: 1px solid var(--border); border-right: 0;
+        border-radius: 4px 0 0 4px; background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 0.95rem;
+        font-variant-numeric: tabular-nums; user-select: none;
+    }
+    .us-phone-field .us-input { flex: 1; min-width: 0; border-radius: 0 4px 4px 0; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+    .us-phone-field:focus-within .us-phone-cc { border-color: #29b6f6; }
+    .us-phone-field.invalid .us-phone-cc, .us-phone-field.invalid .us-input { border-color: var(--red); }
+    .us-phone { color: var(--text); text-decoration: none; font-variant-numeric: tabular-nums; }
+    .us-phone:hover { color: #29b6f6; }
+
+    /* Bitta qurilma qoidasi */
+    .us-rule { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+        padding: 16px 18px; margin-bottom: 8px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); }
+    .us-rule.on { border-left: 3px solid #00e676; }
+    .us-rule.off { border-left: 3px solid #f59e0b; }
+    .us-rule-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .us-rule .us-hint { display: block; margin: 2px 0 0; max-width: 70ch; }
+    .us-rule form { margin: 0; }
 
     /* Hisob turi tanlovi */
     .us-kind { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }

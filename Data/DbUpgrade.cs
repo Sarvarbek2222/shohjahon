@@ -28,6 +28,8 @@ public static class DbUpgrade
         {
             await EnsureUsersTableAsync(db, log);
             await EnsureUserAccessAsync(db, log);
+            await SiteSettings.LoadAsync(db);
+            log.LogInformation("Bitta qurilma qoidasi (o'quvchilar): {State}", SiteSettings.SingleDevice ? "yoqilgan" : "o'chirilgan");
             var users = scope.ServiceProvider.GetRequiredService<UserService>();
             var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             await users.EnsureDefaultSuperAdminAsync(config, log);
@@ -115,6 +117,17 @@ CREATE TABLE `Users` (
             if (await ColumnExistsAsync(conn, "Users", name)) continue;
             await ExecAsync(conn, $"ALTER TABLE `Users` ADD COLUMN `{name}` {type}");
             log.LogInformation("Users.{Column} ustuni qo'shildi", name);
+        }
+
+        if (!await TableExistsAsync(conn, "AppSettings"))
+        {
+            await ExecAsync(conn, @"
+CREATE TABLE `AppSettings` (
+    `Key` varchar(64) CHARACTER SET utf8mb4 NOT NULL,
+    `Value` varchar(255) CHARACTER SET utf8mb4 NULL,
+    PRIMARY KEY (`Key`)
+) CHARACTER SET=utf8mb4");
+            log.LogInformation("AppSettings jadvali yaratildi");
         }
 
         if (!await TableExistsAsync(conn, "UserDeviceRequests"))

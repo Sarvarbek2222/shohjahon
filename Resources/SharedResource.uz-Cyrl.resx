@@ -1048,7 +1048,7 @@
     <value>Имтиҳонга тайёрсиз! 🎉</value>
   </data>
   <data name="cab.readyText" xml:space="preserve">
-    <value>Натижаларингиз барқарор. Шаклни сақлаш учун кунига битта реал имтиҳон ишланг.</value>
+    <value>Базадаги барча саволларни тўғри ишладингиз. Шаклни сақлаш учун кунига битта реал имтиҳон ишланг.</value>
   </data>
   <data name="cab.forecastTitle" xml:space="preserve">
     <value>Тахминий тайёр бўлиш санаси</value>
@@ -1651,7 +1651,7 @@
     <value>Ҳаммасини тест қилиб ишлаш</value>
   </data>
   <data name="cab.limitCoverage" xml:space="preserve">
-    <value>Санани асосан саволлар базасини қамраб олиш белгилайди: яна {n} та саволни тўғри ишлаш керак (ҳозирги суръат — кунига ~{pace} та янги савол). Кўпроқ янги саволлар ишласангиз, сана яқинлашади.</value>
+    <value>Имтиҳонга тайёр бўлиш учун базадаги барча {total} та саволни тўғри ишлаш керак — яна {n} та қолди (ҳозирги суръат — кунига ~{pace} та янги савол). Кўпроқ янги саволлар ишласангиз, сана яқинлашади.</value>
   </data>
   <data name="cab.limitAccuracy" xml:space="preserve">
     <value>Санани асосан аниқлик белгилайди: охирги жавобларингизда тўғри жавоблар улуши 90% га етиши керак.</value>
@@ -1781,5 +1781,119 @@
   </data>
   <data name="users.hidePassword" xml:space="preserve">
     <value>Паролни яшириш</value>
+  </data>
+  <data name="users.phone" xml:space="preserve">
+    <value>Телефон рақами</value>
+  </data>
+  <data name="users.phoneHint" xml:space="preserve">
+    <value>Ўқувчи учун мажбурий. Масалан: +998 90 123 45 67 ёки 90 123 45 67</value>
+  </data>
+  <data name="err.phoneRequired" xml:space="preserve">
+    <value>Ўқувчининг телефон рақамини киритинг</value>
+  </data>
+  <data name="err.phoneFormat" xml:space="preserve">
+    <value>Телефон рақами нотўғри. Масалан: +998 90 123 45 67</value>
+  </data>
+  <data name="users.deviceRuleOff" xml:space="preserve">
+    <value>Ҳозир битта қурилма қоидаси ўчирилган — ўқувчи исталган қурилмадан кира олади. Ёқиш: Қурилма сўровлари саҳифаси.</value>
+  </data>
+  <data name="dev.ruleTitle" xml:space="preserve">
+    <value>Битта қурилма қоидаси (ўқувчилар)</value>
+  </data>
+  <data name="dev.ruleOn" xml:space="preserve">
+    <value>Ёқилган</value>
+  </data>
+  <data name="dev.ruleOff" xml:space="preserve">
+    <value>Ўчирилган</value>
+  </data>
+  <data name="dev.ruleOnDesc" xml:space="preserve">
+    <value>Ҳар бир ўқувчи фақат битта қурилмадан киради. Бошқа қурилмадан кириш учун сизнинг тасдиғингиз керак.</value>
+  </data>
+  <data name="dev.ruleOffDesc" xml:space="preserve">
+    <value>Ўқувчилар исталган қурилмадан (телефон, компьютер) чекловсиз кира олади.</value>
+  </data>
+  <data name="dev.ruleComputers" xml:space="preserve">
+    <value>Компьютер (ўқув маркази) ҳисоблари доим фақат ўз компьютеридан киради.</value>
+  </data>
+  <data name="dev.ruleEnable" xml:space="preserve">
+    <value>Қоидани ёқиш</value>
+  </data>
+  <data name="dev.ruleDisable" xml:space="preserve">
+    <value>Қоидани ўчириш</value>
+  </data>
+  <data name="dev.ruleEnableConfirm" xml:space="preserve">
+    <value>Битта қурилма қоидасини ёқасизми? Ҳар бир ўқувчи кейинги кирган қурилмасига боғланади, бошқа қурилмалардан эса фақат сизнинг тасдиғингиз билан кира олади.</value>
+  </data>
+  <data name="dev.ruleDisableConfirm" xml:space="preserve">
+    <value>Битта қурилма қоидасини ўчирасизми? Ўқувчилар исталган қурилмадан кира олади.</value>
+  </data>
+  <data name="dev.ruleChangedOn" xml:space="preserve">
+    <value>Битта қурилма қоидаси ёқилди</value>
+  </data>
+  <data name="dev.ruleChangedOff" xml:space="preserve">
+    <value>Битта қурилма қоидаси ўчирилди — ўқувчилар исталган қурилмадан кира олади</value>
+  </data>
+  <data name="test.fullscreen" xml:space="preserve">
+    <value>Тўлиқ экран</value>
+  </data>
+  <data name="test.fullscreenExit" xml:space="preserve">
+    <value>Экрандан чиқиш</value>
+  </data>
+  <data name="test.backToSearch" xml:space="preserve">
+    <value>Қидирувга қайтиш</value>
+  </data>
+  <data name="test.qOf" xml:space="preserve">
+    <value>Савол {n} / {total}</value>
+  </data>
+  <data name="cab.progressHint2" xml:space="preserve">
+    <value>Ҳар бир кун: нечта савол ишланган, қанчаси тўғри. Устунни босинг — тафсилот чиқади.</value>
+  </data>
+  <data name="cab.pcAnswers" xml:space="preserve">
+    <value>жавоб (30 кунда)</value>
+  </data>
+  <data name="cab.pcCorrect" xml:space="preserve">
+    <value>тўғри жавоблар</value>
+  </data>
+  <data name="cab.pcActiveDays" xml:space="preserve">
+    <value>фаол кун</value>
+  </data>
+  <data name="cab.pcBestDay" xml:space="preserve">
+    <value>энг кўп: {date}</value>
+  </data>
+  <data name="cab.pcTip" xml:space="preserve">
+    <value>{date} — {n} та жавоб: {ok} тўғри, {bad} хато ({pct}%)</value>
+  </data>
+  <data name="cab.pcTipEmpty" xml:space="preserve">
+    <value>{date} — машқ қилинмаган</value>
+  </data>
+  <data name="cab.pcLegendOk" xml:space="preserve">
+    <value>Тўғри</value>
+  </data>
+  <data name="cab.pcLegendBad" xml:space="preserve">
+    <value>Хато</value>
+  </data>
+  <data name="cab.pcLegendHint" xml:space="preserve">
+    <value>Устун тепасидаги сон — ўша кунги жавоблар</value>
+  </data>
+  <data name="cab.factorSolved" xml:space="preserve">
+    <value>Тўғри ишланган саволлар (базадан)</value>
+  </data>
+  <data name="cab.readinessRule" xml:space="preserve">
+    <value>Тайёрлик фоизи — базадаги саволларнинг қанчаси тўғри ишлангани. Барча саволлар тўғри ишланса — 100%, имтиҳонга тайёрсиз. "Хатоларим"даги саволлар ҳисобга кирмайди.</value>
+  </data>
+  <data name="users.phoneHint2" xml:space="preserve">
+    <value>Ўқувчи учун мажбурий. +998 ўзи ёзилади — фақат қолган 9 та рақамни киритинг.</value>
+  </data>
+  <data name="hm.popularTopics" xml:space="preserve">
+    <value>Кўп саволли мавзулар</value>
+  </data>
+  <data name="hm.allTopics" xml:space="preserve">
+    <value>Барча мавзулар</value>
+  </data>
+  <data name="hm.questionsInBank" xml:space="preserve">
+    <value>базада {n} та савол</value>
+  </data>
+  <data name="hm.practiceShort" xml:space="preserve">
+    <value>Тасодифий саволлар — ҳар сафар янги тўплам</value>
   </data>
 </root>

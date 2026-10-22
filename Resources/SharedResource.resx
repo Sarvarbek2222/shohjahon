@@ -1048,7 +1048,7 @@
     <value>Imtihonga tayyorsiz! 🎉</value>
   </data>
   <data name="cab.readyText" xml:space="preserve">
-    <value>Natijalaringiz barqaror. Shaklni saqlash uchun kuniga bitta real imtihon ishlang.</value>
+    <value>Bazadagi barcha savollarni to'g'ri ishladingiz. Shaklni saqlash uchun kuniga bitta real imtihon ishlang.</value>
   </data>
   <data name="cab.forecastTitle" xml:space="preserve">
     <value>Taxminiy tayyor bo'lish sanasi</value>
@@ -1651,7 +1651,7 @@
     <value>Hammasini test qilib ishlash</value>
   </data>
   <data name="cab.limitCoverage" xml:space="preserve">
-    <value>Sanani asosan savollar bazasini qamrab olish belgilaydi: yana {n} ta savolni to'g'ri ishlash kerak (hozirgi sur'at — kuniga ~{pace} ta yangi savol). Ko'proq yangi savollar ishlasangiz, sana yaqinlashadi.</value>
+    <value>Imtihonga tayyor bo'lish uchun bazadagi barcha {total} ta savolni to'g'ri ishlash kerak — yana {n} ta qoldi (hozirgi sur'at — kuniga ~{pace} ta yangi savol). Ko'proq yangi savollar ishlasangiz, sana yaqinlashadi.</value>
   </data>
   <data name="cab.limitAccuracy" xml:space="preserve">
     <value>Sanani asosan aniqlik belgilaydi: oxirgi javoblaringizda to'g'ri javoblar ulushi 90% ga yetishi kerak.</value>
@@ -1781,5 +1781,119 @@
   </data>
   <data name="users.hidePassword" xml:space="preserve">
     <value>Parolni yashirish</value>
+  </data>
+  <data name="users.phone" xml:space="preserve">
+    <value>Telefon raqami</value>
+  </data>
+  <data name="users.phoneHint" xml:space="preserve">
+    <value>O'quvchi uchun majburiy. Masalan: +998 90 123 45 67 yoki 90 123 45 67</value>
+  </data>
+  <data name="err.phoneRequired" xml:space="preserve">
+    <value>O'quvchining telefon raqamini kiriting</value>
+  </data>
+  <data name="err.phoneFormat" xml:space="preserve">
+    <value>Telefon raqami noto'g'ri. Masalan: +998 90 123 45 67</value>
+  </data>
+  <data name="users.deviceRuleOff" xml:space="preserve">
+    <value>Hozir bitta qurilma qoidasi o'chirilgan — o'quvchi istalgan qurilmadan kira oladi. Yoqish: Qurilma so'rovlari sahifasi.</value>
+  </data>
+  <data name="dev.ruleTitle" xml:space="preserve">
+    <value>Bitta qurilma qoidasi (o'quvchilar)</value>
+  </data>
+  <data name="dev.ruleOn" xml:space="preserve">
+    <value>Yoqilgan</value>
+  </data>
+  <data name="dev.ruleOff" xml:space="preserve">
+    <value>O'chirilgan</value>
+  </data>
+  <data name="dev.ruleOnDesc" xml:space="preserve">
+    <value>Har bir o'quvchi faqat bitta qurilmadan kiradi. Boshqa qurilmadan kirish uchun sizning tasdig'ingiz kerak.</value>
+  </data>
+  <data name="dev.ruleOffDesc" xml:space="preserve">
+    <value>O'quvchilar istalgan qurilmadan (telefon, kompyuter) cheklovsiz kira oladi.</value>
+  </data>
+  <data name="dev.ruleComputers" xml:space="preserve">
+    <value>Kompyuter (o'quv markazi) hisoblari doim faqat o'z kompyuteridan kiradi.</value>
+  </data>
+  <data name="dev.ruleEnable" xml:space="preserve">
+    <value>Qoidani yoqish</value>
+  </data>
+  <data name="dev.ruleDisable" xml:space="preserve">
+    <value>Qoidani o'chirish</value>
+  </data>
+  <data name="dev.ruleEnableConfirm" xml:space="preserve">
+    <value>Bitta qurilma qoidasini yoqasizmi? Har bir o'quvchi keyingi kirgan qurilmasiga bog'lanadi, boshqa qurilmalardan esa faqat sizning tasdig'ingiz bilan kira oladi.</value>
+  </data>
+  <data name="dev.ruleDisableConfirm" xml:space="preserve">
+    <value>Bitta qurilma qoidasini o'chirasizmi? O'quvchilar istalgan qurilmadan kira oladi.</value>
+  </data>
+  <data name="dev.ruleChangedOn" xml:space="preserve">
+    <value>Bitta qurilma qoidasi yoqildi</value>
+  </data>
+  <data name="dev.ruleChangedOff" xml:space="preserve">
+    <value>Bitta qurilma qoidasi o'chirildi — o'quvchilar istalgan qurilmadan kira oladi</value>
+  </data>
+  <data name="test.fullscreen" xml:space="preserve">
+    <value>To'liq ekran</value>
+  </data>
+  <data name="test.fullscreenExit" xml:space="preserve">
+    <value>Ekrandan chiqish</value>
+  </data>
+  <data name="test.backToSearch" xml:space="preserve">
+    <value>Qidiruvga qaytish</value>
+  </data>
+  <data name="test.qOf" xml:space="preserve">
+    <value>Savol {n} / {total}</value>
+  </data>
+  <data name="cab.progressHint2" xml:space="preserve">
+    <value>Har bir kun: nechta savol ishlangan, qanchasi to'g'ri. Ustunni bosing — tafsilot chiqadi.</value>
+  </data>
+  <data name="cab.pcAnswers" xml:space="preserve">
+    <value>javob (30 kunda)</value>
+  </data>
+  <data name="cab.pcCorrect" xml:space="preserve">
+    <value>to'g'ri javoblar</value>
+  </data>
+  <data name="cab.pcActiveDays" xml:space="preserve">
+    <value>faol kun</value>
+  </data>
+  <data name="cab.pcBestDay" xml:space="preserve">
+    <value>eng ko'p: {date}</value>
+  </data>
+  <data name="cab.pcTip" xml:space="preserve">
+    <value>{date} — {n} ta javob: {ok} to'g'ri, {bad} xato ({pct}%)</value>
+  </data>
+  <data name="cab.pcTipEmpty" xml:space="preserve">
+    <value>{date} — mashq qilinmagan</value>
+  </data>
+  <data name="cab.pcLegendOk" xml:space="preserve">
+    <value>To'g'ri</value>
+  </data>
+  <data name="cab.pcLegendBad" xml:space="preserve">
+    <value>Xato</value>
+  </data>
+  <data name="cab.pcLegendHint" xml:space="preserve">
+    <value>Ustun tepasidagi son — o'sha kungi javoblar</value>
+  </data>
+  <data name="cab.factorSolved" xml:space="preserve">
+    <value>To'g'ri ishlangan savollar (bazadan)</value>
+  </data>
+  <data name="cab.readinessRule" xml:space="preserve">
+    <value>Tayyorlik foizi — bazadagi savollarning qanchasi to'g'ri ishlangani. Barcha savollar to'g'ri ishlansa — 100%, imtihonga tayyorsiz. "Xatolarim"dagi savollar hisobga kirmaydi.</value>
+  </data>
+  <data name="users.phoneHint2" xml:space="preserve">
+    <value>O'quvchi uchun majburiy. +998 o'zi yoziladi — faqat qolgan 9 ta raqamni kiriting.</value>
+  </data>
+  <data name="hm.popularTopics" xml:space="preserve">
+    <value>Ko'p savolli mavzular</value>
+  </data>
+  <data name="hm.allTopics" xml:space="preserve">
+    <value>Barcha mavzular</value>
+  </data>
+  <data name="hm.questionsInBank" xml:space="preserve">
+    <value>bazada {n} ta savol</value>
+  </data>
+  <data name="hm.practiceShort" xml:space="preserve">
+    <value>Tasodifiy savollar — har safar yangi to'plam</value>
   </data>
 </root>

@@ -46,24 +46,25 @@
             </div>
             <div class="ca-factor">
                 <div class="ca-factor-top">
-                    <span><span data-i18n="cab.factorAccuracy">@L["cab.factorAccuracy"]</span> · 50%</span>
-                    <b>@Score.Pct(s.RecentAccuracy)% <span class="ca-muted ca-small">/ @L.F("cab.factorTarget", ("n", 90))</span></b>
+                    <span data-i18n="cab.factorSolved">@L["cab.factorSolved"]</span>
+                    <b>@s.Solved / @s.BankSize</b>
                 </div>
-                <div class="ca-bar @Score.BarClass(s.AccuracyScore)"><i data-w="@s.AccuracyScore"></i></div>
+                <div class="ca-bar @Score.BarClass(s.ReadinessScore)"><i data-w="@s.ReadinessScore"></i></div>
+                <p class="ca-muted ca-small" style="margin:6px 0 0;" data-i18n="cab.readinessRule">@L["cab.readinessRule"]</p>
             </div>
             <div class="ca-factor">
                 <div class="ca-factor-top">
-                    <span><span data-i18n="cab.factorExams">@L["cab.factorExams"]</span> · 30%</span>
+                    <span data-i18n="cab.factorAccuracy">@L["cab.factorAccuracy"]</span>
+                    <b>@Score.Pct(s.RecentAccuracy)%</b>
+                </div>
+                <div class="ca-bar @Score.BarClass(s.AccuracyScore)"><i data-w="@Score.Pct(s.RecentAccuracy)"></i></div>
+            </div>
+            <div class="ca-factor">
+                <div class="ca-factor-top">
+                    <span data-i18n="cab.factorExams">@L["cab.factorExams"]</span>
                     <b>@s.ExamScore%</b>
                 </div>
                 <div class="ca-bar @Score.BarClass(s.ExamScore)"><i data-w="@s.ExamScore"></i></div>
-            </div>
-            <div class="ca-factor">
-                <div class="ca-factor-top">
-                    <span><span data-i18n="cab.factorCoverage">@L["cab.factorCoverage"]</span> · 20%</span>
-                    <b>@s.DistinctCorrect / @s.BankSize <span class="ca-muted ca-small">/ @L.F("cab.factorTarget", ("n", 70))</span></b>
-                </div>
-                <div class="ca-bar info"><i data-w="@s.CoverageScore"></i></div>
             </div>
         </div>
 

@@ -35,6 +35,32 @@ public class UserService
 
     public static bool IsValidUsername(string? username) => username != null && UsernameRx.IsMatch(username);
 
+    /// <summary>
+    /// Telefon raqamini yagona ko'rinishga keltiradi: "+998901234567". O'zbekiston raqami 9 xonali yoki 998 bilan
+    /// yozilishi mumkin; boshqa davlat raqami "+" bilan (10–15 raqam). Noto'g'ri bo'lsa — null.
+    /// </summary>
+    public static string? NormalizePhone(string? phone)
+    {
+        if (string.IsNullOrWhiteSpace(phone)) return null;
+        var t = phone.Trim();
+        if (t.Any(ch => !(char.IsDigit(ch) || ch is '+' or ' ' or '-' or '(' or ')'))) return null;
+        var digits = new string(t.Where(char.IsDigit).ToArray());
+        if (digits.Length == 9) return "+998" + digits;
+        if (digits.Length == 12 && digits.StartsWith("998")) return "+" + digits;
+        if (t.StartsWith("+") && digits.Length is >= 10 and <= 15) return "+" + digits;
+        return null;
+    }
+
+    /// <summary>"+998901234567" → "+998 90 123 45 67" (ko'rsatish uchun).</summary>
+    public static string FormatPhone(string? phone)
+    {
+        if (string.IsNullOrEmpty(phone)) return "";
+        var d = new string(phone.Where(char.IsDigit).ToArray());
+        return d.Length == 12 && d.StartsWith("998")
+            ? $"+998 {d[3..5]} {d[5..8]} {d[8..10]} {d[10..12]}"
+            : phone;
+    }
+
     public void SetPassword(AppUser user, string password)
     {
         user.PasswordHash = _hasher.HashPassword(user, password);
@@ -114,7 +140,7 @@ public class UserService
 
         // Muddat tugagan yoki foydalanuvchi boshqa qurilmaga o'tkazilgan (admin tasdiqlagan) — bu sessiya yopiladi
         bool expired = user != null && user.IsExpired(DateTime.UtcNow);
-        bool otherDevice = user != null && user.IsRestricted && user.DeviceId != null &&
+        bool otherDevice = user != null && SiteSettings.DeviceRuleApplies(user) && user.DeviceId != null &&
                            ctx.Principal?.FindFirstValue(DeviceClaim) != user.DeviceId;
 
         if (user == null || !user.IsActive || user.SecurityStamp != stamp || expired || otherDevice)
@@ -146,7 +172,8 @@ public class UserService
     /// </summary>
     public async Task<LoginCheck> CheckDeviceAsync(AppUser user, string deviceId, string? info, string? ip)
     {
-        if (!user.IsRestricted) return LoginCheck.Ok;
+        // Qoida o'chirilgan bo'lsa (admin paneli → Qurilma so'rovlari) — o'quvchi istalgan qurilmadan kiradi
+        if (!SiteSettings.DeviceRuleApplies(user)) return LoginCheck.Ok;
 
         if (user.DeviceId == null)
         {

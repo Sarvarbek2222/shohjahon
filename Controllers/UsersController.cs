@@ -56,6 +56,7 @@ public class UsersController : Controller
         {
             Username = form.Username!.Trim(),
             FullName = Clean(form.FullName),
+            Phone = UserService.NormalizePhone(form.Phone),
             Role = form.Role!,
             IsActive = form.IsActive,
             IsComputer = form.IsComputer && form.Role == Roles.User,
@@ -80,6 +81,7 @@ public class UsersController : Controller
             Id = user.Id,
             Username = user.Username,
             FullName = user.FullName,
+            Phone = UserService.FormatPhone(user.Phone),
             Role = user.Role,
             IsActive = user.IsActive,
             IsComputer = user.IsComputer,
@@ -131,6 +133,7 @@ public class UsersController : Controller
 
         user.Username = form.Username!.Trim();
         user.FullName = Clean(form.FullName);
+        user.Phone = UserService.NormalizePhone(form.Phone);
         user.Role = form.Role!;
         user.IsActive = form.IsActive;
         user.IsComputer = isComputer;
@@ -212,7 +215,18 @@ public class UsersController : Controller
             .ToListAsync();
 
         ViewBag.History = history;
+        ViewBag.SingleDevice = SiteSettings.SingleDevice;
         return View(pending);
+    }
+
+    /// <summary>Bitta qurilma qoidasini o'quvchilar uchun yoqish/o'chirish (kompyuter hisoblari doim bitta qurilmada).</summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SingleDevice(bool on)
+    {
+        await SiteSettings.SetSingleDeviceAsync(_db, on);
+        TempData["MsgKey"] = on ? "dev.ruleChangedOn" : "dev.ruleChangedOff";
+        return RedirectToAction(nameof(Devices));
     }
 
     [HttpPost]
@@ -241,6 +255,15 @@ public class UsersController : Controller
     private async Task ValidateAsync(UserForm form, bool isNew)
     {
         form.Username = form.Username?.Trim();
+
+        // Telefon: oddiy o'quvchi uchun majburiy (kompyuter va super admin uchun — ixtiyoriy)
+        bool isStudent = form.Role == Roles.User && !form.IsComputer;
+        if (string.IsNullOrWhiteSpace(form.Phone))
+        {
+            if (isStudent) ModelState.AddModelError(nameof(form.Phone), T("err.phoneRequired"));
+        }
+        else if (UserService.NormalizePhone(form.Phone) == null)
+            ModelState.AddModelError(nameof(form.Phone), T("err.phoneFormat"));
 
         if (string.IsNullOrEmpty(form.Username))
             ModelState.AddModelError(nameof(form.Username), T("err.usernameRequired"));
@@ -275,6 +298,7 @@ public class UserForm
     public int Id { get; set; }
     public string? Username { get; set; }
     public string? FullName { get; set; }
+    public string? Phone { get; set; }
     public string? Role { get; set; }
     public bool IsActive { get; set; }
     /// <summary>Hisob turi: true — o'quv markazidagi kompyuter, false — shaxsiy o'quvchi.</summary>
