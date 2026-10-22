@@ -83,13 +83,15 @@ public class QuestionSearch
 
     private async Task<Entry[]> GetIndexAsync()
     {
-        var all = await _bank.AllAsync();
+        // Faqat testlarda ishlatiladigan savollar (test bazasi + mavzular) — eski bazadan qolganlar qidiruvda chiqmaydi
+        var pool = await _bank.TestPoolAsync();
+        var topicPool = await _bank.TopicPoolAsync();
         lock (_lock)
         {
-            if (!ReferenceEquals(all, _source))
+            if (!ReferenceEquals(pool, _source))
             {
-                _index = all.Select(Build).ToArray();
-                _source = all;
+                _index = pool.Concat(topicPool).DistinctBy(q => q.Id).OrderBy(q => q.Id).Select(Build).ToArray();
+                _source = pool;
             }
             return _index;
         }

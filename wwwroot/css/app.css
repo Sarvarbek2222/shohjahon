@@ -730,3 +730,88 @@
     .ui-testbar .ui-header-inner { gap: 8px; }
     .ui-testbar-name { display: none; }
 }
+
+/* ── Taraqqiyot diagrammasi (30 kun): har bir kun — alohida ustun ── */
+.pc-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.pc-summary > div { background: var(--ca-surface-2); border: 1px solid var(--ca-border); border-radius: 12px; padding: 10px 12px; min-width: 0; }
+.pc-summary b { display: block; font-size: 1.25rem; font-weight: 800; color: #fff; line-height: 1.2; }
+.pc-summary b small { font-size: .75rem; color: var(--ca-muted); font-weight: 600; }
+.pc-summary span { display: block; font-size: .76rem; color: var(--ca-muted); margin-top: 2px; }
+.pc-chart { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; }
+.pc-yaxis { height: 200px; display: flex; flex-direction: column; justify-content: space-between; font-size: .7rem; color: var(--ca-faint); text-align: right; font-variant-numeric: tabular-nums; }
+.pc-yaxis span { transform: translateY(-50%); }
+.pc-yaxis span:last-child { transform: translateY(50%); }
+.pc-scroll { overflow-x: auto; overflow-y: hidden; padding-top: 2px; scrollbar-width: thin; }
+.pc-cols {
+    display: grid; grid-template-columns: repeat(30, minmax(20px, 1fr)); min-width: 600px; position: relative;
+    background: linear-gradient(to bottom, rgba(255,255,255,.07) 1px, transparent 1px) 0 0 / 100% 100px no-repeat,
+                linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px) 0 100px / 100% 100px no-repeat;
+}
+.pc-col { position: relative; display: flex; flex-direction: column; align-items: center; padding: 0; border: 0; border-radius: 8px; background: none; color: inherit; font: inherit; cursor: pointer; }
+.pc-col:focus-visible { outline: 2px solid var(--ca-info); outline-offset: -2px; }
+.pc-plot { position: relative; width: 100%; height: 200px; display: flex; align-items: flex-end; justify-content: center; border-bottom: 1px solid rgba(255,255,255,.14); border-radius: 6px 6px 0 0; transition: background .12s; }
+.pc-col:hover .pc-plot, .pc-col:focus .pc-plot { background: rgba(255,255,255,.045); }
+.pc-bar { position: relative; width: 64%; max-width: 22px; display: flex; flex-direction: column; border-radius: 5px 5px 2px 2px; overflow: visible; }
+.pc-bar i { display: block; width: 100%; }
+.pc-bar .bad { flex: none; background: #ef4444; border-radius: 5px 5px 0 0; }
+.pc-bar .ok { flex: 1; min-height: 0; background: linear-gradient(#22c55e, #16a34a); border-radius: 0 0 2px 2px; }
+.pc-bar .bad[style*="height:0%"] + .ok { border-radius: 5px 5px 2px 2px; }
+.pc-num { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 3px; font-size: .64rem; font-weight: 700; color: var(--ca-muted); white-space: nowrap; }
+.pc-col.empty .pc-plot::after { content: ""; width: 4px; height: 4px; margin-bottom: -2.5px; border-radius: 50%; background: rgba(255,255,255,.18); }
+.pc-day { margin-top: 6px; min-width: 20px; padding: 1px 4px; border-radius: 6px; font-size: .72rem; font-weight: 600; color: var(--ca-muted); font-variant-numeric: tabular-nums; }
+.pc-col.today .pc-day { background: var(--ca-brand); color: #fff; }
+.pc-month { height: 15px; margin-top: 2px; font-size: .62rem; font-weight: 700; color: var(--ca-faint); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+.pc-tip {
+    position: absolute; top: 4px; left: 50%; transform: translateX(-50%); z-index: 5; width: max-content; max-width: 200px;
+    padding: 8px 10px; border-radius: 10px; background: #1c1f2b; border: 1px solid var(--ca-border-strong); box-shadow: var(--ca-shadow);
+    font-size: .74rem; line-height: 1.45; text-align: left; white-space: normal; color: var(--ca-text);
+    opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .12s;
+}
+.pc-col.left .pc-tip { left: 0; transform: none; }
+.pc-col.right .pc-tip { left: auto; right: 0; transform: none; }
+.pc-col:hover .pc-tip, .pc-col:focus .pc-tip { opacity: 1; visibility: visible; }
+@media (max-width: 640px) {
+    .pc-cols { min-width: 660px; background-size: 100% 85px, 100% 85px; background-position: 0 0, 0 85px; }
+    .pc-plot, .pc-yaxis { height: 170px; }
+}
+
+/* ── Test sahifalari: nav ostidagi boshqaruv paneli ── */
+.ui-testtools { border-top: 1px solid rgba(255,255,255,.06); background: linear-gradient(180deg, rgba(18,20,28,.92), rgba(12,13,19,.92)); }
+.ui-testtools[hidden], .ui-tt-btn[hidden], .ui-tt-q[hidden] { display: none !important; }
+.ui-testtools-inner { height: 54px; display: flex; align-items: center; gap: 10px; padding: 0 clamp(12px, 2vw, 24px); }
+.ui-tt-mid { flex: 1; min-width: 0; display: flex; justify-content: center; }
+.ui-tt-q {
+    padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09);
+    font: 700 .82rem var(--ca-font); color: #d6d8e2; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.ui-tt-btn {
+    display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 12px; flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); color: #fff;
+    font: 700 .86rem var(--ca-font); white-space: nowrap; cursor: pointer; transition: background .15s, border-color .15s, transform .15s, filter .15s;
+}
+.ui-tt-btn:hover { background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.28); }
+.ui-tt-btn:active { transform: translateY(1px); }
+.ui-tt-btn:focus-visible { outline: 2px solid var(--ca-info); outline-offset: 2px; }
+.ui-tt-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+#ttExit:hover { border-color: rgba(255,107,129,.6); color: #ffc2cc; background: rgba(255,45,74,.10); }
+.ui-tt-btn.primary { border-color: transparent; background: linear-gradient(135deg, #16a34a, #22c55e); box-shadow: 0 6px 18px rgba(34,197,94,.28); }
+.ui-tt-btn.primary:hover { filter: brightness(1.08); background: linear-gradient(135deg, #16a34a, #22c55e); }
+.ui-tt-btn .ic-close, .ui-tt-btn .lbl-close { display: none; }
+.ui-tt-btn.on .ic-close, .ui-tt-btn.on .lbl-close { display: inline; }
+.ui-tt-btn.on .ic-open, .ui-tt-btn.on .lbl-open { display: none; }
+.ui-tt-btn.on { border-color: rgba(56,189,248,.55); color: #bae6fd; }
+/* Panel bo'lsa — sahifadagi asl tugmalar yashiriladi (panel ularni bosadi) */
+.has-testtools #exitBtn, .has-testtools #finishBtn { display: none !important; }
+/* Bilet raqami faqat navda (savol ustida takrorlanmasin) */
+.bilet-title { display: none !important; }
+@media (max-width: 640px) {
+    .ui-testtools-inner { height: 50px; gap: 6px; padding: 0 10px; }
+    .ui-tt-btn { height: 38px; padding: 0 12px; font-size: .8rem; }
+    .ui-tt-btn.ghost { padding: 0 10px; }
+    .ui-tt-btn.ghost span { display: none !important; }
+    .ui-tt-q { padding: 5px 10px; font-size: .76rem; }
+}
+@media (max-width: 380px) {
+    #ttExit span, #ttFinish span { display: none; }
+    #ttExit, #ttFinish { padding: 0 11px; }
+}

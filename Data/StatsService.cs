@@ -13,12 +13,26 @@
 public class StatsService
 {
     public const double TargetAccuracy = 0.90;
-    public const double TargetCoverage = 0.70;
+    /// <summary>Tayyor bo'lish uchun bazadagi barcha savollar to'g'ri ishlanishi kerak.</summary>
+    public const double TargetCoverage = 1.0;
     public const int MinAnswersForForecast = 50;
     public const int MinAnswersForReady = 100;
 
     private readonly AppDbContext _db;
-    public StatsService(AppDbContext db) => _db = db;
+    private readonly QuestionBank _bank;
+
+    public StatsService(AppDbContext db, QuestionBank bank)
+    {
+        _db = db;
+        _bank = bank;
+    }
+
+    /// <summary>
+    /// Tayyorlik hisoblanadigan savollar: testlarda ishlatiladigan baza (ptest; u bo'lmasa — barcha savollar).
+    /// Eski bazadan qolgan savollar tayyorlik foiziga ta'sir qilmaydi.
+    /// </summary>
+    private async Task<Dictionary<int, string?>> BankTopicsAsync() =>
+        (await _bank.TestPoolAsync()).ToDictionary(q => q.Id, q => q.Topic?.Trim());
 
     public async Task<UserStats?> GetUserStatsAsync(int userId)
     {
@@ -32,8 +46,7 @@ public class StatsService
             .ToListAsync();
 
         var mistakes = await _db.UserMistakes.AsNoTracking().Where(m => m.UserId == userId).ToListAsync();
-        var questionTopics = await _db.Questions.AsNoTracking()
-            .Select(q => new { q.Id, q.Topic }).ToDictionaryAsync(q => q.Id, q => q.Topic?.Trim());
+        var questionTopics = await BankTopicsAsync();
 
         return Compute(user, attempts, mistakes, questionTopics);
     }
@@ -44,8 +57,7 @@ public class StatsService
         var users = await _db.Users.AsNoTracking().Where(u => u.Role == Roles.User).OrderBy(u => u.Username).ToListAsync();
         var attempts = await _db.TestAttempts.AsNoTracking().Include(a => a.Answers).ToListAsync();
         var mistakes = await _db.UserMistakes.AsNoTracking().ToListAsync();
-        var questionTopics = await _db.Questions.AsNoTracking()
-            .Select(q => new { q.Id, q.Topic }).ToDictionaryAsync(q => q.Id, q => q.Topic?.Trim());
+        var questionTopics = await BankTopicsAsync();
 
         var attemptsByUser = attempts.GroupBy(a => a.UserId).ToDictionary(g => g.Key, g => g.OrderByDescending(a => a.FinishedAt).ToList());
         var mistakesByUser = mistakes.GroupBy(m => m.UserId).ToDictionary(g => g.Key, g => g.ToList());
@@ -150,6 +162,9 @@ public class StatsService
 
         // Xatolar
         s.ActiveMistakes = mistakes.Count(m => m.ResolvedAt == null);
+        // To'g'ri ishlangan va hozir "Xatolarim"da bo'lmagan bazadagi savollar — tayyorlik shular bo'yicha
+        var activeMistakeIds = mistakes.Where(m => m.ResolvedAt == null).Select(m => m.QuestionId).ToHashSet();
+        s.Solved = correctSet.Count(q => questionTopics.ContainsKey(q) && !activeMistakeIds.Contains(q));
         s.ResolvedMistakes = mistakes.Count(m => m.ResolvedAt != null);
         s.Mistakes = mistakes.Where(m => m.ResolvedAt == null).OrderByDescending(m => m.LastWrongAt).ToList();
 
@@ -184,72 +199,41 @@ public class StatsService
         return s;
     }
 
+    /// <summary>
+    /// Imtihonga tayyorlik = bazadagi savollarning necha foizi to'g'ri ishlangan ("Xatolarim"dagi savollar
+    /// hisobga kirmaydi). 100% — bazadagi barcha savollar to'g'ri ishlangan: imtihonga tayyor.
+    /// Aniqlik va imtihon testlari — qo'shimcha ko'rsatkichlar (foizga ta'sir qilmaydi).
+    /// Prognoz: qolgan savollar / o'quvchining yangi savollarni to'g'ri ishlash sur'ati.
+    /// </summary>
     private static void ComputeReadiness(UserStats s, List<(DateTime At, int QuestionId, bool IsCorrect)> answered)
     {
-        double accScore = Math.Min(s.RecentAccuracy / TargetAccuracy, 1);
-        double covScore = Math.Min(s.Coverage / TargetCoverage, 1);
-        s.ReadinessScore = (int)Math.Round(100 * (0.5 * accScore + 0.3 * s.ExamPassRate + 0.2 * covScore));
-        s.AccuracyScore = (int)Math.Round(100 * accScore);
+        s.AccuracyScore = (int)Math.Round(100 * Math.Min(s.RecentAccuracy / TargetAccuracy, 1));
         s.ExamScore = (int)Math.Round(100 * s.ExamPassRate);
-        s.CoverageScore = (int)Math.Round(100 * covScore);
+        // Pastga yaxlitlanadi: 100% faqat hamma savol ishlanganda
+        s.CoverageScore = s.BankSize > 0 ? (int)Math.Floor(100.0 * s.Solved / s.BankSize) : 0;
+        s.ReadinessScore = s.CoverageScore;
 
         s.NeedMoreData = s.TotalAnswered < MinAnswersForForecast;
-        s.IsReady = s.TotalAnswered >= MinAnswersForReady && s.RecentAccuracy >= TargetAccuracy &&
-                    s.LastExamsPassed && s.Coverage >= TargetCoverage;
-        if (s.IsReady) { s.ReadinessScore = Math.Max(s.ReadinessScore, 95); s.DaysToReady = 0; return; }
+        s.IsReady = s.BankSize > 0 && s.Solved >= s.BankSize;
+        s.CoverageNeeded = Math.Max(0, s.BankSize - s.Solved);
+        if (s.IsReady) { s.ReadinessScore = 100; s.DaysToReady = 0; return; }
         if (s.NeedMoreData) return;
 
-        // 1) Aniqlik tendensiyasi: faol kunlar bo'yicha chiziqli regressiya (oxirgi 21 kun, kuniga ≥ 10 javob)
-        var sinceUtc = DateTime.UtcNow.AddDays(-21);
-        var originLocal = DateTime.Now.Date.AddDays(-21);
-        var points = answered.Where(a => a.At >= sinceUtc)
-            .GroupBy(a => a.At.ToLocalTime().Date)
-            .Where(g => g.Count() >= 10)
-            .Select(g => (X: (g.Key - originLocal).TotalDays, Y: (double)g.Count(a => a.IsCorrect) / g.Count()))
-            .OrderBy(p => p.X).ToList();
+        // Sur'at = yangi to'g'ri ishlangan savollar / o'tgan kalendar kunlar (oxirgi 14 kun; o'quvchi undan
+        // kamroq vaqt oldin boshlagan bo'lsa — boshlagan kunidan beri). Kamida 1 kun.
+        var windowStart = DateTime.UtcNow.AddDays(-14);
+        int newCorrect = answered.Where(a => a.IsCorrect).GroupBy(a => a.QuestionId)
+            .Select(g => g.Min(a => a.At)).Count(d => d >= windowStart);
+        var firstAnswer = answered.Count > 0 ? answered.Min(a => a.At) : DateTime.UtcNow;
+        var from = firstAnswer > windowStart ? firstAnswer : windowStart;
+        double elapsedDays = Math.Clamp((DateTime.Now.Date - from.ToLocalTime().Date).TotalDays + 1, 1, 14);
+        s.CoveragePerDay = newCorrect / elapsedDays;
 
-        int? accDays = null;
-        if (s.RecentAccuracy >= TargetAccuracy) accDays = 0;
-        else if (points.Count >= 3)
+        if (s.CoveragePerDay > 0)
         {
-            double mx = points.Average(p => p.X), my = points.Average(p => p.Y);
-            double sxx = points.Sum(p => (p.X - mx) * (p.X - mx));
-            double slope = sxx > 0 ? points.Sum(p => (p.X - mx) * (p.Y - my)) / sxx : 0;
-            s.DailyGrowth = slope;
-            if (slope > 0.002) accDays = (int)Math.Ceiling((TargetAccuracy - s.RecentAccuracy) / slope);
-        }
-
-        // 2) Qamrov sur'ati: faol kunlarda yangi to'g'ri ishlangan savollar soni
-        int? covDays = null;
-        int needCorrect = (int)Math.Ceiling(TargetCoverage * s.BankSize) - s.DistinctCorrect;
-        if (needCorrect <= 0) covDays = 0;
-        else
-        {
-            var windowStart = DateTime.UtcNow.AddDays(-14);
-            var firstCorrect = answered.Where(a => a.IsCorrect).GroupBy(a => a.QuestionId)
-                .Select(g => g.Min(a => a.At)).Where(d => d >= windowStart).ToList();
-
-            // Sur'at = yangi to'g'ri ishlangan savollar / o'tgan kalendar kunlar (o'quvchi 14 kundan kam
-            // vaqt oldin boshlagan bo'lsa — boshlagan kunidan beri). Kamida 1 kun.
-            var firstAnswer = answered.Count > 0 ? answered.Min(a => a.At) : DateTime.UtcNow;
-            var from = firstAnswer > windowStart ? firstAnswer : windowStart;
-            double elapsedDays = Math.Clamp((DateTime.Now.Date - from.ToLocalTime().Date).TotalDays + 1, 1, 14);
-            double pace = firstCorrect.Count / elapsedDays;
-            s.CoveragePerDay = pace;
-            if (pace > 0) covDays = (int)Math.Ceiling(needCorrect / pace);
-        }
-
-        // 3) Imtihon testlari: tayyor bo'lsa ham kamida 3 ta real imtihonni o'tish kerak (~2 kun)
-        int examDays = s.LastExamsPassed ? 0 : 2;
-
-        s.CoverageNeeded = Math.Max(0, needCorrect);
-        if (accDays is int a && covDays is int c)
-        {
-            s.DaysToReady = Math.Clamp(Math.Max(Math.Max(a, c), examDays), 1, 365);
+            s.DaysToReady = Math.Clamp((int)Math.Ceiling(s.CoverageNeeded / s.CoveragePerDay), 1, 730);
             s.PredictedReadyDate = DateTime.Now.Date.AddDays(s.DaysToReady.Value);
-            s.ForecastLimit = c >= a && c >= examDays ? ForecastLimits.Coverage
-                            : a >= examDays ? ForecastLimits.Accuracy
-                            : ForecastLimits.Exams;
+            s.ForecastLimit = ForecastLimits.Coverage;
         }
     }
 
@@ -323,6 +307,8 @@ public class UserStats
     public bool LastExamsPassed { get; set; }
 
     public int DistinctCorrect { get; set; }
+    /// <summary>To'g'ri ishlangan, hozir "Xatolarim"da bo'lmagan bazadagi savollar soni (tayyorlik shu bo'yicha).</summary>
+    public int Solved { get; set; }
     public double Coverage { get; set; }
 
     public int ActiveMistakes { get; set; }

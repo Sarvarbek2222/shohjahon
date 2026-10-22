@@ -1,73 +1,92 @@
 @model List<DayStat>
-@* 30 kunlik taraqqiyot: ustunlar — javoblar soni, chiziq — to'g'ri javoblar ulushi (server tomonida chiziladigan SVG) *@
+@* 30 kunlik taraqqiyot: har bir kun — alohida ustun (yashil — to'g'ri, qizil — xato), ostida kun raqami,
+   bosilganda / ustiga kelinganda — o'sha kunning to'liq tafsiloti. *@
 @using System.Globalization
 @{
-    const double W = 640, H = 220, padL = 34, padR = 10, padT = 12, padB = 26;
-    double plotW = W - padL - padR, plotH = H - padT - padB;
-    int n = Model.Count;
-    double step = n > 0 ? plotW / n : plotW;
-    int maxCount = Math.Max(1, Model.Max(d => d.Answered));
+    var days = Model;
     var inv = CultureInfo.InvariantCulture;
-    string F(double v) => v.ToString("0.#", inv);
-    double X(int i) => padL + step * i + step / 2;
-    double Y(double acc) => padT + plotH * (1 - acc);
+    int maxCount = Math.Max(1, days.Max(d => d.Answered));
+    // Y o'qi uchun "chiroyli" yuqori chegara (5, 10, 20, 25, 50, 100 ...)
+    int[] nice = { 5, 10, 20, 25, 40, 50, 80, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000 };
+    int top = nice.FirstOrDefault(v => v >= maxCount);
+    if (top == 0) top = (int)Math.Ceiling(maxCount / 1000.0) * 1000;
 
-    var pts = Model.Select((d, i) => (d, i)).Where(p => p.d.Answered > 0).Select(p => $"{F(X(p.i))},{F(Y(p.d.Accuracy))}").ToList();
-    bool any = pts.Count > 0;
+    int total = days.Sum(d => d.Answered);
+    int correct = days.Sum(d => d.Correct);
+    int activeDays = days.Count(d => d.Answered > 0);
+    var best = days.Where(d => d.Answered > 0).OrderByDescending(d => d.Answered).FirstOrDefault();
+    var today = DateTime.Now.Date;
 }
-<div class="ca-card">
+<div class="ca-card pc-card">
     <div class="ca-card-head">
         <div>
             <h3 class="ca-card-title" data-i18n="cab.progress">@L["cab.progress"]</h3>
-            <p class="ca-card-sub" data-i18n="cab.progressHint">@L["cab.progressHint"]</p>
+            <p class="ca-card-sub" data-i18n="cab.progressHint2">@L["cab.progressHint2"]</p>
         </div>
     </div>
-    @if (!any)
+
+    @if (total == 0)
     {
         <p class="ca-muted" data-i18n="cab.noActivity">@L["cab.noActivity"]</p>
     }
     else
     {
-        <svg class="ca-chart" viewBox="0 0 @F(W) @F(H)" role="img" aria-label="@L["cab.progress"]">
-            <defs>
-                <linearGradient id="caLine" x1="0" x2="1">
-                    <stop offset="0" stop-color="#ff2d4a" />
-                    <stop offset="1" stop-color="#ff7a45" />
-                </linearGradient>
-            </defs>
-            @foreach (var g in new[] { 0.0, 0.5, 0.9, 1.0 })
+        <div class="pc-summary">
+            <div><b>@total</b><span data-i18n="cab.pcAnswers">@L["cab.pcAnswers"]</span></div>
+            <div><b style="color:@Score.Color(100.0 * correct / total)">@Score.Pct((double)correct / total)%</b><span data-i18n="cab.pcCorrect">@L["cab.pcCorrect"]</span></div>
+            <div><b>@activeDays<small> / 30</small></b><span data-i18n="cab.pcActiveDays">@L["cab.pcActiveDays"]</span></div>
+            @if (best != null)
             {
-                <line x1="@F(padL)" x2="@F(W - padR)" y1="@F(Y(g))" y2="@F(Y(g))"
-                      stroke="@(g == 0.9 ? "rgba(34,197,94,.45)" : "rgba(255,255,255,.07)")" stroke-dasharray="@(g == 0.9 ? "4 4" : "")" />
-                @:<text x="@F(padL - 6)" y="@F(Y(g) + 4)" text-anchor="end" font-size="10" fill="#8e93a8">@((int)(g * 100))%</text>
+                <div><b>@best.Answered</b><span>@L.F("cab.pcBestDay", ("date", best.Date.ToString("d MMMM")))</span></div>
             }
-            @for (int i = 0; i < n; i++)
-            {
-                var d = Model[i];
-                if (d.Answered == 0) { continue; }
-                double h = plotH * 0.45 * d.Answered / maxCount;
-                <rect x="@F(X(i) - step * 0.32)" y="@F(padT + plotH - h)" width="@F(step * 0.64)" height="@F(h)" rx="2" fill="rgba(56,189,248,.28)">
-                    <title>@d.Date.ToString("dd.MM") — @d.Answered · @Score.Pct(d.Accuracy)%</title>
-                </rect>
-            }
-            <polyline points="@string.Join(" ", pts)" fill="none" stroke="url(#caLine)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
-            @for (int i = 0; i < n; i++)
-            {
-                var d = Model[i];
-                if (d.Answered > 0)
-                {
-                    <circle cx="@F(X(i))" cy="@F(Y(d.Accuracy))" r="3.2" fill="#ff2d4a" stroke="#12141c" stroke-width="1.5" />
-                }
-                if (i % 5 == 0 || i == n - 1)
-                {
-                    @:<text x="@F(X(i))" y="@F(H - 8)" text-anchor="middle" font-size="10" fill="#8e93a8">@d.Date.ToString("dd.MM")</text>
-                }
-            }
-        </svg>
-        <div class="ca-chart-legend">
-            <span><i style="background:linear-gradient(90deg,#ff2d4a,#ff7a45)"></i><span data-i18n="cab.colAccuracy">@L["cab.colAccuracy"]</span></span>
-            <span><i style="background:rgba(56,189,248,.5)"></i><span data-i18n="cab.colAnswered">@L["cab.colAnswered"]</span></span>
-            <span><i style="background:rgba(34,197,94,.7)"></i>90%</span>
         </div>
+
+        <div class="pc-chart">
+            <div class="pc-yaxis" aria-hidden="true">
+                <span>@top</span><span>@(top / 2)</span><span>0</span>
+            </div>
+            <div class="pc-scroll" data-pc-scroll>
+                <div class="pc-cols">
+                    @for (int i = 0; i < days.Count; i++)
+                    {
+                        var d = days[i];
+                        int wrong = d.Answered - d.Correct;
+                        double h = 100.0 * d.Answered / top;
+                        double badShare = d.Answered > 0 ? 100.0 * wrong / d.Answered : 0;
+                        bool isToday = d.Date == today;
+                        bool newMonth = i == 0 || d.Date.Day == 1;
+                        var dateText = d.Date.ToString("d MMMM, dddd");
+                        var tip = d.Answered > 0
+                            ? L.F("cab.pcTip", ("date", dateText), ("n", d.Answered), ("ok", d.Correct), ("bad", wrong), ("pct", Score.Pct(d.Accuracy)))
+                            : L.F("cab.pcTipEmpty", ("date", dateText));
+                        <button type="button" class="pc-col @(isToday ? "today" : "") @(d.Answered == 0 ? "empty" : "") @(i < 4 ? "left" : i > days.Count - 5 ? "right" : "")" aria-label="@tip">
+                            <span class="pc-plot">
+                                @if (d.Answered > 0)
+                                {
+                                    <span class="pc-bar" style="height:@(Math.Max(h, 2).ToString("0.#", inv))%">
+                                        <span class="pc-num">@d.Answered</span>
+                                        <i class="bad" style="height:@(badShare.ToString("0.#", inv))%"></i>
+                                        <i class="ok"></i>
+                                    </span>
+                                }
+                            </span>
+                            <span class="pc-day">@d.Date.Day</span>
+                            <span class="pc-month">@(newMonth ? d.Date.ToString("MMM") : "")</span>
+                            <span class="pc-tip" role="tooltip">@tip</span>
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="ca-chart-legend">
+            <span><i style="background:#22c55e"></i><span data-i18n="cab.pcLegendOk">@L["cab.pcLegendOk"]</span></span>
+            <span><i style="background:#ef4444"></i><span data-i18n="cab.pcLegendBad">@L["cab.pcLegendBad"]</span></span>
+            <span class="ca-muted" data-i18n="cab.pcLegendHint">@L["cab.pcLegendHint"]</span>
+        </div>
+        <script>
+            // Telefonda diagramma bugungi kunga (o'ng tomonga) aylantirilgan holda ochilsin
+            document.querySelectorAll("[data-pc-scroll]").forEach(function (el) { el.scrollLeft = el.scrollWidth; });
+        </script>
     }
 </div>

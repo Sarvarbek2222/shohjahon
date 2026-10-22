@@ -30,11 +30,18 @@ public class HomeController : Controller
     {
         if (User.IsInRole(Roles.SuperAdmin)) return RedirectToAction("Index1", "Question");
 
+        var byTopic = await _bank.ByTopicAsync();
         var model = new HomeModel
         {
             BankSize = (await _bank.TestPoolAsync()).Count,
             BiletCount = (await _bank.BiletsAsync()).Count,
-            TopicCount = (await _bank.ByTopicAsync()).Count(kv => kv.Value.Count > 0),
+            TopicCount = byTopic.Count(kv => kv.Value.Count > 0),
+            // Eng ko'p savolli mavzular — bosh sahifadagi tezkor havolalar
+            TopTopics = byTopic.Where(kv => kv.Value.Count > 0)
+                .Select(kv => (kv.Key, kv.Value.Count))
+                .OrderByDescending(t => t.Item2)
+                .Take(12)
+                .ToList(),
         };
         return View(model);
     }

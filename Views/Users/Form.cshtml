@@ -56,16 +56,28 @@
         </div>
 
         <div class="us-field">
-            <label class="us-label" for="Phone"><span data-i18n="users.phone">@L["users.phone"]</span> <span class="us-req" id="phoneReq">*</span></label>
-            <input asp-for="Phone" type="tel" inputmode="tel" class="us-input @(FieldError("Phone") != null ? "invalid" : "")"
-                   maxlength="24" autocomplete="off" placeholder="+998 90 123 45 67" />
+            @{
+                // Saqlangan raqamdan "+998" dan keyingi 9 ta raqam (90 123 45 67)
+                var phoneDigits = new string((Model.Phone ?? "").Where(char.IsDigit).ToArray());
+                if (phoneDigits.Length == 12 && phoneDigits.StartsWith("998")) { phoneDigits = phoneDigits[3..]; }
+                var phoneLocal = phoneDigits.Length == 9
+                    ? $"{phoneDigits[..2]} {phoneDigits[2..5]} {phoneDigits[5..7]} {phoneDigits[7..]}"
+                    : phoneDigits;
+            }
+            <label class="us-label" for="PhoneLocal" data-i18n="users.phone">@L["users.phone"]</label>
+            <div class="us-phone-field @(FieldError("Phone") != null ? "invalid" : "")">
+                <span class="us-phone-cc" aria-hidden="true">+998</span>
+                <input id="PhoneLocal" type="tel" inputmode="numeric" class="us-input" maxlength="12" autocomplete="off"
+                       placeholder="90 123 45 67" value="@phoneLocal" aria-describedby="phoneHelp" />
+                <input type="hidden" asp-for="Phone" />
+            </div>
             @if (FieldError("Phone") is string phe)
             {
                 <span class="us-field-err">@phe</span>
             }
             else
             {
-                <span class="us-hint" data-i18n="users.phoneHint">@L["users.phoneHint"]</span>
+                <span class="us-hint" id="phoneHelp" data-i18n="users.phoneHint2">@L["users.phoneHint2"]</span>
             }
         </div>
 
@@ -304,28 +316,35 @@
         // Super admin uchun muddat va qurilma cheklovi yo'q — bo'limlar yashiriladi
         // 👁 Parolni ko'rsatish / yashirish
         var eyeOn = @Json.Serialize(Icons.Eye.ToString()), eyeOff = @Json.Serialize(Icons.EyeOff.ToString());
-        document.querySelectorAll("[data-pwd-toggle]").forEach(function (btn) {
+        var eyeBtns = document.querySelectorAll("[data-pwd-toggle]");
+        eyeBtns.forEach(function (btn) {
             btn.addEventListener("click", function () {
-                var inp = btn.parentNode.querySelector("input");
-                var show = inp.type === "password";
-                inp.type = show ? "text" : "password";
-                btn.innerHTML = show ? eyeOff : eyeOn;
-                btn.setAttribute("aria-pressed", show ? "true" : "false");
+                var show = btn.parentNode.querySelector("input").type === "password";
                 var key = show ? "users.hidePassword" : "users.showPassword";
-                btn.title = I18n.t(key);
-                btn.setAttribute("aria-label", I18n.t(key));
-                btn.setAttribute("data-i18n-title", key);
-                inp.focus();
+                eyeBtns.forEach(function (b) {
+                    b.parentNode.querySelector("input").type = show ? "text" : "password";
+                    b.innerHTML = show ? eyeOff : eyeOn;
+                    b.setAttribute("aria-pressed", show ? "true" : "false");
+                    b.title = I18n.t(key);
+                    b.setAttribute("aria-label", I18n.t(key));
+                    b.setAttribute("data-i18n-title", key);
+                });
+                btn.parentNode.querySelector("input").focus();
             });
         });
 
-        function refreshPhoneReq() {
-            var comp = document.querySelector('input[name="IsComputer"][value="true"]');
-            document.getElementById("phoneReq").hidden = role.value === "superadmin" || (comp && comp.checked);
+        // 📞 Telefon: faqat raqamlar, "90 123 45 67" ko'rinishida; yashirin maydonga "+998901234567" yoziladi
+        var phoneLocal = document.getElementById("PhoneLocal"), phoneHidden = document.getElementById("Phone");
+        function syncPhone() {
+            var d = phoneLocal.value.replace(/\D/g, "");
+            if (d.length > 9 && d.indexOf("998") === 0) d = d.slice(3); // "+998..." to'liq yopishtirilsa
+            d = d.slice(0, 9);
+            var parts = [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean);
+            phoneLocal.value = parts.join(" ");
+            phoneHidden.value = d ? "+998" + d : "";
         }
-        document.querySelectorAll('input[name="IsComputer"]').forEach(function (r) { r.addEventListener("change", refreshPhoneReq); });
-        role.addEventListener("change", refreshPhoneReq);
-        refreshPhoneReq();
+        phoneLocal.addEventListener("input", syncPhone);
+        syncPhone();
 
         function refreshRole() {
             var admin = role.value === "superadmin";

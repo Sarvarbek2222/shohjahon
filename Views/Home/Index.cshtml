@@ -4,7 +4,6 @@
     ViewData["TitleKey"] = "home.pageTitle";
     ViewData["Title"] = L["home.pageTitle"];
 
-
     // Mashq turlari: (controller, matn kaliti, savollar soni, daraja kaliti)
     var practice = new[]
     {
@@ -31,46 +30,69 @@
         body.hm { margin: 0; background: var(--ca-bg); color: var(--ca-text); font-family: var(--ca-font); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
         .hm *, .hm *::before, .hm *::after { box-sizing: border-box; }
         .hm [hidden] { display: none !important; }
-        .hm-wrap { width: min(1240px, 100%); margin: 0 auto; padding: 0 clamp(16px, 3vw, 32px); }
-        .hm-section { margin-top: clamp(28px, 4vw, 48px); }
-        .hm-sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-        .hm-sec-title { margin: 0; font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 800; color: #fff; letter-spacing: -.01em; }
-        .hm-sec-sub { margin: 4px 0 0; color: var(--ca-muted); font-size: .9rem; }
-
-        /* ── Yuqori qism ── */
-        .hm-hero { position: relative; padding: clamp(24px, 4vw, 44px) 0 0; }
-        .hm-hero::before {
-            content: ""; position: absolute; inset: -80px 0 auto 0; height: 520px; z-index: -1; pointer-events: none;
-            background: radial-gradient(600px 300px at 15% 20%, rgba(255,45,74,.16), transparent 70%),
-                        radial-gradient(500px 280px at 85% 10%, rgba(56,189,248,.10), transparent 70%);
-        }
-        .hm-hero-grid { text-align: center; }
-        .hm-hero-grid .hm-lead { margin-left: auto; margin-right: auto; }
-        .hm-hero-grid .hm-search { margin: 0 auto; text-align: left; }
         .hm-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-        .hm-lead { margin: 0 0 22px; color: var(--ca-muted); font-size: clamp(.95rem, 1.4vw, 1.08rem); line-height: 1.55; max-width: 56ch; }
 
-        /* Qidiruv */
-        .hm-search { position: relative; max-width: 680px; }
+        /* ── Ikki ustun: chapda Mavzular, o'ngda qolgan bo'limlar — bitta ekranga sig'adi ── */
+        .hm-split {
+            display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px;
+            width: min(1600px, 100%); margin: 0 auto; padding: 16px clamp(14px, 2vw, 24px);
+            height: calc(100dvh - var(--hm-header, 64px));
+        }
+        .hm-right { display: grid; grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr); gap: 14px; min-height: 0; }
+        .hm-block-title { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 8px; }
+        .hm-block-title h2 { margin: 0; font-size: .95rem; font-weight: 800; color: #fff; }
+        .hm-block-title span { font-size: .78rem; color: var(--ca-muted); }
+        .hm-block { display: flex; flex-direction: column; min-height: 0; }
+
+        /* Chap: Mavzular paneli */
+        .hm-topics {
+            position: relative; overflow: hidden; isolation: isolate; display: flex; flex-direction: column; min-height: 0;
+            border-radius: 24px; padding: clamp(20px, 2.6vw, 34px);
+            background: radial-gradient(120% 80% at 100% 0%, rgba(255,90,60,.20), transparent 55%),
+                        linear-gradient(160deg, #2a0a12 0%, #170a10 45%, #0f1018 100%);
+            border: 1px solid rgba(255,45,74,.32);
+        }
+        .hm-topics::after { content: ""; position: absolute; inset: auto -30% -45% -10%; height: 90%; background: radial-gradient(closest-side, rgba(255,45,74,.22), transparent); z-index: -1; }
+        .hm-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(255,45,74,.16); color: #ff8a9b; font-size: .74rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+        .hm-badge i { width: 8px; height: 8px; border-radius: 50%; background: #ff2d4a; box-shadow: 0 0 0 4px rgba(255,45,74,.25); }
+        .hm-topics h1 { margin: 14px 0 6px; font-size: clamp(2rem, 3.6vw, 3.1rem); font-weight: 900; line-height: 1.05; letter-spacing: -.02em; color: #fff; }
+        .hm-topics-desc { margin: 0; max-width: 46ch; color: #d6d8e0; font-size: clamp(.9rem, 1.1vw, 1rem); line-height: 1.55; }
+        .hm-car { flex: 1 1 auto; min-height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; margin: 6px 0; }
+        .hm-car img { max-width: min(560px, 100%); max-height: 100%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 26px 34px rgba(0,0,0,.55)); }
+        .hm-chips { flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; overflow: hidden; }
+        .hm-chip.cut { display: none; }
+        .hm-chip {
+            display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 7px 12px; border-radius: 10px; text-decoration: none;
+            background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); color: #eceef4; font-size: .8rem; font-weight: 600; transition: all .15s;
+        }
+        .hm-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hm-chip b { color: var(--ca-muted); font-weight: 700; font-size: .72rem; }
+        .hm-chip:hover { background: rgba(255,45,74,.16); border-color: rgba(255,45,74,.45); color: #fff; }
+        .hm-topics-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+        .hm-cta {
+            display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; border-radius: 14px; text-decoration: none;
+            background: linear-gradient(135deg, #ff2d4a, #ff5a3c); color: #fff; font-weight: 800; font-size: .95rem; box-shadow: 0 10px 28px rgba(255,45,74,.35); transition: filter .15s, transform .15s;
+        }
+        .hm-cta:hover { filter: brightness(1.08); transform: translateY(-1px); color: #fff; }
+        .hm-cta svg { width: 18px; height: 18px; }
+        .hm-topics-count { color: var(--ca-muted); font-size: .85rem; }
+        .hm-topics-count b { color: #fff; }
+
+        /* O'ng: qidiruv */
+        .hm-search { position: relative; }
         .hm-search-field { position: relative; display: block; }
-        .hm-search-field > svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; color: var(--ca-faint); pointer-events: none; }
+        .hm-search-field > svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--ca-faint); pointer-events: none; }
         .hm-search-input {
-            width: 100%; height: 62px; padding: 0 128px 0 54px; border-radius: 18px; outline: none;
+            width: 100%; height: 52px; padding: 0 112px 0 48px; border-radius: 16px; outline: none;
             border: 1px solid var(--ca-border-strong); background: var(--ca-surface); color: var(--ca-text);
-            font: 600 1.02rem var(--ca-font); box-shadow: var(--ca-shadow); transition: border-color .15s, box-shadow .15s;
+            font: 600 .98rem var(--ca-font); transition: border-color .15s, box-shadow .15s;
         }
         .hm-search-input::placeholder { color: var(--ca-faint); font-weight: 500; }
         .hm-search-input::-webkit-search-cancel-button { display: none; }
-        .hm-search-input:focus { border-color: var(--ca-brand); box-shadow: 0 0 0 4px var(--ca-brand-soft), var(--ca-shadow); }
-        .hm-search-btn {
-            position: absolute; right: 8px; top: 8px; height: 46px; padding: 0 20px; border: 0; border-radius: 12px; cursor: pointer;
-            background: linear-gradient(135deg, #ff2d4a, #ff5a3c); color: #fff; font: 700 .9rem var(--ca-font);
-        }
+        .hm-search-input:focus { border-color: var(--ca-brand); box-shadow: 0 0 0 4px var(--ca-brand-soft); }
+        .hm-search-btn { position: absolute; right: 6px; top: 6px; height: 40px; padding: 0 18px; border: 0; border-radius: 11px; cursor: pointer; background: linear-gradient(135deg, #ff2d4a, #ff5a3c); color: #fff; font: 700 .86rem var(--ca-font); }
         .hm-search-btn:hover { filter: brightness(1.08); }
-        .hm-suggest {
-            position: absolute; left: 0; right: 0; top: 70px; z-index: 30; overflow: hidden; border-radius: 16px;
-            background: var(--ca-bg-2); border: 1px solid var(--ca-border-strong); box-shadow: var(--ca-shadow-lg);
-        }
+        .hm-suggest { position: absolute; left: 0; right: 0; top: 60px; z-index: 30; overflow: hidden; border-radius: 16px; background: var(--ca-bg-2); border: 1px solid var(--ca-border-strong); box-shadow: var(--ca-shadow-lg); }
         .hm-sg-item { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 14px; text-decoration: none; border-bottom: 1px solid var(--ca-border); color: var(--ca-text); }
         .hm-sg-item:hover, .hm-sg-item.on { background: var(--ca-surface-2); }
         .hm-sg-thumb { width: 48px; height: 38px; border-radius: 8px; overflow: hidden; background: var(--ca-surface-2); display: grid; place-items: center; color: var(--ca-faint); }
@@ -82,97 +104,95 @@
         .hm-sg-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; color: var(--ca-brand); font-weight: 700; font-size: .86rem; text-decoration: none; }
         .hm-sg-foot:hover, .hm-sg-foot.on { background: var(--ca-surface-2); }
         .hm-sg-empty { padding: 16px 14px; color: var(--ca-muted); font-size: .9rem; }
-        .hm-search-hint { margin-top: 10px; color: var(--ca-faint); font-size: .8rem; }
 
-
-        /* Real imtihon banneri */
-        .hm-exam {
-            position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 42%); align-items: center; gap: 16px;
-            border-radius: 24px; padding: clamp(22px, 3.5vw, 36px); text-decoration: none; isolation: isolate; color: var(--ca-text);
-            background: linear-gradient(120deg, #2a0a12 0%, #160a10 45%, #0f1018 100%); border: 1px solid rgba(255,45,74,.35);
-            transition: transform .2s, box-shadow .2s, border-color .2s;
-        }
-        .hm-exam::after { content: ""; position: absolute; inset: auto -20% -60% 30%; height: 120%; background: radial-gradient(closest-side, rgba(255,45,74,.28), transparent); z-index: -1; }
-        .hm-exam:hover { transform: translateY(-3px); border-color: rgba(255,45,74,.7); box-shadow: 0 24px 60px rgba(255,45,74,.18); color: var(--ca-text); }
-        .hm-exam-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(255,45,74,.16); color: #ff8a9b; font-size: .76rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-        .hm-exam-badge i { width: 8px; height: 8px; border-radius: 50%; background: #ff2d4a; box-shadow: 0 0 0 4px rgba(255,45,74,.25); animation: hm-pulse 1.8s infinite; }
-        @@keyframes hm-pulse { 50% { box-shadow: 0 0 0 8px rgba(255,45,74,0); } }
-        .hm-exam h2 { margin: 14px 0 8px; font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 900; color: #fff; letter-spacing: -.02em; }
-        .hm-exam p { margin: 0 0 20px; color: #d6d8e0; font-size: .98rem; line-height: 1.55; max-width: 48ch; }
-        .hm-exam-facts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-        .hm-exam-facts span { padding: 6px 12px; border-radius: 10px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); font-size: .82rem; font-weight: 600; color: #e9eaf0; }
-        .hm-cta { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 14px; background: linear-gradient(135deg, #ff2d4a, #ff5a3c); color: #fff; font-weight: 800; font-size: .95rem; box-shadow: 0 10px 30px rgba(255,45,74,.35); }
-        .hm-cta svg { width: 18px; height: 18px; }
-        .hm-exam-final { grid-template-columns: minmax(0, 1fr) auto; }
-        .hm-final-ic { width: clamp(120px, 16vw, 180px); aspect-ratio: 1; border-radius: 32px; display: grid; place-items: center; margin-right: clamp(0px, 3vw, 40px);
-            background: radial-gradient(circle at 30% 25%, rgba(255,122,69,.35), rgba(255,45,74,.12) 60%, transparent); border: 1px solid rgba(255,45,74,.35); color: #ffb199; transition: transform .3s; }
-        .hm-final-ic svg { width: 46%; height: 46%; }
-        .hm-exam-final:hover .hm-final-ic { transform: rotate(-6deg) scale(1.04); }
-        .hm-exam-img { width: 100%; max-height: 240px; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(0,0,0,.6)); transition: transform .3s; }
-        .hm-exam:hover .hm-exam-img { transform: translateX(8px) scale(1.02); }
-
-        /* Mashq turlari */
-        .hm-practice { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+        /* O'ng: mashq testlari */
+        .hm-practice { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
         .hm-tile {
-            position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px; border-radius: 18px; text-decoration: none; color: var(--ca-text);
-            background: var(--ca-surface); border: 1px solid var(--ca-border); transition: transform .18s, border-color .18s, box-shadow .18s;
+            position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 14px; min-height: 0;
+            border-radius: 16px; text-decoration: none; color: var(--ca-text); background: var(--ca-surface); border: 1px solid var(--ca-border);
+            transition: transform .18s, border-color .18s, box-shadow .18s, background .18s;
         }
-        .hm-tile:hover { transform: translateY(-3px); border-color: var(--ca-border-strong); box-shadow: var(--ca-shadow); color: var(--ca-text); }
-        .hm-tile-num { font-size: 2.3rem; font-weight: 900; line-height: 1; color: #fff; letter-spacing: -.03em; }
-        .hm-tile-unit { font-size: .82rem; font-weight: 700; color: var(--ca-muted); }
-        .hm-tile-lvl { margin-top: 8px; align-self: flex-start; font-size: .72rem; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: var(--ca-brand-soft); color: #ff8a9b; }
-        .hm-tile-go { position: absolute; right: 14px; top: 16px; width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center; background: rgba(255,255,255,.04); color: var(--ca-muted); transition: all .18s; }
-        .hm-tile-go svg { width: 16px; height: 16px; }
+        .hm-tile:hover { transform: translateY(-3px); border-color: rgba(255,45,74,.45); box-shadow: var(--ca-shadow); background: linear-gradient(180deg, rgba(255,45,74,.08), var(--ca-surface)); color: var(--ca-text); }
+        .hm-tile-num { font-size: clamp(1.6rem, 2.4vw, 2.3rem); font-weight: 900; line-height: 1; color: #fff; letter-spacing: -.03em; }
+        .hm-tile-unit { font-size: .78rem; font-weight: 700; color: var(--ca-muted); }
+        .hm-tile-lvl { margin-top: 6px; align-self: flex-start; font-size: .68rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--ca-brand-soft); color: #ff8a9b; white-space: nowrap; }
+        .hm-tile-go { position: absolute; right: 10px; top: 10px; width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: rgba(255,255,255,.04); color: var(--ca-muted); transition: all .18s; }
+        .hm-tile-go svg { width: 15px; height: 15px; }
         .hm-tile:hover .hm-tile-go { background: var(--ca-brand); color: #fff; }
 
-        /* Bo'limlar */
-        .hm-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-        .hm-card {
-            display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: 18px; text-decoration: none; min-height: 170px; color: var(--ca-text);
-            background: var(--ca-surface); border: 1px solid var(--ca-border); transition: transform .18s, border-color .18s, box-shadow .18s;
+        /* O'ng: Biletlar va Marafon */
+        .hm-modes { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .hm-mode {
+            display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 16px 18px; min-height: 0;
+            border-radius: 16px; text-decoration: none; color: var(--ca-text); background: var(--ca-surface); border: 1px solid var(--ca-border);
+            transition: transform .18s, border-color .18s, box-shadow .18s;
         }
-        .hm-card:hover { transform: translateY(-3px); border-color: var(--ca-border-strong); box-shadow: var(--ca-shadow); color: var(--ca-text); }
+        .hm-mode:hover { transform: translateY(-3px); border-color: var(--ca-border-strong); box-shadow: var(--ca-shadow); color: var(--ca-text); }
         .hm-ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; }
         .hm-ic svg { width: 22px; height: 22px; }
-        .hm-ic.red { background: rgba(255,45,74,.14); color: #ff6b81; }
         .hm-ic.blue { background: rgba(56,189,248,.14); color: #38bdf8; }
-        .hm-ic.green { background: rgba(34,197,94,.14); color: #4ade80; }
         .hm-ic.amber { background: rgba(245,165,36,.14); color: #fbbf24; }
-        .hm-ic.violet { background: rgba(167,139,250,.14); color: #c4b5fd; }
-        .hm-card h3 { margin: 4px 0 0; font-size: 1.05rem; font-weight: 800; color: #fff; }
-        .hm-card p { margin: 0; color: var(--ca-muted); font-size: .86rem; line-height: 1.5; }
-        .hm-card-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: .82rem; font-weight: 700; color: var(--ca-text); }
-        .hm-card-foot svg { width: 16px; height: 16px; color: var(--ca-muted); transition: transform .18s, color .18s; }
-        .hm-card:hover .hm-card-foot svg { transform: translateX(3px); color: var(--ca-brand); }
+        .hm-mode h3 { margin: 0 0 3px; font-size: 1.02rem; font-weight: 800; color: #fff; }
+        .hm-mode p { margin: 0; color: var(--ca-muted); font-size: .8rem; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .hm-mode > svg { width: 18px; height: 18px; color: var(--ca-muted); transition: transform .18s, color .18s; }
+        .hm-mode:hover > svg { transform: translateX(3px); color: var(--ca-brand); }
 
-        .hm-footer { margin-top: clamp(40px, 6vw, 72px); border-top: 1px solid var(--ca-border); padding: 22px 0 28px; color: var(--ca-faint); font-size: .82rem; }
-        .hm-footer .hm-wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-        .hm-footer b { color: #fff; }
-
-        @@media (max-width: 1100px) {
-            .hm-practice { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-            .hm-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        /* O'ng: Real imtihon (eng oxirida) */
+        .hm-exam {
+            position: relative; overflow: hidden; isolation: isolate; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px;
+            padding: clamp(16px, 2vw, 24px); border-radius: 20px; text-decoration: none; color: var(--ca-text);
+            background: linear-gradient(120deg, #2a0a12 0%, #160a10 50%, #0f1018 100%); border: 1px solid rgba(255,45,74,.35);
+            transition: transform .2s, box-shadow .2s, border-color .2s;
         }
+        .hm-exam::after { content: ""; position: absolute; inset: auto -20% -70% 35%; height: 140%; background: radial-gradient(closest-side, rgba(255,45,74,.26), transparent); z-index: -1; }
+        .hm-exam:hover { transform: translateY(-3px); border-color: rgba(255,45,74,.7); box-shadow: 0 20px 50px rgba(255,45,74,.16); color: var(--ca-text); }
+        .hm-exam h2 { margin: 10px 0 4px; font-size: clamp(1.3rem, 2.1vw, 1.8rem); font-weight: 900; color: #fff; letter-spacing: -.02em; }
+        .hm-exam p { margin: 0 0 12px; color: #d6d8e0; font-size: .86rem; line-height: 1.5; }
+        .hm-facts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .hm-facts span { padding: 4px 10px; border-radius: 9px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); font-size: .76rem; font-weight: 600; color: #e9eaf0; }
+        .hm-exam .hm-cta { padding: 10px 18px; font-size: .88rem; }
+        .hm-trophy { width: clamp(84px, 9vw, 120px); aspect-ratio: 1; border-radius: 26px; display: grid; place-items: center; background: radial-gradient(circle at 30% 25%, rgba(255,122,69,.35), rgba(255,45,74,.12) 60%, transparent); border: 1px solid rgba(255,45,74,.35); color: #ffb199; transition: transform .3s; }
+        .hm-trophy svg { width: 46%; height: 46%; }
+        .hm-exam:hover .hm-trophy { transform: rotate(-6deg) scale(1.04); }
+
+        /* Past ekranli kompyuterlar: ixchamroq */
+        @@media (min-width: 901px) and (max-height: 820px) {
+            .hm-topics h1 { font-size: 2rem; margin-top: 10px; }
+            .hm-topics-desc { font-size: .88rem; }
+            .hm-exam p { display: none; }
+            .hm-exam h2 { margin: 6px 0 8px; }
+            .hm-facts { margin-bottom: 8px; }
+            .hm-topics-foot { margin-top: 10px; }
+        }
+        /* Juda past ekran (≤ 600px balandlik): sahifa oddiy aylantiriladi */
+        @@media (min-width: 901px) and (max-height: 600px) {
+            .hm-split { height: auto; }
+            .hm-right { grid-template-rows: auto 170px 150px 190px; }
+            .hm-topics { min-height: 520px; }
+        }
+        /* Planshet va telefon: ustunlar ustma-ust, sahifa aylantiriladi */
         @@media (max-width: 900px) {
-            .hm-exam { grid-template-columns: 1fr; }
-            .hm-exam-img { max-height: 180px; order: -1; }
-            .hm-exam-final { grid-template-columns: 1fr; }
-            .hm-final-ic { display: none; }
+            .hm-split { grid-template-columns: 1fr; height: auto; }
+            .hm-right { grid-template-rows: none; display: flex; flex-direction: column; }
+            .hm-car { min-height: 0; max-height: 200px; }
+            .hm-car img { max-height: 200px; }
+            .hm-practice { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .hm-tile { min-height: 104px; }
         }
         @@media (max-width: 560px) {
+            .hm-search-input { padding-right: 16px; }
+            .hm-search-btn { display: none; }
             .hm-practice { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .hm-practice .hm-tile:last-child { grid-column: 1 / -1; }
-            .hm-cards { grid-template-columns: 1fr; }
-            .hm-card { min-height: 0; }
-            .hm-search-input { height: 56px; padding-right: 16px; font-size: .98rem; }
-            .hm-search-btn { display: none; }
-            .hm-suggest { top: 64px; }
+            .hm-modes { grid-template-columns: 1fr; }
+            .hm-exam { grid-template-columns: 1fr; }
+            .hm-trophy { display: none; }
         }
-        @@media (prefers-reduced-motion: reduce) { .hm *, .hm *::after { animation: none !important; transition: none !important; } }
+        @@media (prefers-reduced-motion: reduce) { .hm *, .hm *::after { transition: none !important; } }
     </style>
 </head>
 <body class="hm">
-    <header class="ui-header">
+    <header class="ui-header" id="hmHeader">
         <div class="ui-header-inner">
             <a class="ui-brand" asp-controller="Home" asp-action="Index" aria-label="AVTOPRAVA_SAM">
                 <img src="~/images/logo-96.png" alt="" />
@@ -188,58 +208,51 @@
         </div>
     </header>
 
-    <main>
-        <!-- Savol qidirish -->
-        <section class="hm-hero">
-            <div class="hm-wrap hm-hero-grid">
-                <div>
-                    <h1 class="hm-sr" data-i18n="home.pageTitle">@L["home.pageTitle"]</h1>
-                    <p class="hm-lead" data-i18n="hm.lead">@L["hm.lead"]</p>
+    <main class="hm-split">
+        <!-- Chap yarmi: Mavzular -->
+        <section class="hm-topics" aria-labelledby="hmTopicsTitle">
+            <span class="hm-badge"><i></i><span data-i18n="hm.topicsBadge">@L["hm.topicsBadge"]</span></span>
+            <h1 id="hmTopicsTitle" data-i18n="nav.topics">@L["nav.topics"]</h1>
+            <p class="hm-topics-desc" data-i18n="hm.topicsBannerDesc">@L["hm.topicsBannerDesc"]</p>
 
-                    <form class="hm-search" id="hmSearch" action="/Cabinet/Search" method="get" role="search" autocomplete="off">
-                        <label class="hm-search-field">
-                            @Icons.Search
-                            <input type="search" name="q" id="hmQ" class="hm-search-input" maxlength="200" spellcheck="false"
-                                   placeholder="@L["hm.searchPlaceholder"]" data-i18n-placeholder="hm.searchPlaceholder"
-                                   aria-label="@L["sq.title"]" aria-autocomplete="list" aria-controls="hmSuggest" aria-expanded="false" />
-                        </label>
-                        <button type="submit" class="hm-search-btn" data-i18n="hm.searchBtn">@L["hm.searchBtn"]</button>
-                        <div class="hm-suggest" id="hmSuggest" role="listbox" hidden></div>
-                    </form>
-                    <div class="hm-search-hint" data-i18n="hm.searchHint">@L["hm.searchHint"]</div>
+            <div class="hm-car"><img src="~/images/avprsm1 rrr.png" alt="" decoding="async" /></div>
+
+            @if (Model.TopTopics.Count > 0)
+            {
+                <div class="hm-chips" aria-label="@L["hm.popularTopics"]">
+                    @foreach (var (topic, count) in Model.TopTopics)
+                    {
+                        <a class="hm-chip" href="/Topic/Test?topic=@Uri.EscapeDataString(topic)" title="@L.Topic(topic)">
+                            <span>@L.Topic(topic)</span><b>@count</b>
+                        </a>
+                    }
                 </div>
+            }
 
+            <div class="hm-topics-foot">
+                <a class="hm-cta" asp-controller="Topic" asp-action="Index">@Icons.Book <span data-i18n="hm.allTopics">@L["hm.allTopics"]</span></a>
+                <span class="hm-topics-count">@L.F("hm.topicsFact1", ("n", Model.TopicCount)) · @L.F("hm.questionsInBank", ("n", Model.BankSize))</span>
             </div>
         </section>
 
-        <!-- Mavzular (asosiy banner) -->
-        <section class="hm-section">
-            <div class="hm-wrap">
-                <a class="hm-exam" asp-controller="Topic" asp-action="Index">
-                    <div>
-                        <span class="hm-exam-badge"><i></i><span data-i18n="hm.topicsBadge">@L["hm.topicsBadge"]</span></span>
-                        <h2 data-i18n="nav.topics">@L["nav.topics"]</h2>
-                        <p data-i18n="hm.topicsBannerDesc">@L["hm.topicsBannerDesc"]</p>
-                        <div class="hm-exam-facts">
-                            <span>@L.F("hm.topicsFact1", ("n", Model.TopicCount))</span>
-                            <span data-i18n="hm.topicsFact2">@L["hm.topicsFact2"]</span>
-                            <span data-i18n="hm.topicsFact3">@L["hm.topicsFact3"]</span>
-                        </div>
-                        <span class="hm-cta">@Icons.Book <span data-i18n="hm.topicsStart">@L["hm.topicsStart"]</span></span>
-                    </div>
-                    <img class="hm-exam-img" src="~/images/avprsm1 rrr.png" alt="" decoding="async" />
-                </a>
-            </div>
-        </section>
+        <!-- O'ng yarmi: qidiruv, mashq testlari, biletlar va marafon, real imtihon -->
+        <div class="hm-right">
+            <form class="hm-search" id="hmSearch" action="/Cabinet/Search" method="get" role="search" autocomplete="off">
+                <h2 class="hm-sr" data-i18n="sq.title">@L["sq.title"]</h2>
+                <label class="hm-search-field">
+                    @Icons.Search
+                    <input type="search" name="q" id="hmQ" class="hm-search-input" maxlength="200" spellcheck="false"
+                           placeholder="@L["hm.searchPlaceholder"]" data-i18n-placeholder="hm.searchPlaceholder"
+                           aria-label="@L["sq.title"]" aria-autocomplete="list" aria-controls="hmSuggest" aria-expanded="false" />
+                </label>
+                <button type="submit" class="hm-search-btn" data-i18n="hm.searchBtn">@L["hm.searchBtn"]</button>
+                <div class="hm-suggest" id="hmSuggest" role="listbox" hidden></div>
+            </form>
 
-        <!-- Mashq turlari -->
-        <section class="hm-section">
-            <div class="hm-wrap">
-                <div class="hm-sec-head">
-                    <div>
-                        <h2 class="hm-sec-title" data-i18n="hm.practiceTitle">@L["hm.practiceTitle"]</h2>
-                        <p class="hm-sec-sub" data-i18n="hm.practiceSub">@L["hm.practiceSub"]</p>
-                    </div>
+            <section class="hm-block" aria-labelledby="hmPracticeTitle">
+                <div class="hm-block-title">
+                    <h2 id="hmPracticeTitle" data-i18n="hm.practiceTitle">@L["hm.practiceTitle"]</h2>
+                    <span data-i18n="hm.practiceShort">@L["hm.practiceShort"]</span>
                 </div>
                 <div class="hm-practice">
                     @foreach (var (ctrl, key, n, lvl) in practice)
@@ -252,67 +265,72 @@
                         </a>
                     }
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Boshqa bo'limlar -->
-        <section class="hm-section">
-            <div class="hm-wrap">
-                <div class="hm-sec-head">
-                    <div>
-                        <h2 class="hm-sec-title" data-i18n="hm.modesTitle">@L["hm.modesTitle"]</h2>
-                        <p class="hm-sec-sub" data-i18n="hm.modesSub">@L["hm.modesSub"]</p>
-                    </div>
+            <section class="hm-block" aria-labelledby="hmModesTitle">
+                <div class="hm-block-title">
+                    <h2 id="hmModesTitle" data-i18n="hm.modesTitle">@L["hm.modesTitle"]</h2>
                 </div>
-                <div class="hm-cards">
-                    <a class="hm-card" asp-controller="Bilet" asp-action="Index">
+                <div class="hm-modes">
+                    <a class="hm-mode" asp-controller="Bilet" asp-action="Index">
                         <span class="hm-ic blue">@Icons.List</span>
-                        <h3 data-i18n="nav.bilets">@L["nav.bilets"]</h3>
-                        <p>@L.F("hm.biletsDesc", ("n", Model.BiletCount))</p>
-                        <span class="hm-card-foot"><span data-i18n="hm.open">@L["hm.open"]</span>@Icons.ArrowRight</span>
+                        <span>
+                            <h3 data-i18n="nav.bilets">@L["nav.bilets"]</h3>
+                            <p>@L.F("hm.biletsDesc", ("n", Model.BiletCount))</p>
+                        </span>
+                        @Icons.ArrowRight
                     </a>
-                    <a class="hm-card" asp-controller="TestAll" asp-action="Index">
+                    <a class="hm-mode" asp-controller="TestAll" asp-action="Index">
                         <span class="hm-ic amber">@Icons.Flame</span>
-                        <h3 data-i18n="nav.marathon">@L["nav.marathon"]</h3>
-                        <p>@L.F("hm.marathonDesc", ("n", Model.BankSize))</p>
-                        <span class="hm-card-foot"><span data-i18n="hm.start">@L["hm.start"]</span>@Icons.ArrowRight</span>
+                        <span>
+                            <h3 data-i18n="nav.marathon">@L["nav.marathon"]</h3>
+                            <p>@L.F("hm.marathonDesc", ("n", Model.BankSize))</p>
+                        </span>
+                        @Icons.ArrowRight
                     </a>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Real imtihon — eng oxirida: mashqlardan keyingi yakuniy sinov -->
-        <section class="hm-section">
-            <div class="hm-wrap">
-                <a class="hm-exam hm-exam-final" asp-controller="Test" asp-action="Index">
-                    <div>
-                        <span class="hm-exam-badge"><i></i><span data-i18n="hm.examBadge">@L["hm.examBadge"]</span></span>
-                        <h2 data-i18n="nav.real">@L["nav.real"]</h2>
-                        <p data-i18n="hm.examDesc">@L["hm.examDesc"]</p>
-                        <div class="hm-exam-facts">
-                            <span data-i18n="hm.examFact1">@L["hm.examFact1"]</span>
-                            <span data-i18n="hm.examFact2">@L["hm.examFact2"]</span>
-                            <span data-i18n="hm.examFact3">@L["hm.examFact3"]</span>
-                        </div>
-                        <span class="hm-cta">@Icons.Play <span data-i18n="hm.examStart">@L["hm.examStart"]</span></span>
+            <a class="hm-exam" asp-controller="Test" asp-action="Index">
+                <div>
+                    <span class="hm-badge"><i></i><span data-i18n="hm.examBadge">@L["hm.examBadge"]</span></span>
+                    <h2 data-i18n="nav.real">@L["nav.real"]</h2>
+                    <p data-i18n="hm.examDesc">@L["hm.examDesc"]</p>
+                    <div class="hm-facts">
+                        <span data-i18n="hm.examFact1">@L["hm.examFact1"]</span>
+                        <span data-i18n="hm.examFact2">@L["hm.examFact2"]</span>
                     </div>
-                    <span class="hm-final-ic" aria-hidden="true">@Icons.Trophy</span>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="hm-footer">
-        <div class="hm-wrap">
-            <span><b>AVTOPRAVA_SAM</b> · © @DateTime.Now.Year</span>
-            <span data-i18n="footer.rights">@L["footer.rights"]</span>
+                    <span class="hm-cta">@Icons.Play <span data-i18n="hm.examStart">@L["hm.examStart"]</span></span>
+                </div>
+                <span class="hm-trophy" aria-hidden="true">@Icons.Trophy</span>
+            </a>
         </div>
-    </footer>
+    </main>
 
     <script src="~/js/ui.js" asp-append-version="true"></script>
     <script>
     (function () {
         "use strict";
+
+        // Sarlavha balandligi — ikki ustun ekranning qolgan qismini to'liq egallashi uchun
+        var header = document.getElementById("hmHeader");
+        function fit() { document.documentElement.style.setProperty("--hm-header", header.offsetHeight + "px"); }
+        // Mavzu tugmalari: faqat butun qatorlar (kesilib qolgan tugma yashiriladi); baland ekranda 2 qator, pastida 1 qator
+        var chips = Array.prototype.slice.call(document.querySelectorAll(".hm-chip"));
+        function fitChips() {
+            if (!chips.length) return;
+            chips.forEach(function (c) { c.classList.remove("cut"); });
+            if (window.innerWidth <= 900) return; // telefonda hammasi ko'rinadi
+            var rows = window.innerHeight <= 820 ? 1 : 2;
+            var tops = [];
+            chips.forEach(function (c) { if (tops.indexOf(c.offsetTop) < 0) tops.push(c.offsetTop); });
+            tops.sort(function (a, b) { return a - b; });
+            var limit = tops[Math.min(rows, tops.length) - 1];
+            chips.forEach(function (c) { if (c.offsetTop > limit) c.classList.add("cut"); });
+        }
+        function fitAll() { fit(); fitChips(); }
+        fitAll();
+        window.addEventListener("resize", fitAll);
 
         // ── Savol qidirish: yozish davomida eng mos 6 ta savol; Enter — barcha natijalar sahifasi ──
         var form = document.getElementById("hmSearch"), input = document.getElementById("hmQ"), box = document.getElementById("hmSuggest");

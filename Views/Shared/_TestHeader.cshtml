@@ -19,7 +19,6 @@
 
     var testName = NameIn(L.Lang);
     var backUrl = User.IsInRole(Roles.SuperAdmin) ? "/Question/Index1" : "/";
-    var returnUrl = ViewData["BackUrl"] as string; // masalan, "Savol qidirish"ga qaytish
 }
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,13 +27,6 @@
 
 <header class="ui-header ui-testbar">
     <div class="ui-header-inner">
-        @if (returnUrl != null)
-        {
-            <a class="ui-testbar-back" href="@returnUrl" title="@L["sq.back"]" data-i18n-title="sq.back">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
-                <span data-i18n="sq.backShort">@L["sq.backShort"]</span>
-            </a>
-        }
         <a class="ui-brand" href="@backUrl" aria-label="AVTOPRAVA_SAM">
             <img src="~/images/logo-96.png" alt="" />
             <span>AVTOPRAVA_SAM</span>
@@ -54,6 +46,33 @@
             <partial name="_UserMenu" />
         </div>
     </div>
+
+    @* Test boshqaruv paneli: sahifadagi asl "Chiqish" / "Yakunlash" tugmalarini bosadi (test mantig'i o'zgarmaydi) *@
+    <div class="ui-testtools" id="testTools" hidden>
+        <div class="ui-testtools-inner">
+            <button type="button" class="ui-tt-btn" id="ttExit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5" /><path d="m11 18-6-6 6-6" /></svg>
+                <span id="ttExitLabel" data-i18n="test.exit">@L["test.exit"]</span>
+            </button>
+
+            <div class="ui-tt-mid" aria-live="polite">
+                <span class="ui-tt-q" id="ttQ" hidden></span>
+            </div>
+
+            <button type="button" class="ui-tt-btn ghost" id="ttFull" title="@L["test.fullscreen"]" data-i18n-title="test.fullscreen" hidden>
+                <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" /></svg>
+                <svg class="ic-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3" /></svg>
+                <span class="lbl-open" data-i18n="test.fullscreen">@L["test.fullscreen"]</span>
+                <span class="lbl-close" data-i18n="test.fullscreenExit">@L["test.fullscreenExit"]</span>
+            </button>
+
+            <button type="button" class="ui-tt-btn primary" id="ttFinish">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                <span data-i18n="test.finish">@L["test.finish"]</span>
+            </button>
+        </div>
+    </div>
+
     <div class="ui-testbar-progress" aria-hidden="true"><i id="thBar"></i></div>
 </header>
 
@@ -81,6 +100,66 @@
             bar.style.width = (100 * n / q.length) + "%";
         }
         setInterval(tick, 300);
+
+        // ── Test boshqaruv paneli (nav ostida): Chiqish · Savol N / M · To'liq ekran · Yakunlash ──
+        // Tugmalar sahifadagi asl #exitBtn / #finishBtn ni bosadi — test mantig'i o'zgarmaydi; asl tugmalar yashiriladi.
+        var tools = document.getElementById("testTools");
+        var ttQ = document.getElementById("ttQ");
+        function wireTools() {
+            var exitO = document.getElementById("exitBtn"), finO = document.getElementById("finishBtn");
+            if (!exitO && !finO) return;
+            document.documentElement.classList.add("has-testtools");
+            tools.hidden = false;
+
+            var ttExit = document.getElementById("ttExit"), ttFin = document.getElementById("ttFinish");
+            if (exitO) {
+                // Qidiruvdan ochilgan savolda — "Qidiruvga qaytish"
+                var key = exitO.getAttribute("data-i18n") === "sq.back" ? "test.backToSearch" : "test.exit";
+                var lbl = document.getElementById("ttExitLabel");
+                lbl.setAttribute("data-i18n", key);
+                lbl.textContent = I18n.t(key);
+                ttExit.addEventListener("click", function () { exitO.click(); });
+            } else {
+                ttExit.hidden = true;
+            }
+            if (finO) {
+                ttFin.addEventListener("click", function () { finO.click(); });
+                // Sahifa "Yakunlash"ni o'zi yashirsa (masalan, ko'rib chiqish rejimida) — panelda ham yashirinadi
+                setInterval(function () { ttFin.hidden = finO.style.display === "none" || finO.disabled === true; }, 400);
+            } else {
+                ttFin.hidden = true;
+            }
+
+            var full = document.getElementById("ttFull");
+            var root = document.documentElement;
+            var enabled = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+            if (enabled) {
+                full.hidden = false;
+                full.addEventListener("click", function () {
+                    var on = document.fullscreenElement || document.webkitFullscreenElement;
+                    if (on) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+                    else {
+                        var req = root.requestFullscreen || root.webkitRequestFullscreen;
+                        var p = req.call(root);
+                        if (p && p.catch) p.catch(function () { });
+                    }
+                });
+                var sync = function () { full.classList.toggle("on", !!(document.fullscreenElement || document.webkitFullscreenElement)); };
+                document.addEventListener("fullscreenchange", sync);
+                document.addEventListener("webkitfullscreenchange", sync);
+            }
+        }
+        if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wireTools); else wireTools();
+
+        // Joriy savol: "Savol 3 / 20"
+        setInterval(function () {
+            var q = null, idx = 0;
+            try { q = typeof questions !== "undefined" ? questions : null; } catch (e) { /* hali e'lon qilinmagan */ }
+            try { idx = typeof currentIndex !== "undefined" ? currentIndex : 0; } catch (e) { /* ... */ }
+            if (!q || !q.length) return;
+            ttQ.hidden = false;
+            ttQ.textContent = I18n.t("test.qOf", { n: Math.min(idx + 1, q.length), total: q.length });
+        }, 300);
 
         // Keyingi 2 ta savol rasmini oldindan yuklab qo'yamiz — savolga o'tganda rasm darhol chiqadi
         var preloaded = {};

@@ -1048,7 +1048,7 @@
     <value>Вы готовы к экзамену! 🎉</value>
   </data>
   <data name="cab.readyText" xml:space="preserve">
-    <value>Результаты стабильны. Для поддержания формы решайте по одному реальному экзамену в день.</value>
+    <value>Вы верно решили все вопросы базы. Чтобы держать форму, решайте один реальный экзамен в день.</value>
   </data>
   <data name="cab.forecastTitle" xml:space="preserve">
     <value>Ожидаемая дата готовности</value>
@@ -1651,7 +1651,7 @@
     <value>Решить все как тест</value>
   </data>
   <data name="cab.limitCoverage" xml:space="preserve">
-    <value>Дату в основном определяет охват базы вопросов: нужно правильно решить ещё {n} вопросов (текущий темп — ~{pace} новых вопросов в день). Чем больше новых вопросов вы решаете, тем ближе дата.</value>
+    <value>Чтобы быть готовым к экзамену, нужно верно решить все {total} вопросов базы — осталось {n} (текущий темп — ~{pace} новых вопросов в день). Чем больше новых вопросов, тем ближе дата.</value>
   </data>
   <data name="cab.limitAccuracy" xml:space="preserve">
     <value>Дату в основном определяет точность: доля правильных ответов в последних ответах должна достичь 90%.</value>
@@ -1883,5 +1883,68 @@
   </data>
   <data name="dash.complete" xml:space="preserve">
     <value>Полностью</value>
+  </data>
+  <data name="test.fullscreen" xml:space="preserve">
+    <value>Во весь экран</value>
+  </data>
+  <data name="test.fullscreenExit" xml:space="preserve">
+    <value>Выйти из полноэкранного</value>
+  </data>
+  <data name="test.backToSearch" xml:space="preserve">
+    <value>Назад к поиску</value>
+  </data>
+  <data name="test.qOf" xml:space="preserve">
+    <value>Вопрос {n} / {total}</value>
+  </data>
+  <data name="cab.progressHint2" xml:space="preserve">
+    <value>Каждый день: сколько вопросов решено и сколько верно. Нажмите на столбец — появятся детали.</value>
+  </data>
+  <data name="cab.pcAnswers" xml:space="preserve">
+    <value>ответов (за 30 дней)</value>
+  </data>
+  <data name="cab.pcCorrect" xml:space="preserve">
+    <value>правильных ответов</value>
+  </data>
+  <data name="cab.pcActiveDays" xml:space="preserve">
+    <value>активных дней</value>
+  </data>
+  <data name="cab.pcBestDay" xml:space="preserve">
+    <value>максимум: {date}</value>
+  </data>
+  <data name="cab.pcTip" xml:space="preserve">
+    <value>{date} — ответов: {n}: верно {ok}, ошибок {bad} ({pct}%)</value>
+  </data>
+  <data name="cab.pcTipEmpty" xml:space="preserve">
+    <value>{date} — нет занятий</value>
+  </data>
+  <data name="cab.pcLegendOk" xml:space="preserve">
+    <value>Верно</value>
+  </data>
+  <data name="cab.pcLegendBad" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="cab.pcLegendHint" xml:space="preserve">
+    <value>Число над столбцом — ответы за день</value>
+  </data>
+  <data name="cab.factorSolved" xml:space="preserve">
+    <value>Решено верно (из базы)</value>
+  </data>
+  <data name="cab.readinessRule" xml:space="preserve">
+    <value>Процент готовности — доля верно решённых вопросов базы. Все вопросы решены верно — 100%, вы готовы к экзамену. Вопросы из «Мои ошибки» не учитываются.</value>
+  </data>
+  <data name="users.phoneHint2" xml:space="preserve">
+    <value>Обязательно для ученика. +998 подставляется сам — введите остальные 9 цифр.</value>
+  </data>
+  <data name="hm.popularTopics" xml:space="preserve">
+    <value>Темы с большим числом вопросов</value>
+  </data>
+  <data name="hm.allTopics" xml:space="preserve">
+    <value>Все темы</value>
+  </data>
+  <data name="hm.questionsInBank" xml:space="preserve">
+    <value>в базе {n} вопросов</value>
+  </data>
+  <data name="hm.practiceShort" xml:space="preserve">
+    <value>Случайные вопросы — каждый раз новый набор</value>
   </data>
 </root>

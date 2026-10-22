@@ -1048,7 +1048,7 @@
     <value>Imtihonga tayyorsiz! 🎉</value>
   </data>
   <data name="cab.readyText" xml:space="preserve">
-    <value>Natijalaringiz barqaror. Shaklni saqlash uchun kuniga bitta real imtihon ishlang.</value>
+    <value>Bazadagi barcha savollarni to'g'ri ishladingiz. Shaklni saqlash uchun kuniga bitta real imtihon ishlang.</value>
   </data>
   <data name="cab.forecastTitle" xml:space="preserve">
     <value>Taxminiy tayyor bo'lish sanasi</value>
@@ -1651,7 +1651,7 @@
     <value>Hammasini test qilib ishlash</value>
   </data>
   <data name="cab.limitCoverage" xml:space="preserve">
-    <value>Sanani asosan savollar bazasini qamrab olish belgilaydi: yana {n} ta savolni to'g'ri ishlash kerak (hozirgi sur'at — kuniga ~{pace} ta yangi savol). Ko'proq yangi savollar ishlasangiz, sana yaqinlashadi.</value>
+    <value>Imtihonga tayyor bo'lish uchun bazadagi barcha {total} ta savolni to'g'ri ishlash kerak — yana {n} ta qoldi (hozirgi sur'at — kuniga ~{pace} ta yangi savol). Ko'proq yangi savollar ishlasangiz, sana yaqinlashadi.</value>
   </data>
   <data name="cab.limitAccuracy" xml:space="preserve">
     <value>Sanani asosan aniqlik belgilaydi: oxirgi javoblaringizda to'g'ri javoblar ulushi 90% ga yetishi kerak.</value>
@@ -1883,5 +1883,68 @@
   </data>
   <data name="dash.complete" xml:space="preserve">
     <value>To'liq</value>
+  </data>
+  <data name="test.fullscreen" xml:space="preserve">
+    <value>To'liq ekran</value>
+  </data>
+  <data name="test.fullscreenExit" xml:space="preserve">
+    <value>Ekrandan chiqish</value>
+  </data>
+  <data name="test.backToSearch" xml:space="preserve">
+    <value>Qidiruvga qaytish</value>
+  </data>
+  <data name="test.qOf" xml:space="preserve">
+    <value>Savol {n} / {total}</value>
+  </data>
+  <data name="cab.progressHint2" xml:space="preserve">
+    <value>Har bir kun: nechta savol ishlangan, qanchasi to'g'ri. Ustunni bosing — tafsilot chiqadi.</value>
+  </data>
+  <data name="cab.pcAnswers" xml:space="preserve">
+    <value>javob (30 kunda)</value>
+  </data>
+  <data name="cab.pcCorrect" xml:space="preserve">
+    <value>to'g'ri javoblar</value>
+  </data>
+  <data name="cab.pcActiveDays" xml:space="preserve">
+    <value>faol kun</value>
+  </data>
+  <data name="cab.pcBestDay" xml:space="preserve">
+    <value>eng ko'p: {date}</value>
+  </data>
+  <data name="cab.pcTip" xml:space="preserve">
+    <value>{date} — {n} ta javob: {ok} to'g'ri, {bad} xato ({pct}%)</value>
+  </data>
+  <data name="cab.pcTipEmpty" xml:space="preserve">
+    <value>{date} — mashq qilinmagan</value>
+  </data>
+  <data name="cab.pcLegendOk" xml:space="preserve">
+    <value>To'g'ri</value>
+  </data>
+  <data name="cab.pcLegendBad" xml:space="preserve">
+    <value>Xato</value>
+  </data>
+  <data name="cab.pcLegendHint" xml:space="preserve">
+    <value>Ustun tepasidagi son — o'sha kungi javoblar</value>
+  </data>
+  <data name="cab.factorSolved" xml:space="preserve">
+    <value>To'g'ri ishlangan savollar (bazadan)</value>
+  </data>
+  <data name="cab.readinessRule" xml:space="preserve">
+    <value>Tayyorlik foizi — bazadagi savollarning qanchasi to'g'ri ishlangani. Barcha savollar to'g'ri ishlansa — 100%, imtihonga tayyorsiz. "Xatolarim"dagi savollar hisobga kirmaydi.</value>
+  </data>
+  <data name="users.phoneHint2" xml:space="preserve">
+    <value>O'quvchi uchun majburiy. +998 o'zi yoziladi — faqat qolgan 9 ta raqamni kiriting.</value>
+  </data>
+  <data name="hm.popularTopics" xml:space="preserve">
+    <value>Ko'p savolli mavzular</value>
+  </data>
+  <data name="hm.allTopics" xml:space="preserve">
+    <value>Barcha mavzular</value>
+  </data>
+  <data name="hm.questionsInBank" xml:space="preserve">
+    <value>bazada {n} ta savol</value>
+  </data>
+  <data name="hm.practiceShort" xml:space="preserve">
+    <value>Tasodifiy savollar — har safar yangi to'plam</value>
   </data>
 </root>
