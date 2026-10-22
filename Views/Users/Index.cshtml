@@ -14,7 +14,7 @@
 
 <partial name="_UsersStyles" />
 
-<div class="us-page">
+<div class="us-page us-page-wide">
     <div class="us-header">
         <div>
             <div class="us-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
@@ -127,7 +127,7 @@
         <span class="us-found" id="userFound" data-i18n="users.found"></span>
     </div>
 
-    <div class="us-card">
+    <div class="us-card us-card-list">
         @if (Model.Count == 0)
         {
             <div class="us-empty" data-i18n="users.empty">@L["users.empty"]</div>
@@ -139,13 +139,13 @@
                     <thead>
                         <tr>
                             <th data-i18n="users.username">@L["users.username"]</th>
-                            <th class="hide-sm" data-i18n="users.fullName">@L["users.fullName"]</th>
+                            <th class="hide-sm hide-c-sm" data-i18n="users.fullName">@L["users.fullName"]</th>
                             <th class="hide-sm" data-i18n="users.phone">@L["users.phone"]</th>
                             <th data-i18n="users.role">@L["users.role"]</th>
                             <th data-i18n="users.status">@L["users.status"]</th>
                             <th data-i18n="users.access">@L["users.access"]</th>
-                            <th class="hide-sm" data-i18n="users.device">@L["users.device"]</th>
-                            <th class="hide-md" data-i18n="users.lastLogin">@L["users.lastLogin"]</th>
+                            <th class="hide-sm hide-c-md" data-i18n="users.device">@L["users.device"]</th>
+                            <th class="hide-md hide-c-lg" data-i18n="users.lastLogin">@L["users.lastLogin"]</th>
                             <th style="text-align:right;" data-i18n="qs.colActions">@L["qs.colActions"]</th>
                         </tr>
                     </thead>
@@ -175,7 +175,7 @@
                                         <span class="us-you" data-i18n="users.you">@L["users.you"]</span>
                                     }
                                 </td>
-                                <td class="hide-sm">@(u.FullName ?? "—")</td>
+                                <td class="hide-sm hide-c-sm">@(u.FullName ?? "—")</td>
                                 <td class="hide-sm us-nowrap">
                                     @if (string.IsNullOrEmpty(phone))
                                     {
@@ -219,7 +219,7 @@
                                         <div class="us-left @(daysLeft <= 7 ? "warn" : "")" data-i18n="users.daysLeft" data-i18n-args='{"n":@daysLeft}'>@L.F("users.daysLeft", ("n", daysLeft))</div>
                                     }
                                 </td>
-                                <td class="hide-sm">
+                                <td class="hide-sm hide-c-md">
                                     @if (!u.IsRestricted)
                                     {
                                         <span class="us-muted">—</span>
@@ -237,7 +237,7 @@
                                         <div><a asp-action="Devices" class="us-pill pend" data-i18n="users.pendingDevice">@L["users.pendingDevice"]</a></div>
                                     }
                                 </td>
-                                <td class="hide-md us-muted">@(u.LastLoginAt is DateTime ll ? L.Stamp(ll) : "—")</td>
+                                <td class="hide-md hide-c-lg us-when">@if (u.LastLoginAt is DateTime ll) { var st = L.Stamp(ll); var sp = st.LastIndexOf(' '); if (sp > 0) { @st.Substring(0, sp)<small>@st.Substring(sp + 1)</small> } else { @st } } else { <span class="us-muted">—</span> }</td>
                                 <td class="us-actions">
                                     <a asp-action="Edit" asp-route-id="@u.Id" class="us-icon-btn"
                                        title="@L["qs.edit"]" data-i18n-title="qs.edit">

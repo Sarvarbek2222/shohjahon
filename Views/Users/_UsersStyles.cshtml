@@ -62,12 +62,30 @@
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--muted);
-        padding: 14px 16px;
+        padding: 12px 12px;
         border-bottom: 1px solid var(--border);
         white-space: nowrap;
     }
 
-    .us-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); color: var(--text); font-size: 0.9rem; vertical-align: middle; }
+    .us-table td { padding: 12px 12px; border-bottom: 1px solid var(--border); color: var(--text); font-size: 0.88rem; vertical-align: middle; }
+    .us-table th:first-child, .us-table td:first-child { padding-left: 18px; }
+    .us-table th:last-child, .us-table td:last-child { padding-right: 18px; }
+
+    /* Ro'yxat sahifasi kengroq; jadval joyiga qarab kamroq muhim ustunlarni yashiradi */
+    .us-page.us-page-wide { max-width: 1440px; }
+    .us-card-list { container-type: inline-size; }
+    .us-when { white-space: nowrap; line-height: 1.35; }
+    .us-when small { display: block; color: var(--muted); font-size: 0.78rem; }
+    @@container (max-width: 1180px) {
+        .us-table th { letter-spacing: 0.08em; }
+        .us-table .hide-c-lg { display: none; }
+    }
+    @@container (max-width: 1020px) {
+        .us-table .hide-c-md { display: none; }
+    }
+    @@container (max-width: 860px) {
+        .us-table .hide-c-sm { display: none; }
+    }
     .us-table tr:last-child td { border-bottom: none; }
     .us-table tr:hover td { background: rgba(255,255,255,0.02); }
 
