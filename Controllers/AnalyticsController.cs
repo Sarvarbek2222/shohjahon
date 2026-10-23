@@ -25,7 +25,7 @@ public class AnalyticsController : Controller
         var model = new AnalyticsModel
         {
             Platform = await _stats.GetPlatformStatsAsync(),
-            Students = (await _stats.GetAllUserStatsAsync())
+            Students = (await _stats.GetStudentSummariesAsync())
                 .OrderByDescending(s => s.LastActivity ?? DateTime.MinValue)
                 .ThenBy(s => s.User.Username)
                 .ToList(),

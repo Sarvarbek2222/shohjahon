@@ -262,6 +262,13 @@ CREATE TABLE `UserMistakes` (
 ) CHARACTER SET=utf8mb4");
             log.LogInformation("UserMistakes jadvali yaratildi");
         }
+
+        // Tahlil sahifasi uchun qamrovchi indeks: javoblar jadvalini o'qimasdan, faqat indeks bo'yicha sanaladi
+        if (!await IndexExistsAsync(conn, "TestAnswers", "IX_TestAnswers_Attempt_Stats"))
+        {
+            await ExecAsync(conn, "ALTER TABLE `TestAnswers` ADD INDEX `IX_TestAnswers_Attempt_Stats` (`AttemptId`, `IsCorrect`, `QuestionId`, `SelectedOptionId`)", timeoutSeconds: 900);
+            log.LogInformation("TestAnswers: tahlil indeksi qo'shildi");
+        }
     }
 
     /// <summary>
@@ -530,6 +537,11 @@ CREATE TABLE `QuestionTopics` (
             "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = @t",
             ("@t", table)) > 0;
 
+    private static async Task<bool> IndexExistsAsync(DbConnection conn, string table, string index) =>
+        await ScalarLongAsync(conn,
+            "SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = @t AND INDEX_NAME = @i",
+            ("@t", table), ("@i", index)) > 0;
+
     private static async Task<bool> ColumnExistsAsync(DbConnection conn, string table, string column) =>
         await ScalarLongAsync(conn,
             "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = @t AND COLUMN_NAME = @c",
@@ -558,10 +570,11 @@ CREATE TABLE `QuestionTopics` (
         return Convert.ToInt64(await cmd.ExecuteScalarAsync());
     }
 
-    private static async Task ExecAsync(DbConnection conn, string sql)
+    private static async Task ExecAsync(DbConnection conn, string sql, int timeoutSeconds = 30)
     {
         using var cmd = conn.CreateCommand();
         cmd.CommandText = sql;
+        cmd.CommandTimeout = timeoutSeconds;
         await cmd.ExecuteNonQueryAsync();
     }
 }

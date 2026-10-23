@@ -268,7 +268,7 @@ namespace propro.Controllers.Api
         public async Task<IActionResult> Analytics()
         {
             var p = await _stats.GetPlatformStatsAsync();
-            var students = (await _stats.GetAllUserStatsAsync())
+            var students = (await _stats.GetStudentSummariesAsync())
                 .OrderByDescending(s => s.LastActivity ?? DateTime.MinValue).ThenBy(s => s.User.Username).ToList();
             return Ok(new
             {

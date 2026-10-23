@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 /// <summary>
 /// Foydalanuvchi natijalarini tahlil qiladi: tayyorlik darajasi, imtihonga tayyor bo'lish sanasi taxmini,
@@ -20,11 +21,37 @@ public class StatsService
 
     private readonly AppDbContext _db;
     private readonly QuestionBank _bank;
+    private readonly IMemoryCache _cache;
 
-    public StatsService(AppDbContext db, QuestionBank bank)
+    private const string AnswerAggKey = "stats:answerAgg";
+    /// <summary>Admin tahlili uchun javoblar yig'indisi shuncha vaqt keshda turadi (har ochilishda qayta sanalmaydi).</summary>
+    private static readonly TimeSpan AnswerAggTtl = TimeSpan.FromSeconds(60);
+
+    public StatsService(AppDbContext db, QuestionBank bank, IMemoryCache cache)
     {
         _db = db;
         _bank = bank;
+        _cache = cache;
+    }
+
+    /// <summary>Javoblar yig'indisi: (o'quvchi, savol, to'g'ri/xato) bo'yicha soni — bitta so'rov, indeks bo'yicha.</summary>
+    private record AnswerAgg(int UserId, int QuestionId, bool IsCorrect, int Count);
+
+    /// <summary>
+    /// Admin tahlili (o'quvchilar ro'yxati va umumiy statistika) uchun javoblar jadvali bir marta guruhlab o'qiladi
+    /// va qisqa muddat keshlanadi.
+    /// </summary>
+    private async Task<List<AnswerAgg>> AnswerAggregatesAsync()
+    {
+        if (_cache.TryGetValue(AnswerAggKey, out List<AnswerAgg>? cached) && cached != null) return cached;
+        var rows = await _db.TestAnswers.AsNoTracking()
+            .Where(x => x.SelectedOptionId != null)
+            .GroupBy(x => new { x.Attempt!.UserId, x.QuestionId, x.IsCorrect })
+            .Select(g => new { g.Key.UserId, g.Key.QuestionId, g.Key.IsCorrect, Count = g.Count() })
+            .ToListAsync();
+        var list = rows.Select(r => new AnswerAgg(r.UserId, r.QuestionId, r.IsCorrect, r.Count)).ToList();
+        _cache.Set(AnswerAggKey, list, AnswerAggTtl);
+        return list;
     }
 
     /// <summary>
@@ -51,21 +78,62 @@ public class StatsService
         return Compute(user, attempts, mistakes, questionTopics);
     }
 
-    /// <summary>Admin uchun: barcha foydalanuvchilar (rolidan qat'i nazar) qisqa ko'rinishda.</summary>
-    public async Task<List<UserStats>> GetAllUserStatsAsync()
+    /// <summary>
+    /// Admin tahlil ro'yxati uchun yengil hisob: har bir o'quvchi uchun faqat jadvaldagi ko'rsatkichlar
+    /// (urinishlar, o'rtacha natija, javoblar soni, faol xatolar, tayyorlik). Javoblarning o'zi yuklanmaydi —
+    /// bazada guruhlab sanaladi, shuning uchun ma'lumot ko'p bo'lsa ham sahifa tez ochiladi.
+    /// Tayyorlik GetUserStatsAsync bilan bir xil qoida bo'yicha: bazadagi to'g'ri ishlangan, "Xatolarim"da bo'lmagan savollar.
+    /// </summary>
+    public async Task<List<UserStats>> GetStudentSummariesAsync()
     {
         var users = await _db.Users.AsNoTracking().Where(u => u.Role == Roles.User).OrderBy(u => u.Username).ToListAsync();
-        var attempts = await _db.TestAttempts.AsNoTracking().Include(a => a.Answers).ToListAsync();
-        var mistakes = await _db.UserMistakes.AsNoTracking().ToListAsync();
-        var questionTopics = await BankTopicsAsync();
+        var bankIds = (await BankTopicsAsync()).Keys.ToHashSet();
+        int bankSize = bankIds.Count;
 
-        var attemptsByUser = attempts.GroupBy(a => a.UserId).ToDictionary(g => g.Key, g => g.OrderByDescending(a => a.FinishedAt).ToList());
-        var mistakesByUser = mistakes.GroupBy(m => m.UserId).ToDictionary(g => g.Key, g => g.ToList());
+        var attempts = await _db.TestAttempts.AsNoTracking()
+            .Select(a => new { a.UserId, a.IsErrorReview, a.Total, a.Correct, a.FinishedAt })
+            .ToListAsync();
+        var attemptsByUser = attempts.GroupBy(a => a.UserId).ToDictionary(g => g.Key, g => g.ToList());
 
-        return users.Select(u => Compute(u,
-            attemptsByUser.GetValueOrDefault(u.Id) ?? new(),
-            mistakesByUser.GetValueOrDefault(u.Id) ?? new(),
-            questionTopics)).ToList();
+        var agg = await AnswerAggregatesAsync();
+        var answeredByUser = agg.GroupBy(a => a.UserId).ToDictionary(g => g.Key, g => g.Sum(a => a.Count));
+        var correctByUser = agg.Where(a => a.IsCorrect).GroupBy(a => a.UserId)
+            .ToDictionary(g => g.Key, g => g.Select(a => a.QuestionId).ToHashSet());
+
+        var activeMistakes = await _db.UserMistakes.AsNoTracking()
+            .Where(m => m.ResolvedAt == null)
+            .Select(m => new { m.UserId, m.QuestionId })
+            .ToListAsync();
+        var mistakesByUser = activeMistakes.GroupBy(m => m.UserId)
+            .ToDictionary(g => g.Key, g => g.Select(m => m.QuestionId).ToHashSet());
+
+        var list = new List<UserStats>(users.Count);
+        foreach (var u in users)
+        {
+            var s = new UserStats { User = u, BankSize = bankSize };
+            var ua = attemptsByUser.GetValueOrDefault(u.Id);
+            if (ua != null)
+            {
+                var main = ua.Where(a => !a.IsErrorReview).ToList();
+                s.AllAttemptsCount = ua.Count;
+                s.TotalAttempts = main.Count;
+                s.AveragePercent = main.Count > 0 ? main.Average(a => a.Total > 0 ? Math.Round(100.0 * a.Correct / a.Total, 1) : 0) : 0;
+                s.LastActivity = ua.Max(a => a.FinishedAt);
+            }
+            s.TotalAnswered = answeredByUser.GetValueOrDefault(u.Id);
+
+            var mistakes = mistakesByUser.GetValueOrDefault(u.Id);
+            s.ActiveMistakes = mistakes?.Count ?? 0;
+            var correct = correctByUser.GetValueOrDefault(u.Id);
+            s.DistinctCorrect = correct?.Count ?? 0;
+            s.Solved = correct?.Count(q => bankIds.Contains(q) && (mistakes == null || !mistakes.Contains(q))) ?? 0;
+
+            s.CoverageScore = bankSize > 0 ? (int)Math.Floor(100.0 * s.Solved / bankSize) : 0;
+            s.IsReady = bankSize > 0 && s.Solved >= bankSize;
+            s.ReadinessScore = s.IsReady ? 100 : s.CoverageScore;
+            list.Add(s);
+        }
+        return list;
     }
 
     /// <summary>Admin uchun: eng ko'p xato qilinadigan savollar va mavzular.</summary>
@@ -81,11 +149,10 @@ public class StatsService
             ActiveUsers7d = await _db.TestAttempts.Where(a => a.FinishedAt >= since7).Select(a => a.UserId).Distinct().CountAsync(),
         };
 
-        var answerStats = await _db.TestAnswers.AsNoTracking()
-            .Where(a => a.SelectedOptionId != null)
+        var answerStats = (await AnswerAggregatesAsync())
             .GroupBy(a => a.QuestionId)
-            .Select(g => new { QuestionId = g.Key, Total = g.Count(), Wrong = g.Count(x => !x.IsCorrect) })
-            .ToListAsync();
+            .Select(g => new { QuestionId = g.Key, Total = g.Sum(x => x.Count), Wrong = g.Where(x => !x.IsCorrect).Sum(x => x.Count) })
+            .ToList();
 
         ps.TotalAnswers = answerStats.Sum(a => a.Total);
         ps.OverallAccuracy = ps.TotalAnswers > 0 ? 1.0 - (double)answerStats.Sum(a => a.Wrong) / ps.TotalAnswers : 0;
@@ -96,7 +163,7 @@ public class StatsService
         ps.ExamPassRate = examLike.Count > 0 ? (double)examLike.Count(p => p) / examLike.Count : 0;
 
         var hardIds = answerStats.Where(a => a.Total >= 3)
-            .OrderByDescending(a => (double)a.Wrong / a.Total).ThenByDescending(a => a.Total)
+            .OrderByDescending(a => (double)a.Wrong / a.Total).ThenByDescending(a => a.Total).ThenBy(a => a.QuestionId)
             .Take(10).ToList();
         var ids = hardIds.Select(h => h.QuestionId).ToList();
         var qs = await _db.Questions.AsNoTracking().Where(q => ids.Contains(q.Id)).ToDictionaryAsync(q => q.Id);
