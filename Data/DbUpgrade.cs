@@ -85,6 +85,17 @@ public static class DbUpgrade
         {
             log.LogError(ex, "ptest savollari uchun kirillcha matn yaratishda xatolik");
         }
+
+        try
+        {
+            // Avval admin qo'shgan, lekin biletga tushmay qolgan savollar — oxirgi biletdan boshlab joylanadi
+            var placed = await BiletPlacement.PlaceUnassignedAsync(db);
+            if (placed > 0) log.LogInformation("{Count} ta biletsiz savol biletlarga joylandi", placed);
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, "Biletsiz savollarni biletlarga joylashda xatolik");
+        }
     }
 
     /// <summary>

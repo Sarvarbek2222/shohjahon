@@ -1971,4 +1971,10 @@
   <data name="test.confirmNo" xml:space="preserve">
     <value>Нет</value>
   </data>
+  <data name="form.biletAuto" xml:space="preserve">
+    <value>Вопрос будет автоматически добавлен в билет №{n} (если билет заполнен — откроется новый) и появится в своей теме.</value>
+  </data>
+  <data name="form.biletCurrent" xml:space="preserve">
+    <value>Этот вопрос в билете №{n}.</value>
+  </data>
 </root>

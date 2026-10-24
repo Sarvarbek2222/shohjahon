@@ -68,5 +68,14 @@
                 }
             </select>
         </div>
+
+        @if (Model.Id == 0 && ViewBag.NextBilet is int nextBilet)
+        {
+            <p class="qf-hint qf-bilet" data-i18n="form.biletAuto" data-i18n-args='{"n":@nextBilet}'>@L.F("form.biletAuto", ("n", nextBilet))</p>
+        }
+        else if (Model.Id != 0 && Model.BiletNumber is int bn)
+        {
+            <p class="qf-hint qf-bilet" data-i18n="form.biletCurrent" data-i18n-args='{"n":@bn}'>@L.F("form.biletCurrent", ("n", bn))</p>
+        }
     </div>
 </div>

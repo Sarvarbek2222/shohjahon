@@ -1971,4 +1971,10 @@
   <data name="test.confirmNo" xml:space="preserve">
     <value>Yo'q</value>
   </data>
+  <data name="form.biletAuto" xml:space="preserve">
+    <value>Savol avtomatik ravishda {n}-biletga qo'shiladi (bilet to'lsa — yangi bilet ochiladi) va o'z mavzusida ham chiqadi.</value>
+  </data>
+  <data name="form.biletCurrent" xml:space="preserve">
+    <value>Bu savol {n}-biletda.</value>
+  </data>
 </root>

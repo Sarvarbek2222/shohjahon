@@ -59,12 +59,13 @@ public class QuestionController : Controller
         return View(model);
     }
 
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
         var model = new Question
         {
             Options = new List<Option>()
         };
+        ViewBag.NextBilet = await BiletPlacement.NextBiletAsync(_context);
         return View(model);
     }
 
@@ -73,14 +74,21 @@ public class QuestionController : Controller
     public async Task<IActionResult> Create(Question question, int? CorrectIndex)
     {
         if (!PrepareAndValidate(question, CorrectIndex))
+        {
+            ViewBag.NextBilet = await BiletPlacement.NextBiletAsync(_context);
             return View(question);
+        }
 
         // Rasm upload
         if (question.ImageFile != null)
             question.ImageUrl = await SaveImageAsync(question.ImageFile);
 
+        // ptest biletlari bor bo'lsa — savol asosiy bazaga tushadi va oxirgi biletga joylanadi
+        // (to'lgan bo'lsa yangi bilet ochiladi); eski tuzilishdagi bazada — eski savollar qatoriga
+        question.Source = await BiletPlacement.HasBiletsAsync(_context) ? QuestionSources.Ptest : QuestionSources.Old;
         _context.Questions.Add(question);
         await _context.SaveChangesAsync();
+        await BiletPlacement.PlaceUnassignedAsync(_context);
         return RedirectToAction(nameof(Index));
     }
 
@@ -109,6 +117,8 @@ public class QuestionController : Controller
             question.ImageUrl = dbQuestion.ImageUrl; // joriy rasm formada ko'rinib tursin
             return View(question);
         }
+
+        var oldTopic = dbQuestion.Topic;
 
         // Savol matnlarini yangilash (3 til)
         dbQuestion.QuestionUZ = question.QuestionUZ;
@@ -141,6 +151,9 @@ public class QuestionController : Controller
         }
 
         await _context.SaveChangesAsync();
+        // Mavzu o'zgargan bo'lsa — Mavzular bo'limida ham yangilanadi; biletsiz qolgan savol biletga joylanadi
+        await BiletPlacement.SyncTopicAsync(_context, dbQuestion, oldTopic);
+        await BiletPlacement.PlaceUnassignedAsync(_context);
         return RedirectToAction(nameof(Index));
     }
 

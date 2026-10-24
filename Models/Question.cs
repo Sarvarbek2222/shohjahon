@@ -35,7 +35,7 @@ public class Question
     public string? ExplanationRU { get; set; }
 
     // Manba va bilet joylashuvi (QuestionSources). Admin qo'shgan yangi savollar asosiy bazaga (ptest) tushadi:
-    // biletda bo'lmaydi, lekin test turlarida va (Topic tanlangan bo'lsa) o'z mavzusida chiqadi.
+    // oxirgi biletga joylanadi (to'lgan bo'lsa — yangi bilet), mavzusi QuestionTopics ga yoziladi (BiletPlacement).
     [MaxLength(16)]
     public string Source { get; set; } = QuestionSources.Ptest;
     public int? BiletNumber { get; set; }  // ptest: 1..66
