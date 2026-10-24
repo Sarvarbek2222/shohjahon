@@ -800,6 +800,28 @@
 .ui-tt-btn.on .ic-close, .ui-tt-btn.on .lbl-close { display: inline; }
 .ui-tt-btn.on .ic-open, .ui-tt-btn.on .lbl-open { display: none; }
 .ui-tt-btn.on { border-color: rgba(56,189,248,.55); color: #bae6fd; }
+/* Imtihon vaqti (real imtihon): panelning eng o'ngida, orqaga sanaydi */
+.ui-tt-timer {
+    position: relative; overflow: hidden; flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 12px; border-radius: 12px;
+    border: 1px solid rgba(56,189,248,.35); background: linear-gradient(180deg, rgba(56,189,248,.12), rgba(56,189,248,.05));
+    color: #e0f2fe; font: 800 1.02rem var(--ca-font); letter-spacing: .02em; font-variant-numeric: tabular-nums;
+    transition: border-color .3s, background .3s, color .3s;
+}
+.ui-tt-timer[hidden] { display: none !important; }
+.ui-tt-timer svg { width: 18px; height: 18px; flex-shrink: 0; color: #38bdf8; transition: color .3s; }
+.ui-tt-timer-val { min-width: 3.1em; text-align: right; }
+.ui-tt-timer-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.06); }
+.ui-tt-timer-bar b { display: block; height: 100%; width: 100%; background: #38bdf8; transition: width .25s linear, background .3s; }
+.ui-tt-timer.warn { border-color: rgba(245,158,11,.55); background: linear-gradient(180deg, rgba(245,158,11,.16), rgba(245,158,11,.06)); color: #fde68a; }
+.ui-tt-timer.warn svg { color: #f59e0b; }
+.ui-tt-timer.warn .ui-tt-timer-bar b { background: #f59e0b; }
+.ui-tt-timer.crit, .ui-tt-timer.done { border-color: rgba(255,77,106,.7); background: linear-gradient(180deg, rgba(255,45,74,.22), rgba(255,45,74,.08)); color: #fecdd3; }
+.ui-tt-timer.crit svg, .ui-tt-timer.done svg { color: #ff4d6a; }
+.ui-tt-timer.crit .ui-tt-timer-bar b { background: #ff4d6a; }
+.ui-tt-timer.crit { animation: ttPulse 1s ease-in-out infinite; }
+@keyframes ttPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,77,106,.0); } 50% { box-shadow: 0 0 0 4px rgba(255,77,106,.22); } }
+@media (prefers-reduced-motion: reduce) { .ui-tt-timer.crit { animation: none; } }
 /* Panel bo'lsa — sahifadagi asl tugmalar yashiriladi (panel ularni bosadi) */
 .has-testtools #exitBtn, .has-testtools #finishBtn { display: none !important; }
 /* Bilet raqami faqat navda (savol ustida takrorlanmasin) */
@@ -810,6 +832,8 @@
     .ui-tt-btn.ghost { padding: 0 10px; }
     .ui-tt-btn.ghost span { display: none !important; }
     .ui-tt-q { padding: 5px 10px; font-size: .76rem; }
+    .ui-tt-timer { height: 38px; padding: 0 10px 0 9px; gap: 6px; font-size: .92rem; }
+    .ui-tt-timer svg { width: 16px; height: 16px; }
 }
 @media (max-width: 380px) {
     #ttExit span, #ttFinish span { display: none; }

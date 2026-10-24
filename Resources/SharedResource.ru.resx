@@ -1977,4 +1977,13 @@
   <data name="form.biletCurrent" xml:space="preserve">
     <value>Этот вопрос в билете №{n}.</value>
   </data>
+  <data name="test.timeLeft" xml:space="preserve">
+    <value>Оставшееся время</value>
+  </data>
+  <data name="test.endTime" xml:space="preserve">
+    <value>Время вышло — экзамен завершён.</value>
+  </data>
+  <data name="test.endMistakes" xml:space="preserve">
+    <value>3-я ошибка: экзамен не сдан (допускается не более 2 ошибок).</value>
+  </data>
 </root>

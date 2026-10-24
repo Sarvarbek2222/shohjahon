@@ -459,6 +459,13 @@
         .ac-no:hover { background: rgba(255, 255, 255, .11); }
         .ac-yes { background: linear-gradient(180deg, #22c55e, #16a34a); color: #fff; box-shadow: 0 6px 18px rgba(34, 197, 94, .28); }
         .ac-yes:hover { filter: brightness(1.08); }
+
+        /* Imtihon to'xtatilgan sabab (natija kartasida) */
+        .exam-end-reason {
+            margin: 0 auto 10px; padding: 8px 12px; border-radius: 8px; max-width: 340px;
+            background: rgba(255, 45, 74, .14); border: 1px solid rgba(255, 77, 106, .45);
+            color: #ffb3c0; font-weight: 700; font-size: 14px; line-height: 1.4;
+        }
     </style>
 </head>
 <body>
@@ -533,6 +540,34 @@
             let isReviewMode = false;
             let incorrectQuestionsGlobal = [];
 
+            // Real imtihon qoidalari: 25 daqiqa; ko'pi bilan 2 ta xato — 3-xatoda imtihon to'xtaydi (yiqildi)
+            const EXAM_SECONDS = 25 * 60;
+            const MAX_WRONG = 2;
+            let examMode = true;    // asosiy imtihon (xatolar ustida ishlashda — qoidalar va vaqt yo'q)
+            let examOver = false;   // imtihon tugadi — javob berib bo'lmaydi
+            let endReason = null;   // "time" | "mistakes" | null (o'zi yakunladi yoki hammasiga javob berdi)
+
+            function startExam() {
+                examMode = true;
+                examOver = false;
+                endReason = null;
+                TestTimer.start(EXAM_SECONDS, () => endExam("time"));
+            }
+
+            function wrongCount() {
+                return questions.filter(q => {
+                    if (answers[q.id] === undefined) return false;
+                    const sel = q.options.find(o => o.id == answers[q.id]);
+                    return !(sel && sel.isCorrect);
+                }).length;
+            }
+
+            function endExam(reason) {
+                if (examOver) return;
+                endReason = reason;
+                finishTest();
+            }
+
             function shuffleArray(arr) {
                 const a = [...arr];
                 for (let i = a.length - 1; i > 0; i--) {
@@ -545,6 +580,7 @@
             document.addEventListener("DOMContentLoaded", async () => {
                 await loadQuestions();
                 renderQuestion();
+                startExam();
             });
 
             async function loadQuestions() {
@@ -642,13 +678,15 @@
             }
 
             function selectAnswer(q, o) {
-                if (answers[q.id] !== undefined || isReviewMode) return;
+                if (answers[q.id] !== undefined || isReviewMode || examOver) return;
                 answers[q.id] = o.id;
                 renderQuestion();
                 updateNavigation();
+                // 3-xato — imtihon shu zahoti to'xtaydi
+                if (examMode && wrongCount() > MAX_WRONG) { endExam("mistakes"); return; }
                 checkAutoFinish();
                 setTimeout(() => {
-                    if (currentIndex < questions.length - 1 && !isReviewMode) {
+                    if (currentIndex < questions.length - 1 && !isReviewMode && !examOver) {
                         currentIndex++;
                         renderQuestion();
                     }
@@ -659,7 +697,7 @@
             let pendingAnswer = null;
 
             function askConfirm(q, o, index) {
-                if (answers[q.id] !== undefined || isReviewMode) return;
+                if (answers[q.id] !== undefined || isReviewMode || examOver) return;
                 pendingAnswer = { q, o, index };
                 renderConfirm();
                 const box = document.getElementById("answerConfirm");
@@ -732,6 +770,11 @@
             }
 
             function finishTest() {
+                if (pendingAnswer) closeConfirm(false);
+                if (examMode) {
+                    examOver = true;
+                    TestTimer.stop();
+                }
                 let correct = 0;
                 let skipped = 0;
                 incorrectQuestionsGlobal = [];
@@ -753,7 +796,7 @@
                 const resultCard = document.getElementById("resultCard");
                 resultCard.className = "card text-center p-3 " + (correct >= 18 ? "passed" : "failed");
 
-                lastResult = { correct, total: questions.length, percent: percentage, wrong: incorrectQuestionsGlobal.length, skipped };
+                lastResult = { correct, total: questions.length, percent: percentage, wrong: incorrectQuestionsGlobal.length, skipped, reason: examMode ? endReason : null };
                 renderResultText();
 
                 const errorBtn = document.getElementById("reviewErrorsBtn");
@@ -768,6 +811,10 @@
 
             document.getElementById("reviewErrorsBtn").onclick = () => {
                 if (incorrectQuestionsGlobal.length > 0) {
+                    // Xatolar ustida ishlash — mashq: vaqt va "3 ta xato" qoidasi yo'q
+                    examMode = false;
+                    examOver = false;
+                    TestTimer.hide();
                     questions = JSON.parse(JSON.stringify(incorrectQuestionsGlobal));
                     answers = {};
                     shuffledOrders = {};
@@ -795,6 +842,7 @@
                 document.getElementById("resultCard").style.display = "none";
                 createNavigation();
                 renderQuestion();
+                startExam();
             };
 
             document.addEventListener("keydown", function(e) {
@@ -809,7 +857,7 @@
                 if (e.key === "ArrowRight" && currentIndex < questions.length - 1) { currentIndex++; renderQuestion(); return; }
                 if (e.key === "ArrowLeft" && currentIndex > 0) { currentIndex--; renderQuestion(); return; }
                 if (e.key.startsWith("F") && e.key.length > 1) {
-                    if (isReviewMode) return;
+                    if (isReviewMode || examOver) return;
                     const fNum = parseInt(e.key.slice(1)) - 1;
                     const q = questions[currentIndex];
                     if (!q || answers[q.id] !== undefined) return;
@@ -844,6 +892,13 @@
                 const r = lastResult;
                 const el = document.getElementById("resultText");
                 el.textContent = "";
+                // Imtihon nima sababdan to'xtagani (vaqt tugadi / 3-xato)
+                if (r.reason) {
+                    const why = document.createElement("div");
+                    why.className = "exam-end-reason";
+                    why.textContent = I18n.t(r.reason === "time" ? "test.endTime" : "test.endMistakes");
+                    el.appendChild(why);
+                }
                 [
                     I18n.t("test.correct", { correct: r.correct, total: r.total, percent: r.percent }),
                     I18n.t("test.wrong", { n: r.wrong }),

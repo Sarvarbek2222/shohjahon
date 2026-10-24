@@ -1977,4 +1977,13 @@
   <data name="form.biletCurrent" xml:space="preserve">
     <value>Бу савол {n}-билетда.</value>
   </data>
+  <data name="test.timeLeft" xml:space="preserve">
+    <value>Қолган вақт</value>
+  </data>
+  <data name="test.endTime" xml:space="preserve">
+    <value>Вақт тугади — имтиҳон якунланди.</value>
+  </data>
+  <data name="test.endMistakes" xml:space="preserve">
+    <value>3-хато: имтиҳондан ўта олмадингиз (кўпи билан 2 та хато мумкин).</value>
+  </data>
 </root>

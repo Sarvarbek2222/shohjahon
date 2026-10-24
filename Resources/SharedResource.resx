@@ -1977,4 +1977,13 @@
   <data name="form.biletCurrent" xml:space="preserve">
     <value>Bu savol {n}-biletda.</value>
   </data>
+  <data name="test.timeLeft" xml:space="preserve">
+    <value>Qolgan vaqt</value>
+  </data>
+  <data name="test.endTime" xml:space="preserve">
+    <value>Vaqt tugadi — imtihon yakunlandi.</value>
+  </data>
+  <data name="test.endMistakes" xml:space="preserve">
+    <value>3-xato: imtihondan o'ta olmadingiz (ko'pi bilan 2 ta xato mumkin).</value>
+  </data>
 </root>
