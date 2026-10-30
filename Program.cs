@@ -30,6 +30,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ResultsService>();
 builder.Services.AddScoped<StatsService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddSingleton<VideoUploads>();
 builder.Services.AddScoped<AiAnalysisService>();
 
 // fetch() so'rovlari antiforgery tokenni shu sarlavhada yuboradi (AI tahlili tugmasi)

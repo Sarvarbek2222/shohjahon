@@ -164,7 +164,7 @@
         @foreach (var t in Model)
         {
             var c = counts.TryGetValue(t, out var n) ? n : 0;
-            <a class="tp-card" asp-controller="Topic" asp-action="Test" asp-route-topic="@t">
+            <a class="tp-card" asp-controller="Topic" asp-action="Hub" asp-route-topic="@t">
                 <div class="tp-card-name" data-i18n-pick data-uz="@Topics.Display(t, Lang.Uz)" data-ru="@Topics.Display(t, Lang.Ru)" data-uzk="@t">@L.Topic(t)</div>
                 <div class="tp-card-count @(c == 0 ? "empty" : "")" data-i18n="topics.count" data-i18n-args='{"n":@c}'>@L.F("topics.count", ("n", c))</div>
             </a>

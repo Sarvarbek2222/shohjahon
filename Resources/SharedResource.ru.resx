@@ -2136,4 +2136,367 @@
   <data name="notif.lessonNew" xml:space="preserve">
     <value>Новый видеоурок по теме «{topicRu}»</value>
   </data>
+  <data name="an.updatedAt" xml:space="preserve">
+    <value>Обновлено:</value>
+  </data>
+  <data name="an.refreshHint" xml:space="preserve">
+    <value>Данные готовятся в фоне и обновляются автоматически. Нажмите, чтобы пересчитать сейчас.</value>
+  </data>
+  <data name="lp.play" xml:space="preserve">
+    <value>Воспроизвести (K)</value>
+  </data>
+  <data name="lp.pause" xml:space="preserve">
+    <value>Пауза (K)</value>
+  </data>
+  <data name="lp.seek" xml:space="preserve">
+    <value>Шкала времени видео</value>
+  </data>
+  <data name="lp.back10" xml:space="preserve">
+    <value>Назад 10 секунд (J)</value>
+  </data>
+  <data name="lp.fwd10" xml:space="preserve">
+    <value>Вперёд 10 секунд (L)</value>
+  </data>
+  <data name="lp.mute" xml:space="preserve">
+    <value>Выключить звук (M)</value>
+  </data>
+  <data name="lp.volume" xml:space="preserve">
+    <value>Громкость</value>
+  </data>
+  <data name="lp.prevChapter" xml:space="preserve">
+    <value>Предыдущий раздел (P)</value>
+  </data>
+  <data name="lp.nextChapter" xml:space="preserve">
+    <value>Следующий раздел (N)</value>
+  </data>
+  <data name="lp.card" xml:space="preserve">
+    <value>Карточка вопроса (C)</value>
+  </data>
+  <data name="lp.speed" xml:space="preserve">
+    <value>Скорость</value>
+  </data>
+  <data name="lp.pip" xml:space="preserve">
+    <value>Картинка в картинке</value>
+  </data>
+  <data name="lp.theater" xml:space="preserve">
+    <value>Режим кинотеатра (T)</value>
+  </data>
+  <data name="lp.fullscreen" xml:space="preserve">
+    <value>Полный экран (F)</value>
+  </data>
+  <data name="lp.shortcuts" xml:space="preserve">
+    <value>Горячие клавиши</value>
+  </data>
+  <data name="lp.normal" xml:space="preserve">
+    <value>Обычная</value>
+  </data>
+  <data name="lp.resumeQ" xml:space="preserve">
+    <value>Вы остановились на {time}</value>
+  </data>
+  <data name="lp.resumeYes" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="lp.resumeNo" xml:space="preserve">
+    <value>Сначала</value>
+  </data>
+  <data name="lp.kPlay" xml:space="preserve">
+    <value>Воспроизвести / пауза</value>
+  </data>
+  <data name="lp.k5" xml:space="preserve">
+    <value>5 секунд назад / вперёд</value>
+  </data>
+  <data name="lp.k10" xml:space="preserve">
+    <value>10 секунд назад / вперёд</value>
+  </data>
+  <data name="lp.kVol" xml:space="preserve">
+    <value>Громкость</value>
+  </data>
+  <data name="lp.kMute" xml:space="preserve">
+    <value>Выкл / вкл звук</value>
+  </data>
+  <data name="lp.kChapter" xml:space="preserve">
+    <value>Следующий / предыдущий раздел</value>
+  </data>
+  <data name="lp.kPercent" xml:space="preserve">
+    <value>Перейти на 0–90% видео</value>
+  </data>
+  <data name="lp.kFull" xml:space="preserve">
+    <value>Полный экран</value>
+  </data>
+  <data name="lp.kTheater" xml:space="preserve">
+    <value>Режим кинотеатра</value>
+  </data>
+  <data name="lp.kCard" xml:space="preserve">
+    <value>Показать / скрыть карточку вопроса</value>
+  </data>
+  <data name="lp.kSpeed" xml:space="preserve">
+    <value>Уменьшить / увеличить скорость</value>
+  </data>
+  <data name="th.videoLen" xml:space="preserve">
+    <value>Видео: {t}</value>
+  </data>
+  <data name="th.explained" xml:space="preserve">
+    <value>Разобрано вопросов: {n}</value>
+  </data>
+  <data name="th.ringVideo" xml:space="preserve">
+    <value>Видеоурок</value>
+  </data>
+  <data name="th.ringVideoSub" xml:space="preserve">
+    <value>просмотрено</value>
+  </data>
+  <data name="th.noVideoShort" xml:space="preserve">
+    <value>ещё не добавлен</value>
+  </data>
+  <data name="th.ringMastery" xml:space="preserve">
+    <value>Знание темы</value>
+  </data>
+  <data name="th.ringMasterySub" xml:space="preserve">
+    <value>Освоено вопросов: {n} из {total}</value>
+  </data>
+  <data name="th.ringBest" xml:space="preserve">
+    <value>Лучший тест</value>
+  </data>
+  <data name="th.ringBestSub" xml:space="preserve">
+    <value>Пройдено раз: {n}</value>
+  </data>
+  <data name="th.hintMastered" xml:space="preserve">
+    <value>Отлично! Тема полностью освоена. Время от времени повторяйте тест, чтобы закрепить знания.</value>
+  </data>
+  <data name="th.hintMistakes" xml:space="preserve">
+    <value>В этой теме у вас {n} ошибочных вопросов — пересмотрите их видеоразбор по кнопкам ▶ ниже, затем пройдите тест.</value>
+  </data>
+  <data name="th.hintWatch" xml:space="preserve">
+    <value>Сначала посмотрите видеоурок: в нём разобран каждый вопрос темы. Затем проверьте себя тестом.</value>
+  </data>
+  <data name="th.hintTest" xml:space="preserve">
+    <value>Видео просмотрено — теперь проверьте знания тестом.</value>
+  </data>
+  <data name="th.hintTestOnly" xml:space="preserve">
+    <value>Пройдите тест по теме — результат появится здесь.</value>
+  </data>
+  <data name="th.hintKeep" xml:space="preserve">
+    <value>Хороший прогресс! Повторите вопросы с ошибками, чтобы полностью освоить тему.</value>
+  </data>
+  <data name="th.videoKicker" xml:space="preserve">
+    <value>Видеоурок</value>
+  </data>
+  <data name="th.videoWatch" xml:space="preserve">
+    <value>Смотреть урок</value>
+  </data>
+  <data name="th.videoContinue" xml:space="preserve">
+    <value>Продолжить урок</value>
+  </data>
+  <data name="th.videoRewatch" xml:space="preserve">
+    <value>Пересмотреть урок</value>
+  </data>
+  <data name="th.fromTime" xml:space="preserve">
+    <value>Продолжение с {t}</value>
+  </data>
+  <data name="th.videoSub" xml:space="preserve">
+    <value>Каждый вопрос разбирается отдельно</value>
+  </data>
+  <data name="th.videoSoon" xml:space="preserve">
+    <value>Видеоурок скоро</value>
+  </data>
+  <data name="th.videoSoonSub" xml:space="preserve">
+    <value>Пока тренируйтесь с помощью теста</value>
+  </data>
+  <data name="th.testKicker" xml:space="preserve">
+    <value>Практика</value>
+  </data>
+  <data name="th.testTitle" xml:space="preserve">
+    <value>Пройти тест</value>
+  </data>
+  <data name="th.testSub" xml:space="preserve">
+    <value>{n} вопросов темы</value>
+  </data>
+  <data name="th.qTitle" xml:space="preserve">
+    <value>Вопросы темы</value>
+  </data>
+  <data name="th.qSub" xml:space="preserve">
+    <value>Зелёный — верно, красный — ошибка.</value>
+  </data>
+  <data name="th.qSubVideo" xml:space="preserve">
+    <value>Зелёный — верно, красный — ошибка. ▶ — перейти к разбору вопроса в видео.</value>
+  </data>
+  <data name="th.watchExplain" xml:space="preserve">
+    <value>Смотреть разбор в видео</value>
+  </data>
+  <data name="ls.pageTitle" xml:space="preserve">
+    <value>Видеоурок</value>
+  </data>
+  <data name="ls.draft" xml:space="preserve">
+    <value>Черновик (видит только админ)</value>
+  </data>
+  <data name="ls.toTopic" xml:space="preserve">
+    <value>Страница темы</value>
+  </data>
+  <data name="ls.startTest" xml:space="preserve">
+    <value>Начать тест</value>
+  </data>
+  <data name="ls.watchedMap" xml:space="preserve">
+    <value>Просмотренные части</value>
+  </data>
+  <data name="ls.heatHint" xml:space="preserve">
+    <value>Красным — просмотренное. Досмотрите серые участки.</value>
+  </data>
+  <data name="ls.chapters" xml:space="preserve">
+    <value>План урока</value>
+  </data>
+  <data name="ls.chaptersSub" xml:space="preserve">
+    <value>Разделов: {n} · нажмите, чтобы перейти</value>
+  </data>
+  <data name="ls.qShort" xml:space="preserve">
+    <value>Вопрос {n}</value>
+  </data>
+  <data name="ls.qOf" xml:space="preserve">
+    <value>Вопрос {n} из {total}</value>
+  </data>
+  <data name="ls.showAnswer" xml:space="preserve">
+    <value>Показать верный ответ</value>
+  </data>
+  <data name="ls.endTitle" xml:space="preserve">
+    <value>Урок завершён!</value>
+  </data>
+  <data name="ls.endSub" xml:space="preserve">
+    <value>Теперь закрепите знания тестом.</value>
+  </data>
+  <data name="ls.replay" xml:space="preserve">
+    <value>Смотреть снова</value>
+  </data>
+  <data name="ls.nextTopic" xml:space="preserve">
+    <value>Следующая тема</value>
+  </data>
+  <data name="ls.adminTitle" xml:space="preserve">
+    <value>Видеоуроки</value>
+  </data>
+  <data name="ls.adminSub" xml:space="preserve">
+    <value>Видеоурок для каждой темы: видео, описание и время начала разбора каждого вопроса.</value>
+  </data>
+  <data name="ls.kpiVideos" xml:space="preserve">
+    <value>Темы с видео</value>
+  </data>
+  <data name="ls.kpiPublished" xml:space="preserve">
+    <value>Опубликовано</value>
+  </data>
+  <data name="ls.kpiViewers" xml:space="preserve">
+    <value>Просмотрели</value>
+  </data>
+  <data name="ls.kpiHours" xml:space="preserve">
+    <value>Всего часов просмотра</value>
+  </data>
+  <data name="ls.statePub" xml:space="preserve">
+    <value>Опубликован</value>
+  </data>
+  <data name="ls.stateDraft" xml:space="preserve">
+    <value>Черновик</value>
+  </data>
+  <data name="ls.stateNone" xml:space="preserve">
+    <value>Нет видео</value>
+  </data>
+  <data name="ls.mQuestions" xml:space="preserve">
+    <value>вопр.</value>
+  </data>
+  <data name="ls.mChapters" xml:space="preserve">
+    <value>с таймкодом</value>
+  </data>
+  <data name="ls.mViewers" xml:space="preserve">
+    <value>смотрели</value>
+  </data>
+  <data name="ls.mCompleted" xml:space="preserve">
+    <value>до конца</value>
+  </data>
+  <data name="ls.backToList" xml:space="preserve">
+    <value>Видеоуроки</value>
+  </data>
+  <data name="ls.editSub" xml:space="preserve">
+    <value>Загрузите видео (или вставьте ссылку YouTube), затем отметьте время начала разбора каждого вопроса.</value>
+  </data>
+  <data name="ls.preview" xml:space="preserve">
+    <value>Открыть как ученик</value>
+  </data>
+  <data name="ls.saved" xml:space="preserve">
+    <value>Сохранено.</value>
+  </data>
+  <data name="ls.errYouTube" xml:space="preserve">
+    <value>Неверная ссылка YouTube.</value>
+  </data>
+  <data name="ls.videoSource" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="ls.srcFile" xml:space="preserve">
+    <value>Загрузить файл</value>
+  </data>
+  <data name="ls.dropTitle" xml:space="preserve">
+    <value>Перетащите видео сюда или нажмите, чтобы выбрать</value>
+  </data>
+  <data name="ls.dropSub" xml:space="preserve">
+    <value>MP4 (рекомендуется), WebM или MOV · до 4 ГБ · большие файлы надёжно загружаются частями</value>
+  </data>
+  <data name="ls.cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ls.ytHint" xml:space="preserve">
+    <value>Если видео на YouTube (публичное или доступное по ссылке), вставьте ссылку — это экономит место на сервере.</value>
+  </data>
+  <data name="ls.previewHint" xml:space="preserve">
+    <value>Перемотайте видео и нажмите ⏱ в строке вопроса — время запишется само. Двойной клик по времени перематывает видео.</value>
+  </data>
+  <data name="ls.details" xml:space="preserve">
+    <value>Данные урока</value>
+  </data>
+  <data name="ls.fTitle" xml:space="preserve">
+    <value>Заголовок (необязательно)</value>
+  </data>
+  <data name="ls.fDesc" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="ls.fPublish" xml:space="preserve">
+    <value>Показывать ученикам</value>
+  </data>
+  <data name="ls.fPublishHint" xml:space="preserve">
+    <value>При первой публикации все ученики получат уведомление.</value>
+  </data>
+  <data name="ls.chaptersAdmin" xml:space="preserve">
+    <value>Время разбора вопросов</value>
+  </data>
+  <data name="ls.chaptersHint" xml:space="preserve">
+    <value>Формат: m:ss или h:mm:ss. Вопрос без времени не станет разделом.</value>
+  </data>
+  <data name="ls.setNow" xml:space="preserve">
+    <value>Поставить текущее время плеера</value>
+  </data>
+  <data name="ls.extraTitle" xml:space="preserve">
+    <value>Дополнительные разделы</value>
+  </data>
+  <data name="ls.extraHint" xml:space="preserve">
+    <value>Например: Введение, Основные правила, Итоги</value>
+  </data>
+  <data name="ls.add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="ls.save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="ls.needVideo" xml:space="preserve">
+    <value>Сначала загрузите видео или вставьте ссылку YouTube.</value>
+  </data>
+  <data name="ls.extraPh" xml:space="preserve">
+    <value>Название раздела</value>
+  </data>
+  <data name="ls.errType" xml:space="preserve">
+    <value>Только видео MP4, WebM, M4V или MOV.</value>
+  </data>
+  <data name="ls.left" xml:space="preserve">
+    <value>осталось ~{t}</value>
+  </data>
+  <data name="ls.uploaded" xml:space="preserve">
+    <value>Загружено. Не забудьте сохранить.</value>
+  </data>
+  <data name="ls.cancelled" xml:space="preserve">
+    <value>Отменено.</value>
+  </data>
+  <data name="ls.uploadFailed" xml:space="preserve">
+    <value>Не удалось загрузить. Проверьте интернет и попробуйте снова.</value>
+  </data>
 </root>

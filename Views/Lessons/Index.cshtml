@@ -1,0 +1,53 @@
+@model List<LessonRow>
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "ls.adminTitle";
+    ViewData["Title"] = L["ls.adminTitle"];
+    var withVideo = Model.Count(r => r.Lesson?.HasVideo == true);
+    var published = Model.Count(r => r.Lesson is { IsPublished: true } l && l.HasVideo);
+    var viewers = Model.Sum(r => r.Viewers);
+    var hours = Model.Sum(r => r.WatchSeconds) / 3600.0;
+    string Fmt(int s) => s >= 3600 ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+
+<div class="ca-body-embed">
+    <div class="ca-page-head">
+        <div>
+            <div class="ca-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
+            <h1 class="ca-h1" data-i18n="ls.adminTitle">@L["ls.adminTitle"]</h1>
+            <p class="ca-sub" data-i18n="ls.adminSub">@L["ls.adminSub"]</p>
+        </div>
+    </div>
+
+    <div class="ca-grid ca-grid-kpi">
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon brand">@Icons.Play</div><div><div class="ca-kpi-label" data-i18n="ls.kpiVideos">@L["ls.kpiVideos"]</div><div class="ca-kpi-value">@withVideo <small>/ @Model.Count</small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon ok">@Icons.Check</div><div><div class="ca-kpi-label" data-i18n="ls.kpiPublished">@L["ls.kpiPublished"]</div><div class="ca-kpi-value">@published</div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon info">@Icons.Users</div><div><div class="ca-kpi-label" data-i18n="ls.kpiViewers">@L["ls.kpiViewers"]</div><div class="ca-kpi-value">@viewers</div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon warn">@Icons.Clock</div><div><div class="ca-kpi-label" data-i18n="ls.kpiHours">@L["ls.kpiHours"]</div><div class="ca-kpi-value">@hours.ToString("0.#")</div></div></div></div>
+    </div>
+
+    <div class="al-grid ca-section">
+        @foreach (var r in Model)
+        {
+            var l = r.Lesson;
+            var state = l == null || !l.HasVideo ? "none" : l.IsPublished ? "pub" : "draft";
+            var stateKey = state == "pub" ? "ls.statePub" : state == "draft" ? "ls.stateDraft" : "ls.stateNone";
+            <a class="al-card" href="/Lessons/Edit?topic=@Uri.EscapeDataString(r.Topic)">
+                <div class="al-card-top">
+                    <span class="al-card-name" data-i18n-pick data-uz="@Topics.Display(r.Topic, Lang.Uz)" data-ru="@Topics.Display(r.Topic, Lang.Ru)" data-uzk="@r.Topic">@L.Topic(r.Topic)</span>
+                    <span class="al-status @state" data-i18n="@stateKey">@L[stateKey]</span>
+                </div>
+                <div class="al-card-meta">
+                    <span><b>@r.QuestionCount</b> <span data-i18n="ls.mQuestions">@L["ls.mQuestions"]</span></span>
+                    @if (l?.HasVideo == true)
+                    {
+                        <span><b>@Fmt(l.DurationSeconds)</b></span>
+                        <span><b>@l.Chapters.Count(c => c.QuestionId != null)</b>/@r.QuestionCount <span data-i18n="ls.mChapters">@L["ls.mChapters"]</span></span>
+                        <span><b>@r.Viewers</b> <span data-i18n="ls.mViewers">@L["ls.mViewers"]</span> · <b>@r.Completed</b> <span data-i18n="ls.mCompleted">@L["ls.mCompleted"]</span></span>
+                    }
+                </div>
+            </a>
+        }
+    </div>
+</div>

@@ -2136,4 +2136,367 @@
   <data name="notif.lessonNew" xml:space="preserve">
     <value>«{topicUz}» mavzusiga yangi video dars qo'shildi</value>
   </data>
+  <data name="an.updatedAt" xml:space="preserve">
+    <value>Yangilandi:</value>
+  </data>
+  <data name="an.refreshHint" xml:space="preserve">
+    <value>Ma'lumot fonda tayyorlanadi va avtomatik yangilanadi. Bosing — hozir qayta hisoblash.</value>
+  </data>
+  <data name="lp.play" xml:space="preserve">
+    <value>Ijro etish (K)</value>
+  </data>
+  <data name="lp.pause" xml:space="preserve">
+    <value>Pauza (K)</value>
+  </data>
+  <data name="lp.seek" xml:space="preserve">
+    <value>Video vaqt chizig'i</value>
+  </data>
+  <data name="lp.back10" xml:space="preserve">
+    <value>10 soniya orqaga (J)</value>
+  </data>
+  <data name="lp.fwd10" xml:space="preserve">
+    <value>10 soniya oldinga (L)</value>
+  </data>
+  <data name="lp.mute" xml:space="preserve">
+    <value>Ovozni o'chirish (M)</value>
+  </data>
+  <data name="lp.volume" xml:space="preserve">
+    <value>Ovoz balandligi</value>
+  </data>
+  <data name="lp.prevChapter" xml:space="preserve">
+    <value>Oldingi bo'lim (P)</value>
+  </data>
+  <data name="lp.nextChapter" xml:space="preserve">
+    <value>Keyingi bo'lim (N)</value>
+  </data>
+  <data name="lp.card" xml:space="preserve">
+    <value>Savol kartasi (C)</value>
+  </data>
+  <data name="lp.speed" xml:space="preserve">
+    <value>Tezlik</value>
+  </data>
+  <data name="lp.pip" xml:space="preserve">
+    <value>Kichik oynada (PiP)</value>
+  </data>
+  <data name="lp.theater" xml:space="preserve">
+    <value>Kinoteatr rejimi (T)</value>
+  </data>
+  <data name="lp.fullscreen" xml:space="preserve">
+    <value>To'liq ekran (F)</value>
+  </data>
+  <data name="lp.shortcuts" xml:space="preserve">
+    <value>Klaviatura tugmalari</value>
+  </data>
+  <data name="lp.normal" xml:space="preserve">
+    <value>Oddiy</value>
+  </data>
+  <data name="lp.resumeQ" xml:space="preserve">
+    <value>To'xtagan joyingiz: {time}</value>
+  </data>
+  <data name="lp.resumeYes" xml:space="preserve">
+    <value>Davom ettirish</value>
+  </data>
+  <data name="lp.resumeNo" xml:space="preserve">
+    <value>Boshidan</value>
+  </data>
+  <data name="lp.kPlay" xml:space="preserve">
+    <value>Ijro / pauza</value>
+  </data>
+  <data name="lp.k5" xml:space="preserve">
+    <value>5 soniya orqaga / oldinga</value>
+  </data>
+  <data name="lp.k10" xml:space="preserve">
+    <value>10 soniya orqaga / oldinga</value>
+  </data>
+  <data name="lp.kVol" xml:space="preserve">
+    <value>Ovoz balandligi</value>
+  </data>
+  <data name="lp.kMute" xml:space="preserve">
+    <value>Ovozni o'chirish / yoqish</value>
+  </data>
+  <data name="lp.kChapter" xml:space="preserve">
+    <value>Keyingi / oldingi bo'lim</value>
+  </data>
+  <data name="lp.kPercent" xml:space="preserve">
+    <value>Videoning 0–90% joyiga o'tish</value>
+  </data>
+  <data name="lp.kFull" xml:space="preserve">
+    <value>To'liq ekran</value>
+  </data>
+  <data name="lp.kTheater" xml:space="preserve">
+    <value>Kinoteatr rejimi</value>
+  </data>
+  <data name="lp.kCard" xml:space="preserve">
+    <value>Savol kartasini ko'rsatish / yashirish</value>
+  </data>
+  <data name="lp.kSpeed" xml:space="preserve">
+    <value>Tezlikni kamaytirish / oshirish</value>
+  </data>
+  <data name="th.videoLen" xml:space="preserve">
+    <value>Video: {t}</value>
+  </data>
+  <data name="th.explained" xml:space="preserve">
+    <value>{n} ta savol tushuntirilgan</value>
+  </data>
+  <data name="th.ringVideo" xml:space="preserve">
+    <value>Video dars</value>
+  </data>
+  <data name="th.ringVideoSub" xml:space="preserve">
+    <value>ko'rilgan qismi</value>
+  </data>
+  <data name="th.noVideoShort" xml:space="preserve">
+    <value>hali qo'shilmagan</value>
+  </data>
+  <data name="th.ringMastery" xml:space="preserve">
+    <value>Mavzu bilimi</value>
+  </data>
+  <data name="th.ringMasterySub" xml:space="preserve">
+    <value>{n} / {total} savol o'zlashtirilgan</value>
+  </data>
+  <data name="th.ringBest" xml:space="preserve">
+    <value>Eng yaxshi test</value>
+  </data>
+  <data name="th.ringBestSub" xml:space="preserve">
+    <value>{n} marta ishlangan</value>
+  </data>
+  <data name="th.hintMastered" xml:space="preserve">
+    <value>Ajoyib! Bu mavzu to'liq o'zlashtirilgan. Bilimni mustahkamlash uchun vaqti-vaqti bilan testni qaytaring.</value>
+  </data>
+  <data name="th.hintMistakes" xml:space="preserve">
+    <value>Bu mavzuda {n} ta xato savolingiz bor — pastdagi ▶ tugmalar orqali aynan shu savollarning video tushuntirishini qayta ko'ring, keyin testni ishlang.</value>
+  </data>
+  <data name="th.hintWatch" xml:space="preserve">
+    <value>Avval video darsni ko'ring: mavzudagi har bir savol unda tushuntirilgan. Keyin test bilan o'zingizni tekshiring.</value>
+  </data>
+  <data name="th.hintTest" xml:space="preserve">
+    <value>Videoni ko'rdingiz — endi bilimingizni test bilan tekshiring.</value>
+  </data>
+  <data name="th.hintTestOnly" xml:space="preserve">
+    <value>Mavzu bo'yicha testni ishlang — natijangiz shu yerda ko'rinadi.</value>
+  </data>
+  <data name="th.hintKeep" xml:space="preserve">
+    <value>Yaxshi ketyapsiz! Xato qilgan savollaringizni qayta ishlab, mavzuni to'liq o'zlashtiring.</value>
+  </data>
+  <data name="th.videoKicker" xml:space="preserve">
+    <value>Video dars</value>
+  </data>
+  <data name="th.videoWatch" xml:space="preserve">
+    <value>Darsni ko'rish</value>
+  </data>
+  <data name="th.videoContinue" xml:space="preserve">
+    <value>Darsni davom ettirish</value>
+  </data>
+  <data name="th.videoRewatch" xml:space="preserve">
+    <value>Darsni qayta ko'rish</value>
+  </data>
+  <data name="th.fromTime" xml:space="preserve">
+    <value>{t} dan davom etadi</value>
+  </data>
+  <data name="th.videoSub" xml:space="preserve">
+    <value>Har bir savol alohida tushuntiriladi</value>
+  </data>
+  <data name="th.videoSoon" xml:space="preserve">
+    <value>Video dars tez orada</value>
+  </data>
+  <data name="th.videoSoonSub" xml:space="preserve">
+    <value>Hozircha test orqali mashq qiling</value>
+  </data>
+  <data name="th.testKicker" xml:space="preserve">
+    <value>Mashq</value>
+  </data>
+  <data name="th.testTitle" xml:space="preserve">
+    <value>Test ishlash</value>
+  </data>
+  <data name="th.testSub" xml:space="preserve">
+    <value>Mavzudagi {n} ta savol</value>
+  </data>
+  <data name="th.qTitle" xml:space="preserve">
+    <value>Mavzudagi savollar</value>
+  </data>
+  <data name="th.qSub" xml:space="preserve">
+    <value>Yashil — to'g'ri ishlangan, qizil — xato.</value>
+  </data>
+  <data name="th.qSubVideo" xml:space="preserve">
+    <value>Yashil — to'g'ri ishlangan, qizil — xato. ▶ — videoda shu savolning tushuntirishiga o'tish.</value>
+  </data>
+  <data name="th.watchExplain" xml:space="preserve">
+    <value>Videoda tushuntirishni ko'rish</value>
+  </data>
+  <data name="ls.pageTitle" xml:space="preserve">
+    <value>Video dars</value>
+  </data>
+  <data name="ls.draft" xml:space="preserve">
+    <value>Qoralama (faqat admin ko'radi)</value>
+  </data>
+  <data name="ls.toTopic" xml:space="preserve">
+    <value>Mavzu sahifasi</value>
+  </data>
+  <data name="ls.startTest" xml:space="preserve">
+    <value>Testni boshlash</value>
+  </data>
+  <data name="ls.watchedMap" xml:space="preserve">
+    <value>Ko'rilgan qismlar</value>
+  </data>
+  <data name="ls.heatHint" xml:space="preserve">
+    <value>Qizil — siz ko'rgan joylar. Kulrang joylarni ham ko'rib chiqing.</value>
+  </data>
+  <data name="ls.chapters" xml:space="preserve">
+    <value>Dars rejasi</value>
+  </data>
+  <data name="ls.chaptersSub" xml:space="preserve">
+    <value>{n} ta bo'lim · bosing — o'sha joyga o'tadi</value>
+  </data>
+  <data name="ls.qShort" xml:space="preserve">
+    <value>Savol {n}</value>
+  </data>
+  <data name="ls.qOf" xml:space="preserve">
+    <value>Savol {n} / {total}</value>
+  </data>
+  <data name="ls.showAnswer" xml:space="preserve">
+    <value>To'g'ri javobni ko'rsatish</value>
+  </data>
+  <data name="ls.endTitle" xml:space="preserve">
+    <value>Dars tugadi!</value>
+  </data>
+  <data name="ls.endSub" xml:space="preserve">
+    <value>Endi bilimingizni test bilan mustahkamlang.</value>
+  </data>
+  <data name="ls.replay" xml:space="preserve">
+    <value>Qayta ko'rish</value>
+  </data>
+  <data name="ls.nextTopic" xml:space="preserve">
+    <value>Keyingi mavzu</value>
+  </data>
+  <data name="ls.adminTitle" xml:space="preserve">
+    <value>Video darslar</value>
+  </data>
+  <data name="ls.adminSub" xml:space="preserve">
+    <value>Har bir mavzu uchun video dars: video, tavsif va har bir savol tushuntirilishi boshlanadigan vaqt.</value>
+  </data>
+  <data name="ls.kpiVideos" xml:space="preserve">
+    <value>Video bor mavzular</value>
+  </data>
+  <data name="ls.kpiPublished" xml:space="preserve">
+    <value>E'lon qilingan</value>
+  </data>
+  <data name="ls.kpiViewers" xml:space="preserve">
+    <value>Ko'rganlar</value>
+  </data>
+  <data name="ls.kpiHours" xml:space="preserve">
+    <value>Jami ko'rilgan soat</value>
+  </data>
+  <data name="ls.statePub" xml:space="preserve">
+    <value>E'lon qilingan</value>
+  </data>
+  <data name="ls.stateDraft" xml:space="preserve">
+    <value>Qoralama</value>
+  </data>
+  <data name="ls.stateNone" xml:space="preserve">
+    <value>Video yo'q</value>
+  </data>
+  <data name="ls.mQuestions" xml:space="preserve">
+    <value>savol</value>
+  </data>
+  <data name="ls.mChapters" xml:space="preserve">
+    <value>vaqt belgilangan</value>
+  </data>
+  <data name="ls.mViewers" xml:space="preserve">
+    <value>ko'rgan</value>
+  </data>
+  <data name="ls.mCompleted" xml:space="preserve">
+    <value>oxirigacha</value>
+  </data>
+  <data name="ls.backToList" xml:space="preserve">
+    <value>Video darslar</value>
+  </data>
+  <data name="ls.editSub" xml:space="preserve">
+    <value>Video yuklang (yoki YouTube havolasini qo'ying), keyin har bir savol tushuntirilishi boshlanadigan vaqtni belgilang.</value>
+  </data>
+  <data name="ls.preview" xml:space="preserve">
+    <value>O'quvchi ko'rinishida ochish</value>
+  </data>
+  <data name="ls.saved" xml:space="preserve">
+    <value>Saqlandi.</value>
+  </data>
+  <data name="ls.errYouTube" xml:space="preserve">
+    <value>YouTube havolasi noto'g'ri.</value>
+  </data>
+  <data name="ls.videoSource" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="ls.srcFile" xml:space="preserve">
+    <value>Fayl yuklash</value>
+  </data>
+  <data name="ls.dropTitle" xml:space="preserve">
+    <value>Videoni shu yerga tashlang yoki bosib tanlang</value>
+  </data>
+  <data name="ls.dropSub" xml:space="preserve">
+    <value>MP4 (tavsiya), WebM yoki MOV · 4 GB gacha · katta fayl ham bo'laklab ishonchli yuklanadi</value>
+  </data>
+  <data name="ls.cancel" xml:space="preserve">
+    <value>Bekor qilish</value>
+  </data>
+  <data name="ls.ytHint" xml:space="preserve">
+    <value>Video YouTube'da bo'lsa (masalan, ochiq yoki havola orqali ko'rinadigan), havolasini qo'ying — server xotirasi tejaladi.</value>
+  </data>
+  <data name="ls.previewHint" xml:space="preserve">
+    <value>Videoni kerakli joyga qo'ying va savol qatoridagi ⏱ tugmasini bosing — vaqt o'zi yoziladi. Vaqt ustiga ikki marta bosilsa, video o'sha joyga o'tadi.</value>
+  </data>
+  <data name="ls.details" xml:space="preserve">
+    <value>Dars ma'lumotlari</value>
+  </data>
+  <data name="ls.fTitle" xml:space="preserve">
+    <value>Sarlavha (ixtiyoriy)</value>
+  </data>
+  <data name="ls.fDesc" xml:space="preserve">
+    <value>Tavsif</value>
+  </data>
+  <data name="ls.fPublish" xml:space="preserve">
+    <value>O'quvchilarga ko'rsatish</value>
+  </data>
+  <data name="ls.fPublishHint" xml:space="preserve">
+    <value>Birinchi marta e'lon qilinganda barcha o'quvchilarga bildirishnoma boradi.</value>
+  </data>
+  <data name="ls.chaptersAdmin" xml:space="preserve">
+    <value>Savollar tushuntirilish vaqti</value>
+  </data>
+  <data name="ls.chaptersHint" xml:space="preserve">
+    <value>Format: m:ss yoki h:mm:ss. Bo'sh qoldirilgan savol bo'lim bo'lmaydi.</value>
+  </data>
+  <data name="ls.setNow" xml:space="preserve">
+    <value>Pleerdagi hozirgi vaqtni qo'yish</value>
+  </data>
+  <data name="ls.extraTitle" xml:space="preserve">
+    <value>Qo'shimcha bo'limlar</value>
+  </data>
+  <data name="ls.extraHint" xml:space="preserve">
+    <value>Masalan: Kirish, Asosiy qoidalar, Xulosa</value>
+  </data>
+  <data name="ls.add" xml:space="preserve">
+    <value>Qo'shish</value>
+  </data>
+  <data name="ls.save" xml:space="preserve">
+    <value>Saqlash</value>
+  </data>
+  <data name="ls.needVideo" xml:space="preserve">
+    <value>Avval video yuklang yoki YouTube havolasini qo'ying.</value>
+  </data>
+  <data name="ls.extraPh" xml:space="preserve">
+    <value>Bo'lim nomi</value>
+  </data>
+  <data name="ls.errType" xml:space="preserve">
+    <value>Faqat MP4, WebM, M4V yoki MOV video.</value>
+  </data>
+  <data name="ls.left" xml:space="preserve">
+    <value>~{t} qoldi</value>
+  </data>
+  <data name="ls.uploaded" xml:space="preserve">
+    <value>Yuklandi. Saqlashni unutmang.</value>
+  </data>
+  <data name="ls.cancelled" xml:space="preserve">
+    <value>Bekor qilindi.</value>
+  </data>
+  <data name="ls.uploadFailed" xml:space="preserve">
+    <value>Yuklab bo'lmadi. Internetni tekshirib, qayta urinib ko'ring.</value>
+  </data>
 </root>

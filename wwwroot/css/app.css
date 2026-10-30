@@ -984,3 +984,10 @@
     #resultCard[data-rc] .d-flex { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { #resultCard[data-rc].rc-in, .rc-backdrop { animation: none; } .rc-ring-fg { transition: none; } }
+
+/* Umumiy matn maydoni (admin/kabinet formalari) */
+.ca-input { height: 42px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--ca-border-strong, rgba(255,255,255,.14)); background: rgba(0,0,0,.25);
+    color: #fff; font: 500 .9rem var(--ca-font, Inter, system-ui, sans-serif); transition: border-color .15s, box-shadow .15s; }
+textarea.ca-input { height: auto; padding: 10px 12px; resize: vertical; line-height: 1.5; }
+.ca-input:focus { outline: none; border-color: #7dd3fc; box-shadow: 0 0 0 3px rgba(56,189,248,.15); }
+.ca-input::placeholder { color: #6b7185; }

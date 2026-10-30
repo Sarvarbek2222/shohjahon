@@ -256,7 +256,7 @@
                 <div class="hm-chips" aria-label="@L["hm.popularTopics"]">
                     @foreach (var (topic, count) in Model.TopTopics)
                     {
-                        <a class="hm-chip" href="/Topic/Test?topic=@Uri.EscapeDataString(topic)" title="@L.Topic(topic)">
+                        <a class="hm-chip" href="/Topic/Hub?topic=@Uri.EscapeDataString(topic)" title="@L.Topic(topic)">
                             <span>@L.Topic(topic)</span><b>@count</b>
                         </a>
                     }

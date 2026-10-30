@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace propro.Controllers
 {
-    public class TopicController : Controller
+    public partial class TopicController : Controller
     {
         private readonly AppDbContext _context;
 

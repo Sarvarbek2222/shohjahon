@@ -1,0 +1,149 @@
+@model TopicHubModel
+@* Mavzu sahifasi: video dars va test, o'quvchining shu mavzudagi holati, savollar (videodagi tushuntirishga havola bilan) *@
+@{
+    Layout = "_CabinetLayout";
+    ViewData["TitleKey"] = "nav.topics";
+    ViewData["Title"] = L.Topic(Model.Topic);
+    var t = Model.Topic;
+    var enc = Uri.EscapeDataString(t);
+    var lesson = Model.Lesson;
+    var hasVideo = lesson != null;
+    var chapters = lesson?.Chapters.Count(c => c.QuestionId != null) ?? 0;
+    var resumeAt = Model.Progress != null && Model.Progress.PositionSeconds > 5 && lesson != null && Model.Progress.PositionSeconds < lesson.DurationSeconds - 5
+        ? Model.Progress.PositionSeconds : 0;
+    string Fmt(int s) => s >= 3600 ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
+    string Pick(string a, string b, string c) => L.Lang == Lang.Ru ? b : L.Lang == Lang.Uzk ? c : a;
+
+    // Aqlli tavsiya: o'quvchining holatiga qarab keyingi qadam
+    string hintKey; object hintArgs = new { };
+    if (Model.Mastery >= 100) hintKey = "th.hintMastered";
+    else if (Model.ActiveMistakes > 0 && hasVideo && chapters > 0) { hintKey = "th.hintMistakes"; hintArgs = new { n = Model.ActiveMistakes }; }
+    else if (hasVideo && Model.Watched < 50) hintKey = "th.hintWatch";
+    else if (hasVideo && Model.TestsTaken == 0) hintKey = "th.hintTest";
+    else if (!hasVideo && Model.TestsTaken == 0) hintKey = "th.hintTestOnly";
+    else hintKey = "th.hintKeep";
+    var hintJson = System.Text.Json.JsonSerializer.Serialize(hintArgs);
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+
+<div class="th-hero">
+    <div class="th-crumbs">
+        <a asp-controller="Topic" asp-action="Index" data-i18n="nav.topics">@L["nav.topics"]</a> <span>›</span>
+        <span data-i18n-pick data-uz="@Topics.Display(t, Lang.Uz)" data-ru="@Topics.Display(t, Lang.Ru)" data-uzk="@t">@L.Topic(t)</span>
+    </div>
+    <h1 class="th-title" data-i18n-pick data-uz="@Topics.Display(t, Lang.Uz)" data-ru="@Topics.Display(t, Lang.Ru)" data-uzk="@t">@L.Topic(t)</h1>
+    <div class="th-tags">
+        <span class="th-tag">@Icons.List <span data-i18n="topics.count" data-i18n-args='{"n":@Model.Questions.Count}'>@L.F("topics.count", ("n", Model.Questions.Count))</span></span>
+        @if (hasVideo)
+        {
+            <span class="th-tag">@Icons.Play <span data-i18n="th.videoLen" data-i18n-args='{"t":"@Fmt(lesson!.DurationSeconds)"}'>@L.F("th.videoLen", ("t", Fmt(lesson!.DurationSeconds)))</span></span>
+            @if (chapters > 0)
+            {
+                <span class="th-tag">@Icons.Sparkles <span data-i18n="th.explained" data-i18n-args='{"n":@chapters}'>@L.F("th.explained", ("n", chapters))</span></span>
+            }
+            @if (!lesson.IsPublished)
+            {
+                <span class="th-tag" style="color:#fcd34d;border-color:rgba(245,158,11,.4);" data-i18n="ls.draft">@L["ls.draft"]</span>
+            }
+        }
+    </div>
+
+    <div class="th-rings">
+        <div class="th-ring">
+            <div class="ca-ring sm" style="--p:@Model.Watched; --c:#ff4d6a;"><div class="ca-ring-value">@Model.Watched</div></div>
+            <div><b data-i18n="th.ringVideo">@L["th.ringVideo"]</b><span data-i18n="@(hasVideo ? "th.ringVideoSub" : "th.noVideoShort")">@L[hasVideo ? "th.ringVideoSub" : "th.noVideoShort"]</span></div>
+        </div>
+        <div class="th-ring">
+            <div class="ca-ring sm" style="--p:@Model.Mastery; --c:@Score.Color(Model.Mastery);"><div class="ca-ring-value">@Model.Mastery</div></div>
+            <div><b data-i18n="th.ringMastery">@L["th.ringMastery"]</b><span data-i18n="th.ringMasterySub" data-i18n-args='{"n":@Model.Solved,"total":@Model.Questions.Count}'>@L.F("th.ringMasterySub", ("n", Model.Solved), ("total", Model.Questions.Count))</span></div>
+        </div>
+        <div class="th-ring">
+            @{ var best = (int)Math.Round(Model.BestPercent ?? 0); }
+            <div class="ca-ring sm" style="--p:@best; --c:@Score.Color(best);"><div class="ca-ring-value">@(Model.BestPercent == null ? "—" : best.ToString())</div></div>
+            <div><b data-i18n="th.ringBest">@L["th.ringBest"]</b><span data-i18n="th.ringBestSub" data-i18n-args='{"n":@Model.TestsTaken}'>@L.F("th.ringBestSub", ("n", Model.TestsTaken))</span></div>
+        </div>
+    </div>
+
+    <div class="th-hint" role="note">
+        @Icons.Sparkles
+        <span data-i18n="@hintKey" data-i18n-args='@hintJson'>@L.F(hintKey, ("n", Model.ActiveMistakes))</span>
+    </div>
+</div>
+
+<div class="th-actions">
+    @if (hasVideo)
+    {
+        var lsUrl = $"/Topic/Lesson?topic={enc}" + (resumeAt > 0 ? $"&t={resumeAt}" : "");
+        <a class="th-act video" href="@lsUrl">
+            <span class="th-act-ic">@Icons.Play</span>
+            <span class="th-act-kicker" data-i18n="th.videoKicker">@L["th.videoKicker"]</span>
+            <span class="th-act-title" data-i18n="@(resumeAt > 0 ? "th.videoContinue" : Model.Watched >= 90 ? "th.videoRewatch" : "th.videoWatch")">@L[resumeAt > 0 ? "th.videoContinue" : Model.Watched >= 90 ? "th.videoRewatch" : "th.videoWatch"]</span>
+            <span class="th-act-sub">
+                @if (resumeAt > 0)
+                {
+                    <span data-i18n="th.fromTime" data-i18n-args='{"t":"@Fmt(resumeAt)"}'>@L.F("th.fromTime", ("t", Fmt(resumeAt)))</span>
+                }
+                else
+                {
+                    <span data-i18n="th.videoSub">@L["th.videoSub"]</span>
+                }
+            </span>
+            <span class="th-act-bar"><i style="width:@Model.Watched%"></i></span>
+        </a>
+    }
+    else
+    {
+        <div class="th-act video disabled">
+            <span class="th-act-ic">@Icons.Clock</span>
+            <span class="th-act-kicker" data-i18n="th.videoKicker">@L["th.videoKicker"]</span>
+            <span class="th-act-title" data-i18n="th.videoSoon">@L["th.videoSoon"]</span>
+            <span class="th-act-sub" data-i18n="th.videoSoonSub">@L["th.videoSoonSub"]</span>
+        </div>
+    }
+    <a class="th-act test" href="/Topic/Test?topic=@enc">
+        <span class="th-act-ic">@Icons.Target</span>
+        <span class="th-act-kicker" data-i18n="th.testKicker">@L["th.testKicker"]</span>
+        <span class="th-act-title" data-i18n="th.testTitle">@L["th.testTitle"]</span>
+        <span class="th-act-sub" data-i18n="th.testSub" data-i18n-args='{"n":@Model.Questions.Count}'>@L.F("th.testSub", ("n", Model.Questions.Count))</span>
+        <span class="th-act-bar"><i style="width:@Model.Mastery%"></i></span>
+    </a>
+</div>
+
+<div class="ca-card ca-section">
+    <div class="ca-card-head">
+        <div>
+            <h3 class="ca-card-title" data-i18n="th.qTitle">@L["th.qTitle"]</h3>
+            <p class="ca-card-sub" data-i18n="@(hasVideo ? "th.qSubVideo" : "th.qSub")">@L[hasVideo ? "th.qSubVideo" : "th.qSub"]</p>
+        </div>
+    </div>
+    <div class="th-qlist">
+        @foreach (var q in Model.Questions)
+        {
+            var cls = q.InMistakes ? "bad" : q.LastCorrect == true ? "ok" : q.LastCorrect == false ? "bad" : "";
+            <div class="th-q @cls">
+                <span class="th-q-n">@q.Number</span>
+                <span class="th-q-t" data-i18n-pick data-uz="@q.TextUz" data-ru="@(q.TextRu ?? q.TextUz)" data-uzk="@(q.TextUzk ?? q.TextUz)">@Pick(q.TextUz, q.TextRu ?? q.TextUz, q.TextUzk ?? q.TextUz)</span>
+                @if (q.VideoAt is int at)
+                {
+                    <a class="th-q-go" href="/Topic/Lesson?topic=@enc&t=@at" title="@L["th.watchExplain"]" data-i18n-title="th.watchExplain">@Icons.Play @Fmt(at)</a>
+                }
+                else
+                {
+                    <span></span>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<nav class="th-nav" aria-label="@L["nav.topics"]">
+    @if (Model.PrevTopic is string prev)
+    {
+        <a href="/Topic/Hub?topic=@Uri.EscapeDataString(prev)">← <span data-i18n-pick data-uz="@Topics.Display(prev, Lang.Uz)" data-ru="@Topics.Display(prev, Lang.Ru)" data-uzk="@prev">@L.Topic(prev)</span></a>
+    }
+    else { <span></span> }
+    @if (Model.NextTopic is string next)
+    {
+        <a href="/Topic/Hub?topic=@Uri.EscapeDataString(next)"><span data-i18n-pick data-uz="@Topics.Display(next, Lang.Uz)" data-ru="@Topics.Display(next, Lang.Ru)" data-uzk="@next">@L.Topic(next)</span> →</a>
+    }
+</nav>

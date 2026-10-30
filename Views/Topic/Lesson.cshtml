@@ -1,0 +1,243 @@
+@model LessonPageModel
+@* Video dars sahifasi: pleer, bo'limlar (har bir savol tushuntirilishi), savol kartasi, ko'rilgan qismlar xaritasi *@
+@{
+    Layout = "_CabinetLayout";
+    ViewData["TitleKey"] = "ls.pageTitle";
+    ViewData["Title"] = L.Topic(Model.Topic);
+    var l = Model.Lesson;
+    var t = Model.Topic;
+    var enc = Uri.EscapeDataString(t);
+    var p = Model.Progress;
+    string Fmt(int s) => s >= 3600 ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
+    var src = l.VideoKind == VideoKinds.File ? "/uploads/videos/" + l.VideoRef : null;
+    var startAt = Model.StartAt ?? p?.PositionSeconds ?? 0;
+    var config = new
+    {
+        lessonId = l.Id,
+        kind = l.VideoKind,
+        src,
+        ytId = l.VideoKind == VideoKinds.YouTube ? l.VideoRef : null,
+        duration = l.DurationSeconds,
+        startAt,
+        jump = Model.StartAt != null,
+        map = p?.WatchedMap ?? "",
+        bucket = TopicLessonProgress.Bucket,
+        chapters = Model.Chapters.Select(c => new
+        {
+            start = c.Start, n = c.Number, qid = c.QuestionId,
+            uz = c.TextUz, ru = c.TextRu, uzk = c.TextUzk,
+            aUz = c.AnswerUz, aRu = c.AnswerRu, aUzk = c.AnswerUzk,
+        }),
+        testUrl = "/Topic/Test?topic=" + enc,
+        hubUrl = "/Topic/Hub?topic=" + enc,
+        nextUrl = Model.NextTopic is string nt ? "/Topic/Hub?topic=" + Uri.EscapeDataString(nt) : null,
+    };
+    var watched = p == null ? 0 : (int)Math.Round(p.WatchedShare * 100);
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+
+<div class="th-crumbs">
+    <a asp-controller="Topic" asp-action="Index" data-i18n="nav.topics">@L["nav.topics"]</a> <span>›</span>
+    <a href="/Topic/Hub?topic=@enc" data-i18n-pick data-uz="@Topics.Display(t, Lang.Uz)" data-ru="@Topics.Display(t, Lang.Ru)" data-uzk="@t">@L.Topic(t)</a> <span>›</span>
+    <span data-i18n="ls.pageTitle">@L["ls.pageTitle"]</span>
+</div>
+
+<div class="ls-layout">
+    <div class="ls-main">
+        <div id="player"></div>
+
+        <div class="ls-info">
+            <div style="min-width:0;">
+                <h1 class="ls-title">
+                    @if (!string.IsNullOrWhiteSpace(l.Title))
+                    {
+                        @l.Title
+                    }
+                    else
+                    {
+                        <span data-i18n-pick data-uz="@Topics.Display(t, Lang.Uz)" data-ru="@Topics.Display(t, Lang.Ru)" data-uzk="@t">@L.Topic(t)</span>
+                    }
+                </h1>
+                <div class="ls-meta">
+                    <span class="th-tag">@Icons.Clock @Fmt(l.DurationSeconds)</span>
+                    <span class="th-tag">@Icons.List <span data-i18n="topics.count" data-i18n-args='{"n":@Model.QuestionCount}'>@L.F("topics.count", ("n", Model.QuestionCount))</span></span>
+                    @if (!l.IsPublished)
+                    {
+                        <span class="th-tag" style="color:#fcd34d;" data-i18n="ls.draft">@L["ls.draft"]</span>
+                    }
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <a class="ca-btn ca-btn-ghost" href="/Topic/Hub?topic=@enc">@Icons.Book <span data-i18n="ls.toTopic">@L["ls.toTopic"]</span></a>
+                <a class="ca-btn ca-btn-primary" href="/Topic/Test?topic=@enc">@Icons.Target <span data-i18n="ls.startTest">@L["ls.startTest"]</span></a>
+            </div>
+        </div>
+
+        <div class="ls-progress">
+            <div class="ls-progress-top">
+                <span data-i18n="ls.watchedMap">@L["ls.watchedMap"]</span>
+                <b><span id="watchedPct">@watched</span>%</b>
+            </div>
+            <div class="ls-heat" id="heat" aria-hidden="true"></div>
+            <div class="ls-heat-hint" data-i18n="ls.heatHint">@L["ls.heatHint"]</div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(l.Description))
+        {
+            <div class="ls-desc">@l.Description</div>
+        }
+    </div>
+
+    <aside class="ls-side" aria-label="@L["ls.chapters"]">
+        <div class="ls-side-head">
+            <b data-i18n="ls.chapters">@L["ls.chapters"]</b>
+            <span data-i18n="ls.chaptersSub" data-i18n-args='{"n":@Model.Chapters.Count}'>@L.F("ls.chaptersSub", ("n", Model.Chapters.Count))</span>
+        </div>
+        <div id="chapterList"></div>
+    </aside>
+</div>
+
+<script src="~/js/player.js" asp-append-version="true"></script>
+<script>
+    (function () {
+        var cfg = @Json.Serialize(config);
+        var token = document.querySelector('input[name="__RequestVerificationToken"]');
+        function pick(uz, ru, uzk) { return I18n.pick(uz, ru, uzk); }
+        function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : s; return d.innerHTML; }
+
+        // Bo'limlar: savol bo'lsa — "Savol N: matn", aks holda admin yozgan sarlavha
+        function chapterTitle(c) {
+            var text = pick(c.uz, c.ru, c.uzk);
+            return c.n ? I18n.t("ls.qShort", { n: c.n }) + ": " + text : text;
+        }
+        var chapters = cfg.chapters.map(function (c) { return { start: c.start, title: chapterTitle(c) }; });
+
+        // Ko'rilgan bo'laklar xaritasi (10 soniyalik)
+        var map = (cfg.map || "").split("");
+        var dirty = {}, watchedDelta = 0;
+
+        var list = document.getElementById("chapterList");
+        function renderList() {
+            list.textContent = "";
+            cfg.chapters.forEach(function (c, i) {
+                var b = document.createElement("button");
+                b.type = "button";
+                b.className = "ls-ch";
+                b.dataset.i = i;
+                b.innerHTML = '<span class="ls-ch-n">' + (c.n || "•") + '</span><span><span class="ls-ch-t">' + esc(pick(c.uz, c.ru, c.uzk)) +
+                    '</span><span class="ls-ch-time">' + LessonPlayerFmt(c.start) + "</span></span>" + '<span class="ls-ch-bar"><i></i></span>';
+                b.onclick = function () { player.goChapter(i); document.getElementById("player").scrollIntoView({ behavior: "smooth", block: "center" }); };
+                list.appendChild(b);
+            });
+            markDone();
+        }
+
+        function chapterEnd(i, duration) { return i + 1 < cfg.chapters.length ? cfg.chapters[i + 1].start : duration; }
+        function markDone() {
+            var d = player ? player.duration : cfg.duration;
+            if (!d) return;
+            list.querySelectorAll(".ls-ch").forEach(function (b, i) {
+                var s = cfg.chapters[i].start, e = chapterEnd(i, d);
+                var from = Math.floor(s / cfg.bucket), to = Math.max(from, Math.ceil(e / cfg.bucket) - 1), seen = 0;
+                for (var k = from; k <= to; k++) if (map[k] === "1") seen++;
+                b.classList.toggle("done", seen / (to - from + 1) >= 0.8);
+            });
+        }
+
+        var heat = document.getElementById("heat");
+        function renderHeat(d) {
+            var len = Math.ceil(d / cfg.bucket);
+            if (!len) return;
+            var cells = Math.min(len, 120), per = len / cells;
+            heat.textContent = "";
+            var seen = 0;
+            for (var c = 0; c < cells; c++) {
+                var from = Math.floor(c * per), to = Math.max(from, Math.floor((c + 1) * per) - 1), on = false;
+                for (var k = from; k <= to; k++) if (map[k] === "1") on = true;
+                var i = document.createElement("i");
+                if (on) i.className = "on";
+                heat.appendChild(i);
+            }
+            for (var k2 = 0; k2 < len; k2++) if (map[k2] === "1") seen++;
+            document.getElementById("watchedPct").textContent = Math.round(seen / len * 100);
+        }
+
+        // Savol kartasi: bo'lim boshlanganda — savol matni, "Javobni ko'rsatish"
+        var activeChapter = -1;
+        function renderCard(i) {
+            if (i < 0 || !cfg.chapters[i] || !cfg.chapters[i].n) { player.setCard(""); return; }
+            var c = cfg.chapters[i];
+            var ans = pick(c.aUz, c.aRu, c.aUzk);
+            player.setCard(
+                '<div class="lp-card-tag">● ' + esc(I18n.t("ls.qOf", { n: c.n, total: @Model.QuestionCount })) + "</div>" +
+                '<p class="lp-card-q">' + esc(pick(c.uz, c.ru, c.uzk)) + "</p>" +
+                (ans ? '<button type="button" class="lp-card-reveal">' + esc(I18n.t("ls.showAnswer")) + '</button><div class="lp-card-a" hidden>✓ ' + esc(ans) + "</div>" : ""));
+            var rv = document.querySelector(".lp-card-reveal");
+            if (rv) rv.onclick = function () { rv.remove(); document.querySelector(".lp-card-a").hidden = false; };
+        }
+
+        var lastTickTime = null;
+        var player = new LessonPlayer(document.getElementById("player"), {
+            kind: cfg.kind, src: cfg.src, ytId: cfg.ytId, duration: cfg.duration, chapters: chapters,
+            startAt: cfg.jump ? 0 : cfg.startAt,
+            onReady: function (d) {
+                renderHeat(d); markDone();
+                if (cfg.jump && cfg.startAt) { player.seek(cfg.startAt); }
+            },
+            onChapter: function (i) {
+                activeChapter = i;
+                list.querySelectorAll(".ls-ch").forEach(function (b, k) { b.classList.toggle("active", k === i); });
+                var a = list.querySelector(".ls-ch.active");
+                if (a) a.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                renderCard(i);
+            },
+            onTick: function (time, d, playing) {
+                if (playing) {
+                    var b = Math.floor(time / cfg.bucket);
+                    if (map[b] !== "1") { map[b] = "1"; dirty[b] = true; renderHeat(d); markDone(); }
+                    var now = Date.now();
+                    if (lastTickTime) watchedDelta += (now - lastTickTime) / 1000;
+                    lastTickTime = now;
+                } else lastTickTime = null;
+                // Faol bo'limning ingichka progress chizig'i
+                if (activeChapter >= 0) {
+                    var s = cfg.chapters[activeChapter].start, e = chapterEnd(activeChapter, d);
+                    var bar = list.querySelector('.ls-ch[data-i="' + activeChapter + '"] .ls-ch-bar i');
+                    if (bar) bar.style.width = Math.min(100, Math.max(0, (time - s) / Math.max(1, e - s) * 100)) + "%";
+                }
+            },
+            onEnded: function () {
+                save(true);
+                player.showEnd('<div class="ls-endbox"><h3>🎉 ' + esc(I18n.t("ls.endTitle")) + "</h3><p>" + esc(I18n.t("ls.endSub")) + "</p>" +
+                    '<a class="lp-pill primary" href="' + cfg.testUrl + '">' + esc(I18n.t("ls.startTest")) + "</a>" +
+                    '<button type="button" class="lp-pill" data-replay>' + esc(I18n.t("ls.replay")) + "</button>" +
+                    (cfg.nextUrl ? '<a class="lp-pill" href="' + cfg.nextUrl + '">' + esc(I18n.t("ls.nextTopic")) + " →</a>" : "") + "</div>");
+                var r = document.querySelector("[data-replay]");
+                if (r) r.onclick = function () { player.seek(0); player.play(); };
+            },
+        });
+        renderList();
+
+        // Saqlash: har 15 soniyada, pauza va sahifadan chiqishda
+        function save(force) {
+            var buckets = Object.keys(dirty).map(Number);
+            var w = Math.round(watchedDelta);
+            if (!force && !buckets.length && w < 5) return;
+            dirty = {}; watchedDelta = 0;
+            fetch("/Topic/LessonProgress", {
+                method: "POST", credentials: "same-origin", keepalive: true,
+                headers: { "Content-Type": "application/json", "RequestVerificationToken": token ? token.value : "" },
+                body: JSON.stringify({ lessonId: cfg.lessonId, position: player.time(), duration: player.duration || 0, watched: w, buckets: buckets })
+            }).catch(function () { });
+        }
+        setInterval(function () { save(false); }, 15000);
+        document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") save(true); });
+        window.addEventListener("pagehide", function () { save(true); });
+
+        document.addEventListener("i18n:change", function () {
+            player.chapters.forEach(function (c, i) { c.title = chapterTitle(cfg.chapters[i]); });
+            renderList();
+            renderCard(activeChapter);
+        });
+    })();
+</script>

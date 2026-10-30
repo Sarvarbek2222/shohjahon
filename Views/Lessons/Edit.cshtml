@@ -1,0 +1,282 @@
+@model LessonEditModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "ls.adminTitle";
+    ViewData["Title"] = L["ls.adminTitle"];
+    var l = Model.Lesson;
+    var t = l.Topic;
+    var enc = Uri.EscapeDataString(t);
+    string Fmt(int? s) => s is int v ? (v >= 3600 ? $"{v / 3600}:{v % 3600 / 60:00}:{v % 60:00}" : $"{v / 60}:{v % 60:00}") : "";
+    var isYt = l.VideoKind == VideoKinds.YouTube;
+    var msg = TempData["LsMsg"] as string;
+    var err = TempData["LsErr"] as string;
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+
+<div class="ca-body-embed">
+    <div class="ca-page-head">
+        <div style="min-width:0;">
+            <a class="ca-link" href="/Lessons">← <span data-i18n="ls.backToList">@L["ls.backToList"]</span></a>
+            <h1 class="ca-h1" style="margin-top:8px;" data-i18n-pick data-uz="@Topics.Display(t, Lang.Uz)" data-ru="@Topics.Display(t, Lang.Ru)" data-uzk="@t">@L.Topic(t)</h1>
+            <p class="ca-sub" data-i18n="ls.editSub">@L["ls.editSub"]</p>
+        </div>
+        @if (l.Id > 0 && l.HasVideo)
+        {
+            <a class="ca-btn ca-btn-ghost" href="/Topic/Lesson?topic=@enc" target="_blank" rel="noopener">@Icons.Play <span data-i18n="ls.preview">@L["ls.preview"]</span></a>
+        }
+    </div>
+
+    @if (msg != null) { <div class="ca-alert ca-alert-info" data-i18n="@msg">@L[msg]</div> }
+    @if (err != null) { <div class="ca-alert" style="border-color:rgba(255,77,106,.5);color:#ffb3c0;" data-i18n="@err">@L[err]</div> }
+
+    <form method="post" action="/Lessons/Save" id="lessonForm">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="topic" value="@t" />
+        <input type="hidden" name="videoRef" id="videoRef" value="@(isYt ? "" : l.VideoRef)" />
+        <input type="hidden" name="durationSeconds" id="durationSeconds" value="@l.DurationSeconds" />
+
+        <div class="ae-layout">
+            <div class="ca-stack">
+                <div class="ca-card">
+                    <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="ls.videoSource">@L["ls.videoSource"]</h3></div>
+                    <div class="ae-seg" role="radiogroup">
+                        <label><input type="radio" name="videoKind" value="file" @(isYt ? "" : "checked") /><span data-i18n="ls.srcFile">@L["ls.srcFile"]</span></label>
+                        <label><input type="radio" name="videoKind" value="youtube" @(isYt ? "checked" : "") /><span>YouTube</span></label>
+                    </div>
+
+                    <div id="srcFile" @(isYt ? "hidden" : "")>
+                        <label class="ae-drop" id="drop">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m17 8-5-5-5 5" /><path d="M12 3v12" /></svg>
+                            <b data-i18n="ls.dropTitle">@L["ls.dropTitle"]</b>
+                            <span class="ca-small" data-i18n="ls.dropSub">@L["ls.dropSub"]</span>
+                            <input type="file" id="fileInput" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.m4v,.mov" hidden />
+                        </label>
+                        <div class="ae-up" id="up" hidden>
+                            <div class="ae-up-top"><b id="upName"></b><span id="upStat"></span></div>
+                            <div class="ae-up-bar"><i id="upBar"></i></div>
+                            <div style="display:flex;gap:8px;margin-top:10px;">
+                                <button type="button" class="ca-btn ca-btn-ghost ca-btn-sm" id="upCancel" data-i18n="ls.cancel">@L["ls.cancel"]</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="srcYt" @(isYt ? "" : "hidden")>
+                        <input class="ca-input" type="url" name="youTubeUrl" id="ytUrl" value="@(isYt ? "https://youtu.be/" + l.VideoRef : "")"
+                               placeholder="https://www.youtube.com/watch?v=..." style="width:100%;" />
+                        <p class="ca-muted ca-small" data-i18n="ls.ytHint">@L["ls.ytHint"]</p>
+                    </div>
+
+                    <div style="margin-top:14px;" id="previewWrap" @(l.HasVideo ? "" : "hidden")>
+                        <div id="preview"></div>
+                        <p class="ca-muted ca-small" style="margin-top:8px;" data-i18n="ls.previewHint">@L["ls.previewHint"]</p>
+                    </div>
+                </div>
+
+                <div class="ca-card">
+                    <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="ls.details">@L["ls.details"]</h3></div>
+                    <label class="ca-small ca-muted" for="title" data-i18n="ls.fTitle">@L["ls.fTitle"]</label>
+                    <input class="ca-input" id="title" name="title" maxlength="200" value="@l.Title" style="width:100%;margin:4px 0 12px;" placeholder="@L.Topic(t)" />
+                    <label class="ca-small ca-muted" for="description" data-i18n="ls.fDesc">@L["ls.fDesc"]</label>
+                    <textarea class="ca-input" id="description" name="description" rows="5" style="width:100%;margin-top:4px;">@l.Description</textarea>
+                    <label style="display:flex;align-items:center;gap:10px;margin-top:14px;cursor:pointer;">
+                        <input type="checkbox" name="isPublished" value="true" @(l.IsPublished ? "checked" : "") style="width:18px;height:18px;accent-color:#22c55e;" />
+                        <span><b data-i18n="ls.fPublish">@L["ls.fPublish"]</b><br /><span class="ca-small ca-muted" data-i18n="ls.fPublishHint">@L["ls.fPublishHint"]</span></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="ae-sticky">
+                <div class="ca-card">
+                    <div class="ca-card-head">
+                        <div>
+                            <h3 class="ca-card-title" data-i18n="ls.chaptersAdmin">@L["ls.chaptersAdmin"]</h3>
+                            <p class="ca-card-sub" data-i18n="ls.chaptersHint">@L["ls.chaptersHint"]</p>
+                        </div>
+                    </div>
+                    <div class="ae-rows" id="rows">
+                        @foreach (var q in Model.Questions)
+                        {
+                            <div class="ae-row @(q.StartSeconds != null ? "has-time" : "")">
+                                <span class="ae-row-n">@q.Number</span>
+                                @if (!string.IsNullOrEmpty(q.ImageUrl))
+                                {
+                                    <img src="/uploads/@q.ImageUrl" alt="" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <span class="ae-noimg"></span>
+                                }
+                                <span class="ae-row-t" title="@q.Text">@q.Text</span>
+                                <input type="hidden" name="chQuestion" value="@q.Id" />
+                                <input class="ae-time" name="chTime" value="@Fmt(q.StartSeconds)" placeholder="m:ss" inputmode="numeric" />
+                                <button type="button" class="ae-set" title="@L["ls.setNow"]" data-i18n-title="ls.setNow">@Icons.Clock</button>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="ca-card-head" style="margin-top:18px;">
+                        <div>
+                            <h3 class="ca-card-title" style="font-size:.92rem;" data-i18n="ls.extraTitle">@L["ls.extraTitle"]</h3>
+                            <p class="ca-card-sub" data-i18n="ls.extraHint">@L["ls.extraHint"]</p>
+                        </div>
+                        <button type="button" class="ca-btn ca-btn-ghost ca-btn-sm" id="addExtra">+ <span data-i18n="ls.add">@L["ls.add"]</span></button>
+                    </div>
+                    <div class="ae-rows" id="extra">
+                        @foreach (var x in Model.Extra)
+                        {
+                            <div class="ae-row has-time" style="grid-template-columns:minmax(0,1fr) 92px 38px 34px;">
+                                <input class="ca-input" name="xTitle" value="@x.Title" maxlength="300" />
+                                <input class="ae-time" name="xTime" value="@Fmt(x.StartSeconds)" placeholder="m:ss" />
+                                <button type="button" class="ae-set" title="@L["ls.setNow"]">@Icons.Clock</button>
+                                <button type="button" class="ae-set" data-remove title="×">×</button>
+                            </div>
+                        }
+                    </div>
+
+                    <button type="submit" class="ca-btn ca-btn-primary ca-btn-block" style="margin-top:18px;">@Icons.Check <span data-i18n="ls.save">@L["ls.save"]</span></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/js/player.js" asp-append-version="true"></script>
+<script>
+    (function () {
+        var form = document.getElementById("lessonForm");
+        var token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+        var refEl = document.getElementById("videoRef"), durEl = document.getElementById("durationSeconds");
+        var player = null;
+
+        function ytId(s) {
+            s = (s || "").trim();
+            if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
+            var m = s.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|live\/|shorts\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+            return m ? m[1] : null;
+        }
+        function kind() { return form.querySelector('input[name="videoKind"]:checked').value; }
+
+        // Oldindan ko'rish pleeri: vaqtni bo'limlarga qo'yish uchun
+        function buildPreview() {
+            var wrap = document.getElementById("previewWrap"), box = document.getElementById("preview");
+            var k = kind(), opt = null;
+            if (k === "file" && refEl.value) opt = { kind: "file", src: "/uploads/videos/" + refEl.value };
+            if (k === "youtube" && ytId(document.getElementById("ytUrl").value)) opt = { kind: "youtube", ytId: ytId(document.getElementById("ytUrl").value) };
+            var fresh = document.createElement("div");
+            fresh.id = "preview";
+            box.replaceWith(fresh);
+            player = null;
+            wrap.hidden = !opt;
+            if (!opt) return;
+            opt.onReady = function (d) { if (d > 0) durEl.value = Math.round(d); };
+            player = new LessonPlayer(fresh, opt);
+        }
+
+        form.querySelectorAll('input[name="videoKind"]').forEach(function (r) {
+            r.addEventListener("change", function () {
+                document.getElementById("srcFile").hidden = kind() !== "file";
+                document.getElementById("srcYt").hidden = kind() !== "youtube";
+                buildPreview();
+            });
+        });
+        document.getElementById("ytUrl").addEventListener("change", buildPreview);
+
+        // ── Bo'limlar: "hozirgi vaqt" tugmasi, kiritilgan vaqtni tekshirish ──
+        function fmt(sec) { return LessonPlayerFmt(sec); }
+        document.addEventListener("click", function (e) {
+            var set = e.target.closest(".ae-set");
+            if (!set) return;
+            if (set.hasAttribute("data-remove")) { set.closest(".ae-row").remove(); return; }
+            if (!player) { alert(I18n.t("ls.needVideo")); return; }
+            var row = set.closest(".ae-row");
+            var input = row.querySelector(".ae-time");
+            input.value = fmt(player.time());
+            row.classList.add("has-time");
+        });
+        document.addEventListener("input", function (e) {
+            if (!e.target.classList.contains("ae-time")) return;
+            e.target.closest(".ae-row").classList.toggle("has-time", /^\d{1,2}(:\d{1,2}){0,2}$/.test(e.target.value.trim()));
+        });
+        // Vaqt ustiga ikki marta bosish — videoni shu joyga o'tkazish
+        document.addEventListener("dblclick", function (e) {
+            if (!e.target.classList.contains("ae-time") || !player) return;
+            var parts = e.target.value.split(":").map(Number), s = 0;
+            parts.forEach(function (p) { s = s * 60 + (p || 0); });
+            player.seek(s);
+        });
+        document.getElementById("addExtra").addEventListener("click", function () {
+            var row = document.createElement("div");
+            row.className = "ae-row";
+            row.style.gridTemplateColumns = "minmax(0,1fr) 92px 38px 34px";
+            row.innerHTML = '<input class="ca-input" name="xTitle" maxlength="300" placeholder="' + I18n.t("ls.extraPh") + '" />' +
+                '<input class="ae-time" name="xTime" placeholder="m:ss" /><button type="button" class="ae-set">⏱</button><button type="button" class="ae-set" data-remove>×</button>';
+            document.getElementById("extra").appendChild(row);
+            row.querySelector("input").focus();
+        });
+
+        // ── Video faylni bo'laklab yuklash (768 KB) ──
+        var CHUNK = 768 * 1024, cancelled = false;
+        var drop = document.getElementById("drop"), fileInput = document.getElementById("fileInput");
+        ["dragenter", "dragover"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("over"); }); });
+        ["dragleave", "drop"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove("over"); }); });
+        drop.addEventListener("drop", function (e) { if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]); });
+        fileInput.addEventListener("change", function () { if (fileInput.files[0]) upload(fileInput.files[0]); });
+        document.getElementById("upCancel").addEventListener("click", function () { cancelled = true; });
+
+        function hexId() {
+            var a = new Uint8Array(16); crypto.getRandomValues(a);
+            return Array.prototype.map.call(a, function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+        }
+        function mb(n) { return (n / 1048576).toFixed(1) + " MB"; }
+
+        async function send(url, body) {
+            for (var attempt = 0; attempt < 5; attempt++) {
+                try {
+                    var r = await fetch(url, { method: "POST", credentials: "same-origin", headers: { "RequestVerificationToken": token }, body: body });
+                    if (r.ok) return r.json();
+                    if (r.status < 500) throw new Error((await r.json().catch(function () { return {}; })).error || r.status);
+                } catch (e) { if (attempt === 4 || /offset|size|type|id/.test(e.message)) throw e; }
+                await new Promise(function (res) { setTimeout(res, 1000 * (attempt + 1)); });
+            }
+        }
+
+        async function upload(file) {
+            var ext = (file.name.split(".").pop() || "").toLowerCase();
+            if (["mp4", "webm", "m4v", "mov"].indexOf(ext) < 0) { alert(I18n.t("ls.errType")); return; }
+            cancelled = false;
+            var id = hexId(), up = document.getElementById("up"), bar = document.getElementById("upBar"), stat = document.getElementById("upStat");
+            document.getElementById("upName").textContent = file.name;
+            up.hidden = false;
+            var started = Date.now();
+            try {
+                for (var offset = 0, index = 0; offset < file.size; offset += CHUNK, index++) {
+                    if (cancelled) throw new Error("cancel");
+                    var fd = new FormData();
+                    fd.append("id", id); fd.append("index", index); fd.append("offset", offset);
+                    fd.append("chunk", file.slice(offset, offset + CHUNK), "chunk");
+                    await send("/Lessons/UploadChunk", fd);
+                    var done = Math.min(file.size, offset + CHUNK), sec = (Date.now() - started) / 1000;
+                    var speed = done / Math.max(sec, 0.5), left = (file.size - done) / speed;
+                    bar.style.width = (done / file.size * 100) + "%";
+                    stat.textContent = mb(done) + " / " + mb(file.size) + " · " + mb(speed) + "/s · " + I18n.t("ls.left", { t: fmt(left) });
+                }
+                var fd2 = new FormData();
+                fd2.append("id", id); fd2.append("name", file.name); fd2.append("size", file.size);
+                var res = await send("/Lessons/UploadComplete", fd2);
+                refEl.value = res.name;
+                stat.textContent = "✓ " + I18n.t("ls.uploaded");
+                buildPreview();
+            } catch (e) {
+                stat.textContent = e.message === "cancel" ? I18n.t("ls.cancelled") : I18n.t("ls.uploadFailed");
+                bar.style.width = "0";
+            }
+        }
+
+        // Yuklash davom etayotganda sahifadan chiqib ketmaslik
+        window.addEventListener("beforeunload", function (e) {
+            var up = document.getElementById("up");
+            if (!up.hidden && /MB\/s/.test(document.getElementById("upStat").textContent)) { e.preventDefault(); e.returnValue = ""; }
+        });
+
+        buildPreview();
+    })();
+</script>

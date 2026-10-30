@@ -20,7 +20,7 @@
                 </div>
                 @if (!Model.IsAdminView)
                 {
-                    <a class="ca-btn ca-btn-ghost ca-btn-sm" asp-controller="Topic" asp-action="Test" asp-route-topic="@t.Topic"
+                    <a class="ca-btn ca-btn-ghost ca-btn-sm" asp-controller="Topic" asp-action="Hub" asp-route-topic="@t.Topic"
                        data-i18n="cab.practiceTopic">@L["cab.practiceTopic"]</a>
                 }
                 <div class="ca-bar @Score.BarClass(pct)"><i data-w="@pct"></i></div>
