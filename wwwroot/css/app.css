@@ -761,6 +761,9 @@
 .pc-day { margin-top: 6px; min-width: 20px; padding: 1px 4px; border-radius: 6px; font-size: .72rem; font-weight: 600; color: var(--ca-muted); font-variant-numeric: tabular-nums; }
 .pc-col.today .pc-day { background: var(--ca-brand); color: #fff; }
 .pc-month { height: 15px; margin-top: 2px; font-size: .62rem; font-weight: 700; color: var(--ca-faint); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+.pc-time { height: 14px; margin-top: 3px; font-size: .62rem; font-weight: 700; color: #7dd3fc; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pc-tip .pc-tip-time { display: block; margin-top: 4px; color: #bae6fd; }
+.pc-summary .pc-time-tile b { color: #7dd3fc; }
 .pc-tip {
     position: absolute; top: 4px; left: 50%; transform: translateX(-50%); z-index: 5; width: max-content; max-width: 200px;
     padding: 8px 10px; border-radius: 10px; background: #1c1f2b; border: 1px solid var(--ca-border-strong); box-shadow: var(--ca-shadow);
@@ -839,3 +842,21 @@
     #ttExit span, #ttFinish span { display: none; }
     #ttExit, #ttFinish { padding: 0 11px; }
 }
+
+/* Onlayn holati (Tahlil: o'quvchilar ro'yxati va o'quvchi sahifasi) */
+.pres-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #4b5163; border: 2px solid var(--ca-surface, #12141c); flex-shrink: 0; }
+.pres-dot.on { background: #22c55e; animation: presPulse 2s ease-in-out infinite; }
+@keyframes presPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,.45); } 50% { box-shadow: 0 0 0 4px rgba(34,197,94,0); } }
+@media (prefers-reduced-motion: reduce) { .pres-dot.on { animation: none; } }
+.pres-avatar { position: relative; display: inline-flex; flex-shrink: 0; }
+.pres-avatar .pres-dot { position: absolute; right: -1px; bottom: -1px; }
+.pres-avatar.lg .pres-dot { width: 14px; height: 14px; right: 0; bottom: 0; border-width: 3px; }
+.pres-line { margin-top: 2px; font-size: .74rem; color: var(--ca-muted); white-space: nowrap; }
+.pres-line.is-online { color: #4ade80; font-weight: 700; }
+.pres-chip { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 999px; margin-left: auto; margin-right: 10px;
+    border: 1px solid rgba(34,197,94,.3); background: rgba(34,197,94,.07); color: #bbf7d0; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+.pres-chip .pres-dot { border: 0; width: 8px; height: 8px; }
+.pres-badge { display: inline-flex; align-items: center; gap: 7px; padding: 4px 11px; border-radius: 999px; font-size: .78rem; font-weight: 700; letter-spacing: 0;
+    border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05); color: var(--ca-muted); }
+.pres-badge .pres-dot { border: 0; width: 8px; height: 8px; }
+.pres-badge.is-online { border-color: rgba(34,197,94,.4); background: rgba(34,197,94,.10); color: #4ade80; }

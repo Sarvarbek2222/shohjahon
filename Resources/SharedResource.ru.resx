@@ -1336,7 +1336,7 @@
     <value>Готовность</value>
   </data>
   <data name="an.colLastActive" xml:space="preserve">
-    <value>Последняя активность</value>
+    <value>Последний тест</value>
   </data>
   <data name="an.colMistakes" xml:space="preserve">
     <value>Ошибки</value>
@@ -1985,5 +1985,98 @@
   </data>
   <data name="test.endMistakes" xml:space="preserve">
     <value>3-я ошибка: экзамен не сдан (допускается не более 2 ошибок).</value>
+  </data>
+  <data name="users.lastSeen" xml:space="preserve">
+    <value>Последняя активность</value>
+  </data>
+  <data name="users.fOnline" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="users.fOffline" xml:space="preserve">
+    <value>Офлайн</value>
+  </data>
+  <data name="pres.online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="pres.never" xml:space="preserve">
+    <value>Ещё не входил</value>
+  </data>
+  <data name="pres.justNow" xml:space="preserve">
+    <value>только что</value>
+  </data>
+  <data name="pres.minAgo" xml:space="preserve">
+    <value>{n} мин назад</value>
+  </data>
+  <data name="pres.hourAgo" xml:space="preserve">
+    <value>{n} ч назад</value>
+  </data>
+  <data name="pres.dayAgo" xml:space="preserve">
+    <value>{n} дн назад</value>
+  </data>
+  <data name="pres.onlineNow" xml:space="preserve">
+    <value>Сейчас онлайн: {n}</value>
+  </data>
+  <data name="pres.onlineHint" xml:space="preserve">
+    <value>Ученики, у которых сейчас открыт сайт (или приложение). Обновляется каждые 30 секунд.</value>
+  </data>
+  <data name="cab.durH" xml:space="preserve">
+    <value>{h} ч</value>
+  </data>
+  <data name="cab.durHM" xml:space="preserve">
+    <value>{h} ч {m} мин</value>
+  </data>
+  <data name="cab.durM" xml:space="preserve">
+    <value>{m} мин</value>
+  </data>
+  <data name="cab.durMShort" xml:space="preserve">
+    <value>{m}м</value>
+  </data>
+  <data name="cab.pcTotalTime" xml:space="preserve">
+    <value>время занятий (за 30 дней)</value>
+  </data>
+  <data name="cab.pcTipTime" xml:space="preserve">
+    <value>время занятий: {time}</value>
+  </data>
+  <data name="cab.pcLegendTime" xml:space="preserve">
+    <value>Синее число под днём — время занятий в этот день (ч:мин)</value>
+  </data>
+  <data name="qd.pageTitle" xml:space="preserve">
+    <value>Удаление вопроса</value>
+  </data>
+  <data name="qd.title" xml:space="preserve">
+    <value>Удалить вопрос</value>
+  </data>
+  <data name="qd.sub" xml:space="preserve">
+    <value>Подтвердите удаление этого вопроса.</value>
+  </data>
+  <data name="qd.bilet" xml:space="preserve">
+    <value>Билет №{n}</value>
+  </data>
+  <data name="qd.correct" xml:space="preserve">
+    <value>Верный ответ</value>
+  </data>
+  <data name="qd.warnTitle" xml:space="preserve">
+    <value>Что произойдёт при удалении</value>
+  </data>
+  <data name="qd.warnEverywhere" xml:space="preserve">
+    <value>Вопрос будет убран из билета, темы и всех видов тестов; количество вопросов уменьшится.</value>
+  </data>
+  <data name="qd.warnAnswers" xml:space="preserve">
+    <value>Ученики отвечали на этот вопрос {n} раз — эти ответы тоже удалятся из истории результатов.</value>
+  </data>
+  <data name="qd.warnMistakes" xml:space="preserve">
+    <value>Также удалится из «Моих ошибок» у {n} учеников.</value>
+  </data>
+  <data name="qd.warnUndo" xml:space="preserve">
+    <value>Это действие нельзя отменить.</value>
+  </data>
+  <data name="qd.cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="qd.confirm" xml:space="preserve">
+    <value>Да, удалить</value>
+  </data>
+  <data name="pres.offline" xml:space="preserve">
+    <value>Офлайн</value>
   </data>
 </root>

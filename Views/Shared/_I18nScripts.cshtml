@@ -5,6 +5,21 @@
 <script src="/Lang/Texts?v=@Texts.Version"></script>
 <script src="~/js/i18n.js" asp-append-version="true"></script>
 
+@* Onlayn holati: ochiq sahifa (tab ko'rinib turganda) har daqiqada ping yuboradi — admin o'quvchini "onlayn" ko'radi *@
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <script>
+        (function () {
+            function ping() {
+                if (document.visibilityState !== "visible") return;
+                fetch("/Presence/Ping", { credentials: "same-origin", cache: "no-store" }).catch(function () { });
+            }
+            setInterval(ping, 60000);
+            document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") ping(); });
+        })();
+    </script>
+}
+
 @* Test sahifalarida (ularning o'zi o'zgartirilmagan) — natijani kabinetga yozib olish *@
 @if (User.Identity?.IsAuthenticated == true && TestTypes.Detect(Context.Request) is { } tracked)
 {

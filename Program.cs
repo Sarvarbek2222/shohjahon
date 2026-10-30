@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers + Views. Kirill/rus harflari HTML va JSON'da &#x...; / \u... ga kodlanmasin (xavfsizlik saqlanadi: <, >, &, " baribir kodlanadi)
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(o => o.Filters.Add<PresenceFilter>()) // onlayn holati — har bir so'rovda
     .AddJsonOptions(o => o.JsonSerializerOptions.Encoder =
         System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All));
 builder.Services.Configure<Microsoft.Extensions.WebEncoders.WebEncoderOptions>(o =>
@@ -37,6 +37,7 @@ builder.Services.AddAntiforgery(o => o.HeaderName = "RequestVerificationToken");
 // ⚡ Tezlik: savol rasmlari WebP ga siqiladi (asl fayllar o'zgarmaydi), HTML/JSON/CSS/JS siqib yuboriladi
 builder.Services.AddSingleton<ImageOptimizer>();
 builder.Services.AddSingleton<QuestionBank>();
+builder.Services.AddSingleton<PresenceTracker>();
 builder.Services.AddSingleton<QuestionSearch>(); // kabinet → "Savol qidirish"
 builder.Services.AddHostedService<ImageWarmupService>();
 builder.Services.AddResponseCompression(o =>

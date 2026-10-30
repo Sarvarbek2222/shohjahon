@@ -5,6 +5,9 @@
     ViewData["Title"] = L["an.pageTitle"];
     var p = Model.Platform;
     int readyCount = Model.Students.Count(s => s.IsReady);
+    var presence = (PresenceTracker)ViewBag.Presence;
+    int onlineCount = Model.Students.Count(s => presence.IsOnline(s.User.Id));
+    string SeenIso(AppUser u) => presence.LastSeen(u) is DateTime t ? DateTime.SpecifyKind(t, DateTimeKind.Utc).ToString("o") : "";
 }
 
 <div class="ca-body-embed">
@@ -28,6 +31,10 @@
     <div class="ca-card ca-section">
         <div class="ca-card-head">
             <h3 class="ca-card-title" data-i18n="an.students">@L["an.students"]</h3>
+            <span class="pres-chip" title="@L["pres.onlineHint"]" data-i18n-title="pres.onlineHint">
+                <i class="pres-dot on" aria-hidden="true"></i>
+                <span data-pres-count data-i18n="pres.onlineNow" data-i18n-args='{"n":@onlineCount}'>@L.F("pres.onlineNow", ("n", onlineCount))</span>
+            </span>
             <label class="ca-search">
                 @Icons.Search
                 <input type="search" id="studentSearch" placeholder="@L["an.search"]" data-i18n-placeholder="an.search" aria-label="@L["an.search"]" />
@@ -60,10 +67,17 @@
                             <tr data-search="@((s.User.Username + " " + s.User.FullName).ToLowerInvariant())">
                                 <td data-label="@L["an.colStudent"]">
                                     <div style="display:flex;align-items:center;gap:10px;min-width:0;">
-                                        <span class="ui-avatar">@initials</span>
+                                        @{ var on = presence.IsOnline(s.User.Id); }
+                                        <span class="pres-avatar" data-pres-uid="@s.User.Id" data-online="@(on ? "1" : "0")" data-seen="@SeenIso(s.User)">
+                                            <span class="ui-avatar">@initials</span>
+                                            <i class="pres-dot @(on ? "on" : "")" data-pres-dot aria-hidden="true"></i>
+                                        </span>
                                         <div style="min-width:0;text-align:left;">
                                             <div class="ca-strong" style="overflow-wrap:anywhere;">@(s.User.FullName ?? s.User.Username)</div>
                                             <div class="ca-muted ca-small">@@@s.User.Username</div>
+                                            <div class="pres-line" data-pres-uid="@s.User.Id" data-online="@(on ? "1" : "0")" data-seen="@SeenIso(s.User)">
+                                                <span data-pres-text>@(on ? L["pres.online"] : "")</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
@@ -161,3 +175,5 @@
         });
     })();
 </script>
+
+<script src="~/js/presence.js" asp-append-version="true"></script>

@@ -163,6 +163,7 @@ CREATE TABLE `Users` (
             ("IsComputer", "tinyint(1) NOT NULL DEFAULT 0"),
             ("Phone", "varchar(32) CHARACTER SET utf8mb4 NULL"),
             ("RegisteredVia", "varchar(16) CHARACTER SET utf8mb4 NULL"),
+            ("LastSeenAt", "datetime(6) NULL"),
         };
         foreach (var (name, type) in columns)
         {

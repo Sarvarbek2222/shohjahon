@@ -1336,7 +1336,7 @@
     <value>Тайёрлик</value>
   </data>
   <data name="an.colLastActive" xml:space="preserve">
-    <value>Охирги фаоллик</value>
+    <value>Охирги тест</value>
   </data>
   <data name="an.colMistakes" xml:space="preserve">
     <value>Хатолар</value>
@@ -1985,5 +1985,98 @@
   </data>
   <data name="test.endMistakes" xml:space="preserve">
     <value>3-хато: имтиҳондан ўта олмадингиз (кўпи билан 2 та хато мумкин).</value>
+  </data>
+  <data name="users.lastSeen" xml:space="preserve">
+    <value>Охирги фаоллик</value>
+  </data>
+  <data name="users.fOnline" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="users.fOffline" xml:space="preserve">
+    <value>Офлайн</value>
+  </data>
+  <data name="pres.online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="pres.never" xml:space="preserve">
+    <value>Ҳали кирмаган</value>
+  </data>
+  <data name="pres.justNow" xml:space="preserve">
+    <value>ҳозиргина</value>
+  </data>
+  <data name="pres.minAgo" xml:space="preserve">
+    <value>{n} дақиқа олдин</value>
+  </data>
+  <data name="pres.hourAgo" xml:space="preserve">
+    <value>{n} соат олдин</value>
+  </data>
+  <data name="pres.dayAgo" xml:space="preserve">
+    <value>{n} кун олдин</value>
+  </data>
+  <data name="pres.onlineNow" xml:space="preserve">
+    <value>Ҳозир онлайн: {n}</value>
+  </data>
+  <data name="pres.onlineHint" xml:space="preserve">
+    <value>Сайтни (ёки иловани) ҳозир очиб турган ўқувчилар сони. Ҳар 30 сонияда янгиланади.</value>
+  </data>
+  <data name="cab.durH" xml:space="preserve">
+    <value>{h} соат</value>
+  </data>
+  <data name="cab.durHM" xml:space="preserve">
+    <value>{h} соат {m} дақиқа</value>
+  </data>
+  <data name="cab.durM" xml:space="preserve">
+    <value>{m} дақиқа</value>
+  </data>
+  <data name="cab.durMShort" xml:space="preserve">
+    <value>{m}д</value>
+  </data>
+  <data name="cab.pcTotalTime" xml:space="preserve">
+    <value>ишланган вақт (30 кунда)</value>
+  </data>
+  <data name="cab.pcTipTime" xml:space="preserve">
+    <value>ишланган вақт: {time}</value>
+  </data>
+  <data name="cab.pcLegendTime" xml:space="preserve">
+    <value>Кун остидаги кўк рақам — ўша куни ишланган вақт (соат:дақиқа)</value>
+  </data>
+  <data name="qd.pageTitle" xml:space="preserve">
+    <value>Саволни ўчириш</value>
+  </data>
+  <data name="qd.title" xml:space="preserve">
+    <value>Саволни ўчириш</value>
+  </data>
+  <data name="qd.sub" xml:space="preserve">
+    <value>Қуйидаги саволни ўчиришни тасдиқланг.</value>
+  </data>
+  <data name="qd.bilet" xml:space="preserve">
+    <value>{n}-билет</value>
+  </data>
+  <data name="qd.correct" xml:space="preserve">
+    <value>Тўғри жавоб</value>
+  </data>
+  <data name="qd.warnTitle" xml:space="preserve">
+    <value>Ўчирилганда нима бўлади</value>
+  </data>
+  <data name="qd.warnEverywhere" xml:space="preserve">
+    <value>Савол билетдан, мавзудан ва барча тест турларидан олиб ташланади; саволлар сони камаяди.</value>
+  </data>
+  <data name="qd.warnAnswers" xml:space="preserve">
+    <value>Ўқувчилар бу саволга {n} марта жавоб берган — бу жавоблар натижалар тарихидан ҳам ўчади.</value>
+  </data>
+  <data name="qd.warnMistakes" xml:space="preserve">
+    <value>{n} та ўқувчининг "Хатоларим" рўйхатидан ҳам олиб ташланади.</value>
+  </data>
+  <data name="qd.warnUndo" xml:space="preserve">
+    <value>Бу амални қайтариб бўлмайди.</value>
+  </data>
+  <data name="qd.cancel" xml:space="preserve">
+    <value>Бекор қилиш</value>
+  </data>
+  <data name="qd.confirm" xml:space="preserve">
+    <value>Ҳа, ўчириш</value>
+  </data>
+  <data name="pres.offline" xml:space="preserve">
+    <value>Офлайн</value>
   </data>
 </root>

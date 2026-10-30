@@ -6,6 +6,9 @@
     ViewData["TitleKey"] = "an.colStudent";
     ViewData["Title"] = display;
     var types = Model.Stats.ByType.Select(t => t.Type).ToList();
+    var presence = (PresenceTracker)ViewBag.Presence;
+    var online = presence.IsOnline(u.Id);
+    var seenIso = presence.LastSeen(u) is DateTime st ? DateTime.SpecifyKind(st, DateTimeKind.Utc).ToString("o") : "";
 }
 
 <div class="ca-body-embed">
@@ -16,9 +19,18 @@
                 <span data-i18n="an.backToList">@L["an.backToList"]</span>
             </a>
             <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
-                <span class="ui-avatar ui-avatar-lg">@string.Concat(display.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(x => char.ToUpperInvariant(x[0])))</span>
+                <span class="pres-avatar lg" data-pres-uid="@u.Id" data-online="@(online ? "1" : "0")" data-seen="@seenIso">
+                    <span class="ui-avatar ui-avatar-lg">@string.Concat(display.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(x => char.ToUpperInvariant(x[0])))</span>
+                    <i class="pres-dot @(online ? "on" : "")" data-pres-dot aria-hidden="true"></i>
+                </span>
                 <div style="min-width:0;">
-                    <h1 class="ca-h1">@display</h1>
+                    <h1 class="ca-h1" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                        @display
+                        <span class="pres-badge" data-pres-uid="@u.Id" data-online="@(online ? "1" : "0")" data-seen="@seenIso">
+                            <i class="pres-dot @(online ? "on" : "")" data-pres-dot aria-hidden="true"></i>
+                            <span data-pres-text>@(online ? L["pres.online"] : L["pres.offline"])</span>
+                        </span>
+                    </h1>
                     <p class="ca-sub" style="margin-top:2px;">@@@u.Username · <span data-i18n="users.lastLogin">@L["users.lastLogin"]</span>: @(u.LastLoginAt is DateTime ll ? L.Stamp(ll) : "—")</p>
                 </div>
             </div>
@@ -74,3 +86,5 @@
 
 @Html.AntiForgeryToken()
 <script>document.documentElement.setAttribute("data-lang-reload", "");</script>
+
+<script src="~/js/presence.js" asp-append-version="true"></script>

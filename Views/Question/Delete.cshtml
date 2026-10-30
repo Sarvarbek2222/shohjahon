@@ -1,0 +1,135 @@
+@model Question
+@* Savolni o'chirishdan oldin tasdiqlash: savol to'liq ko'rsatiladi va o'chirilganda nima bo'lishi aytiladi. *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "qd.pageTitle";
+    ViewData["Title"] = L["qd.pageTitle"];
+    var answerCount = (int)ViewBag.AnswerCount;
+    var mistakeCount = (int)ViewBag.MistakeCount;
+    var letters = new[] { "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8" };
+}
+
+<style>
+    .qd-page { max-width: 760px; margin: 0 auto; padding: 8px 0 60px; color: #e8eaf0; }
+    .qd-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #ff2d4a; margin-bottom: 6px; }
+    .qd-title { display: flex; align-items: center; gap: 12px; font-size: 1.6rem; font-weight: 800; margin: 0 0 6px; }
+    .qd-title-ic { width: 42px; height: 42px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center;
+        background: rgba(255,45,74,0.12); border: 1px solid rgba(255,45,74,0.35); color: #ff4d6a; flex-shrink: 0; }
+    .qd-title-ic svg { width: 20px; height: 20px; }
+    .qd-sub { color: #8a90b0; font-size: 0.9rem; margin: 0 0 22px; }
+
+    .qd-card { background: #0d0f18; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; }
+    .qd-meta { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); background: #10131e; }
+    .qd-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;
+        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10); color: #c9cde0; }
+    .qd-chip.bilet { color: #7cc8f0; border-color: rgba(41,182,246,0.35); background: rgba(41,182,246,0.08); }
+    .qd-chip.topic { color: #c4b5fd; border-color: rgba(167,139,250,0.35); background: rgba(167,139,250,0.08); }
+    .qd-body { display: grid; grid-template-columns: 1fr; gap: 16px; padding: 18px; }
+    .qd-body.has-img { grid-template-columns: minmax(0, 1fr) 220px; }
+    .qd-q { font-size: 1.05rem; font-weight: 700; line-height: 1.5; margin: 0 0 14px; }
+    .qd-opts { display: grid; gap: 8px; }
+    .qd-opt { display: flex; align-items: stretch; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); }
+    .qd-opt-key { flex: 0 0 42px; display: flex; align-items: center; justify-content: center; background: #1f3a55; color: #fff; font-weight: 800; font-size: 0.8rem; }
+    .qd-opt-text { padding: 9px 12px; font-size: 0.9rem; line-height: 1.45; flex: 1; }
+    .qd-opt.ok { border-color: rgba(34,197,94,0.45); background: rgba(34,197,94,0.08); }
+    .qd-opt.ok .qd-opt-key { background: #16a34a; }
+    .qd-opt-mark { display: flex; align-items: center; padding: 0 12px; color: #4ade80; font-size: 0.74rem; font-weight: 700; white-space: nowrap; }
+    .qd-img { width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: #07080d; object-fit: contain; max-height: 200px; }
+
+    .qd-warn { margin-top: 18px; padding: 14px 18px; border-radius: 8px; border: 1px solid rgba(255,167,38,0.4); background: rgba(255,167,38,0.07); }
+    .qd-warn-title { font-weight: 800; color: #ffc46b; margin-bottom: 6px; font-size: 0.92rem; }
+    .qd-warn ul { margin: 0; padding-left: 18px; color: #e8d3b0; font-size: 0.86rem; line-height: 1.7; }
+
+    .qd-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+    .qd-btn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 6px; font-weight: 700; font-size: 0.9rem;
+        cursor: pointer; text-decoration: none; border: 1px solid transparent; transition: filter .15s, background .15s; }
+    .qd-btn svg { width: 17px; height: 17px; }
+    .qd-btn.ghost { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.14); color: #e8eaf0; }
+    .qd-btn.ghost:hover { background: rgba(255,255,255,0.10); color: #fff; }
+    .qd-btn.danger { background: linear-gradient(135deg, #e11d48, #ff2d4a); color: #fff; box-shadow: 0 6px 18px rgba(255,45,74,0.28); }
+    .qd-btn.danger:hover { filter: brightness(1.08); }
+    .qd-actions form { margin: 0; }
+
+    @@media (max-width: 640px) {
+        .qd-body.has-img { grid-template-columns: 1fr; }
+        .qd-actions { justify-content: stretch; }
+        .qd-actions > *, .qd-actions form, .qd-actions .qd-btn { flex: 1; justify-content: center; }
+    }
+</style>
+
+<div class="qd-page">
+    <div class="qd-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
+    <h1 class="qd-title">
+        <span class="qd-title-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></svg>
+        </span>
+        <span data-i18n="qd.title">@L["qd.title"]</span>
+    </h1>
+    <p class="qd-sub" data-i18n="qd.sub">@L["qd.sub"]</p>
+
+    <div class="qd-card">
+        <div class="qd-meta">
+            <span class="qd-chip">#@Model.Id</span>
+            @if (Model.BiletNumber is int bn)
+            {
+                <span class="qd-chip bilet" data-i18n="qd.bilet" data-i18n-args='{"n":@bn}'>@L.F("qd.bilet", ("n", bn))</span>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Topic))
+            {
+                <span class="qd-chip topic">@L.Topic(Model.Topic)</span>
+            }
+        </div>
+        <div class="qd-body @(string.IsNullOrWhiteSpace(Model.ImageUrl) ? "" : "has-img")">
+            <div>
+                <p class="qd-q" data-i18n-pick data-uz="@Model.QuestionUZ" data-ru="@(Model.QuestionRU ?? Model.QuestionUZ)" data-uzk="@(Model.QuestionUZK ?? Model.QuestionUZ)">@Model.QuestionUZ</p>
+                <div class="qd-opts">
+                    @for (int i = 0; i < Model.Options.Count; i++)
+                    {
+                        var o = Model.Options[i];
+                        <div class="qd-opt @(o.IsCorrect ? "ok" : "")">
+                            <span class="qd-opt-key">@(i < letters.Length ? letters[i] : (i + 1).ToString())</span>
+                            <span class="qd-opt-text" data-i18n-pick data-uz="@o.OptionUZ" data-ru="@(o.OptionRU ?? o.OptionUZ)" data-uzk="@(o.OptionUZK ?? o.OptionUZ)">@o.OptionUZ</span>
+                            @if (o.IsCorrect)
+                            {
+                                <span class="qd-opt-mark" data-i18n="qd.correct">✓ @L["qd.correct"]</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <img class="qd-img" src="~/uploads/@Model.ImageUrl" alt="" />
+            }
+        </div>
+    </div>
+
+    <div class="qd-warn" role="note">
+        <div class="qd-warn-title" data-i18n="qd.warnTitle">@L["qd.warnTitle"]</div>
+        <ul>
+            <li data-i18n="qd.warnEverywhere">@L["qd.warnEverywhere"]</li>
+            @if (answerCount > 0)
+            {
+                <li data-i18n="qd.warnAnswers" data-i18n-args='{"n":@answerCount}'>@L.F("qd.warnAnswers", ("n", answerCount))</li>
+            }
+            @if (mistakeCount > 0)
+            {
+                <li data-i18n="qd.warnMistakes" data-i18n-args='{"n":@mistakeCount}'>@L.F("qd.warnMistakes", ("n", mistakeCount))</li>
+            }
+            <li data-i18n="qd.warnUndo">@L["qd.warnUndo"]</li>
+        </ul>
+    </div>
+
+    <div class="qd-actions">
+        <a asp-action="Index" class="qd-btn ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6" /></svg>
+            <span data-i18n="qd.cancel">@L["qd.cancel"]</span>
+        </a>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <button type="submit" class="qd-btn danger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /></svg>
+                <span data-i18n="qd.confirm">@L["qd.confirm"]</span>
+            </button>
+        </form>
+    </div>
+</div>

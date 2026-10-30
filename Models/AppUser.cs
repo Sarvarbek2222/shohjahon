@@ -28,6 +28,9 @@ public class AppUser
 
     public DateTime? LastLoginAt { get; set; }
 
+    /// <summary>Oxirgi faollik (UTC) — saytdagi yoki mobil ilovadagi oxirgi so'rov (PresenceTracker yozadi).</summary>
+    public DateTime? LastSeenAt { get; set; }
+
     /// <summary>Kirish muddati (UTC). null — cheksiz. Muddat tugagach foydalanuvchi tizimga kira olmaydi.</summary>
     public DateTime? AccessExpiresAt { get; set; }
 

@@ -10,6 +10,8 @@
     var now = DateTime.UtcNow;
     var q = ViewBag.Q as string ?? "";
     var status = ViewBag.Status as string ?? "";
+    var presence = (PresenceTracker)ViewBag.Presence;
+    var onlineStudents = Model.Count(u => u.Role == Roles.User && presence.IsOnline(u.Id));
 }
 
 <partial name="_UsersStyles" />
@@ -109,7 +111,7 @@
         </label>
         <select id="userStatus" class="us-input us-select" aria-label="@L["users.status"]">
             @foreach (var (val, key) in new[] {
-                ("", "users.fAll"), ("active", "users.fActive"), ("inactive", "users.fInactive"),
+                ("", "users.fAll"), ("online", "users.fOnline"), ("offline", "users.fOffline"), ("active", "users.fActive"), ("inactive", "users.fInactive"),
                 ("expired", "users.fExpired"), ("soon", "users.fSoon"), ("unlimited", "users.fUnlimited"),
                 ("pending", "users.fPending"), ("nodevice", "users.fNoDevice"), ("computer", "users.fComputers") })
             {
@@ -124,6 +126,10 @@
                 <option value="@r" data-i18n="@key">@L[key]</option>
             }
         </select>
+        <span class="us-online-now" id="onlineNow" title="@L["pres.onlineHint"]" data-i18n-title="pres.onlineHint">
+            <i class="us-pdot on" aria-hidden="true"></i>
+            <span id="onlineNowText" data-i18n="pres.onlineNow" data-i18n-args='{"n":@onlineStudents}'>@L.F("pres.onlineNow", ("n", onlineStudents))</span>
+        </span>
         <span class="us-found" id="userFound" data-i18n="users.found"></span>
     </div>
 
@@ -144,8 +150,8 @@
                             <th data-i18n="users.role">@L["users.role"]</th>
                             <th data-i18n="users.status">@L["users.status"]</th>
                             <th data-i18n="users.access">@L["users.access"]</th>
-                            <th class="hide-sm hide-c-md" data-i18n="users.device">@L["users.device"]</th>
-                            <th class="hide-md hide-c-lg" data-i18n="users.lastLogin">@L["users.lastLogin"]</th>
+                            <th class="hide-md hide-c-lg" data-i18n="users.device">@L["users.device"]</th>
+                            <th class="hide-sm hide-c-md" data-i18n="users.lastSeen">@L["users.lastSeen"]</th>
                             <th style="text-align:right;" data-i18n="qs.colActions">@L["qs.colActions"]</th>
                         </tr>
                     </thead>
@@ -165,10 +171,15 @@
                             if (hasPending) tags.Add("pending");
                             if (u.IsRestricted && u.DeviceId == null) tags.Add("nodevice");
                             if (u.IsComputer && u.IsRestricted) tags.Add("computer");
+                            var online = presence.IsOnline(u.Id);
+                            var seen = presence.LastSeen(u);
+                            tags.Add(online ? "online" : "offline");
 
                             var phone = UserService.FormatPhone(u.Phone);
-                            <tr data-search="@((u.Username + " " + u.FullName + " " + phone + " " + new string((u.Phone ?? "").Where(char.IsDigit).ToArray())).ToLowerInvariant())" data-tags="@string.Join(" ", tags)" data-role="@u.Role">
+                            <tr data-search="@((u.Username + " " + u.FullName + " " + phone + " " + new string((u.Phone ?? "").Where(char.IsDigit).ToArray())).ToLowerInvariant())" data-tags="@string.Join(" ", tags)" data-role="@u.Role"
+                                data-uid="@u.Id" data-online="@(online ? "1" : "0")" data-seen="@(seen is DateTime sa ? DateTime.SpecifyKind(sa, DateTimeKind.Utc).ToString("o") : "")">
                                 <td>
+                                    <i class="us-pdot @(online ? "on" : "")" data-pdot aria-hidden="true"></i>
                                     <span class="us-login">@u.Username</span>
                                     @if (isMe)
                                     {
@@ -219,7 +230,7 @@
                                         <div class="us-left @(daysLeft <= 7 ? "warn" : "")" data-i18n="users.daysLeft" data-i18n-args='{"n":@daysLeft}'>@L.F("users.daysLeft", ("n", daysLeft))</div>
                                     }
                                 </td>
-                                <td class="hide-sm hide-c-md">
+                                <td class="hide-md hide-c-lg">
                                     @if (!u.IsRestricted)
                                     {
                                         <span class="us-muted">—</span>
@@ -237,7 +248,20 @@
                                         <div><a asp-action="Devices" class="us-pill pend" data-i18n="users.pendingDevice">@L["users.pendingDevice"]</a></div>
                                     }
                                 </td>
-                                <td class="hide-md hide-c-lg us-when">@if (u.LastLoginAt is DateTime ll) { var st = L.Stamp(ll); var sp = st.LastIndexOf(' '); if (sp > 0) { @st.Substring(0, sp)<small>@st.Substring(sp + 1)</small> } else { @st } } else { <span class="us-muted">—</span> }</td>
+                                <td class="hide-sm hide-c-md us-when" data-seen-cell>
+                                    @if (online)
+                                    {
+                                        <span class="us-pres on" data-i18n="pres.online">@L["pres.online"]</span>
+                                    }
+                                    else if (seen is DateTime ls)
+                                    {
+                                        @L.Stamp(ls)
+                                    }
+                                    else
+                                    {
+                                        <span class="us-muted" data-i18n="pres.never">@L["pres.never"]</span>
+                                    }
+                                </td>
                                 <td class="us-actions">
                                     <a asp-action="Edit" asp-route-id="@u.Id" class="us-icon-btn"
                                        title="@L["qs.edit"]" data-i18n-title="qs.edit">
@@ -301,6 +325,75 @@
             });
             history.replaceState(null, "", url);
         }
+
+        // Onlayn holati: har 30 soniyada yangilanadi (sahifani qayta yuklash shart emas)
+        var onlineText = document.getElementById("onlineNowText");
+        function pad(n) { return (n < 10 ? "0" : "") + n; }
+        function stamp(d) { return pad(d.getDate()) + "." + pad(d.getMonth() + 1) + "." + d.getFullYear() + " " + pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+        function ago(d) {
+            var min = Math.floor((Date.now() - d.getTime()) / 60000);
+            if (min < 1) return I18n.t("pres.justNow");
+            if (min < 60) return I18n.t("pres.minAgo", { n: min });
+            var h = Math.floor(min / 60);
+            if (h < 24) return I18n.t("pres.hourAgo", { n: h });
+            return I18n.t("pres.dayAgo", { n: Math.floor(h / 24) });
+        }
+        function paintRow(tr) {
+            var online = tr.dataset.online === "1";
+            var dot = tr.querySelector("[data-pdot]");
+            if (dot) dot.classList.toggle("on", online);
+            tr.dataset.tags = (" " + tr.dataset.tags + " ").replace(/ (online|offline) /g, " ").trim() + (online ? " online" : " offline");
+            var cell = tr.querySelector("[data-seen-cell]");
+            if (!cell) return;
+            cell.textContent = "";
+            if (online) {
+                var b = document.createElement("span");
+                b.className = "us-pres on";
+                b.textContent = I18n.t("pres.online");
+                cell.appendChild(b);
+            } else if (tr.dataset.seen) {
+                var d = new Date(tr.dataset.seen);
+                cell.appendChild(document.createTextNode(ago(d)));
+                var sm = document.createElement("small");
+                sm.textContent = stamp(d);
+                cell.appendChild(sm);
+            } else {
+                var n = document.createElement("span");
+                n.className = "us-muted";
+                n.textContent = I18n.t("pres.never");
+                cell.appendChild(n);
+            }
+        }
+        function paintAll() {
+            var count = 0;
+            rows.forEach(function (tr) {
+                paintRow(tr);
+                if (tr.dataset.online === "1" && tr.dataset.role === "user") count++;
+            });
+            onlineText.setAttribute("data-i18n-args", JSON.stringify({ n: count }));
+            onlineText.textContent = I18n.t("pres.onlineNow", { n: count });
+        }
+        function refreshPresence() {
+            fetch("/Users/Presence", { credentials: "same-origin", cache: "no-store", headers: { "Accept": "application/json" } })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (list) {
+                    if (!list) return;
+                    var byId = {};
+                    list.forEach(function (x) { byId[x.id] = x; });
+                    rows.forEach(function (tr) {
+                        var x = byId[tr.dataset.uid];
+                        if (!x) return;
+                        tr.dataset.online = x.online ? "1" : "0";
+                        tr.dataset.seen = x.seen || "";
+                    });
+                    paintAll();
+                    apply();
+                })
+                .catch(function () { });
+        }
+        paintAll();
+        setInterval(refreshPresence, 30000);
+        document.addEventListener("i18n:change", paintAll);
 
         search.addEventListener("input", apply);
         statusSel.addEventListener("change", apply);

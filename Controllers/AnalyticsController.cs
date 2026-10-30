@@ -20,8 +20,9 @@ public class AnalyticsController : Controller
         _ai = ai;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromServices] PresenceTracker presence)
     {
+        ViewBag.Presence = presence;
         var model = new AnalyticsModel
         {
             Platform = await _stats.GetPlatformStatsAsync(),
@@ -33,8 +34,9 @@ public class AnalyticsController : Controller
         return View(model);
     }
 
-    public async Task<IActionResult> Student(int id, string? type, int page = 1)
+    public async Task<IActionResult> Student(int id, [FromServices] PresenceTracker presence, string? type, int page = 1)
     {
+        ViewBag.Presence = presence;
         var stats = await _stats.GetUserStatsAsync(id);
         if (stats == null) return NotFound();
 

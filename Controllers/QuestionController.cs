@@ -280,16 +280,36 @@ public class QuestionController : Controller
         return Ok();
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    /// <summary>O'chirishdan oldin tasdiqlash sahifasi: savol, variantlar, bilet, mavzu va u ishlatilgan joylar.</summary>
+    [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        var question = await _context.Questions.FindAsync(id);
+        var question = await _context.Questions.AsNoTracking()
+            .Include(q => q.Options)
+            .FirstOrDefaultAsync(q => q.Id == id);
+        if (question == null) return NotFound();
+
+        ViewBag.AnswerCount = await _context.TestAnswers.CountAsync(a => a.QuestionId == id);
+        ViewBag.MistakeCount = await _context.UserMistakes.CountAsync(m => m.QuestionId == id && m.ResolvedAt == null);
+        return View(question);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var question = await _context.Questions
+            .Include(q => q.Options)
+            .FirstOrDefaultAsync(q => q.Id == id);
         if (question != null)
         {
             var image = question.ImageUrl;
+            // Ba'zi bazalarda variantlar savolga "o'chirishni taqiqlovchi" bog'lanish bilan ulangan —
+            // shuning uchun avval variantlar, keyin savol o'chiriladi
+            _context.Options.RemoveRange(question.Options);
             _context.Questions.Remove(question);
             await _context.SaveChangesAsync();
+            TempData["QsMsgKey"] = "qs.deleted";
 
             // Savol bazadan o'chgandan keyin — rasm boshqa savolda ishlatilmasa, fayl ham o'chadi
             await DeleteImageIfUnusedAsync(image, question.Id);

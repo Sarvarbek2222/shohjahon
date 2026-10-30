@@ -249,9 +249,13 @@ public class StatsService
         // Kunlik taraqqiyot (oxirgi 30 kun)
         var byDay = answered.GroupBy(x => x.FinishedAt.ToLocalTime().Date)
             .ToDictionary(g => g.Key, g => (Count: g.Count(), Correct: g.Count(x => x.IsCorrect)));
+        // Har kuni ishlangan vaqt: testlar davomiyligi yig'indisi (bitta test ko'pi bilan 180 daqiqa hisoblanadi)
+        var minutesByDay = attempts.GroupBy(a => a.FinishedAt.ToLocalTime().Date)
+            .ToDictionary(g => g.Key, g => (int)Math.Round(g.Sum(a => Math.Clamp((a.FinishedAt - a.StartedAt).TotalMinutes, 0, 180))));
         var localToday = DateTime.Now.Date;
         s.Daily = Enumerable.Range(0, 30).Select(i => localToday.AddDays(i - 29))
-            .Select(d => byDay.TryGetValue(d, out var v) ? new DayStat(d, v.Count, v.Correct) : new DayStat(d, 0, 0))
+            .Select(d => (byDay.TryGetValue(d, out var v) ? new DayStat(d, v.Count, v.Correct) : new DayStat(d, 0, 0))
+                with { Minutes = minutesByDay.GetValueOrDefault(d) })
             .ToList();
 
         // Faol kunlar ketma-ketligi
@@ -423,6 +427,9 @@ public record TopicStat(string Topic, int Answered, int Correct)
 
 public record DayStat(DateTime Date, int Answered, int Correct)
 {
+    /// <summary>O'sha kuni test ishlashga ketgan vaqt (daqiqa).</summary>
+    public int Minutes { get; init; }
+
     public double Accuracy => Answered > 0 ? (double)Correct / Answered : 0;
 }
 

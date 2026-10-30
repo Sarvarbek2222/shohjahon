@@ -23,7 +23,7 @@ public class UsersController : Controller
     private string T(string key) => _t[key];
     private int CurrentUserId => int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : 0;
 
-    public async Task<IActionResult> Index(string? q, string? status)
+    public async Task<IActionResult> Index(string? q, string? status, [FromServices] PresenceTracker presence)
     {
         var list = await _db.Users.AsNoTracking()
             .OrderByDescending(u => u.Role == Roles.SuperAdmin)
@@ -38,7 +38,22 @@ public class UsersController : Controller
                 .Select(r => r.UserId)
                 .ToListAsync())
             .ToHashSet();
+        ViewBag.Presence = presence;
         return View(list);
+    }
+
+    /// <summary>Ro'yxat sahifasi har 30 soniyada so'raydi: kim onlayn va oxirgi faollik vaqti (UTC, ISO).</summary>
+    [HttpGet]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+    public async Task<IActionResult> Presence([FromServices] PresenceTracker presence)
+    {
+        var users = await _db.Users.AsNoTracking().ToListAsync();
+        return Json(users.Select(u => new
+        {
+            id = u.Id,
+            online = presence.IsOnline(u.Id),
+            seen = presence.LastSeen(u) is DateTime t ? DateTime.SpecifyKind(t, DateTimeKind.Utc).ToString("o") : null,
+        }));
     }
 
     [HttpGet]
