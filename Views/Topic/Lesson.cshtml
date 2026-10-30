@@ -1,4 +1,5 @@
 @model LessonPageModel
+@inject Microsoft.AspNetCore.DataProtection.IDataProtectionProvider Dp
 @* Video dars sahifasi: pleer, bo'limlar (har bir savol tushuntirilishi), savol kartasi, ko'rilgan qismlar xaritasi *@
 @{
     Layout = "_CabinetLayout";
@@ -9,7 +10,8 @@
     var enc = Uri.EscapeDataString(t);
     var p = Model.Progress;
     string Fmt(int s) => s >= 3600 ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
-    var src = l.VideoKind == VideoKinds.File ? "/uploads/videos/" + l.VideoRef : null;
+    // Video — shaxsiy, vaqtinchalik havola orqali (yuklab olib bo'lmaydi)
+    var src = l.VideoKind == VideoKinds.File ? MediaController.VideoUrl(Dp, User, l.VideoRef!) : null;
     var startAt = Model.StartAt ?? p?.PositionSeconds ?? 0;
     var config = new
     {
@@ -18,6 +20,7 @@
         src,
         ytId = l.VideoKind == VideoKinds.YouTube ? l.VideoRef : null,
         duration = l.DurationSeconds,
+        watermark = ViewBag.Watermark as string,
         startAt,
         jump = Model.StartAt != null,
         map = p?.WatchedMap ?? "",
@@ -178,7 +181,7 @@
 
         var lastTickTime = null;
         var player = new LessonPlayer(document.getElementById("player"), {
-            kind: cfg.kind, src: cfg.src, ytId: cfg.ytId, duration: cfg.duration, chapters: chapters,
+            kind: cfg.kind, src: cfg.src, ytId: cfg.ytId, duration: cfg.duration, chapters: chapters, watermark: cfg.watermark,
             startAt: cfg.jump ? 0 : cfg.startAt,
             onReady: function (d) {
                 renderHeat(d); markDone();

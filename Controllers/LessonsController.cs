@@ -169,7 +169,9 @@ public class LessonsController : Controller
     public IActionResult UploadComplete(string id, string name, long size)
     {
         var (file, error) = _videos.Complete(id, name, size);
-        return file != null ? Ok(new { name = file, url = "/uploads/videos/" + file }) : BadRequest(new { error });
+        return file != null
+            ? Ok(new { name = file, url = MediaController.VideoUrl(HttpContext.RequestServices.GetRequiredService<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider>(), User, file) })
+            : BadRequest(new { error });
     }
 }
 

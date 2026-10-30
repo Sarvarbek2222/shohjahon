@@ -31,6 +31,12 @@ builder.Services.AddScoped<ResultsService>();
 builder.Services.AddScoped<StatsService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddSingleton<VideoUploads>();
+// Jonli darslar: real vaqt (SignalR), xona holati, eslatmalar
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<LiveRoom>();
+builder.Services.AddSingleton<LiveStreamStore>();
+builder.Services.AddScoped<LiveService>();
+builder.Services.AddHostedService<LiveReminderService>();
 builder.Services.AddScoped<AiAnalysisService>();
 
 // fetch() so'rovlari antiforgery tokenni shu sarlavhada yuboradi (AI tahlili tugmasi)
@@ -155,6 +161,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<LiveHub>("/hubs/live");
 
 app.MapControllerRoute(
     name: "default",

@@ -1,0 +1,112 @@
+@model List<LiveLesson>
+@* Admin: jonli darslarni rejalashtirish va ro'yxat *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "lv.adminTitle";
+    ViewData["Title"] = L["lv.adminTitle"];
+    var edit = ViewBag.Edit as LiveLesson;
+    var att = (Dictionary<int, int>)ViewBag.Attendees;
+    var qc = (Dictionary<int, int>)ViewBag.QuestionCounts;
+    string Iso(DateTime d) => DateTime.SpecifyKind(d, DateTimeKind.Utc).ToString("o");
+    var msg = TempData["LvMsg"] as string;
+    var err = TempData["LvErr"] as string;
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/live.css" asp-append-version="true" />
+
+<div class="ca-body-embed">
+    <div class="ca-page-head">
+        <div>
+            <div class="ca-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
+            <h1 class="ca-h1" data-i18n="lv.adminTitle">@L["lv.adminTitle"]</h1>
+            <p class="ca-sub" data-i18n="lv.adminSub">@L["lv.adminSub"]</p>
+        </div>
+    </div>
+    @if (msg != null) { <div class="ca-alert ca-alert-info" data-i18n="@msg">@L[msg]</div> }
+    @if (err != null) { <div class="ca-alert" style="border:1px solid rgba(255,77,106,.5);color:#ffb3c0;" data-i18n="@err">@L[err]</div> }
+
+    <div class="lm-layout">
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="@(edit == null ? "lv.newLesson" : "lv.editLesson")">@L[edit == null ? "lv.newLesson" : "lv.editLesson"]</h3></div>
+            <form method="post" action="/Live/Save" id="lvForm" class="lm-form">
+                @Html.AntiForgeryToken()
+                @if (edit != null) { <input type="hidden" name="id" value="@edit.Id" /> }
+                <input type="hidden" name="startsAtUtc" id="startsAtUtc" value="@(edit != null ? Iso(edit.StartsAt) : "")" />
+                <label><span data-i18n="lv.fTitle">@L["lv.fTitle"]</span>
+                    <input class="ca-input" name="title" required maxlength="200" value="@edit?.Title" placeholder="@L["lv.fTitlePh"]" data-i18n-placeholder="lv.fTitlePh" />
+                </label>
+                <div class="lm-row">
+                    <label><span data-i18n="lv.fWhen">@L["lv.fWhen"]</span><input class="ca-input" type="datetime-local" id="startsLocal" required /></label>
+                    <label><span data-i18n="lv.fDuration">@L["lv.fDuration"]</span><input class="ca-input" type="number" name="durationMinutes" min="10" max="600" step="5" value="@(edit?.DurationMinutes ?? 60)" /></label>
+                </div>
+                <label><span data-i18n="lv.fDesc">@L["lv.fDesc"]</span><textarea class="ca-input" name="description" rows="3">@edit?.Description</textarea></label>
+                <label class="lm-check"><input type="checkbox" name="questionsEnabled" value="true" @(edit == null || edit.QuestionsEnabled ? "checked" : "") /> <span data-i18n="lv.fQuestions">@L["lv.fQuestions"]</span></label>
+                @if (edit == null)
+                {
+                    <label class="lm-check"><input type="checkbox" name="notify" value="true" checked /> <span data-i18n="lv.fNotify">@L["lv.fNotify"]</span></label>
+                }
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button type="submit" class="ca-btn ca-btn-primary">@Icons.Check <span data-i18n="@(edit == null ? "lv.create" : "ls.save")">@L[edit == null ? "lv.create" : "ls.save"]</span></button>
+                    @if (edit != null) { <a class="ca-btn ca-btn-ghost" href="/Live/Manage" data-i18n="ls.cancel">@L["ls.cancel"]</a> }
+                </div>
+            </form>
+        </div>
+
+        <div class="lm-list">
+            @if (!Model.Any())
+            {
+                <div class="ca-card"><p class="ca-muted" style="margin:0;" data-i18n="lv.noLessons">@L["lv.noLessons"]</p></div>
+            }
+            @foreach (var l in Model)
+            {
+                var stKey = "lv.st_" + l.Status;
+                <div class="lm-item lm-@l.Status">
+                    <div class="lm-item-top">
+                        <span class="lm-st lm-st-@l.Status">@if (l.Status == LiveStatus.Live) { <i class="nt-live-dot"></i> } <span data-i18n="@stKey">@L[stKey]</span></span>
+                        <span class="ca-muted ca-small" data-utc="@Iso(l.StartsAt)"></span>
+                    </div>
+                    <b class="lm-title">@l.Title</b>
+                    <div class="lm-meta">
+                        <span>@l.DurationMinutes <span data-i18n="lv.min">@L["lv.min"]</span></span>
+                        @if (att.TryGetValue(l.Id, out var n)) { <span>👥 @n</span> }
+                        @if (qc.TryGetValue(l.Id, out var q)) { <span>💬 @q</span> }
+                        @if (l.Status == LiveStatus.Ended && l.PeakViewers > 0) { <span title="@L["lv.peak"]">⬆ @l.PeakViewers</span> }
+                    </div>
+                    <div class="lm-act">
+                        @if (l.Status is LiveStatus.Scheduled or LiveStatus.Live)
+                        {
+                            <a class="ca-btn ca-btn-primary ca-btn-sm" href="/Live/Control/@l.Id">🎛 <span data-i18n="lv.controlRoom">@L["lv.controlRoom"]</span></a>
+                        }
+                        @if (l.Status == LiveStatus.Ended)
+                        {
+                            <a class="ca-btn ca-btn-primary ca-btn-sm" href="/Live/Report/@l.Id">📊 <span data-i18n="lv.report">@L["lv.report"]</span></a>
+                        }
+                        @if (l.Status == LiveStatus.Scheduled)
+                        {
+                            <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Live/Manage?edit=@l.Id" data-i18n="qs.edit">@L["qs.edit"]</a>
+                            <form method="post" action="/Live/Cancel/@l.Id" onsubmit="return confirm(I18n.t('lv.cancelConfirm'))">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="ca-btn ca-btn-ghost ca-btn-sm" data-i18n="lv.cancelLesson">@L["lv.cancelLesson"]</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/js/live.js" asp-append-version="true"></script>
+<script>
+    (function () {
+        // Sana-vaqt foydalanuvchining mahalliy vaqtida kiritiladi, serverga UTC bo'lib boradi
+        var hidden = document.getElementById("startsAtUtc"), local = document.getElementById("startsLocal");
+        function pad(n) { return (n < 10 ? "0" : "") + n; }
+        var d = hidden.value ? new Date(hidden.value) : new Date(Date.now() + 86400000);
+        if (!hidden.value) { d.setMinutes(0, 0, 0); d.setHours(19); }
+        local.value = d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes());
+        document.getElementById("lvForm").addEventListener("submit", function () {
+            hidden.value = new Date(local.value).toISOString();
+        });
+    })();
+</script>

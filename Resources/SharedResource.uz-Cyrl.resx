@@ -2499,4 +2499,400 @@
   <data name="ls.uploadFailed" xml:space="preserve">
     <value>Юклаб бўлмади. Интернетни текшириб, қайта уриниб кўринг.</value>
   </data>
+  <data name="lv.title" xml:space="preserve">
+    <value>Жонли дарслар</value>
+  </data>
+  <data name="lv.sub" xml:space="preserve">
+    <value>Ўқитувчи билан жонли эфир: дарсни кузатинг ва саволларингизни юборинг.</value>
+  </data>
+  <data name="lv.onAir" xml:space="preserve">
+    <value>Жонли эфир</value>
+  </data>
+  <data name="lv.upcoming" xml:space="preserve">
+    <value>Режалаштирилган дарслар</value>
+  </data>
+  <data name="lv.noUpcoming" xml:space="preserve">
+    <value>Ҳозирча режалаштирилган жонли дарс йўқ. Янги дарс белгиланганда билдиришнома келади.</value>
+  </data>
+  <data name="lv.minutes" xml:space="preserve">
+    <value>{n} дақиқа</value>
+  </data>
+  <data name="lv.enterRoom" xml:space="preserve">
+    <value>Дарс хонаси</value>
+  </data>
+  <data name="lv.addCalendar" xml:space="preserve">
+    <value>Тақвимга қўшиш</value>
+  </data>
+  <data name="lv.past" xml:space="preserve">
+    <value>Ўтган дарслар</value>
+  </data>
+  <data name="lv.attended" xml:space="preserve">
+    <value>Қатнашдингиз: {n} дақиқа</value>
+  </data>
+  <data name="lv.missed" xml:space="preserve">
+    <value>Қатнашмагансиз</value>
+  </data>
+  <data name="lv.recording" xml:space="preserve">
+    <value>Ёзувни кўриш</value>
+  </data>
+  <data name="lv.stScheduled" xml:space="preserve">
+    <value>Кутилмоқда</value>
+  </data>
+  <data name="lv.stEnded" xml:space="preserve">
+    <value>Дарс тугади</value>
+  </data>
+  <data name="lv.viewersNow" xml:space="preserve">
+    <value>Ҳозир дарсда</value>
+  </data>
+  <data name="lv.startsIn" xml:space="preserve">
+    <value>Дарс бошланишига</value>
+  </data>
+  <data name="lv.waitHint" xml:space="preserve">
+    <value>Саҳифани ёпманг — дарс бошланганда эфир ўзи очилади.</value>
+  </data>
+  <data name="lv.noStream" xml:space="preserve">
+    <value>Эфир ҳаволаси ҳали қўйилмаган. Ўқитувчи тез орада улайди.</value>
+  </data>
+  <data name="lv.thanks" xml:space="preserve">
+    <value>Қатнашганингиз учун раҳмат!</value>
+  </data>
+  <data name="lv.recordingHint" xml:space="preserve">
+    <value>Дарс ёзувини қайта кўришингиз мумкин.</value>
+  </data>
+  <data name="lv.reactions" xml:space="preserve">
+    <value>Реаксиялар</value>
+  </data>
+  <data name="lv.answeringNow" xml:space="preserve">
+    <value>Ҳозир жавоб берилмоқда</value>
+  </data>
+  <data name="lv.askTitle" xml:space="preserve">
+    <value>Ўқитувчига савол</value>
+  </data>
+  <data name="lv.askWait" xml:space="preserve">
+    <value>Савол юбориш дарс бошланганда очилади.</value>
+  </data>
+  <data name="lv.askClosed" xml:space="preserve">
+    <value>Ўқитувчи ҳозирча саволларни ёпган.</value>
+  </data>
+  <data name="lv.askPh" xml:space="preserve">
+    <value>Саволингизни ёзинг… (Стрл+Энтер — юбориш)</value>
+  </data>
+  <data name="lv.send" xml:space="preserve">
+    <value>Юбориш</value>
+  </data>
+  <data name="lv.myQuestions" xml:space="preserve">
+    <value>Саволларингиз</value>
+  </data>
+  <data name="lv.anyMoment" xml:space="preserve">
+    <value>Ҳозир бошланади…</value>
+  </data>
+  <data name="lv.cdD" xml:space="preserve">
+    <value>кун</value>
+  </data>
+  <data name="lv.cdH" xml:space="preserve">
+    <value>соат</value>
+  </data>
+  <data name="lv.cdM" xml:space="preserve">
+    <value>дақ</value>
+  </data>
+  <data name="lv.cdS" xml:space="preserve">
+    <value>сон</value>
+  </data>
+  <data name="lv.conn_on" xml:space="preserve">
+    <value>Уланган</value>
+  </data>
+  <data name="lv.conn_off" xml:space="preserve">
+    <value>Уланиш йўқ</value>
+  </data>
+  <data name="lv.conn_reconnecting" xml:space="preserve">
+    <value>Қайта уланмоқда…</value>
+  </data>
+  <data name="lv.qs_new" xml:space="preserve">
+    <value>Янги</value>
+  </data>
+  <data name="lv.qs_answered" xml:space="preserve">
+    <value>Жавоб берилди</value>
+  </data>
+  <data name="lv.qs_hidden" xml:space="preserve">
+    <value>Яширилди</value>
+  </data>
+  <data name="lv.qOpened" xml:space="preserve">
+    <value>Савол юбориш очилди</value>
+  </data>
+  <data name="lv.qClosed" xml:space="preserve">
+    <value>Ўқитувчи саволларни ёпди</value>
+  </data>
+  <data name="lv.yourAnswered" xml:space="preserve">
+    <value>Саволингизга жавоб берилди ✓</value>
+  </data>
+  <data name="lv.sent" xml:space="preserve">
+    <value>Савол юборилди</value>
+  </data>
+  <data name="lv.err_short" xml:space="preserve">
+    <value>Савол жуда қисқа.</value>
+  </data>
+  <data name="lv.err_notLive" xml:space="preserve">
+    <value>Дарс ҳозир эфирда эмас.</value>
+  </data>
+  <data name="lv.err_closed" xml:space="preserve">
+    <value>Саволлар ёпилган.</value>
+  </data>
+  <data name="lv.err_notJoined" xml:space="preserve">
+    <value>Саҳифани янгиланг.</value>
+  </data>
+  <data name="lv.err_wait" xml:space="preserve">
+    <value>Кейинги саволни {n} сониядан кейин юборишингиз мумкин.</value>
+  </data>
+  <data name="lv.err_limit" xml:space="preserve">
+    <value>Битта дарсда кўпи билан 30 та савол.</value>
+  </data>
+  <data name="lv.err_net" xml:space="preserve">
+    <value>Юбориб бўлмади. Интернетни текширинг.</value>
+  </data>
+  <data name="lv.nobody" xml:space="preserve">
+    <value>Ҳозирча ҳеч ким йўқ</value>
+  </data>
+  <data name="lv.evIn" xml:space="preserve">
+    <value>{name} кирди</value>
+  </data>
+  <data name="lv.evOut" xml:space="preserve">
+    <value>{name} чиқиб кетди</value>
+  </data>
+  <data name="lv.noQuestions" xml:space="preserve">
+    <value>Саволлар йўқ</value>
+  </data>
+  <data name="lv.pin" xml:space="preserve">
+    <value>Жавоб берилмоқда</value>
+  </data>
+  <data name="lv.unpin" xml:space="preserve">
+    <value>Маҳкамни олиш</value>
+  </data>
+  <data name="lv.markAnswered" xml:space="preserve">
+    <value>Жавоб берилди</value>
+  </data>
+  <data name="lv.markNew" xml:space="preserve">
+    <value>Қайтариш</value>
+  </data>
+  <data name="lv.hide" xml:space="preserve">
+    <value>Яшириш</value>
+  </data>
+  <data name="lv.adminTitle" xml:space="preserve">
+    <value>Жонли дарслар</value>
+  </data>
+  <data name="lv.adminSub" xml:space="preserve">
+    <value>Дарсни режалаштиринг — ўқувчиларга билдиришнома боради. Эфир тўғридан-тўғри сайт ичида (камера ёки экран); савол-жавоб, давомат ва ҳисобот — шу ерда. Эфир ёзиб олинмайди ва юклаб олинмайди.</value>
+  </data>
+  <data name="lv.newLesson" xml:space="preserve">
+    <value>Янги жонли дарс</value>
+  </data>
+  <data name="lv.editLesson" xml:space="preserve">
+    <value>Дарсни таҳрирлаш</value>
+  </data>
+  <data name="lv.fTitle" xml:space="preserve">
+    <value>Мавзу</value>
+  </data>
+  <data name="lv.fTitlePh" xml:space="preserve">
+    <value>Масалан: Йўл белгилари — савол-жавоб</value>
+  </data>
+  <data name="lv.fWhen" xml:space="preserve">
+    <value>Сана ва вақт</value>
+  </data>
+  <data name="lv.fDuration" xml:space="preserve">
+    <value>Давомийлиги (дақ)</value>
+  </data>
+  <data name="lv.fStream" xml:space="preserve">
+    <value>Эфир ҳаволаси (YouTube Ливе)</value>
+  </data>
+  <data name="lv.fStreamHint" xml:space="preserve">
+    <value>YouTube Студио → Жонли эфир → ҳаволани нусхаланг. Кейин ҳам қўшиш мумкин.</value>
+  </data>
+  <data name="lv.fDesc" xml:space="preserve">
+    <value>Тавсиф</value>
+  </data>
+  <data name="lv.fQuestions" xml:space="preserve">
+    <value>Ўқувчилар савол юбора олади</value>
+  </data>
+  <data name="lv.fNotify" xml:space="preserve">
+    <value>Барча ўқувчиларга билдиришнома юбориш</value>
+  </data>
+  <data name="lv.create" xml:space="preserve">
+    <value>Режалаштириш</value>
+  </data>
+  <data name="lv.noLessons" xml:space="preserve">
+    <value>Ҳали жонли дарс йўқ.</value>
+  </data>
+  <data name="lv.st_scheduled" xml:space="preserve">
+    <value>Режалаштирилган</value>
+  </data>
+  <data name="lv.st_live" xml:space="preserve">
+    <value>Эфирда</value>
+  </data>
+  <data name="lv.st_ended" xml:space="preserve">
+    <value>Тугаган</value>
+  </data>
+  <data name="lv.st_cancelled" xml:space="preserve">
+    <value>Бекор қилинган</value>
+  </data>
+  <data name="lv.min" xml:space="preserve">
+    <value>дақ</value>
+  </data>
+  <data name="lv.peak" xml:space="preserve">
+    <value>Энг кўп бир вақтда</value>
+  </data>
+  <data name="lv.controlRoom" xml:space="preserve">
+    <value>Бошқарув хонаси</value>
+  </data>
+  <data name="lv.report" xml:space="preserve">
+    <value>Дарс ҳисоботи</value>
+  </data>
+  <data name="lv.cancelLesson" xml:space="preserve">
+    <value>Бекор қилиш</value>
+  </data>
+  <data name="lv.cancelConfirm" xml:space="preserve">
+    <value>Дарсни бекор қиласизми?</value>
+  </data>
+  <data name="lv.created" xml:space="preserve">
+    <value>Дарс режалаштирилди.</value>
+  </data>
+  <data name="lv.saved" xml:space="preserve">
+    <value>Сақланди.</value>
+  </data>
+  <data name="lv.errForm" xml:space="preserve">
+    <value>Мавзу ва сана-вақтни тўлдиринг.</value>
+  </data>
+  <data name="lv.errStream" xml:space="preserve">
+    <value>Эфир ҳаволаси нотўғри (YouTube ёки ҳттпс ҳавола бўлиши керак).</value>
+  </data>
+  <data name="lv.startConfirm" xml:space="preserve">
+    <value>Эфирни бошлайсизми? Барча ўқувчиларга хабар боради.</value>
+  </data>
+  <data name="lv.start" xml:space="preserve">
+    <value>Эфирни бошлаш</value>
+  </data>
+  <data name="lv.endConfirm" xml:space="preserve">
+    <value>Дарсни тугатасизми? Ҳисобот тайёрланади.</value>
+  </data>
+  <data name="lv.end" xml:space="preserve">
+    <value>Дарсни тугатиш</value>
+  </data>
+  <data name="lv.questions" xml:space="preserve">
+    <value>Саволлар</value>
+  </data>
+  <data name="lv.allowQuestions" xml:space="preserve">
+    <value>Саволларга рухсат</value>
+  </data>
+  <data name="lv.controlHint" xml:space="preserve">
+    <value>Ўқувчилар кутиш залига кира бошлаши мумкин. Тайёр бўлгач «Эфирни бошлаш» ни босинг — давомат шу пайтдан ҳисобланади.</value>
+  </data>
+  <data name="lv.all" xml:space="preserve">
+    <value>Ҳаммаси</value>
+  </data>
+  <data name="lv.inRoom" xml:space="preserve">
+    <value>Ҳозир дарсда</value>
+  </data>
+  <data name="lv.activity" xml:space="preserve">
+    <value>Кириш-чиқиш лентаси</value>
+  </data>
+  <data name="lv.activityEmpty" xml:space="preserve">
+    <value>Ким кирса ёки чиқса — шу ерда кўринади</value>
+  </data>
+  <data name="lv.print" xml:space="preserve">
+    <value>Чоп этиш</value>
+  </data>
+  <data name="lv.rAttendees" xml:space="preserve">
+    <value>Қатнашганлар</value>
+  </data>
+  <data name="lv.rAvg" xml:space="preserve">
+    <value>Ўртача қатнашиш</value>
+  </data>
+  <data name="lv.rTimeline" xml:space="preserve">
+    <value>Томошабинлар сони</value>
+  </data>
+  <data name="lv.rTimelineSub" xml:space="preserve">
+    <value>Дарс давомида ҳар лаҳзада нечта ўқувчи дарсда бўлган</value>
+  </data>
+  <data name="lv.rTable" xml:space="preserve">
+    <value>Ўқувчилар бўйича</value>
+  </data>
+  <data name="lv.rScoreHint" xml:space="preserve">
+    <value>Фаоллик баҳоси: қатнашган вақт (70%) + саволлар (30%).</value>
+  </data>
+  <data name="lv.rJoined" xml:space="preserve">
+    <value>Кирди</value>
+  </data>
+  <data name="lv.rLeft" xml:space="preserve">
+    <value>Чиқди</value>
+  </data>
+  <data name="lv.rTime" xml:space="preserve">
+    <value>Қатнашиш</value>
+  </data>
+  <data name="lv.rSessions" xml:space="preserve">
+    <value>Киришлар</value>
+  </data>
+  <data name="lv.rScore" xml:space="preserve">
+    <value>Фаоллик</value>
+  </data>
+  <data name="lv.rQuestions" xml:space="preserve">
+    <value>Барча саволлар</value>
+  </data>
+  <data name="lv.rAbsent" xml:space="preserve">
+    <value>Қатнашмаганлар</value>
+  </data>
+  <data name="lv.teacherConnecting" xml:space="preserve">
+    <value>Ўқитувчи эфирни уламоқда…</value>
+  </data>
+  <data name="lv.teacherConnectingSub" xml:space="preserve">
+    <value>Камера ёки экран уланиши билан дарс шу ерда кўринади.</value>
+  </data>
+  <data name="lv.unmute" xml:space="preserve">
+    <value>Овозни ёқиш</value>
+  </data>
+  <data name="lv.unsupported" xml:space="preserve">
+    <value>Браузерингиз эфирни кўрсата олмайди. Илтимос, Гоогле Чроме ёки Мисрософт Эдгеънинг янги версиясидан фойдаланинг.</value>
+  </data>
+  <data name="lv.bcTitle" xml:space="preserve">
+    <value>Эфир (сайт ичида)</value>
+  </data>
+  <data name="lv.bcOff" xml:space="preserve">
+    <value>Эфир узатилмаяпти</value>
+  </data>
+  <data name="lv.bcOn" xml:space="preserve">
+    <value>Эфирдасиз</value>
+  </data>
+  <data name="lv.bcError" xml:space="preserve">
+    <value>Хатолик — қайта уриниб кўринг</value>
+  </data>
+  <data name="lv.bcDenied" xml:space="preserve">
+    <value>Камера/микрофонга рухсат берилмади</value>
+  </data>
+  <data name="lv.bcUnsupported" xml:space="preserve">
+    <value>Бу браузер эфир узата олмайди — Чроме ёки Эдгеъдан фойдаланинг</value>
+  </data>
+  <data name="lv.bcChoose" xml:space="preserve">
+    <value>Камера ёки экранни танланг — эфир ўқувчиларга дарҳол боради</value>
+  </data>
+  <data name="lv.bcStartFirst" xml:space="preserve">
+    <value>Аввал «Эфирни бошлаш» ни босинг, кейин камера ёки экранни уланг</value>
+  </data>
+  <data name="lv.bcCamera" xml:space="preserve">
+    <value>Камера</value>
+  </data>
+  <data name="lv.bcScreen" xml:space="preserve">
+    <value>Экран</value>
+  </data>
+  <data name="lv.bcMic" xml:space="preserve">
+    <value>Микрофон</value>
+  </data>
+  <data name="lv.bcQuality" xml:space="preserve">
+    <value>Сифат</value>
+  </data>
+  <data name="lv.bcStop" xml:space="preserve">
+    <value>Тўхтатиш</value>
+  </data>
+  <data name="lv.bcSlow" xml:space="preserve">
+    <value>Интернет секин — сифатни пасайтиринг</value>
+  </data>
+  <data name="lv.bcHint" xml:space="preserve">
+    <value>Эфир ёзиб олинмайди ва юклаб олинмайди. Ўқувчилар экранида уларнинг логин ва телефони сув белгиси бўлиб туради. Экран улашишда дарс слайдлари ёки саволларни кўрсатишингиз мумкин; микрофон овози қўшилади.</value>
+  </data>
 </root>

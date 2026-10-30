@@ -103,6 +103,7 @@ namespace propro.Controllers
             var counts = (await _bank.ByTopicAsync()).ToDictionary(kv => kv.Key, kv => kv.Value.Count);
             var withQuestions = Topics.All.Where(x => counts.GetValueOrDefault(x) > 0).ToList();
             var pos = withQuestions.IndexOf(topic);
+            ViewBag.Watermark = await WatermarkAsync();
 
             return View(new LessonPageModel
             {
@@ -114,6 +115,15 @@ namespace propro.Controllers
                 StartAt = t,
                 NextTopic = pos >= 0 && pos < withQuestions.Count - 1 ? withQuestions[pos + 1] : null,
             });
+        }
+
+        /// <summary>Video ustidagi suv belgisi: login va telefon (yozib olinsa — kim yozgani bilinadi).</summary>
+        private async Task<string> WatermarkAsync()
+        {
+            var me = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == CurrentUserId);
+            if (me == null) return "";
+            var phone = UserService.FormatPhone(me.Phone);
+            return string.IsNullOrEmpty(phone) ? me.Username : me.Username + " · " + phone;
         }
 
         /// <summary>Ko'rish jarayoni: pleer har ~15 soniyada (va pauza/chiqishda) yuboradi.</summary>

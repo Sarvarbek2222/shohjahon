@@ -372,3 +372,9 @@ tools/backup_*.sql
 # Vaqtinchalik fayllar
 tools/__pycache__/
 tools/ru_todo.json
+
+# Jonli dars yozuvlari, video yuklash vaqtinchalik fayllari, yuklangan video darslar (serverda saqlanadi, repoga kirmaydi)
+App_Data/live/
+App_Data/video-tmp/
+wwwroot/uploads/videos/
+App_Data/videos/

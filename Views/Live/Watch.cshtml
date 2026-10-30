@@ -1,0 +1,107 @@
+@model LiveLesson
+@* O'quvchi dars xonasi: kutish (ortga sanash) → dastur ichidagi efir (reaksiyalar, savol yuborish) → tugadi.
+   Efir yozib olinmaydi va yuklab olinmaydi; video ustida o'quvchining login/telefoni suv belgisi bo'lib turadi. *@
+@{
+    Layout = "_CabinetLayout";
+    ViewData["TitleKey"] = "lv.title";
+    ViewData["Title"] = Model.Title;
+    string Iso(DateTime d) => DateTime.SpecifyKind(d, DateTimeKind.Utc).ToString("o");
+    var cfg = new { lessonId = Model.Id, status = Model.Status, watermark = ViewBag.Watermark as string };
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/live.css" asp-append-version="true" />
+
+<div class="lv-room">
+    <div class="lv-main">
+        <div class="lv-head">
+            <div style="min-width:0;">
+                <a class="th-crumbs" href="/Live" style="margin:0 0 6px;">← <span data-i18n="lv.title">@L["lv.title"]</span></a>
+                <h1 class="ls-title">@Model.Title</h1>
+            </div>
+            <div class="lv-head-chips">
+                <span class="lv-status" data-show="scheduled"><span data-i18n="lv.stScheduled">@L["lv.stScheduled"]</span></span>
+                <span class="lv-status live" data-show="live"><i class="nt-live-dot"></i> <span data-i18n="lv.onAir">@L["lv.onAir"]</span></span>
+                <span class="lv-status ended" data-show="ended"><span data-i18n="lv.stEnded">@L["lv.stEnded"]</span></span>
+                <span class="lv-status" title="@L["lv.viewersNow"]" data-i18n-title="lv.viewersNow">@Icons.Users <b id="lvViewers">0</b></span>
+                <span class="lv-conn" data-conn="off" aria-hidden="true"></span>
+            </div>
+        </div>
+
+        <div class="lv-stage" id="lvStage">
+            <div class="lv-wait" data-show="scheduled">
+                <span class="lv-wait-kicker" data-i18n="lv.startsIn">@L["lv.startsIn"]</span>
+                <div class="lv-cd big" data-countdown="@Iso(Model.StartsAt)"></div>
+                <p><span data-utc="@Iso(Model.StartsAt)"></span> · <span data-i18n="lv.minutes" data-i18n-args='{"n":@Model.DurationMinutes}'>@L.F("lv.minutes", ("n", Model.DurationMinutes))</span></p>
+                <p class="ca-muted ca-small" data-i18n="lv.waitHint">@L["lv.waitHint"]</p>
+                <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Live/Ics/@Model.Id">@Icons.Clock <span data-i18n="lv.addCalendar">@L["lv.addCalendar"]</span></a>
+            </div>
+            <div class="lv-video" data-show="live">
+                <video id="lvVideo" playsinline autoplay muted disablepictureinpicture disableremoteplayback controlslist="nodownload noremoteplayback noplaybackrate" oncontextmenu="return false"></video>
+                <div class="lv-connecting" id="lvConnecting">
+                    <span class="lp-spinner"></span>
+                    <b data-i18n="lv.teacherConnecting">@L["lv.teacherConnecting"]</b>
+                    <span class="ca-muted ca-small" data-i18n="lv.teacherConnectingSub">@L["lv.teacherConnectingSub"]</span>
+                </div>
+                <button type="button" class="lv-unmute" id="lvUnmute" hidden>🔊 <span data-i18n="lv.unmute">@L["lv.unmute"]</span></button>
+                <div class="lv-unsupported" id="lvUnsupported" hidden data-i18n="lv.unsupported">@L["lv.unsupported"]</div>
+                <div class="lv-stage-tools">
+                    <span class="lv-latency" id="lvLatency" hidden></span>
+                    <button type="button" class="lv-tool" id="lvFull" title="@L["lp.fullscreen"]" data-i18n-title="lp.fullscreen">⛶</button>
+                </div>
+                <div class="lv-floatstage" id="lvFloat" aria-hidden="true"></div>
+            </div>
+            <div class="lv-wait" data-show="ended">
+                <span class="lv-wait-kicker" data-i18n="lv.stEnded">@L["lv.stEnded"]</span>
+                <h2 style="margin:6px 0;" data-i18n="lv.thanks">@L["lv.thanks"]</h2>
+                <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Live">@Icons.List <span data-i18n="lv.title">@L["lv.title"]</span></a>
+            </div>
+        </div>
+
+        <div class="lv-reacts" data-show="live" role="group" aria-label="@L["lv.reactions"]">
+            @foreach (var e in LiveHub.Emojis)
+            {
+                <button type="button" class="lv-react" data-react="@e">@e</button>
+            }
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <div class="ls-desc">@Model.Description</div>
+        }
+    </div>
+
+    <aside class="lv-side">
+        <div class="lv-pinned" id="lvPinned" hidden>
+            <span class="lv-pinned-k">📌 <span data-i18n="lv.answeringNow">@L["lv.answeringNow"]</span></span>
+            <p data-pin-text></p>
+            <small>— <span data-pin-name></span></small>
+        </div>
+
+        <div class="ca-card">
+            <h3 class="ca-card-title" data-i18n="lv.askTitle">@L["lv.askTitle"]</h3>
+            <div id="lvAskWait" class="lv-ask-note" data-i18n="lv.askWait">@L["lv.askWait"]</div>
+            <div id="lvAskClosed" class="lv-ask-note closed" hidden>🔒 <span data-i18n="lv.askClosed">@L["lv.askClosed"]</span></div>
+            <div id="lvAsk" hidden>
+                <form id="lvAskForm">
+                    <textarea id="lvAskInput" class="ca-input" rows="3" maxlength="500" placeholder="@L["lv.askPh"]" data-i18n-placeholder="lv.askPh"></textarea>
+                    <div class="lv-ask-row">
+                        <span class="ca-muted ca-small" id="lvAskCount">0/500</span>
+                        <button type="submit" class="ca-btn ca-btn-primary ca-btn-sm"><span data-i18n="lv.send">@L["lv.send"]</span></button>
+                    </div>
+                    <div class="lv-ask-err" id="lvAskErr" hidden></div>
+                </form>
+            </div>
+            <div id="lvMineWrap" hidden>
+                <h4 class="lv-mine-h" data-i18n="lv.myQuestions">@L["lv.myQuestions"]</h4>
+                <ul class="lv-mine" id="lvMine"></ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+<script src="~/js/player.js" asp-append-version="true"></script>
+<script src="~/js/live.js" asp-append-version="true"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () { LiveUi.watch(@Json.Serialize(cfg)); });
+</script>

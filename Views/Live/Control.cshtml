@@ -1,0 +1,120 @@
+@model LiveLesson
+@* Admin boshqaruv xonasi: boshlash/tugatish, efir, savollar (kimdan kelgani bilan), hozir darsdagilar, kirish-chiqish lentasi *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "lv.controlRoom";
+    ViewData["Title"] = L["lv.controlRoom"];
+    var total = (int)ViewBag.TotalStudents;
+    string Iso(DateTime d) => DateTime.SpecifyKind(d, DateTimeKind.Utc).ToString("o");
+    var isLive = Model.Status == LiveStatus.Live;
+    var cfg = new { lessonId = Model.Id, status = Model.Status, startedAt = Model.StartedAt is DateTime s ? Iso(s) : null, peak = Model.PeakViewers };
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/live.css" asp-append-version="true" />
+
+<div class="ca-body-embed lc">
+    <div class="lc-top">
+        <div style="min-width:0;">
+            <a class="ca-link" href="/Live/Manage">← <span data-i18n="lv.adminTitle">@L["lv.adminTitle"]</span></a>
+            <h1 class="ca-h1" style="margin-top:6px;">@Model.Title</h1>
+            <div class="lm-meta"><span data-utc="@Iso(Model.StartsAt)"></span><span>@Model.DurationMinutes <span data-i18n="lv.min">@L["lv.min"]</span></span><span class="lv-conn" data-conn="off"></span></div>
+        </div>
+        <div class="lc-cta">
+            @if (isLive)
+            {
+                <span class="lv-status live"><i class="nt-live-dot"></i> <span data-i18n="lv.onAir">@L["lv.onAir"]</span> · <b id="lcElapsed">00:00</b></span>
+                <form method="post" action="/Live/End/@Model.Id" onsubmit="return confirm(I18n.t('lv.endConfirm'))">
+                    @Html.AntiForgeryToken()
+                    <button class="ca-btn lc-end" type="submit">■ <span data-i18n="lv.end">@L["lv.end"]</span></button>
+                </form>
+            }
+            else
+            {
+                <div class="lv-cd" data-countdown="@Iso(Model.StartsAt)"></div>
+                <form method="post" action="/Live/Start/@Model.Id" onsubmit="return confirm(I18n.t('lv.startConfirm'))">
+                    @Html.AntiForgeryToken()
+                    <button class="ca-btn lc-start" type="submit">● <span data-i18n="lv.start">@L["lv.start"]</span></button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <div class="lc-kpis">
+        <div class="lc-kpi"><span data-i18n="lv.viewersNow">@L["lv.viewersNow"]</span><b><span id="lcNow">0</span><small> / @total</small></b></div>
+        <div class="lc-kpi"><span data-i18n="lv.peak">@L["lv.peak"]</span><b id="lcPeak">@Model.PeakViewers</b></div>
+        <div class="lc-kpi"><span data-i18n="lv.questions">@L["lv.questions"]</span><b id="lcQTotal">0</b></div>
+        <div class="lc-kpi"><span data-i18n="lv.reactions">@L["lv.reactions"]</span><b id="lcReactions">0</b></div>
+        <label class="lc-kpi lc-switch">
+            <span data-i18n="lv.allowQuestions">@L["lv.allowQuestions"]</span>
+            <span class="lc-sw"><input type="checkbox" id="lcToggle" @(Model.QuestionsEnabled ? "checked" : "") /><i></i></span>
+        </label>
+    </div>
+
+    @if (!isLive)
+    {
+        <div class="ca-alert ca-alert-info" data-i18n="lv.controlHint">@L["lv.controlHint"]</div>
+    }
+
+    <div class="lc-grid">
+        <section class="ca-card lc-qa">
+            <div class="ca-card-head">
+                <h3 class="ca-card-title"><span id="lcQBell" class="lc-bell">💬</span> <span data-i18n="lv.questions">@L["lv.questions"]</span></h3>
+                <div class="lc-tabs">
+                    <button type="button" class="on" data-qfilter="new"><span data-i18n="lv.qs_new">@L["lv.qs_new"]</span> <b data-qcount="new">0</b></button>
+                    <button type="button" data-qfilter="answered"><span data-i18n="lv.qs_answered">@L["lv.qs_answered"]</span> <b data-qcount="answered">0</b></button>
+                    <button type="button" data-qfilter="all"><span data-i18n="lv.all">@L["lv.all"]</span> <b data-qcount="all">0</b></button>
+                </div>
+            </div>
+            <div id="lcQuestions" class="lc-qlist"></div>
+        </section>
+
+        <div class="lc-col">
+            @* Efir: kamera yoki ekran (+ mikrofon) — to'g'ridan-to'g'ri sayt orqali o'quvchilarga *@
+            <section class="ca-card lc-bc" id="lcBroadcast">
+                <div class="ca-card-head">
+                    <h3 class="ca-card-title"><span data-i18n="lv.bcTitle">@L["lv.bcTitle"]</span></h3>
+                    <span class="lc-bc-state" id="bcState" data-state="off"><i></i> <span id="bcStateText" data-i18n="lv.bcOff">@L["lv.bcOff"]</span></span>
+                </div>
+                <div class="lc-preview">
+                    <video id="bcPreview" muted playsinline autoplay></video>
+                    <div class="lc-preview-empty" id="bcEmpty">
+                        <span>🎥</span>
+                        <b data-i18n="@(isLive ? "lv.bcChoose" : "lv.bcStartFirst")">@L[isLive ? "lv.bcChoose" : "lv.bcStartFirst"]</b>
+                    </div>
+                    <div class="lv-floatstage" id="lvFloat"></div>
+                </div>
+                <div class="lc-bc-row">
+                    <button type="button" class="lc-bc-btn" data-src="camera" @(isLive ? "" : "disabled")>📷 <span data-i18n="lv.bcCamera">@L["lv.bcCamera"]</span></button>
+                    <button type="button" class="lc-bc-btn" data-src="screen" @(isLive ? "" : "disabled")>🖥 <span data-i18n="lv.bcScreen">@L["lv.bcScreen"]</span></button>
+                    <button type="button" class="lc-bc-btn" id="bcMic" disabled>🎙 <span data-i18n="lv.bcMic">@L["lv.bcMic"]</span></button>
+                    <select class="ca-input lc-bc-q" id="bcQuality" title="@L["lv.bcQuality"]" data-i18n-title="lv.bcQuality">
+                        <option value="480">480p</option>
+                        <option value="720" selected>720p</option>
+                        <option value="1080">1080p</option>
+                    </select>
+                    <button type="button" class="lc-bc-btn stop" id="bcStop" disabled>⏹ <span data-i18n="lv.bcStop">@L["lv.bcStop"]</span></button>
+                </div>
+                <div class="lc-bc-stats" id="bcStats" hidden>
+                    <span>⬆ <b id="bcRate">0</b> kbps</span>
+                    <span>📦 <b id="bcSent">0</b></span>
+                    <span id="bcWarn" class="lc-bc-warn" hidden data-i18n="lv.bcSlow">@L["lv.bcSlow"]</span>
+                </div>
+                <p class="ca-muted ca-small" style="margin:10px 0 0;" data-i18n="lv.bcHint">@L["lv.bcHint"]</p>
+            </section>
+            <section class="ca-card">
+                <div class="ca-card-head"><h3 class="ca-card-title"><span data-i18n="lv.inRoom">@L["lv.inRoom"]</span> · <span id="lcPeopleCount">0</span></h3></div>
+                <div id="lcPeople" class="lc-people"></div>
+            </section>
+            <section class="ca-card">
+                <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="lv.activity">@L["lv.activity"]</h3></div>
+                <div id="lcFeed" class="lc-feed"><div class="lc-empty" data-i18n="lv.activityEmpty">@L["lv.activityEmpty"]</div></div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+<script src="~/js/live.js" asp-append-version="true"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () { LiveUi.control(@Json.Serialize(cfg)); });
+</script>

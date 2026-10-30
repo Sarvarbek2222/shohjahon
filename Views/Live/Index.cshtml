@@ -1,0 +1,81 @@
+@model List<LiveLesson>
+@* O'quvchi: jonli darslar — efirda, rejalashtirilgan (ortga sanash, taqvimga qo'shish), o'tgan (qatnashgan vaqtingiz) *@
+@{
+    Layout = "_CabinetLayout";
+    ViewData["TitleKey"] = "lv.title";
+    ViewData["Title"] = L["lv.title"];
+    var now = DateTime.UtcNow;
+    var live = Model.Where(l => l.Status == LiveStatus.Live).ToList();
+    var upcoming = Model.Where(l => l.Status == LiveStatus.Scheduled).OrderBy(l => l.StartsAt).ToList();
+    var past = Model.Where(l => l.Status == LiveStatus.Ended).OrderByDescending(l => l.EndedAt).ToList();
+    var mine = (Dictionary<int, int>)ViewBag.MyMinutes;
+    string Iso(DateTime d) => DateTime.SpecifyKind(d, DateTimeKind.Utc).ToString("o");
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/live.css" asp-append-version="true" />
+
+<div class="ca-page-head">
+    <div>
+        <h1 class="ca-h1" data-i18n="lv.title">@L["lv.title"]</h1>
+        <p class="ca-sub" data-i18n="lv.sub">@L["lv.sub"]</p>
+    </div>
+</div>
+
+@foreach (var l in live)
+{
+    <a class="lv-hero" href="/Live/Watch/@l.Id">
+        <span class="lv-live-chip"><i class="nt-live-dot"></i> <span data-i18n="lv.onAir">@L["lv.onAir"]</span></span>
+        <h2>@l.Title</h2>
+        @if (!string.IsNullOrWhiteSpace(l.Description)) { <p>@l.Description</p> }
+        <span class="lv-hero-go">@Icons.Play <span data-i18n="notif.join">@L["notif.join"]</span></span>
+    </a>
+}
+
+<h3 class="lv-h3" data-i18n="lv.upcoming">@L["lv.upcoming"]</h3>
+@if (!upcoming.Any())
+{
+    <div class="ca-card"><p class="ca-muted" style="margin:0;" data-i18n="lv.noUpcoming">@L["lv.noUpcoming"]</p></div>
+}
+<div class="lv-grid">
+    @foreach (var l in upcoming)
+    {
+        <div class="lv-card">
+            <div class="lv-card-date">
+                <b data-utc="@Iso(l.StartsAt)" data-fmt="date"></b>
+                <span><span data-utc="@Iso(l.StartsAt)" data-fmt="time"></span> · <span data-i18n="lv.minutes" data-i18n-args='{"n":@l.DurationMinutes}'>@L.F("lv.minutes", ("n", l.DurationMinutes))</span></span>
+            </div>
+            <h4>@l.Title</h4>
+            @if (!string.IsNullOrWhiteSpace(l.Description)) { <p class="lv-card-desc">@l.Description</p> }
+            <div class="lv-cd" data-countdown="@Iso(l.StartsAt)"></div>
+            <div class="lv-card-act">
+                <a class="ca-btn ca-btn-primary ca-btn-sm" href="/Live/Watch/@l.Id">@Icons.Play <span data-i18n="lv.enterRoom">@L["lv.enterRoom"]</span></a>
+                <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Live/Ics/@l.Id">@Icons.Clock <span data-i18n="lv.addCalendar">@L["lv.addCalendar"]</span></a>
+            </div>
+        </div>
+    }
+</div>
+
+@if (past.Any())
+{
+    <h3 class="lv-h3" data-i18n="lv.past">@L["lv.past"]</h3>
+    <div class="lv-grid">
+        @foreach (var l in past)
+        {
+            var m = mine.GetValueOrDefault(l.Id);
+            <div class="lv-card past">
+                <div class="lv-card-date"><b data-utc="@Iso(l.StartsAt)" data-fmt="date"></b><span data-utc="@Iso(l.StartsAt)" data-fmt="time"></span></div>
+                <h4>@l.Title</h4>
+                @if (m > 0)
+                {
+                    <span class="lv-attended ok" data-i18n="lv.attended" data-i18n-args='{"n":@m}'>@L.F("lv.attended", ("n", m))</span>
+                }
+                else
+                {
+                    <span class="lv-attended" data-i18n="lv.missed">@L["lv.missed"]</span>
+                }
+            </div>
+        }
+    </div>
+}
+
+<script src="~/js/live.js" asp-append-version="true"></script>

@@ -3,7 +3,8 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// Video darslar fayllari: bo'laklab yuklash va saqlash. Katta video bitta so'rovda yuborilmaydi —
 /// brauzer uni 768 KB lik bo'laklarga bo'lib yuboradi (Nginx ning standart 1 MB cheklovidan o'tadi),
-/// server bo'laklarni App_Data/video-tmp ichida ketma-ket yig'adi, oxirida wwwroot/uploads/videos ga ko'chiradi.
+/// server bo'laklarni App_Data/video-tmp ichida ketma-ket yig'adi, oxirida App_Data/videos ga ko'chiradi.
+/// Videolar ochiq papkada emas — faqat MediaController orqali (kirgan foydalanuvchiga, shaxsiy havola bilan) beriladi.
 /// </summary>
 public class VideoUploads
 {
@@ -17,7 +18,7 @@ public class VideoUploads
     public VideoUploads(IWebHostEnvironment env)
     {
         _tmpDir = Path.Combine(env.ContentRootPath, "App_Data", "video-tmp");
-        _videoDir = Path.Combine(env.WebRootPath, "uploads", "videos");
+        _videoDir = Path.Combine(env.ContentRootPath, "App_Data", "videos");
         Directory.CreateDirectory(_tmpDir);
         Directory.CreateDirectory(_videoDir);
     }
@@ -59,6 +60,21 @@ public class VideoUploads
         CleanupStale();
         return (name, null);
     }
+
+    /// <summary>Video fayl yo'li (faqat shu sayt bergan nom: 32 belgili hex + kengaytma); yo'q bo'lsa — null.</summary>
+    public string? PathOf(string? name)
+    {
+        if (string.IsNullOrEmpty(name) || !Regex.IsMatch(name, @"^[a-f0-9]{32}\.(mp4|webm|m4v|mov)$")) return null;
+        var path = Path.Combine(_videoDir, name);
+        return File.Exists(path) ? path : null;
+    }
+
+    public static string ContentType(string path) => Path.GetExtension(path).ToLowerInvariant() switch
+    {
+        ".webm" => "video/webm",
+        ".mov" => "video/quicktime",
+        _ => "video/mp4",
+    };
 
     public void Delete(string? name)
     {

@@ -129,6 +129,10 @@
         this.ui.cardBtn.classList.toggle("on", this.cardOn);
         if (!this.chapters.length) { this.ui.prev.hidden = true; this.ui.next.hidden = true; }
 
+        // Suv belgisi: o'quvchi logini va telefoni video ustida suzib yuradi (yozib olinsa — kim yozgani bilinadi)
+        if (opt.watermark) LessonPlayer.watermark(el, opt.watermark);
+        el.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
         // ── Manba adapteri ──
         if (opt.kind === "youtube") this._initYouTube(pr); else this._initFile(pr);
 
@@ -145,7 +149,10 @@
         v.preload = "metadata";
         v.playsInline = true;
         v.setAttribute("playsinline", "");
-        v.setAttribute("controlslist", "nodownload");
+        // Yuklab olishga qarshi: brauzerning "Saqlash"/yuklab olish menyulari va sudrab olish o'chirilgan
+        v.setAttribute("controlslist", "nodownload noremoteplayback noplaybackrate");
+        v.disableRemotePlayback = true;
+        v.setAttribute("draggable", "false");
         v.addEventListener("contextmenu", function (e) { e.preventDefault(); });
         this.ui.stage.appendChild(v);
         this.video = v;
@@ -542,6 +549,24 @@
             else handled = false;
             if (handled) { e.preventDefault(); self._poke(); }
         });
+    };
+
+    /** Suv belgisi (video va jonli efir uchun umumiy): har 6 soniyada tasodifiy joyga ko'chadi, to'liq ekranda ham ko'rinadi. */
+    LessonPlayer.watermark = function (host, text) {
+        var wm = document.createElement("div");
+        wm.className = "lp-wm";
+        wm.setAttribute("aria-hidden", "true");
+        wm.textContent = text;
+        host.appendChild(wm);
+        function move() {
+            wm.style.left = (5 + Math.random() * 55) + "%";
+            wm.style.top = (8 + Math.random() * 70) + "%";
+        }
+        move();
+        setInterval(move, 6000);
+        // Element o'chirib tashlansa (DevTools orqali) — qayta qo'yiladi
+        new MutationObserver(function () { if (!wm.isConnected) host.appendChild(wm); }).observe(host, { childList: true });
+        return wm;
     };
 
     window.LessonPlayer = LessonPlayer;

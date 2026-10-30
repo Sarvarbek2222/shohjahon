@@ -272,3 +272,9 @@
     .lp-card-q { margin-top: 2px; font-size: .74rem; -webkit-line-clamp: 1; }
     .lp-card-reveal, .lp-card-a { display: none !important; }
 }
+/* Suv belgisi (yozib olishdan himoya) */
+.lp-wm { position: absolute; z-index: 5; pointer-events: none; user-select: none; white-space: nowrap; padding: 4px 8px; border-radius: 6px;
+    font: 700 .8rem var(--ca-font, Inter, system-ui, sans-serif); letter-spacing: .03em; color: rgba(255,255,255,.34); text-shadow: 0 1px 2px rgba(0,0,0,.45);
+    transition: left 1.2s ease, top 1.2s ease; }
+.lp.is-full .lp-wm, .lv-stage:fullscreen .lp-wm { font-size: 1rem; }
+.lp video { -webkit-user-drag: none; }

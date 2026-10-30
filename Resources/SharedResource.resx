@@ -2499,4 +2499,400 @@
   <data name="ls.uploadFailed" xml:space="preserve">
     <value>Yuklab bo'lmadi. Internetni tekshirib, qayta urinib ko'ring.</value>
   </data>
+  <data name="lv.title" xml:space="preserve">
+    <value>Jonli darslar</value>
+  </data>
+  <data name="lv.sub" xml:space="preserve">
+    <value>O'qituvchi bilan jonli efir: darsni kuzating va savollaringizni yuboring.</value>
+  </data>
+  <data name="lv.onAir" xml:space="preserve">
+    <value>Jonli efir</value>
+  </data>
+  <data name="lv.upcoming" xml:space="preserve">
+    <value>Rejalashtirilgan darslar</value>
+  </data>
+  <data name="lv.noUpcoming" xml:space="preserve">
+    <value>Hozircha rejalashtirilgan jonli dars yo'q. Yangi dars belgilanganda bildirishnoma keladi.</value>
+  </data>
+  <data name="lv.minutes" xml:space="preserve">
+    <value>{n} daqiqa</value>
+  </data>
+  <data name="lv.enterRoom" xml:space="preserve">
+    <value>Dars xonasi</value>
+  </data>
+  <data name="lv.addCalendar" xml:space="preserve">
+    <value>Taqvimga qo'shish</value>
+  </data>
+  <data name="lv.past" xml:space="preserve">
+    <value>O'tgan darslar</value>
+  </data>
+  <data name="lv.attended" xml:space="preserve">
+    <value>Qatnashdingiz: {n} daqiqa</value>
+  </data>
+  <data name="lv.missed" xml:space="preserve">
+    <value>Qatnashmagansiz</value>
+  </data>
+  <data name="lv.recording" xml:space="preserve">
+    <value>Yozuvni ko'rish</value>
+  </data>
+  <data name="lv.stScheduled" xml:space="preserve">
+    <value>Kutilmoqda</value>
+  </data>
+  <data name="lv.stEnded" xml:space="preserve">
+    <value>Dars tugadi</value>
+  </data>
+  <data name="lv.viewersNow" xml:space="preserve">
+    <value>Hozir darsda</value>
+  </data>
+  <data name="lv.startsIn" xml:space="preserve">
+    <value>Dars boshlanishiga</value>
+  </data>
+  <data name="lv.waitHint" xml:space="preserve">
+    <value>Sahifani yopmang — dars boshlanganda efir o'zi ochiladi.</value>
+  </data>
+  <data name="lv.noStream" xml:space="preserve">
+    <value>Efir havolasi hali qo'yilmagan. O'qituvchi tez orada ulaydi.</value>
+  </data>
+  <data name="lv.thanks" xml:space="preserve">
+    <value>Qatnashganingiz uchun rahmat!</value>
+  </data>
+  <data name="lv.recordingHint" xml:space="preserve">
+    <value>Dars yozuvini qayta ko'rishingiz mumkin.</value>
+  </data>
+  <data name="lv.reactions" xml:space="preserve">
+    <value>Reaksiyalar</value>
+  </data>
+  <data name="lv.answeringNow" xml:space="preserve">
+    <value>Hozir javob berilmoqda</value>
+  </data>
+  <data name="lv.askTitle" xml:space="preserve">
+    <value>O'qituvchiga savol</value>
+  </data>
+  <data name="lv.askWait" xml:space="preserve">
+    <value>Savol yuborish dars boshlanganda ochiladi.</value>
+  </data>
+  <data name="lv.askClosed" xml:space="preserve">
+    <value>O'qituvchi hozircha savollarni yopgan.</value>
+  </data>
+  <data name="lv.askPh" xml:space="preserve">
+    <value>Savolingizni yozing… (Ctrl+Enter — yuborish)</value>
+  </data>
+  <data name="lv.send" xml:space="preserve">
+    <value>Yuborish</value>
+  </data>
+  <data name="lv.myQuestions" xml:space="preserve">
+    <value>Savollaringiz</value>
+  </data>
+  <data name="lv.anyMoment" xml:space="preserve">
+    <value>Hozir boshlanadi…</value>
+  </data>
+  <data name="lv.cdD" xml:space="preserve">
+    <value>kun</value>
+  </data>
+  <data name="lv.cdH" xml:space="preserve">
+    <value>soat</value>
+  </data>
+  <data name="lv.cdM" xml:space="preserve">
+    <value>daq</value>
+  </data>
+  <data name="lv.cdS" xml:space="preserve">
+    <value>son</value>
+  </data>
+  <data name="lv.conn_on" xml:space="preserve">
+    <value>Ulangan</value>
+  </data>
+  <data name="lv.conn_off" xml:space="preserve">
+    <value>Ulanish yo'q</value>
+  </data>
+  <data name="lv.conn_reconnecting" xml:space="preserve">
+    <value>Qayta ulanmoqda…</value>
+  </data>
+  <data name="lv.qs_new" xml:space="preserve">
+    <value>Yangi</value>
+  </data>
+  <data name="lv.qs_answered" xml:space="preserve">
+    <value>Javob berildi</value>
+  </data>
+  <data name="lv.qs_hidden" xml:space="preserve">
+    <value>Yashirildi</value>
+  </data>
+  <data name="lv.qOpened" xml:space="preserve">
+    <value>Savol yuborish ochildi</value>
+  </data>
+  <data name="lv.qClosed" xml:space="preserve">
+    <value>O'qituvchi savollarni yopdi</value>
+  </data>
+  <data name="lv.yourAnswered" xml:space="preserve">
+    <value>Savolingizga javob berildi ✓</value>
+  </data>
+  <data name="lv.sent" xml:space="preserve">
+    <value>Savol yuborildi</value>
+  </data>
+  <data name="lv.err_short" xml:space="preserve">
+    <value>Savol juda qisqa.</value>
+  </data>
+  <data name="lv.err_notLive" xml:space="preserve">
+    <value>Dars hozir efirda emas.</value>
+  </data>
+  <data name="lv.err_closed" xml:space="preserve">
+    <value>Savollar yopilgan.</value>
+  </data>
+  <data name="lv.err_notJoined" xml:space="preserve">
+    <value>Sahifani yangilang.</value>
+  </data>
+  <data name="lv.err_wait" xml:space="preserve">
+    <value>Keyingi savolni {n} soniyadan keyin yuborishingiz mumkin.</value>
+  </data>
+  <data name="lv.err_limit" xml:space="preserve">
+    <value>Bitta darsda ko'pi bilan 30 ta savol.</value>
+  </data>
+  <data name="lv.err_net" xml:space="preserve">
+    <value>Yuborib bo'lmadi. Internetni tekshiring.</value>
+  </data>
+  <data name="lv.nobody" xml:space="preserve">
+    <value>Hozircha hech kim yo'q</value>
+  </data>
+  <data name="lv.evIn" xml:space="preserve">
+    <value>{name} kirdi</value>
+  </data>
+  <data name="lv.evOut" xml:space="preserve">
+    <value>{name} chiqib ketdi</value>
+  </data>
+  <data name="lv.noQuestions" xml:space="preserve">
+    <value>Savollar yo'q</value>
+  </data>
+  <data name="lv.pin" xml:space="preserve">
+    <value>Javob berilmoqda</value>
+  </data>
+  <data name="lv.unpin" xml:space="preserve">
+    <value>Mahkamni olish</value>
+  </data>
+  <data name="lv.markAnswered" xml:space="preserve">
+    <value>Javob berildi</value>
+  </data>
+  <data name="lv.markNew" xml:space="preserve">
+    <value>Qaytarish</value>
+  </data>
+  <data name="lv.hide" xml:space="preserve">
+    <value>Yashirish</value>
+  </data>
+  <data name="lv.adminTitle" xml:space="preserve">
+    <value>Jonli darslar</value>
+  </data>
+  <data name="lv.adminSub" xml:space="preserve">
+    <value>Darsni rejalashtiring — o'quvchilarga bildirishnoma boradi. Efir to'g'ridan-to'g'ri sayt ichida (kamera yoki ekran); savol-javob, davomat va hisobot — shu yerda. Efir yozib olinmaydi va yuklab olinmaydi.</value>
+  </data>
+  <data name="lv.newLesson" xml:space="preserve">
+    <value>Yangi jonli dars</value>
+  </data>
+  <data name="lv.editLesson" xml:space="preserve">
+    <value>Darsni tahrirlash</value>
+  </data>
+  <data name="lv.fTitle" xml:space="preserve">
+    <value>Mavzu</value>
+  </data>
+  <data name="lv.fTitlePh" xml:space="preserve">
+    <value>Masalan: Yo'l belgilari — savol-javob</value>
+  </data>
+  <data name="lv.fWhen" xml:space="preserve">
+    <value>Sana va vaqt</value>
+  </data>
+  <data name="lv.fDuration" xml:space="preserve">
+    <value>Davomiyligi (daq)</value>
+  </data>
+  <data name="lv.fStream" xml:space="preserve">
+    <value>Efir havolasi (YouTube Live)</value>
+  </data>
+  <data name="lv.fStreamHint" xml:space="preserve">
+    <value>YouTube Studio → Jonli efir → havolani nusxalang. Keyin ham qo'shish mumkin.</value>
+  </data>
+  <data name="lv.fDesc" xml:space="preserve">
+    <value>Tavsif</value>
+  </data>
+  <data name="lv.fQuestions" xml:space="preserve">
+    <value>O'quvchilar savol yubora oladi</value>
+  </data>
+  <data name="lv.fNotify" xml:space="preserve">
+    <value>Barcha o'quvchilarga bildirishnoma yuborish</value>
+  </data>
+  <data name="lv.create" xml:space="preserve">
+    <value>Rejalashtirish</value>
+  </data>
+  <data name="lv.noLessons" xml:space="preserve">
+    <value>Hali jonli dars yo'q.</value>
+  </data>
+  <data name="lv.st_scheduled" xml:space="preserve">
+    <value>Rejalashtirilgan</value>
+  </data>
+  <data name="lv.st_live" xml:space="preserve">
+    <value>Efirda</value>
+  </data>
+  <data name="lv.st_ended" xml:space="preserve">
+    <value>Tugagan</value>
+  </data>
+  <data name="lv.st_cancelled" xml:space="preserve">
+    <value>Bekor qilingan</value>
+  </data>
+  <data name="lv.min" xml:space="preserve">
+    <value>daq</value>
+  </data>
+  <data name="lv.peak" xml:space="preserve">
+    <value>Eng ko'p bir vaqtda</value>
+  </data>
+  <data name="lv.controlRoom" xml:space="preserve">
+    <value>Boshqaruv xonasi</value>
+  </data>
+  <data name="lv.report" xml:space="preserve">
+    <value>Dars hisoboti</value>
+  </data>
+  <data name="lv.cancelLesson" xml:space="preserve">
+    <value>Bekor qilish</value>
+  </data>
+  <data name="lv.cancelConfirm" xml:space="preserve">
+    <value>Darsni bekor qilasizmi?</value>
+  </data>
+  <data name="lv.created" xml:space="preserve">
+    <value>Dars rejalashtirildi.</value>
+  </data>
+  <data name="lv.saved" xml:space="preserve">
+    <value>Saqlandi.</value>
+  </data>
+  <data name="lv.errForm" xml:space="preserve">
+    <value>Mavzu va sana-vaqtni to'ldiring.</value>
+  </data>
+  <data name="lv.errStream" xml:space="preserve">
+    <value>Efir havolasi noto'g'ri (YouTube yoki https havola bo'lishi kerak).</value>
+  </data>
+  <data name="lv.startConfirm" xml:space="preserve">
+    <value>Efirni boshlaysizmi? Barcha o'quvchilarga xabar boradi.</value>
+  </data>
+  <data name="lv.start" xml:space="preserve">
+    <value>Efirni boshlash</value>
+  </data>
+  <data name="lv.endConfirm" xml:space="preserve">
+    <value>Darsni tugatasizmi? Hisobot tayyorlanadi.</value>
+  </data>
+  <data name="lv.end" xml:space="preserve">
+    <value>Darsni tugatish</value>
+  </data>
+  <data name="lv.questions" xml:space="preserve">
+    <value>Savollar</value>
+  </data>
+  <data name="lv.allowQuestions" xml:space="preserve">
+    <value>Savollarga ruxsat</value>
+  </data>
+  <data name="lv.controlHint" xml:space="preserve">
+    <value>O'quvchilar kutish zaliga kira boshlashi mumkin. Tayyor bo'lgach «Efirni boshlash» ni bosing — davomat shu paytdan hisoblanadi.</value>
+  </data>
+  <data name="lv.all" xml:space="preserve">
+    <value>Hammasi</value>
+  </data>
+  <data name="lv.inRoom" xml:space="preserve">
+    <value>Hozir darsda</value>
+  </data>
+  <data name="lv.activity" xml:space="preserve">
+    <value>Kirish-chiqish lentasi</value>
+  </data>
+  <data name="lv.activityEmpty" xml:space="preserve">
+    <value>Kim kirsa yoki chiqsa — shu yerda ko'rinadi</value>
+  </data>
+  <data name="lv.print" xml:space="preserve">
+    <value>Chop etish</value>
+  </data>
+  <data name="lv.rAttendees" xml:space="preserve">
+    <value>Qatnashganlar</value>
+  </data>
+  <data name="lv.rAvg" xml:space="preserve">
+    <value>O'rtacha qatnashish</value>
+  </data>
+  <data name="lv.rTimeline" xml:space="preserve">
+    <value>Tomoshabinlar soni</value>
+  </data>
+  <data name="lv.rTimelineSub" xml:space="preserve">
+    <value>Dars davomida har lahzada nechta o'quvchi darsda bo'lgan</value>
+  </data>
+  <data name="lv.rTable" xml:space="preserve">
+    <value>O'quvchilar bo'yicha</value>
+  </data>
+  <data name="lv.rScoreHint" xml:space="preserve">
+    <value>Faollik bahosi: qatnashgan vaqt (70%) + savollar (30%).</value>
+  </data>
+  <data name="lv.rJoined" xml:space="preserve">
+    <value>Kirdi</value>
+  </data>
+  <data name="lv.rLeft" xml:space="preserve">
+    <value>Chiqdi</value>
+  </data>
+  <data name="lv.rTime" xml:space="preserve">
+    <value>Qatnashish</value>
+  </data>
+  <data name="lv.rSessions" xml:space="preserve">
+    <value>Kirishlar</value>
+  </data>
+  <data name="lv.rScore" xml:space="preserve">
+    <value>Faollik</value>
+  </data>
+  <data name="lv.rQuestions" xml:space="preserve">
+    <value>Barcha savollar</value>
+  </data>
+  <data name="lv.rAbsent" xml:space="preserve">
+    <value>Qatnashmaganlar</value>
+  </data>
+  <data name="lv.teacherConnecting" xml:space="preserve">
+    <value>O'qituvchi efirni ulamoqda…</value>
+  </data>
+  <data name="lv.teacherConnectingSub" xml:space="preserve">
+    <value>Kamera yoki ekran ulanishi bilan dars shu yerda ko'rinadi.</value>
+  </data>
+  <data name="lv.unmute" xml:space="preserve">
+    <value>Ovozni yoqish</value>
+  </data>
+  <data name="lv.unsupported" xml:space="preserve">
+    <value>Brauzeringiz efirni ko'rsata olmaydi. Iltimos, Google Chrome yoki Microsoft Edge'ning yangi versiyasidan foydalaning.</value>
+  </data>
+  <data name="lv.bcTitle" xml:space="preserve">
+    <value>Efir (sayt ichida)</value>
+  </data>
+  <data name="lv.bcOff" xml:space="preserve">
+    <value>Efir uzatilmayapti</value>
+  </data>
+  <data name="lv.bcOn" xml:space="preserve">
+    <value>Efirdasiz</value>
+  </data>
+  <data name="lv.bcError" xml:space="preserve">
+    <value>Xatolik — qayta urinib ko'ring</value>
+  </data>
+  <data name="lv.bcDenied" xml:space="preserve">
+    <value>Kamera/mikrofonga ruxsat berilmadi</value>
+  </data>
+  <data name="lv.bcUnsupported" xml:space="preserve">
+    <value>Bu brauzer efir uzata olmaydi — Chrome yoki Edge'dan foydalaning</value>
+  </data>
+  <data name="lv.bcChoose" xml:space="preserve">
+    <value>Kamera yoki ekranni tanlang — efir o'quvchilarga darhol boradi</value>
+  </data>
+  <data name="lv.bcStartFirst" xml:space="preserve">
+    <value>Avval «Efirni boshlash» ni bosing, keyin kamera yoki ekranni ulang</value>
+  </data>
+  <data name="lv.bcCamera" xml:space="preserve">
+    <value>Kamera</value>
+  </data>
+  <data name="lv.bcScreen" xml:space="preserve">
+    <value>Ekran</value>
+  </data>
+  <data name="lv.bcMic" xml:space="preserve">
+    <value>Mikrofon</value>
+  </data>
+  <data name="lv.bcQuality" xml:space="preserve">
+    <value>Sifat</value>
+  </data>
+  <data name="lv.bcStop" xml:space="preserve">
+    <value>To'xtatish</value>
+  </data>
+  <data name="lv.bcSlow" xml:space="preserve">
+    <value>Internet sekin — sifatni pasaytiring</value>
+  </data>
+  <data name="lv.bcHint" xml:space="preserve">
+    <value>Efir yozib olinmaydi va yuklab olinmaydi. O'quvchilar ekranida ularning login va telefoni suv belgisi bo'lib turadi. Ekran ulashishda dars slaydlari yoki savollarni ko'rsatishingiz mumkin; mikrofon ovozi qo'shiladi.</value>
+  </data>
 </root>

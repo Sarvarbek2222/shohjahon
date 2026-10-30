@@ -1,4 +1,5 @@
 @model LessonEditModel
+@inject Microsoft.AspNetCore.DataProtection.IDataProtectionProvider Dp
 @{
     Layout = "_AdminLayout";
     ViewData["TitleKey"] = "ls.adminTitle";
@@ -32,7 +33,7 @@
     <form method="post" action="/Lessons/Save" id="lessonForm">
         @Html.AntiForgeryToken()
         <input type="hidden" name="topic" value="@t" />
-        <input type="hidden" name="videoRef" id="videoRef" value="@(isYt ? "" : l.VideoRef)" />
+        <input type="hidden" name="videoRef" id="videoRef" value="@(isYt ? "" : l.VideoRef)" data-url="@(!isYt && l.HasVideo ? MediaController.VideoUrl(Dp, User, l.VideoRef!) : "")" />
         <input type="hidden" name="durationSeconds" id="durationSeconds" value="@l.DurationSeconds" />
 
         <div class="ae-layout">
@@ -159,7 +160,7 @@
         function buildPreview() {
             var wrap = document.getElementById("previewWrap"), box = document.getElementById("preview");
             var k = kind(), opt = null;
-            if (k === "file" && refEl.value) opt = { kind: "file", src: "/uploads/videos/" + refEl.value };
+            if (k === "file" && refEl.value && refEl.dataset.url) opt = { kind: "file", src: refEl.dataset.url };
             if (k === "youtube" && ytId(document.getElementById("ytUrl").value)) opt = { kind: "youtube", ytId: ytId(document.getElementById("ytUrl").value) };
             var fresh = document.createElement("div");
             fresh.id = "preview";
@@ -263,6 +264,7 @@
                 fd2.append("id", id); fd2.append("name", file.name); fd2.append("size", file.size);
                 var res = await send("/Lessons/UploadComplete", fd2);
                 refEl.value = res.name;
+                refEl.dataset.url = res.url;
                 stat.textContent = "✓ " + I18n.t("ls.uploaded");
                 buildPreview();
             } catch (e) {

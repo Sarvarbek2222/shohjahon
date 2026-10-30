@@ -1,0 +1,101 @@
+@model LiveLesson
+@* Dars hisoboti: kim kirdi, qachon kirdi-chiqdi, qancha qatnashdi, savollari, faollik bahosi; kelmaganlar; tomoshabinlar grafigi *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "lv.report";
+    ViewData["Title"] = L["lv.report"];
+    var r = (LiveReport)ViewBag.Report;
+    var qs = (List<LiveQuestionRow>)ViewBag.QuestionsList;
+    string Iso(DateTime d) => DateTime.SpecifyKind(d, DateTimeKind.Utc).ToString("o");
+    var max = Math.Max(1, r.Timeline.DefaultIfEmpty(0).Max());
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
+    int n = Math.Max(2, r.Timeline.Count);
+    string pts = string.Join(" ", r.Timeline.Select((v, i) => $"{(i * 1000.0 / (n - 1)).ToString("0.#", inv)},{(200 - v * 180.0 / max).ToString("0.#", inv)}"));
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/live.css" asp-append-version="true" />
+
+<div class="ca-body-embed">
+    <div class="ca-page-head">
+        <div>
+            <a class="ca-link" href="/Live/Manage">← <span data-i18n="lv.adminTitle">@L["lv.adminTitle"]</span></a>
+            <h1 class="ca-h1" style="margin-top:6px;">@Model.Title</h1>
+            <p class="ca-sub"><span data-utc="@Iso(Model.StartedAt ?? Model.StartsAt)"></span> · @r.DurationMinutes <span data-i18n="lv.min">@L["lv.min"]</span></p>
+        </div>
+        <button type="button" class="ca-btn ca-btn-ghost" onclick="window.print()">🖨 <span data-i18n="lv.print">@L["lv.print"]</span></button>
+    </div>
+
+    <div class="ca-grid ca-grid-kpi">
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon brand">@Icons.Users</div><div><div class="ca-kpi-label" data-i18n="lv.rAttendees">@L["lv.rAttendees"]</div><div class="ca-kpi-value">@r.Attendees <small>/ @(r.Attendees + r.Absent.Count)</small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon ok">@Icons.Flame</div><div><div class="ca-kpi-label" data-i18n="lv.peak">@L["lv.peak"]</div><div class="ca-kpi-value">@Model.PeakViewers</div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon info">@Icons.Clock</div><div><div class="ca-kpi-label" data-i18n="lv.rAvg">@L["lv.rAvg"]</div><div class="ca-kpi-value">@r.AvgMinutes <small data-i18n="lv.min">@L["lv.min"]</small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon warn">@Icons.List</div><div><div class="ca-kpi-label" data-i18n="lv.questions">@L["lv.questions"]</div><div class="ca-kpi-value">@r.Questions <small>✓ @r.Answered</small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon brand">@Icons.Sparkles</div><div><div class="ca-kpi-label" data-i18n="lv.reactions">@L["lv.reactions"]</div><div class="ca-kpi-value">@Model.Reactions</div></div></div></div>
+    </div>
+
+    <div class="ca-card ca-section">
+        <div class="ca-card-head">
+            <div><h3 class="ca-card-title" data-i18n="lv.rTimeline">@L["lv.rTimeline"]</h3><p class="ca-card-sub" data-i18n="lv.rTimelineSub">@L["lv.rTimelineSub"]</p></div>
+        </div>
+        <svg class="lr-chart" viewBox="0 0 1000 210" preserveAspectRatio="none" role="img" aria-label="@L["lv.rTimeline"]">
+            <defs><linearGradient id="lrg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff2d4a" stop-opacity=".45" /><stop offset="1" stop-color="#ff2d4a" stop-opacity="0" /></linearGradient></defs>
+            <line x1="0" y1="20" x2="1000" y2="20" class="lr-grid" /><line x1="0" y1="110" x2="1000" y2="110" class="lr-grid" /><line x1="0" y1="200" x2="1000" y2="200" class="lr-grid" />
+            @if (r.Timeline.Count > 1)
+            {
+                <polygon points="0,200 @pts 1000,200" fill="url(#lrg)" />
+                <polyline points="@pts" class="lr-line" />
+            }
+        </svg>
+        <div class="lr-axis"><span>0 @L["lv.min"]</span><span>@L["lv.peak"]: @max</span><span>@r.DurationMinutes @L["lv.min"]</span></div>
+    </div>
+
+    <div class="ca-card ca-section">
+        <div class="ca-card-head"><div><h3 class="ca-card-title" data-i18n="lv.rTable">@L["lv.rTable"]</h3><p class="ca-card-sub" data-i18n="lv.rScoreHint">@L["lv.rScoreHint"]</p></div></div>
+        <div style="overflow-x:auto;">
+            <table class="ca-table lr-table">
+                <thead><tr>
+                    <th>#</th><th data-i18n="an.colStudent">@L["an.colStudent"]</th><th data-i18n="lv.rJoined">@L["lv.rJoined"]</th><th data-i18n="lv.rLeft">@L["lv.rLeft"]</th>
+                    <th data-i18n="lv.rTime">@L["lv.rTime"]</th><th data-i18n="lv.rSessions">@L["lv.rSessions"]</th><th data-i18n="lv.questions">@L["lv.questions"]</th><th data-i18n="lv.rScore">@L["lv.rScore"]</th>
+                </tr></thead>
+                <tbody>
+                    @{ var i = 0; }
+                    @foreach (var row in r.Rows)
+                    {
+                        i++;
+                        <tr>
+                            <td class="ca-muted">@(i <= 3 && row.Score > 0 ? (i == 1 ? "🥇" : i == 2 ? "🥈" : "🥉") : i.ToString())</td>
+                            <td><b>@row.Name</b><div class="ca-muted ca-small">@@@row.Username</div></td>
+                            <td class="nowrap">@if (row.FirstJoin is DateTime fj) { <span data-utc="@Iso(fj)" data-fmt="time"></span> } else { <span>—</span> }</td>
+                            <td class="nowrap">@if (row.LastLeave is DateTime ll) { <span data-utc="@Iso(ll)" data-fmt="time"></span> } else { <span>—</span> }</td>
+                            <td><div class="lr-share"><div class="ca-bar @Score.BarClass(row.SharePercent)" style="flex:1;"><i data-w="@row.SharePercent" style="width:@row.SharePercent%"></i></div><span class="nowrap">@row.Minutes @L["lv.min"] · @row.SharePercent%</span></div></td>
+                            <td class="num">@row.Sessions</td>
+                            <td class="num">@row.Questions @if (row.Answered > 0) { <small class="ca-muted">(✓@row.Answered)</small> }</td>
+                            <td><b style="color:@Score.Color(row.Score)">@row.Score</b></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="ca-grid ca-grid-2 ca-section">
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title"><span data-i18n="lv.rQuestions">@L["lv.rQuestions"]</span> · @qs.Count</h3></div>
+            @if (!qs.Any()) { <p class="ca-muted" data-i18n="lv.noQuestions">@L["lv.noQuestions"]</p> }
+            <div class="lr-qs">
+                @foreach (var q in qs)
+                {
+                    <div class="lr-q lr-q-@q.Status"><div class="lr-q-top"><b>@q.Name</b><span class="ca-muted ca-small" data-utc="@Iso(q.At)" data-fmt="time"></span><span class="lr-q-st" data-i18n="lv.qs_@q.Status">@L["lv.qs_" + q.Status]</span></div><p>@q.Text</p></div>
+                }
+            </div>
+        </div>
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title"><span data-i18n="lv.rAbsent">@L["lv.rAbsent"]</span> · @r.Absent.Count</h3></div>
+            <div class="lr-absent">
+                @foreach (var a in r.Absent) { <span>@a</span> }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/live.js" asp-append-version="true"></script>

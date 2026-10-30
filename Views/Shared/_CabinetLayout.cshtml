@@ -1,7 +1,10 @@
 ﻿@* Foydalanuvchi kabineti: chap sidebar + yuqori panel (til, profil). Mobil ekranda sidebar chiqib keladigan menyu. *@
 @{
     var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
-    string Active(params string[] actions) => actions.Contains(action, StringComparer.OrdinalIgnoreCase) ? "active" : "";
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    // Faqat kabinet sahifalari (Mavzular/Jonli darslar ham "Index" — ular o'z bandini belgilaydi)
+    string Active(params string[] actions) =>
+        controller.Equals("Cabinet", StringComparison.OrdinalIgnoreCase) && actions.Contains(action, StringComparer.OrdinalIgnoreCase) ? "active" : "";
     var activeMistakes = ViewData["ActiveMistakes"] as int? ?? 0;
 }
 <!DOCTYPE html>
@@ -52,8 +55,11 @@
             <a class="ca-nav-link" asp-controller="Test" asp-action="Index">
                 @Icons.Target <span data-i18n="nav.real">@L["nav.real"]</span>
             </a>
-            <a class="ca-nav-link" asp-controller="Topic" asp-action="Index">
+            <a class="ca-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Topic" ? "active" : "")" asp-controller="Topic" asp-action="Index">
                 @Icons.Book <span data-i18n="nav.topics">@L["nav.topics"]</span>
+            </a>
+            <a class="ca-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Live" ? "active" : "")" asp-controller="Live" asp-action="Index">
+                @Icons.Play <span data-i18n="lv.title">@L["lv.title"]</span>
             </a>
         </nav>
 

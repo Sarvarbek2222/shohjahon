@@ -30,7 +30,15 @@
         return I18n.t("pres.dayAgo", { n: Math.floor(h / 24) });
     }
 
-    function text(n) { return I18n.t("notif." + n.kind, n.args || {}); }
+    function text(n) {
+        var args = Object.assign({}, n.args || {});
+        // Vaqt UTC da keladi — foydalanuvchining mahalliy vaqtida ko'rsatamiz
+        if (args.at) {
+            var d = new Date(args.at), p = function (x) { return (x < 10 ? "0" : "") + x; };
+            if (!isNaN(d)) args.when = p(d.getDate()) + "." + p(d.getMonth() + 1) + " " + p(d.getHours()) + ":" + p(d.getMinutes());
+        }
+        return I18n.t("notif." + n.kind, args);
+    }
 
     function post(url) {
         return fetch(url, {

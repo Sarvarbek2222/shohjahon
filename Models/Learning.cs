@@ -103,6 +103,7 @@ public class LiveLesson
     public string Status { get; set; } = LiveStatus.Scheduled;
 
     public bool QuestionsEnabled { get; set; } = true;
+
     public DateTime? StartedAt { get; set; }
     public DateTime? EndedAt { get; set; }
     public int PeakViewers { get; set; }
