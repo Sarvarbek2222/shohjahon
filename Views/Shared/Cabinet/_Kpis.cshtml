@@ -42,7 +42,7 @@
             <div class="ca-kpi-icon info">@Icons.Clock</div>
             <div>
                 <div class="ca-kpi-label" data-i18n="cab.studyTime">@L["cab.studyTime"]</div>
-                <div class="ca-kpi-value" style="font-size:1.3rem;">@L.Duration(Model.StudyMinutes)</div>
+                <div class="ca-kpi-value" style="font-size:1.3rem;">@(Model.StudySeconds is > 0 and < 60 ? L.F("cab.durS", ("s", Model.StudySeconds)) : L.Duration(Model.StudyMinutes))</div>
             </div>
         </div>
     </div>

@@ -2035,7 +2035,7 @@
     <value>ishlangan vaqt (30 kunda)</value>
   </data>
   <data name="cab.pcTipTime" xml:space="preserve">
-    <value>ishlangan vaqt: {time}</value>
+    <value>Ishlangan vaqt: {time}</value>
   </data>
   <data name="cab.pcLegendTime" xml:space="preserve">
     <value>Kun ostidagi ko'k raqam — o'sha kuni ishlangan vaqt (soat:daqiqa)</value>
@@ -2078,5 +2078,11 @@
   </data>
   <data name="pres.offline" xml:space="preserve">
     <value>Oflayn</value>
+  </data>
+  <data name="cab.durS" xml:space="preserve">
+    <value>{s} soniya</value>
+  </data>
+  <data name="cab.durSShort" xml:space="preserve">
+    <value>{s}s</value>
   </data>
 </root>

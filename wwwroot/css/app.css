@@ -762,7 +762,7 @@
 .pc-col.today .pc-day { background: var(--ca-brand); color: #fff; }
 .pc-month { height: 15px; margin-top: 2px; font-size: .62rem; font-weight: 700; color: var(--ca-faint); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
 .pc-time { height: 14px; margin-top: 3px; font-size: .62rem; font-weight: 700; color: #7dd3fc; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.pc-tip .pc-tip-time { display: block; margin-top: 4px; color: #bae6fd; }
+.pc-tip .pc-tip-time { display: block; margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,.08); color: #7dd3fc; font-weight: 700; }
 .pc-summary .pc-time-tile b { color: #7dd3fc; }
 .pc-tip {
     position: absolute; top: 4px; left: 50%; transform: translateX(-50%); z-index: 5; width: max-content; max-width: 200px;

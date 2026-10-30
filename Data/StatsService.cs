@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 /// <summary>
@@ -201,7 +201,8 @@ public class StatsService
         s.TotalCorrect = answered.Count(x => x.IsCorrect);
         s.Accuracy = s.TotalAnswered > 0 ? (double)s.TotalCorrect / s.TotalAnswered : 0;
         s.AveragePercent = main.Count > 0 ? main.Average(a => a.Percent) : 0;
-        s.StudyMinutes = (int)attempts.Sum(a => Math.Clamp((a.FinishedAt - a.StartedAt).TotalMinutes, 0, 180));
+        s.StudySeconds = (int)Math.Round(attempts.Sum(a => Math.Clamp((a.FinishedAt - a.StartedAt).TotalSeconds, 0, 180 * 60)));
+        s.StudyMinutes = s.StudySeconds / 60;
 
         var recent = answered.Take(200).ToList();
         s.RecentAccuracy = recent.Count > 0 ? (double)recent.Count(x => x.IsCorrect) / recent.Count : 0;
@@ -249,13 +250,13 @@ public class StatsService
         // Kunlik taraqqiyot (oxirgi 30 kun)
         var byDay = answered.GroupBy(x => x.FinishedAt.ToLocalTime().Date)
             .ToDictionary(g => g.Key, g => (Count: g.Count(), Correct: g.Count(x => x.IsCorrect)));
-        // Har kuni ishlangan vaqt: testlar davomiyligi yig'indisi (bitta test ko'pi bilan 180 daqiqa hisoblanadi)
-        var minutesByDay = attempts.GroupBy(a => a.FinishedAt.ToLocalTime().Date)
-            .ToDictionary(g => g.Key, g => (int)Math.Round(g.Sum(a => Math.Clamp((a.FinishedAt - a.StartedAt).TotalMinutes, 0, 180))));
+        // Har kuni ishlangan vaqt (soniya): testlar davomiyligi yig'indisi (bitta test ko'pi bilan 180 daqiqa hisoblanadi)
+        var secondsByDay = attempts.GroupBy(a => a.FinishedAt.ToLocalTime().Date)
+            .ToDictionary(g => g.Key, g => (int)Math.Round(g.Sum(a => Math.Clamp((a.FinishedAt - a.StartedAt).TotalSeconds, 0, 180 * 60))));
         var localToday = DateTime.Now.Date;
         s.Daily = Enumerable.Range(0, 30).Select(i => localToday.AddDays(i - 29))
             .Select(d => (byDay.TryGetValue(d, out var v) ? new DayStat(d, v.Count, v.Correct) : new DayStat(d, 0, 0))
-                with { Minutes = minutesByDay.GetValueOrDefault(d) })
+                with { Seconds = secondsByDay.GetValueOrDefault(d) })
             .ToList();
 
         // Faol kunlar ketma-ketligi
@@ -370,6 +371,8 @@ public class UserStats
     public double? AccuracyTrend { get; set; }
     public double AveragePercent { get; set; }
     public int StudyMinutes { get; set; }
+    /// <summary>Jami ishlangan vaqt (soniya) — bir daqiqadan kam bo'lsa soniyalarda ko'rsatiladi.</summary>
+    public int StudySeconds { get; set; }
     public int StreakDays { get; set; }
 
     public List<TypeStat> ByType { get; set; } = new();
@@ -427,8 +430,9 @@ public record TopicStat(string Topic, int Answered, int Correct)
 
 public record DayStat(DateTime Date, int Answered, int Correct)
 {
-    /// <summary>O'sha kuni test ishlashga ketgan vaqt (daqiqa).</summary>
-    public int Minutes { get; init; }
+    /// <summary>O'sha kuni test ishlashga ketgan vaqt (soniya).</summary>
+    public int Seconds { get; init; }
+    public int Minutes => (int)Math.Round(Seconds / 60.0);
 
     public double Accuracy => Answered > 0 ? (double)Correct / Answered : 0;
 }

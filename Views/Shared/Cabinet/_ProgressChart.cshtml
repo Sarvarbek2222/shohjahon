@@ -16,12 +16,22 @@
     int activeDays = days.Count(d => d.Answered > 0);
     var best = days.Where(d => d.Answered > 0).OrderByDescending(d => d.Answered).FirstOrDefault();
     var today = DateTime.Now.Date;
-    int totalMinutes = days.Sum(d => d.Minutes);
-    // Davomiylik: "1 soat 25 daqiqa" / "40 daqiqa" (ustun ostida qisqa: "1:25")
-    string Dur(int min) => min >= 60
-        ? (min % 60 == 0 ? L.F("cab.durH", ("h", min / 60)) : L.F("cab.durHM", ("h", min / 60), ("m", min % 60)))
-        : L.F("cab.durM", ("m", min));
-    string Short(int min) => min >= 60 ? $"{min / 60}:{min % 60:00}" : L.F("cab.durMShort", ("m", min));
+    int totalSeconds = days.Sum(d => d.Seconds);
+    // Davomiylik: "1 soat 25 daqiqa" / "40 daqiqa" / "29 soniya" (ustun ostida qisqa: "1:25", "40d", "29s")
+    string Dur(int sec)
+    {
+        if (sec < 60) return L.F("cab.durS", ("s", sec));
+        int min = (int)Math.Round(sec / 60.0);
+        return min >= 60
+            ? (min % 60 == 0 ? L.F("cab.durH", ("h", min / 60)) : L.F("cab.durHM", ("h", min / 60), ("m", min % 60)))
+            : L.F("cab.durM", ("m", min));
+    }
+    string Short(int sec)
+    {
+        if (sec < 60) return L.F("cab.durSShort", ("s", sec));
+        int min = (int)Math.Round(sec / 60.0);
+        return min >= 60 ? $"{min / 60}:{min % 60:00}" : L.F("cab.durMShort", ("m", min));
+    }
 }
 <div class="ca-card pc-card">
     <div class="ca-card-head">
@@ -41,7 +51,7 @@
             <div><b>@total</b><span data-i18n="cab.pcAnswers">@L["cab.pcAnswers"]</span></div>
             <div><b style="color:@Score.Color(100.0 * correct / total)">@Score.Pct((double)correct / total)%</b><span data-i18n="cab.pcCorrect">@L["cab.pcCorrect"]</span></div>
             <div><b>@activeDays<small> / 30</small></b><span data-i18n="cab.pcActiveDays">@L["cab.pcActiveDays"]</span></div>
-            <div class="pc-time-tile"><b>@(totalMinutes > 0 ? Dur(totalMinutes) : "—")</b><span data-i18n="cab.pcTotalTime">@L["cab.pcTotalTime"]</span></div>
+            <div class="pc-time-tile"><b>@(totalSeconds > 0 ? Dur(totalSeconds) : "—")</b><span data-i18n="cab.pcTotalTime">@L["cab.pcTotalTime"]</span></div>
             @if (best != null)
             {
                 <div><b>@best.Answered</b><span>@L.F("cab.pcBestDay", ("date", best.Date.ToString("d MMMM")))</span></div>
@@ -66,7 +76,8 @@
                         var tip = d.Answered > 0
                             ? L.F("cab.pcTip", ("date", dateText), ("n", d.Answered), ("ok", d.Correct), ("bad", wrong), ("pct", Score.Pct(d.Accuracy)))
                             : L.F("cab.pcTipEmpty", ("date", dateText));
-                        var timeTip = d.Minutes > 0 ? L.F("cab.pcTipTime", ("time", Dur(d.Minutes))) : "";
+                        // Javob berilgan har bir kunda ishlangan vaqt ko'rsatiladi (qisqa test bo'lsa ham — soniyalarda)
+                        var timeTip = d.Answered > 0 || d.Seconds > 0 ? L.F("cab.pcTipTime", ("time", Dur(d.Seconds))) : "";
                         <button type="button" class="pc-col @(isToday ? "today" : "") @(d.Answered == 0 ? "empty" : "") @(i < 4 ? "left" : i > days.Count - 5 ? "right" : "")" aria-label="@tip @timeTip">
                             <span class="pc-plot">
                                 @if (d.Answered > 0)
@@ -79,7 +90,7 @@
                                 }
                             </span>
                             <span class="pc-day">@d.Date.Day</span>
-                            <span class="pc-time">@(d.Minutes > 0 ? Short(d.Minutes) : "")</span>
+                            <span class="pc-time">@(d.Seconds > 0 ? Short(d.Seconds) : "")</span>
                             <span class="pc-month">@(newMonth ? d.Date.ToString("MMM") : "")</span>
                             <span class="pc-tip" role="tooltip">@tip@if (timeTip != "") {<span class="pc-tip-time">⏱ @timeTip</span>}</span>
                         </button>

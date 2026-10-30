@@ -190,7 +190,7 @@ namespace propro.Controllers.Api
                     studyTime = l.Duration(s.StudyMinutes),
                     s.StreakDays,
                 },
-                daily = s.Daily.Select(d => new { date = d.Date.ToString("dd.MM"), d.Answered, accuracy = d.Accuracy, minutes = d.Minutes }),
+                daily = s.Daily.Select(d => new { date = d.Date.ToString("dd.MM"), d.Answered, accuracy = d.Accuracy, minutes = d.Minutes, seconds = d.Seconds }),
                 recent = s.Attempts.Take(5).Select(a => AttemptRow(a, l)),
                 weakTopics = s.WeakTopics.Select(t => TopicRow(t, l)),
                 topics = s.Topics.OrderBy(t => t.Answered == 0).ThenBy(t => t.Accuracy).Select(t => TopicRow(t, l)),

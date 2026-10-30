@@ -2035,7 +2035,7 @@
     <value>время занятий (за 30 дней)</value>
   </data>
   <data name="cab.pcTipTime" xml:space="preserve">
-    <value>время занятий: {time}</value>
+    <value>Время занятий: {time}</value>
   </data>
   <data name="cab.pcLegendTime" xml:space="preserve">
     <value>Синее число под днём — время занятий в этот день (ч:мин)</value>
@@ -2078,5 +2078,11 @@
   </data>
   <data name="pres.offline" xml:space="preserve">
     <value>Офлайн</value>
+  </data>
+  <data name="cab.durS" xml:space="preserve">
+    <value>{s} сек</value>
+  </data>
+  <data name="cab.durSShort" xml:space="preserve">
+    <value>{s}с</value>
   </data>
 </root>
