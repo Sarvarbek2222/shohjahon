@@ -1,5 +1,5 @@
 @model CabinetModel
-@* Tahlil: AI tahlili, tavsiyalar, tayyorlik tarkibi, barcha mavzular bo'yicha natijalar *@
+@* Tahlil: aqlli tahlil (tavsiyalar), tayyorlik tarkibi, barcha mavzular bo'yicha natijalar *@
 @{
     var s = Model.Stats;
     var aiUrl = Model.IsAdminView ? $"/Analytics/Ai/{s.User.Id}" : "/Cabinet/Ai";
@@ -22,10 +22,6 @@
                     </button>
                 }
             </div>
-            @if (!Model.AiEnabled)
-            {
-                <p class="ca-muted ca-small" style="margin:0 0 12px;" data-i18n="cab.aiDisabled">@L["cab.aiDisabled"]</p>
-            }
             <div class="ca-ai-loading"><span class="ca-spinner"></span><span data-i18n="cab.aiLoading">@L["cab.aiLoading"]</span></div>
             <div class="ca-ai-text" id="aiText" hidden></div>
             <p class="ca-small" id="aiError" style="color:#f87171;margin:0;" hidden data-i18n="cab.aiError">@L["cab.aiError"]</p>

@@ -14,6 +14,14 @@ public class AppDbContext : DbContext
     public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<QuestionTopic> QuestionTopics { get; set; }
+    public DbSet<TopicLesson> TopicLessons { get; set; }
+    public DbSet<TopicLessonChapter> TopicLessonChapters { get; set; }
+    public DbSet<TopicLessonProgress> TopicLessonProgress { get; set; }
+    public DbSet<LiveLesson> LiveLessons { get; set; }
+    public DbSet<LiveAttendance> LiveAttendance { get; set; }
+    public DbSet<LiveQuestion> LiveQuestions { get; set; }
+    public DbSet<UserNotification> Notifications { get; set; }
+    public DbSet<DailyReport> DailyReports { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,6 +68,48 @@ public class AppDbContext : DbContext
         });
 
         modelBuilder.Entity<SubscriptionPlan>(b => b.ToTable("SubscriptionPlans"));
+
+        // Video darslar, jonli darslar, bildirishnomalar, kunlik hisobot (jadvallarni DbUpgrade yaratadi)
+        modelBuilder.Entity<TopicLesson>(b =>
+        {
+            b.ToTable("TopicLessons");
+            b.HasIndex(x => x.Topic).IsUnique();
+            b.Ignore(x => x.HasVideo);
+            b.HasMany(x => x.Chapters).WithOne().HasForeignKey(c => c.LessonId).OnDelete(DeleteBehavior.Cascade);
+        });
+        modelBuilder.Entity<TopicLessonChapter>(b => b.ToTable("TopicLessonChapters"));
+        modelBuilder.Entity<TopicLessonProgress>(b =>
+        {
+            b.ToTable("TopicLessonProgress");
+            b.HasIndex(x => new { x.LessonId, x.UserId }).IsUnique();
+            b.Ignore(x => x.WatchedShare);
+        });
+        modelBuilder.Entity<LiveLesson>(b =>
+        {
+            b.ToTable("LiveLessons");
+            b.Ignore(x => x.PlannedEnd);
+        });
+        modelBuilder.Entity<LiveAttendance>(b =>
+        {
+            b.ToTable("LiveAttendance");
+            b.HasIndex(x => new { x.LessonId, x.UserId });
+        });
+        modelBuilder.Entity<LiveQuestion>(b =>
+        {
+            b.ToTable("LiveQuestions");
+            b.HasIndex(x => new { x.LessonId, x.CreatedAt });
+        });
+        modelBuilder.Entity<UserNotification>(b =>
+        {
+            b.ToTable("UserNotifications");
+            b.HasIndex(x => new { x.UserId, x.ReadAt });
+            b.HasIndex(x => new { x.UserId, x.CreatedAt });
+        });
+        modelBuilder.Entity<DailyReport>(b =>
+        {
+            b.ToTable("DailyReports");
+            b.HasIndex(x => x.Day).IsUnique();
+        });
 
         modelBuilder.Entity<Payment>(b =>
         {

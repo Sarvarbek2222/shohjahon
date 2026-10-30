@@ -41,9 +41,14 @@ public class StatsService
     /// Admin tahlili (o'quvchilar ro'yxati va umumiy statistika) uchun javoblar jadvali bir marta guruhlab o'qiladi
     /// va qisqa muddat keshlanadi.
     /// </summary>
+    /// <summary>true — keyingi hisob keshni chetlab o'tib bazadan yangi o'qiydi (fondagi tahlil yangilanishi uchun).</summary>
+    public bool BypassAnswerCache { get; set; }
+
     private async Task<List<AnswerAgg>> AnswerAggregatesAsync()
     {
-        if (_cache.TryGetValue(AnswerAggKey, out List<AnswerAgg>? cached) && cached != null) return cached;
+        var bypass = BypassAnswerCache;
+        BypassAnswerCache = false;
+        if (!bypass && _cache.TryGetValue(AnswerAggKey, out List<AnswerAgg>? cached) && cached != null) return cached;
         var rows = await _db.TestAnswers.AsNoTracking()
             .Where(x => x.SelectedOptionId != null)
             .GroupBy(x => new { x.Attempt!.UserId, x.QuestionId, x.IsCorrect })

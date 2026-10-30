@@ -967,7 +967,7 @@
     <value>1350+ официальных экзаменационных вопросов</value>
   </data>
   <data name="login.feature2" xml:space="preserve">
-    <value>Работа над ошибками и AI-анализ</value>
+    <value>Работа над ошибками и умный анализ</value>
   </data>
   <data name="login.feature3" xml:space="preserve">
     <value>Прогноз готовности к экзамену</value>
@@ -1204,22 +1204,22 @@
     <value>Рекомендации</value>
   </data>
   <data name="cab.aiTitle" xml:space="preserve">
-    <value>AI-анализ</value>
+    <value>Умный анализ</value>
   </data>
   <data name="cab.aiButton" xml:space="preserve">
-    <value>Получить AI-анализ</value>
+    <value>Подробный анализ</value>
   </data>
   <data name="cab.aiLoading" xml:space="preserve">
-    <value>AI анализирует ваши результаты...</value>
+    <value>Анализируем ваши результаты...</value>
   </data>
   <data name="cab.aiError" xml:space="preserve">
-    <value>Не удалось получить AI-анализ. Попробуйте позже.</value>
+    <value>Не удалось получить анализ. Попробуйте позже.</value>
   </data>
   <data name="cab.aiDisabled" xml:space="preserve">
-    <value>AI-анализ ещё не настроен — ниже показаны рекомендации встроенного анализа.</value>
+    <value></value>
   </data>
   <data name="cab.aiHint" xml:space="preserve">
-    <value>Персональные рекомендации на основе ваших результатов (Claude AI).</value>
+    <value>Персональные рекомендации на основе ваших результатов.</value>
   </data>
   <data name="insight.start" xml:space="preserve">
     <value>Пройдите первый тест — после этого появится персональный анализ.</value>
@@ -2084,5 +2084,56 @@
   </data>
   <data name="cab.durSShort" xml:space="preserve">
     <value>{s}с</value>
+  </data>
+  <data name="rc.passed" xml:space="preserve">
+    <value>Поздравляем, сдано!</value>
+  </data>
+  <data name="rc.failed" xml:space="preserve">
+    <value>В этот раз не сдано</value>
+  </data>
+  <data name="rc.sub" xml:space="preserve">
+    <value>{correct} из {total} верных ответов</value>
+  </data>
+  <data name="rc.correct" xml:space="preserve">
+    <value>Верно</value>
+  </data>
+  <data name="rc.wrong" xml:space="preserve">
+    <value>Ошибки</value>
+  </data>
+  <data name="rc.skipped" xml:space="preserve">
+    <value>Без ответа</value>
+  </data>
+  <data name="notif.title" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="notif.readAll" xml:space="preserve">
+    <value>Отметить все прочитанными</value>
+  </data>
+  <data name="notif.liveNow" xml:space="preserve">
+    <value>Сейчас в эфире:</value>
+  </data>
+  <data name="notif.empty" xml:space="preserve">
+    <value>Пока нет уведомлений</value>
+  </data>
+  <data name="notif.enablePush" xml:space="preserve">
+    <value>🔔 Включить уведомления браузера</value>
+  </data>
+  <data name="notif.liveCall" xml:space="preserve">
+    <value>Прямой эфир: {title}</value>
+  </data>
+  <data name="notif.join" xml:space="preserve">
+    <value>Присоединиться</value>
+  </data>
+  <data name="notif.liveScheduled" xml:space="preserve">
+    <value>Новый живой урок: «{title}» — {when}</value>
+  </data>
+  <data name="notif.liveReminder" xml:space="preserve">
+    <value>Живой урок «{title}» начнётся через 15 минут</value>
+  </data>
+  <data name="notif.liveStarted" xml:space="preserve">
+    <value>Живой урок «{title}» начался — присоединяйтесь!</value>
+  </data>
+  <data name="notif.lessonNew" xml:space="preserve">
+    <value>Новый видеоурок по теме «{topicRu}»</value>
   </data>
 </root>

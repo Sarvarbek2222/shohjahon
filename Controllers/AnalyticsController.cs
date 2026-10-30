@@ -20,17 +20,13 @@ public class AnalyticsController : Controller
         _ai = ai;
     }
 
-    public async Task<IActionResult> Index([FromServices] PresenceTracker presence)
+    public async Task<IActionResult> Index([FromServices] PresenceTracker presence, [FromServices] AnalyticsSnapshot snapshot, bool refresh = false)
     {
         ViewBag.Presence = presence;
-        var model = new AnalyticsModel
-        {
-            Platform = await _stats.GetPlatformStatsAsync(),
-            Students = (await _stats.GetStudentSummariesAsync())
-                .OrderByDescending(s => s.LastActivity ?? DateTime.MinValue)
-                .ThenBy(s => s.User.Username)
-                .ToList(),
-        };
+        // Ma'lumot fonda tayyorlab qo'yiladi — sahifa darhol ochiladi ("Yangilash" — hozir qayta hisoblash)
+        var data = await snapshot.GetAsync(force: refresh);
+        ViewBag.BuiltAt = data.BuiltAt;
+        var model = new AnalyticsModel { Platform = data.Platform, Students = data.Students };
         return View(model);
     }
 

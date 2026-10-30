@@ -267,9 +267,9 @@ namespace propro.Controllers.Api
         [HttpGet("analytics")]
         public async Task<IActionResult> Analytics()
         {
-            var p = await _stats.GetPlatformStatsAsync();
-            var students = (await _stats.GetStudentSummariesAsync())
-                .OrderByDescending(s => s.LastActivity ?? DateTime.MinValue).ThenBy(s => s.User.Username).ToList();
+            var data = await HttpContext.RequestServices.GetRequiredService<AnalyticsSnapshot>().GetAsync();
+            var p = data.Platform;
+            var students = data.Students;
             return Ok(new
             {
                 platform = new

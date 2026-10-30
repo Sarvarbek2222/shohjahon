@@ -967,7 +967,7 @@
     <value>1350+ расмий имтиҳон саволи</value>
   </data>
   <data name="login.feature2" xml:space="preserve">
-    <value>Хатолар устида ишлаш ва AI таҳлили</value>
+    <value>Хатолар устида ишлаш ва ақлли таҳлил</value>
   </data>
   <data name="login.feature3" xml:space="preserve">
     <value>Имтиҳонга тайёрлик прогнози</value>
@@ -1204,22 +1204,22 @@
     <value>Тавсиялар</value>
   </data>
   <data name="cab.aiTitle" xml:space="preserve">
-    <value>AI таҳлили</value>
+    <value>Ақлли таҳлил</value>
   </data>
   <data name="cab.aiButton" xml:space="preserve">
-    <value>AI таҳлилини олиш</value>
+    <value>Батафсил таҳлил</value>
   </data>
   <data name="cab.aiLoading" xml:space="preserve">
-    <value>AI натижаларингизни таҳлил қилмоқда...</value>
+    <value>Натижаларингиз таҳлил қилинмоқда...</value>
   </data>
   <data name="cab.aiError" xml:space="preserve">
-    <value>AI таҳлилини олиб бўлмади. Кейинроқ уриниб кўринг.</value>
+    <value>Таҳлилни олиб бўлмади. Кейинроқ уриниб кўринг.</value>
   </data>
   <data name="cab.aiDisabled" xml:space="preserve">
-    <value>AI таҳлили ҳали созланмаган — қуйида ички таҳлил тавсиялари кўрсатилган.</value>
+    <value></value>
   </data>
   <data name="cab.aiHint" xml:space="preserve">
-    <value>Натижаларингиз асосида шахсий тавсиялар (Claude AI).</value>
+    <value>Натижаларингиз асосида шахсий тавсиялар.</value>
   </data>
   <data name="insight.start" xml:space="preserve">
     <value>Биринчи тестни ишланг — шундан сўнг шахсий таҳлил пайдо бўлади.</value>
@@ -2084,5 +2084,56 @@
   </data>
   <data name="cab.durSShort" xml:space="preserve">
     <value>{s}с</value>
+  </data>
+  <data name="rc.passed" xml:space="preserve">
+    <value>Табриклаймиз, ўтдингиз!</value>
+  </data>
+  <data name="rc.failed" xml:space="preserve">
+    <value>Бу сафар ўтмади</value>
+  </data>
+  <data name="rc.sub" xml:space="preserve">
+    <value>{correct} / {total} та тўғри жавоб</value>
+  </data>
+  <data name="rc.correct" xml:space="preserve">
+    <value>Тўғри</value>
+  </data>
+  <data name="rc.wrong" xml:space="preserve">
+    <value>Хато</value>
+  </data>
+  <data name="rc.skipped" xml:space="preserve">
+    <value>Белгиланмаган</value>
+  </data>
+  <data name="notif.title" xml:space="preserve">
+    <value>Билдиришномалар</value>
+  </data>
+  <data name="notif.readAll" xml:space="preserve">
+    <value>Ҳаммасини ўқилди қилиш</value>
+  </data>
+  <data name="notif.liveNow" xml:space="preserve">
+    <value>Ҳозир жонли эфир:</value>
+  </data>
+  <data name="notif.empty" xml:space="preserve">
+    <value>Ҳозирча билдиришнома йўқ</value>
+  </data>
+  <data name="notif.enablePush" xml:space="preserve">
+    <value>🔔 Браузер билдиришномаларини ёқиш</value>
+  </data>
+  <data name="notif.liveCall" xml:space="preserve">
+    <value>Жонли эфир: {title}</value>
+  </data>
+  <data name="notif.join" xml:space="preserve">
+    <value>Қўшилиш</value>
+  </data>
+  <data name="notif.liveScheduled" xml:space="preserve">
+    <value>Янги жонли дарс: «{title}» — {when}</value>
+  </data>
+  <data name="notif.liveReminder" xml:space="preserve">
+    <value>«{title}» жонли дарси 15 дақиқадан кейин бошланади</value>
+  </data>
+  <data name="notif.liveStarted" xml:space="preserve">
+    <value>«{title}» жонли дарси бошланди — қўшилинг!</value>
+  </data>
+  <data name="notif.lessonNew" xml:space="preserve">
+    <value>«{topicUzk}» мавзусига янги видео дарс қўшилди</value>
   </data>
 </root>

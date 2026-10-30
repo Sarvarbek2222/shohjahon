@@ -29,6 +29,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ResultsService>();
 builder.Services.AddScoped<StatsService>();
+builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<AiAnalysisService>();
 
 // fetch() so'rovlari antiforgery tokenni shu sarlavhada yuboradi (AI tahlili tugmasi)
@@ -38,6 +39,9 @@ builder.Services.AddAntiforgery(o => o.HeaderName = "RequestVerificationToken");
 builder.Services.AddSingleton<ImageOptimizer>();
 builder.Services.AddSingleton<QuestionBank>();
 builder.Services.AddSingleton<PresenceTracker>();
+// Admin tahlili fonda tayyorlanadi — sahifa kutmasdan ochiladi
+builder.Services.AddSingleton<AnalyticsSnapshot>();
+builder.Services.AddHostedService(sp => sp.GetRequiredService<AnalyticsSnapshot>());
 builder.Services.AddSingleton<QuestionSearch>(); // kabinet → "Savol qidirish"
 builder.Services.AddHostedService<ImageWarmupService>();
 builder.Services.AddResponseCompression(o =>

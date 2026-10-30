@@ -59,6 +59,15 @@ public static class DbUpgrade
 
         try
         {
+            await EnsureLearningTablesAsync(db, log);
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, "Video dars / jonli dars / bildirishnoma jadvallarini tayyorlashda xatolik");
+        }
+
+        try
+        {
             await EnsureQuestionSourceColumnsAsync(db, log);
         }
         catch (Exception ex)
@@ -448,6 +457,131 @@ CREATE TABLE `QuestionTopics` (
     }
 
     /// <summary>Jadvalni Questions ga FK bilan yaratadi; eski jadval turi (masalan MyISAM) FK ga ruxsat bermasa — FK siz.</summary>
+    /// <summary>
+    /// Video darslar, jonli darslar, bildirishnomalar va kunlik hisobot jadvallari (yo'q bo'lsa yaratiladi; mavjud ma'lumotga tegilmaydi).
+    /// Foydalanuvchi o'chirilsa — uning ko'rish tarixi, davomati, savollari va bildirishnomalari ham o'chadi.
+    /// </summary>
+    private static async Task EnsureLearningTablesAsync(AppDbContext db, ILogger log)
+    {
+        var conn = db.Database.GetDbConnection();
+        if (conn.State != ConnectionState.Open) await conn.OpenAsync();
+
+        var tables = new (string Name, string Sql)[]
+        {
+            ("TopicLessons", @"CREATE TABLE `TopicLessons` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Topic` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `Title` varchar(200) CHARACTER SET utf8mb4 NULL,
+  `Description` longtext CHARACTER SET utf8mb4 NULL,
+  `VideoKind` varchar(16) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'file',
+  `VideoRef` varchar(255) CHARACTER SET utf8mb4 NULL,
+  `DurationSeconds` int NOT NULL DEFAULT 0,
+  `IsPublished` tinyint(1) NOT NULL DEFAULT 0,
+  `CreatedAt` datetime(6) NOT NULL,
+  `UpdatedAt` datetime(6) NOT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `IX_TopicLessons_Topic` (`Topic`)
+) CHARACTER SET utf8mb4"),
+            ("TopicLessonChapters", @"CREATE TABLE `TopicLessonChapters` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `LessonId` int NOT NULL,
+  `QuestionId` int NULL,
+  `Title` varchar(300) CHARACTER SET utf8mb4 NULL,
+  `StartSeconds` int NOT NULL DEFAULT 0,
+  `SortOrder` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`),
+  KEY `IX_TopicLessonChapters_LessonId` (`LessonId`),
+  CONSTRAINT `FK_TopicLessonChapters_TopicLessons` FOREIGN KEY (`LessonId`) REFERENCES `TopicLessons` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+            ("TopicLessonProgress", @"CREATE TABLE `TopicLessonProgress` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `LessonId` int NOT NULL,
+  `UserId` int NOT NULL,
+  `PositionSeconds` int NOT NULL DEFAULT 0,
+  `WatchedMap` text CHARACTER SET utf8mb4 NOT NULL,
+  `WatchSeconds` int NOT NULL DEFAULT 0,
+  `Completed` tinyint(1) NOT NULL DEFAULT 0,
+  `FirstAt` datetime(6) NOT NULL,
+  `UpdatedAt` datetime(6) NOT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `IX_TopicLessonProgress_Lesson_User` (`LessonId`, `UserId`),
+  CONSTRAINT `FK_TopicLessonProgress_TopicLessons` FOREIGN KEY (`LessonId`) REFERENCES `TopicLessons` (`Id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_TopicLessonProgress_Users` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+            ("LiveLessons", @"CREATE TABLE `LiveLessons` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Title` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+  `Description` longtext CHARACTER SET utf8mb4 NULL,
+  `StartsAt` datetime(6) NOT NULL,
+  `DurationMinutes` int NOT NULL DEFAULT 60,
+  `StreamUrl` varchar(500) CHARACTER SET utf8mb4 NULL,
+  `Status` varchar(16) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'scheduled',
+  `QuestionsEnabled` tinyint(1) NOT NULL DEFAULT 1,
+  `StartedAt` datetime(6) NULL,
+  `EndedAt` datetime(6) NULL,
+  `PeakViewers` int NOT NULL DEFAULT 0,
+  `Reactions` int NOT NULL DEFAULT 0,
+  `ReminderSent` tinyint(1) NOT NULL DEFAULT 0,
+  `CreatedAt` datetime(6) NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_LiveLessons_StartsAt` (`StartsAt`)
+) CHARACTER SET utf8mb4"),
+            ("LiveAttendance", @"CREATE TABLE `LiveAttendance` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `LessonId` int NOT NULL,
+  `UserId` int NOT NULL,
+  `JoinedAt` datetime(6) NOT NULL,
+  `LeftAt` datetime(6) NULL,
+  `ConnectionId` varchar(64) CHARACTER SET utf8mb4 NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_LiveAttendance_Lesson_User` (`LessonId`, `UserId`),
+  CONSTRAINT `FK_LiveAttendance_LiveLessons` FOREIGN KEY (`LessonId`) REFERENCES `LiveLessons` (`Id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_LiveAttendance_Users` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+            ("LiveQuestions", @"CREATE TABLE `LiveQuestions` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `LessonId` int NOT NULL,
+  `UserId` int NOT NULL,
+  `Text` varchar(500) CHARACTER SET utf8mb4 NOT NULL,
+  `Status` varchar(16) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'new',
+  `Pinned` tinyint(1) NOT NULL DEFAULT 0,
+  `CreatedAt` datetime(6) NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_LiveQuestions_Lesson_Created` (`LessonId`, `CreatedAt`),
+  CONSTRAINT `FK_LiveQuestions_LiveLessons` FOREIGN KEY (`LessonId`) REFERENCES `LiveLessons` (`Id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_LiveQuestions_Users` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+            ("UserNotifications", @"CREATE TABLE `UserNotifications` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `UserId` int NOT NULL,
+  `Kind` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
+  `ArgsJson` varchar(1000) CHARACTER SET utf8mb4 NOT NULL,
+  `Url` varchar(300) CHARACTER SET utf8mb4 NULL,
+  `CreatedAt` datetime(6) NOT NULL,
+  `ReadAt` datetime(6) NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_UserNotifications_User_Read` (`UserId`, `ReadAt`),
+  KEY `IX_UserNotifications_User_Created` (`UserId`, `CreatedAt`),
+  CONSTRAINT `FK_UserNotifications_Users` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+            ("DailyReports", @"CREATE TABLE `DailyReports` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Day` datetime(6) NOT NULL,
+  `DataJson` longtext CHARACTER SET utf8mb4 NOT NULL,
+  `CreatedAt` datetime(6) NOT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `IX_DailyReports_Day` (`Day`)
+) CHARACTER SET utf8mb4"),
+        };
+
+        foreach (var (name, sql) in tables)
+        {
+            if (await TableExistsAsync(conn, name)) continue;
+            await ExecAsync(conn, sql);
+            log.LogInformation("{Table} jadvali yaratildi", name);
+        }
+    }
+
     private static async Task CreateWithFallbackAsync(DbConnection conn, ILogger log, string questionFk, Func<string, string> sql)
     {
         try

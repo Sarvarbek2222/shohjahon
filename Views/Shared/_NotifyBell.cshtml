@@ -1,0 +1,29 @@
+@* O'quvchi uchun bildirishnomalar qo'ng'iroqchasi (lenta wwwroot/js/notify.js da chiziladi). Admin uchun ko'rsatilmaydi. *@
+@if (User.Identity?.IsAuthenticated == true && !User.IsInRole(Roles.SuperAdmin))
+{
+    <div class="nt" data-notify>
+        <button type="button" class="nt-btn" data-notify-toggle aria-haspopup="true" aria-expanded="false"
+                title="@L["notif.title"]" data-i18n-title="notif.title" aria-label="@L["notif.title"]">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
+            <span class="nt-count" data-notify-count hidden>0</span>
+        </button>
+        <div class="nt-panel" data-notify-panel hidden>
+            <div class="nt-head">
+                <b data-i18n="notif.title">@L["notif.title"]</b>
+                <button type="button" class="nt-link" data-notify-readall data-i18n="notif.readAll">@L["notif.readAll"]</button>
+            </div>
+            <a class="nt-live" data-notify-live hidden href="#">
+                <i class="nt-live-dot" aria-hidden="true"></i>
+                <span><b data-i18n="notif.liveNow">@L["notif.liveNow"]</b> <span data-notify-live-title></span></span>
+            </a>
+            <div class="nt-list" data-notify-list>
+                <div class="nt-empty" data-i18n="notif.empty">@L["notif.empty"]</div>
+            </div>
+            <button type="button" class="nt-push" data-notify-push hidden>
+                <span data-i18n="notif.enablePush">@L["notif.enablePush"]</span>
+            </button>
+        </div>
+        @Html.AntiForgeryToken()
+    </div>
+    <script src="~/js/notify.js" asp-append-version="true" defer></script>
+}

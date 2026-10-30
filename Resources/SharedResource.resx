@@ -967,7 +967,7 @@
     <value>1350+ rasmiy imtihon savoli</value>
   </data>
   <data name="login.feature2" xml:space="preserve">
-    <value>Xatolar ustida ishlash va AI tahlili</value>
+    <value>Xatolar ustida ishlash va aqlli tahlil</value>
   </data>
   <data name="login.feature3" xml:space="preserve">
     <value>Imtihonga tayyorlik prognozi</value>
@@ -1204,22 +1204,22 @@
     <value>Tavsiyalar</value>
   </data>
   <data name="cab.aiTitle" xml:space="preserve">
-    <value>AI tahlili</value>
+    <value>Aqlli tahlil</value>
   </data>
   <data name="cab.aiButton" xml:space="preserve">
-    <value>AI tahlilini olish</value>
+    <value>Batafsil tahlil</value>
   </data>
   <data name="cab.aiLoading" xml:space="preserve">
-    <value>AI natijalaringizni tahlil qilmoqda...</value>
+    <value>Natijalaringiz tahlil qilinmoqda...</value>
   </data>
   <data name="cab.aiError" xml:space="preserve">
-    <value>AI tahlilini olib bo'lmadi. Keyinroq urinib ko'ring.</value>
+    <value>Tahlilni olib bo'lmadi. Keyinroq urinib ko'ring.</value>
   </data>
   <data name="cab.aiDisabled" xml:space="preserve">
-    <value>AI tahlili hali sozlanmagan — quyida ichki tahlil tavsiyalari ko'rsatilgan.</value>
+    <value></value>
   </data>
   <data name="cab.aiHint" xml:space="preserve">
-    <value>Natijalaringiz asosida shaxsiy tavsiyalar (Claude AI).</value>
+    <value>Natijalaringiz asosida shaxsiy tavsiyalar.</value>
   </data>
   <data name="insight.start" xml:space="preserve">
     <value>Birinchi testni ishlang — shundan so'ng shaxsiy tahlil paydo bo'ladi.</value>
@@ -2084,5 +2084,56 @@
   </data>
   <data name="cab.durSShort" xml:space="preserve">
     <value>{s}s</value>
+  </data>
+  <data name="rc.passed" xml:space="preserve">
+    <value>Tabriklaymiz, o'tdingiz!</value>
+  </data>
+  <data name="rc.failed" xml:space="preserve">
+    <value>Bu safar o'tmadi</value>
+  </data>
+  <data name="rc.sub" xml:space="preserve">
+    <value>{correct} / {total} ta to'g'ri javob</value>
+  </data>
+  <data name="rc.correct" xml:space="preserve">
+    <value>To'g'ri</value>
+  </data>
+  <data name="rc.wrong" xml:space="preserve">
+    <value>Xato</value>
+  </data>
+  <data name="rc.skipped" xml:space="preserve">
+    <value>Belgilanmagan</value>
+  </data>
+  <data name="notif.title" xml:space="preserve">
+    <value>Bildirishnomalar</value>
+  </data>
+  <data name="notif.readAll" xml:space="preserve">
+    <value>Hammasini o'qildi qilish</value>
+  </data>
+  <data name="notif.liveNow" xml:space="preserve">
+    <value>Hozir jonli efir:</value>
+  </data>
+  <data name="notif.empty" xml:space="preserve">
+    <value>Hozircha bildirishnoma yo'q</value>
+  </data>
+  <data name="notif.enablePush" xml:space="preserve">
+    <value>🔔 Brauzer bildirishnomalarini yoqish</value>
+  </data>
+  <data name="notif.liveCall" xml:space="preserve">
+    <value>Jonli efir: {title}</value>
+  </data>
+  <data name="notif.join" xml:space="preserve">
+    <value>Qo'shilish</value>
+  </data>
+  <data name="notif.liveScheduled" xml:space="preserve">
+    <value>Yangi jonli dars: «{title}» — {when}</value>
+  </data>
+  <data name="notif.liveReminder" xml:space="preserve">
+    <value>«{title}» jonli darsi 15 daqiqadan keyin boshlanadi</value>
+  </data>
+  <data name="notif.liveStarted" xml:space="preserve">
+    <value>«{title}» jonli darsi boshlandi — qo'shiling!</value>
+  </data>
+  <data name="notif.lessonNew" xml:space="preserve">
+    <value>«{topicUz}» mavzusiga yangi video dars qo'shildi</value>
   </data>
 </root>
