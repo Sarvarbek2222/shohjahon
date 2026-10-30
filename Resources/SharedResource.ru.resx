@@ -2895,4 +2895,220 @@
   <data name="lv.bcHint" xml:space="preserve">
     <value>Эфир не записывается и не скачивается. На экране учеников отображается водяной знак с их логином и телефоном. При показе экрана можно демонстрировать слайды или вопросы; звук микрофона добавляется.</value>
   </data>
+  <data name="rep.title" xml:space="preserve">
+    <value>Ежедневный умный анализ</value>
+  </data>
+  <data name="rep.sub" xml:space="preserve">
+    <value>Автоматически формируется каждый день после 00:00 за прошедший день: качество вопросов, типичные заблуждения, забывание, вероятность сдачи экзамена, риск ухода и рекомендации.</value>
+  </data>
+  <data name="rep.chooseDay" xml:space="preserve">
+    <value>Выберите день</value>
+  </data>
+  <data name="rep.today" xml:space="preserve">
+    <value>Сегодня (на текущий момент)</value>
+  </data>
+  <data name="rep.rebuild" xml:space="preserve">
+    <value>Пересчитать</value>
+  </data>
+  <data name="rep.rebuildHint" xml:space="preserve">
+    <value>Пересчитать отчёт за вчера прямо сейчас</value>
+  </data>
+  <data name="rep.reminded" xml:space="preserve">
+    <value>Напоминание отправлено {n} ученикам.</value>
+  </data>
+  <data name="rep.none" xml:space="preserve">
+    <value>Отчётов пока нет. Первый отчёт сформируется автоматически после 00:00 — или нажмите «Пересчитать».</value>
+  </data>
+  <data name="rep.todaySoFar" xml:space="preserve">
+    <value>Сегодня (день не завершён)</value>
+  </data>
+  <data name="rep.dayReport" xml:space="preserve">
+    <value>Отчёт за день</value>
+  </data>
+  <data name="rep.builtAt" xml:space="preserve">
+    <value>Сформирован:</value>
+  </data>
+  <data name="rep.allGood" xml:space="preserve">
+    <value>Важных проблем не найдено — всё в порядке.</value>
+  </data>
+  <data name="rep.remind" xml:space="preserve">
+    <value>Отправить напоминание</value>
+  </data>
+  <data name="rep.remindConfirm" xml:space="preserve">
+    <value>Отправить напоминание ученикам из группы риска?</value>
+  </data>
+  <data name="rep.recQuiet" xml:space="preserve">
+    <value>Вчера никто не проходил тесты. Напомните ученикам о живом уроке или новом видеоуроке.</value>
+  </data>
+  <data name="rep.recAccDrop" xml:space="preserve">
+    <value>Общая точность снизилась на {n} п.п. по сравнению с прошлой неделей — возможно, стало больше сложных тем.</value>
+  </data>
+  <data name="rep.recAccUp" xml:space="preserve">
+    <value>Отлично: общая точность выросла на {n} п.п. по сравнению с прошлой неделей.</value>
+  </data>
+  <data name="rep.recMisconception" xml:space="preserve">
+    <value>Типичное заблуждение: {share}% ошибившихся выбирают именно вариант {opt} — разберите этот вопрос отдельно на живом уроке.</value>
+  </data>
+  <data name="rep.recKey" xml:space="preserve">
+    <value>Внимание: сильные ученики ({a}%) отвечают на этот вопрос хуже слабых ({b}%) — проверьте ключ ответа или формулировку.</value>
+  </data>
+  <data name="rep.recForgot" xml:space="preserve">
+    <value>В {n} случаях ученики забыли ранее решённые вопросы — рекомендуйте повторение и видеоуроки.</value>
+  </data>
+  <data name="rep.recRisk" xml:space="preserve">
+    <value>{n} учеников раньше были активны, но в последние дни не заходят — отправьте напоминание.</value>
+  </data>
+  <data name="rep.recGolden" xml:space="preserve">
+    <value>«Золотой час»: ученики точнее всего работают в {h}:00 ({acc}%), хуже всего — в {w}:00 ({wacc}%). Назначайте живые уроки на золотой час.</value>
+  </data>
+  <data name="rep.recAnomaly" xml:space="preserve">
+    <value>Найдено {n} подозрительных результатов (слишком быстро или похоже на случайные ответы) — проверьте.</value>
+  </data>
+  <data name="rep.recNeverStarted" xml:space="preserve">
+    <value>{n} учеников зарегистрированы более 3 дней назад, но ещё не прошли ни одного теста.</value>
+  </data>
+  <data name="rep.kActive" xml:space="preserve">
+    <value>Активные ученики</value>
+  </data>
+  <data name="rep.vsAvg" xml:space="preserve">
+    <value>Среднее за 7 дней: {n}</value>
+  </data>
+  <data name="rep.kAnswers" xml:space="preserve">
+    <value>Ответы</value>
+  </data>
+  <data name="rep.tests" xml:space="preserve">
+    <value>тестов</value>
+  </data>
+  <data name="rep.kAccuracy" xml:space="preserve">
+    <value>Точность (к 7 дням)</value>
+  </data>
+  <data name="rep.kPass" xml:space="preserve">
+    <value>Сдача экзаменов</value>
+  </data>
+  <data name="rep.exams" xml:space="preserve">
+    <value>экзам. тестов</value>
+  </data>
+  <data name="rep.kMastered" xml:space="preserve">
+    <value>Новых освоено</value>
+  </data>
+  <data name="rep.kMasteredSub" xml:space="preserve">
+    <value>вопросов решено верно впервые</value>
+  </data>
+  <data name="rep.kForgotten" xml:space="preserve">
+    <value>Забыто</value>
+  </data>
+  <data name="rep.retention" xml:space="preserve">
+    <value>сохранение: {n}%</value>
+  </data>
+  <data name="rep.kTime" xml:space="preserve">
+    <value>Время занятий (ч:мин)</value>
+  </data>
+  <data name="rep.kNew" xml:space="preserve">
+    <value>Первый день</value>
+  </data>
+  <data name="rep.kNewSub" xml:space="preserve">
+    <value>впервые прошли тест</value>
+  </data>
+  <data name="rep.hoursTitle" xml:space="preserve">
+    <value>Активность и точность по часам</value>
+  </data>
+  <data name="rep.hoursSub" xml:space="preserve">
+    <value>Высота столбца — число ответов, цвет — точность (зелёный — высокая, красный — низкая).</value>
+  </data>
+  <data name="rep.golden" xml:space="preserve">
+    <value>Золотой час</value>
+  </data>
+  <data name="rep.miscTitle" xml:space="preserve">
+    <value>Типичные заблуждения</value>
+  </data>
+  <data name="rep.miscSub" xml:space="preserve">
+    <value>Вопросы, где большинство ошибающихся выбирает один и тот же неверный вариант (30 дней).</value>
+  </data>
+  <data name="rep.miscLine" xml:space="preserve">
+    <value>{a}% ошибившихся выбрали этот вариант · {w} ошибок / {n} ответов</value>
+  </data>
+  <data name="rep.discTitle" xml:space="preserve">
+    <value>Качество вопросов (дискриминация)</value>
+  </data>
+  <data name="rep.discSub" xml:space="preserve">
+    <value>Сравниваются результаты сильных и слабых учеников. Отрицательный D — возможна ошибка в ключе ответа.</value>
+  </data>
+  <data name="rep.discNone" xml:space="preserve">
+    <value>Подозрительных вопросов не найдено (или пока мало данных).</value>
+  </data>
+  <data name="rep.strong" xml:space="preserve">
+    <value>Сильные</value>
+  </data>
+  <data name="rep.weak" xml:space="preserve">
+    <value>Слабые</value>
+  </data>
+  <data name="rep.passTitle" xml:space="preserve">
+    <value>Вероятность сдачи экзамена</value>
+  </data>
+  <data name="rep.passSub" xml:space="preserve">
+    <value>По последним 200 ответам: вероятность ошибиться не более 2 раз из 20. ▲▼ — изменение за день.</value>
+  </data>
+  <data name="rep.readyCount" xml:space="preserve">
+    <value>≥80%: {n} учеников</value>
+  </data>
+  <data name="rep.riskTitle" xml:space="preserve">
+    <value>Риск ухода</value>
+  </data>
+  <data name="rep.riskSub" xml:space="preserve">
+    <value>Ученики, которые были активны, но перестали заходить (оценка 0–100).</value>
+  </data>
+  <data name="rep.riskNone" xml:space="preserve">
+    <value>Учеников в зоне риска нет.</value>
+  </data>
+  <data name="rep.idleDays" xml:space="preserve">
+    <value>не заходил {n} дн.</value>
+  </data>
+  <data name="rep.neverStarted" xml:space="preserve">
+    <value>Ещё {n} учеников вообще не начинали.</value>
+  </data>
+  <data name="rep.forgotTitle" xml:space="preserve">
+    <value>Чаще всего забываемые вопросы</value>
+  </data>
+  <data name="rep.forgotSub" xml:space="preserve">
+    <value>Вопросы, решённые верно ранее и решённые с ошибкой спустя 3+ дня.</value>
+  </data>
+  <data name="rep.forgotLine" xml:space="preserve">
+    <value>забыли {n} учеников</value>
+  </data>
+  <data name="rep.harderTitle" xml:space="preserve">
+    <value>Вопросы, резко ставшие сложнее вчера</value>
+  </data>
+  <data name="rep.harderLine" xml:space="preserve">
+    <value>Вчера {a}%, обычно {b}% · {n} ответов</value>
+  </data>
+  <data name="rep.heroesTitle" xml:space="preserve">
+    <value>Герои дня</value>
+  </data>
+  <data name="rep.heroesSub" xml:space="preserve">
+    <value>Освоили больше всего новых вопросов.</value>
+  </data>
+  <data name="rep.heroLine" xml:space="preserve">
+    <value>+{n} новых вопросов</value>
+  </data>
+  <data name="rep.anomTitle" xml:space="preserve">
+    <value>Подозрительные результаты</value>
+  </data>
+  <data name="rep.anomNone" xml:space="preserve">
+    <value>Подозрительных результатов нет.</value>
+  </data>
+  <data name="rep.anom_fast" xml:space="preserve">
+    <value>Слишком быстро</value>
+  </data>
+  <data name="rep.anom_random" xml:space="preserve">
+    <value>Случайные ответы</value>
+  </data>
+  <data name="rep.anomLine" xml:space="preserve">
+    <value>{s} с на вопрос · {a}% верно · {n} вопр.</value>
+  </data>
+  <data name="rep.noData" xml:space="preserve">
+    <value>Недостаточно данных.</value>
+  </data>
+  <data name="notif.comeBack" xml:space="preserve">
+    <value>Мы скучаем! Решите сегодня 20 вопросов, чтобы не терять прогресс 💪</value>
+  </data>
 </root>

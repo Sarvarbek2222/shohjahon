@@ -37,6 +37,8 @@ builder.Services.AddSingleton<LiveRoom>();
 builder.Services.AddSingleton<LiveStreamStore>();
 builder.Services.AddScoped<LiveService>();
 builder.Services.AddHostedService<LiveReminderService>();
+// Kunlik aqlli tahlil: har kuni 00:00 dan keyin o'tgan kun uchun
+builder.Services.AddHostedService<DailyReportService>();
 builder.Services.AddScoped<AiAnalysisService>();
 
 // fetch() so'rovlari antiforgery tokenni shu sarlavhada yuboradi (AI tahlili tugmasi)

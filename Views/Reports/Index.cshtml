@@ -1,0 +1,231 @@
+@model DailyReportData?
+@* Kunlik aqlli tahlil: xulosa va tavsiyalar, kun pulsi, soatlar, savollar sifati, unutish, imtihon ehtimoli, xavf, shubhali natijalar *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "rep.title";
+    ViewData["Title"] = L["rep.title"];
+    var days = (List<DateTime>)ViewBag.Days;
+    var selected = ViewBag.Selected as DateTime?;
+    var isToday = (bool)ViewBag.IsToday;
+    var m = Model;
+    string RecText(Rec r) => L.F(r.Key, r.Args.Select(kv => (kv.Key, (object)(kv.Value?.ToString() ?? ""))).ToArray());
+    string Delta(double now, double prev) => prev <= 0 ? "" : (now - prev >= 0 ? "▲ " : "▼ ") + Math.Abs(Math.Round(now - prev, 1));
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
+    var sent = TempData["RepMsg"] as int?;
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/live.css" asp-append-version="true" />
+
+<div class="ca-body-embed rp">
+    <div class="ca-page-head">
+        <div>
+            <div class="ca-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
+            <h1 class="ca-h1">🧠 <span data-i18n="rep.title">@L["rep.title"]</span></h1>
+            <p class="ca-sub" data-i18n="rep.sub">@L["rep.sub"]</p>
+        </div>
+        <div class="rp-tools">
+            <select class="ca-input" onchange="location.href=this.value" aria-label="@L["rep.chooseDay"]">
+                <option value="/Reports/Today" selected="@isToday" data-i18n="rep.today">@L["rep.today"]</option>
+                @foreach (var d in days)
+                {
+                    <option value="/Reports?day=@d.ToString("yyyy-MM-dd")" selected="@(!isToday && selected == d)">@d.ToString("dd.MM.yyyy")</option>
+                }
+            </select>
+            <form method="post" action="/Reports/Build">
+                @Html.AntiForgeryToken()
+                <button class="ca-btn ca-btn-ghost" type="submit" title="@L["rep.rebuildHint"]" data-i18n-title="rep.rebuildHint">↻ <span data-i18n="rep.rebuild">@L["rep.rebuild"]</span></button>
+            </form>
+        </div>
+    </div>
+
+    @if (sent is int n)
+    {
+        <div class="ca-alert ca-alert-info" data-i18n="rep.reminded" data-i18n-args='{"n":@n}'>@L.F("rep.reminded", ("n", n))</div>
+    }
+
+    @if (m == null)
+    {
+        <div class="ca-card"><p class="ca-muted" style="margin:0;" data-i18n="rep.none">@L["rep.none"]</p></div>
+    }
+    else
+    {
+        var p = m.Pulse;
+        <div class="rp-hero">
+            <div class="rp-hero-day">
+                <span class="rp-kicker">@(isToday ? L["rep.todaySoFar"] : L["rep.dayReport"])</span>
+                <b>@(selected?.ToString("d MMMM yyyy, dddd"))</b>
+                <small><span data-i18n="rep.builtAt">@L["rep.builtAt"]</span> <span data-utc="@DateTime.SpecifyKind(m.BuiltAt, DateTimeKind.Utc).ToString("o")"></span></small>
+            </div>
+            <div class="rp-recs">
+                @if (!m.Recommendations.Any())
+                {
+                    <div class="rp-rec">✓ <span data-i18n="rep.allGood">@L["rep.allGood"]</span></div>
+                }
+                @foreach (var r in m.Recommendations)
+                {
+                    <div class="rp-rec">
+                        <span class="rp-rec-ic">@(r.Key switch { "rep.recRisk" => "⚠️", "rep.recKey" => "🔑", "rep.recMisconception" => "🧩", "rep.recForgot" => "🧠", "rep.recGolden" => "⏰", "rep.recAnomaly" => "🕵️", "rep.recAccUp" => "📈", "rep.recAccDrop" => "📉", _ => "💡" })</span>
+                        <span>@RecText(r)</span>
+                        @if (r.QuestionId is int qid)
+                        {
+                            <a class="rp-link" href="/Question/Edit/@qid">#@qid →</a>
+                        }
+                        @if (r.Key == "rep.recRisk" && !isToday)
+                        {
+                            <form method="post" action="/Reports/Remind" style="margin:0;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="day" value="@m.Day" />
+                                <button class="rp-link" type="submit" onclick="return confirm(I18n.t('rep.remindConfirm'))">🔔 <span data-i18n="rep.remind">@L["rep.remind"]</span></button>
+                            </form>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="rp-kpis">
+            <div class="rp-kpi"><span data-i18n="rep.kActive">@L["rep.kActive"]</span><b>@p.Active</b><small>@(p.ActiveAvg7 > 0 ? L.F("rep.vsAvg", ("n", p.ActiveAvg7)) : "")</small></div>
+            <div class="rp-kpi"><span data-i18n="rep.kAnswers">@L["rep.kAnswers"]</span><b>@p.Answers</b><small>@p.Tests <span data-i18n="rep.tests">@L["rep.tests"]</span></small></div>
+            <div class="rp-kpi"><span data-i18n="rep.kAccuracy">@L["rep.kAccuracy"]</span><b style="color:@Score.Color(p.Accuracy)">@p.Accuracy%</b><small class="@(p.Accuracy >= p.AccuracyAvg7 ? "up" : "down")">@Delta(p.Accuracy, p.AccuracyAvg7)</small></div>
+            <div class="rp-kpi"><span data-i18n="rep.kPass">@L["rep.kPass"]</span><b>@p.PassRate%</b><small>@p.ExamAttempts <span data-i18n="rep.exams">@L["rep.exams"]</span></small></div>
+            <div class="rp-kpi"><span data-i18n="rep.kMastered">@L["rep.kMastered"]</span><b>@m.Learning.NewlyMastered</b><small data-i18n="rep.kMasteredSub">@L["rep.kMasteredSub"]</small></div>
+            <div class="rp-kpi"><span data-i18n="rep.kForgotten">@L["rep.kForgotten"]</span><b>@m.Learning.Forgotten</b><small>@(m.Learning.RetentionRate > 0 ? L.F("rep.retention", ("n", m.Learning.RetentionRate)) : "")</small></div>
+            <div class="rp-kpi"><span data-i18n="rep.kTime">@L["rep.kTime"]</span><b>@(p.StudyMinutes / 60):@((p.StudyMinutes % 60).ToString("00"))</b><small>🎬 @p.VideoMinutes <span data-i18n="lv.min">@L["lv.min"]</span> · 🔴 @p.LiveAttendees</small></div>
+            <div class="rp-kpi"><span data-i18n="rep.kNew">@L["rep.kNew"]</span><b>@p.FirstTimers</b><small data-i18n="rep.kNewSub">@L["rep.kNewSub"]</small></div>
+        </div>
+
+        @* Soatlar: javoblar soni (ustun) va aniqlik (rang) *@
+        <div class="ca-card ca-section">
+            <div class="ca-card-head">
+                <div><h3 class="ca-card-title" data-i18n="rep.hoursTitle">@L["rep.hoursTitle"]</h3><p class="ca-card-sub" data-i18n="rep.hoursSub">@L["rep.hoursSub"]</p></div>
+                @if (p.GoldenHour >= 0)
+                {
+                    <span class="rp-golden">⏰ <span data-i18n="rep.golden">@L["rep.golden"]</span>: <b>@p.GoldenHour:00</b> (@p.GoldenAccuracy%)</span>
+                }
+            </div>
+            @{ var maxH = Math.Max(1, p.Hours.Max()); }
+            <div class="rp-hours">
+                @for (int h = 0; h < 24; h++)
+                {
+                    var cnt = p.Hours[h];
+                    var hh = (100.0 * cnt / maxH).ToString("0.#", inv);
+                    <div class="rp-hour @(h == p.PeakHour ? "peak" : "") @(h == p.GoldenHour ? "gold" : "")" title="@h:00 — @cnt · @p.HourAccuracy[h]%">
+                        <i style="height:@(cnt == 0 ? "0" : hh)%; background:@(cnt == 0 ? "transparent" : Score.Color(p.HourAccuracy[h]))"></i>
+                        <span>@h</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="ca-grid ca-grid-2 ca-section">
+            <div class="ca-card">
+                <div class="ca-card-head"><div><h3 class="ca-card-title">🧩 <span data-i18n="rep.miscTitle">@L["rep.miscTitle"]</span></h3><p class="ca-card-sub" data-i18n="rep.miscSub">@L["rep.miscSub"]</p></div></div>
+                @if (!m.Items.Misconceptions.Any()) { <p class="ca-muted ca-small" data-i18n="rep.noData">@L["rep.noData"]</p> }
+                @foreach (var x in m.Items.Misconceptions)
+                {
+                    <div class="rp-item">
+                        <a class="rp-item-q" href="/Question/Edit/@x.Id">#@x.Id · @x.Text</a>
+                        <div class="rp-item-opt"><b>@x.Option</b> @x.OptionText</div>
+                        <div class="rp-bar"><i style="width:@x.A.ToString(inv)%"></i></div>
+                        <small class="ca-muted">@L.F("rep.miscLine", ("a", x.A), ("w", x.Wrong), ("n", x.N))</small>
+                    </div>
+                }
+            </div>
+            <div class="ca-card">
+                <div class="ca-card-head"><div><h3 class="ca-card-title">🔑 <span data-i18n="rep.discTitle">@L["rep.discTitle"]</span></h3><p class="ca-card-sub" data-i18n="rep.discSub">@L["rep.discSub"]</p></div></div>
+                @if (!m.Items.Discrimination.Any()) { <p class="ca-muted ca-small" data-i18n="rep.discNone">@L["rep.discNone"]</p> }
+                @foreach (var x in m.Items.Discrimination)
+                {
+                    <div class="rp-item">
+                        <a class="rp-item-q" href="/Question/Edit/@x.Id">#@x.Id · @x.Text</a>
+                        <div class="rp-dual">
+                            <span><small data-i18n="rep.strong">@L["rep.strong"]</small><b>@x.A%</b></span>
+                            <span><small data-i18n="rep.weak">@L["rep.weak"]</small><b>@x.B%</b></span>
+                            <span class="rp-d @(x.D < 0 ? "neg" : "")"><small>D</small><b>@x.D.ToString("0.00", inv)</b></span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="ca-grid ca-grid-2 ca-section">
+            <div class="ca-card">
+                <div class="ca-card-head"><div><h3 class="ca-card-title">🎯 <span data-i18n="rep.passTitle">@L["rep.passTitle"]</span></h3><p class="ca-card-sub" data-i18n="rep.passSub">@L["rep.passSub"]</p></div><span class="rp-golden" data-i18n="rep.readyCount" data-i18n-args='{"n":@m.Students.ReadyCount}'>@L.F("rep.readyCount", ("n", m.Students.ReadyCount))</span></div>
+                @if (!m.Students.PassChance.Any()) { <p class="ca-muted ca-small" data-i18n="rep.noData">@L["rep.noData"]</p> }
+                <div class="rp-list">
+                    @foreach (var s in m.Students.PassChance.Take(15))
+                    {
+                        var dlt = s.Prev is double pv ? Math.Round(s.Value - pv, 1) : 0;
+                        <a class="rp-row" href="/Analytics/Student/@s.Id">
+                            <span class="rp-row-n">@s.Name</span>
+                            <span class="rp-bar"><i style="width:@s.Value.ToString(inv)%; background:@Score.Color(s.Value)"></i></span>
+                            <b>@s.Value%</b>
+                            <small class="@(dlt >= 0 ? "up" : "down")">@(s.Prev == null ? "" : (dlt >= 0 ? "▲" : "▼") + Math.Abs(dlt))</small>
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="ca-card">
+                <div class="ca-card-head"><div><h3 class="ca-card-title">⚠️ <span data-i18n="rep.riskTitle">@L["rep.riskTitle"]</span></h3><p class="ca-card-sub" data-i18n="rep.riskSub">@L["rep.riskSub"]</p></div></div>
+                @if (!m.Students.AtRisk.Any()) { <p class="ca-muted ca-small" data-i18n="rep.riskNone">@L["rep.riskNone"]</p> }
+                <div class="rp-list">
+                    @foreach (var s in m.Students.AtRisk)
+                    {
+                        <a class="rp-row" href="/Analytics/Student/@s.Id">
+                            <span class="rp-row-n">@s.Name</span>
+                            <span class="rp-bar risk"><i style="width:@s.Value.ToString(inv)%"></i></span>
+                            <b>@s.Value</b>
+                            <small class="down">@L.F("rep.idleDays", ("n", s.Prev ?? 0))</small>
+                        </a>
+                    }
+                </div>
+                @if (m.Students.NeverStarted > 0)
+                {
+                    <p class="ca-muted ca-small" style="margin:10px 0 0;" data-i18n="rep.neverStarted" data-i18n-args='{"n":@m.Students.NeverStarted}'>@L.F("rep.neverStarted", ("n", m.Students.NeverStarted))</p>
+                }
+            </div>
+        </div>
+
+        <div class="ca-grid ca-grid-2 ca-section">
+            <div class="ca-card">
+                <div class="ca-card-head"><div><h3 class="ca-card-title">🧠 <span data-i18n="rep.forgotTitle">@L["rep.forgotTitle"]</span></h3><p class="ca-card-sub" data-i18n="rep.forgotSub">@L["rep.forgotSub"]</p></div></div>
+                @if (!m.Learning.ForgottenTop.Any()) { <p class="ca-muted ca-small" data-i18n="rep.noData">@L["rep.noData"]</p> }
+                @foreach (var x in m.Learning.ForgottenTop)
+                {
+                    <div class="rp-item"><a class="rp-item-q" href="/Question/Edit/@x.Id">#@x.Id · @x.Text</a><small class="ca-muted">@L.F("rep.forgotLine", ("n", x.N))</small></div>
+                }
+                @if (m.Items.HarderToday.Any())
+                {
+                    <h4 class="rp-h4" data-i18n="rep.harderTitle">@L["rep.harderTitle"]</h4>
+                    @foreach (var x in m.Items.HarderToday)
+                    {
+                        <div class="rp-item"><a class="rp-item-q" href="/Question/Edit/@x.Id">#@x.Id · @x.Text</a><small class="ca-muted">@L.F("rep.harderLine", ("a", x.A), ("b", x.B), ("n", x.N))</small></div>
+                    }
+                }
+            </div>
+            <div class="ca-card">
+                <div class="ca-card-head"><div><h3 class="ca-card-title">🏆 <span data-i18n="rep.heroesTitle">@L["rep.heroesTitle"]</span></h3><p class="ca-card-sub" data-i18n="rep.heroesSub">@L["rep.heroesSub"]</p></div></div>
+                <div class="rp-heroes">
+                    @{ var medal = new[] { "🥇", "🥈", "🥉" }; var hi = 0; }
+                    @foreach (var s in m.Students.Heroes)
+                    {
+                        <a class="rp-hero-card" href="/Analytics/Student/@s.Id"><span>@medal[hi++]</span><b>@s.Name</b><small>@L.F("rep.heroLine", ("n", s.Value))</small></a>
+                    }
+                    @if (!m.Students.Heroes.Any()) { <p class="ca-muted ca-small" data-i18n="rep.noData">@L["rep.noData"]</p> }
+                </div>
+                <h4 class="rp-h4">🕵️ <span data-i18n="rep.anomTitle">@L["rep.anomTitle"]</span></h4>
+                @if (!m.Students.Anomalies.Any()) { <p class="ca-muted ca-small" data-i18n="rep.anomNone">@L["rep.anomNone"]</p> }
+                @foreach (var s in m.Students.Anomalies)
+                {
+                    <a class="rp-row" href="/Analytics/Student/@s.Id">
+                        <span class="rp-row-n">@s.Name</span>
+                        <span class="rp-tag @(s.Kind)" data-i18n="rep.anom_@s.Kind">@L["rep.anom_" + s.Kind]</span>
+                        <small class="ca-muted">@L.F("rep.anomLine", ("s", s.Value), ("a", s.Prev ?? 0), ("n", s.N))</small>
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/js/live.js" asp-append-version="true"></script>

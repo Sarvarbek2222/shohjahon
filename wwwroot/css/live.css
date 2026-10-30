@@ -224,3 +224,70 @@ html:not([data-live-status="ended"]) [data-show="ended"] { display: none !import
 .lc-bc-stats[hidden], .lc-bc-warn[hidden] { display: none; }
 .lc-bc-stats b { color: #fff; }
 .lc-bc-warn { color: #fcd34d; font-weight: 700; }
+
+/* Kunlik aqlli tahlil */
+.rp-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.rp-tools form { margin: 0; }
+.rp-tools select { min-width: 170px; }
+.rp-hero { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 18px; padding: 20px; border-radius: 20px; margin-bottom: 16px; border: 1px solid var(--ca-border);
+    background: radial-gradient(90% 140% at 0% 0%, rgba(167,139,250,.2), transparent 55%), radial-gradient(80% 120% at 100% 100%, rgba(56,189,248,.12), transparent 60%), var(--ca-surface); }
+@media (max-width: 900px) { .rp-hero { grid-template-columns: 1fr; } }
+.rp-hero-day { display: flex; flex-direction: column; gap: 6px; }
+.rp-kicker { font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #c4b5fd; }
+.rp-hero-day b { font-size: 1.35rem; color: #fff; line-height: 1.25; }
+.rp-hero-day small { color: var(--ca-muted); }
+.rp-recs { display: grid; gap: 8px; }
+.rp-rec { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.07);
+    color: #e5e7eb; font-size: .88rem; line-height: 1.45; transition: border-color .15s, transform .15s; }
+.rp-rec:hover { border-color: rgba(255,255,255,.18); transform: translateX(2px); }
+.rp-rec > span:nth-child(2) { flex: 1; }
+.rp-rec-ic { font-size: 1.1rem; }
+.rp-link { flex-shrink: 0; border: 0; background: rgba(56,189,248,.12); color: #7dd3fc; padding: 4px 9px; border-radius: 8px; font-size: .76rem; font-weight: 800; text-decoration: none; cursor: pointer; white-space: nowrap; }
+.rp-link:hover { background: rgba(56,189,248,.24); }
+.rp-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .rp-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.rp-kpi { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 16px; border: 1px solid var(--ca-border); background: var(--ca-surface); transition: transform .18s, border-color .18s; }
+.rp-kpi:hover { transform: translateY(-2px); border-color: var(--ca-border-strong); }
+.rp-kpi > span { font-size: .76rem; color: var(--ca-muted); font-weight: 600; }
+.rp-kpi b { font-size: 1.55rem; color: #fff; font-variant-numeric: tabular-nums; }
+.rp-kpi small { font-size: .74rem; color: var(--ca-muted); }
+.up { color: #4ade80 !important; } .down { color: #ff8095 !important; }
+.rp-golden { padding: 5px 11px; border-radius: 999px; background: rgba(250,204,21,.1); border: 1px solid rgba(250,204,21,.35); color: #fde68a; font-size: .78rem; font-weight: 700; white-space: nowrap; }
+.rp-hours { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 4px; align-items: end; height: 170px; }
+.rp-hour { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; gap: 4px; cursor: default; }
+.rp-hour i { display: block; width: 100%; min-height: 0; border-radius: 6px 6px 2px 2px; opacity: .85; transition: opacity .15s, transform .15s; }
+.rp-hour:hover i { opacity: 1; transform: scaleY(1.03); }
+.rp-hour span { font-size: .66rem; color: var(--ca-muted); font-variant-numeric: tabular-nums; }
+.rp-hour.peak span { color: #fff; font-weight: 800; }
+.rp-hour.gold span { color: #fde68a; font-weight: 800; }
+.rp-item { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+.rp-item:last-child { border-bottom: 0; }
+.rp-item-q { display: block; color: #e5e7eb; font-size: .86rem; line-height: 1.4; text-decoration: none; }
+.rp-item-q:hover { color: #7dd3fc; }
+.rp-item-opt { margin: 6px 0; padding: 6px 10px; border-radius: 8px; background: rgba(255,45,74,.08); border: 1px solid rgba(255,77,106,.25); color: #ffd6dc; font-size: .82rem; }
+.rp-item-opt b { color: #ff6b81; margin-right: 4px; }
+.rp-bar { display: block; height: 6px; border-radius: 6px; background: rgba(255,255,255,.07); overflow: hidden; margin: 6px 0 4px; flex: 1; }
+.rp-bar i { display: block; height: 100%; border-radius: 6px; background: #ff4d6a; }
+.rp-bar.risk i { background: linear-gradient(90deg, #f59e0b, #ff4d6a); }
+.rp-dual { display: flex; gap: 10px; margin-top: 8px; }
+.rp-dual span { display: flex; flex-direction: column; padding: 6px 10px; border-radius: 10px; background: rgba(255,255,255,.04); min-width: 70px; }
+.rp-dual small { font-size: .68rem; color: var(--ca-muted); }
+.rp-dual b { color: #fff; }
+.rp-d.neg { background: rgba(255,45,74,.14); } .rp-d.neg b { color: #ff6b81; }
+.rp-list { display: grid; gap: 4px; }
+.rp-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(60px, 1fr) auto 54px; gap: 10px; align-items: center; padding: 7px 8px; border-radius: 10px; text-decoration: none; color: inherit; transition: background .15s; }
+.rp-row:hover { background: rgba(255,255,255,.04); }
+.rp-row-n { color: #e5e7eb; font-size: .86rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-row b { color: #fff; font-size: .86rem; font-variant-numeric: tabular-nums; }
+.rp-row small { font-size: .74rem; text-align: right; }
+.rp-h4 { margin: 18px 0 6px; font-size: .9rem; color: #fff; }
+.rp-heroes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.rp-hero-card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 8px; border-radius: 14px; text-align: center; text-decoration: none; color: inherit;
+    background: rgba(250,204,21,.06); border: 1px solid rgba(250,204,21,.2); transition: transform .18s; }
+.rp-hero-card:hover { transform: translateY(-3px); }
+.rp-hero-card span { font-size: 1.6rem; }
+.rp-hero-card b { color: #fff; font-size: .86rem; overflow-wrap: anywhere; }
+.rp-hero-card small { color: var(--ca-muted); font-size: .74rem; }
+.rp-tag { padding: 3px 8px; border-radius: 999px; font-size: .7rem; font-weight: 800; }
+.rp-tag.fast { background: rgba(167,139,250,.16); color: #c4b5fd; }
+.rp-tag.random { background: rgba(245,158,11,.14); color: #fcd34d; }

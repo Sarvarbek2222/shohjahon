@@ -2895,4 +2895,220 @@
   <data name="lv.bcHint" xml:space="preserve">
     <value>Efir yozib olinmaydi va yuklab olinmaydi. O'quvchilar ekranida ularning login va telefoni suv belgisi bo'lib turadi. Ekran ulashishda dars slaydlari yoki savollarni ko'rsatishingiz mumkin; mikrofon ovozi qo'shiladi.</value>
   </data>
+  <data name="rep.title" xml:space="preserve">
+    <value>Kunlik aqlli tahlil</value>
+  </data>
+  <data name="rep.sub" xml:space="preserve">
+    <value>Har kuni 00:00 dan keyin o'tgan kun bo'yicha avtomatik tuziladi: savollar sifati, umumiy xato tushunchalar, unutish, imtihondan o'tish ehtimoli, tashlab ketish xavfi va tavsiyalar.</value>
+  </data>
+  <data name="rep.chooseDay" xml:space="preserve">
+    <value>Kunni tanlang</value>
+  </data>
+  <data name="rep.today" xml:space="preserve">
+    <value>Bugun (hozirgacha)</value>
+  </data>
+  <data name="rep.rebuild" xml:space="preserve">
+    <value>Qayta hisoblash</value>
+  </data>
+  <data name="rep.rebuildHint" xml:space="preserve">
+    <value>Kechagi kun hisobotini hozir qayta tuzish</value>
+  </data>
+  <data name="rep.reminded" xml:space="preserve">
+    <value>{n} ta o'quvchiga eslatma yuborildi.</value>
+  </data>
+  <data name="rep.none" xml:space="preserve">
+    <value>Hali hisobot yo'q. Birinchi hisobot bugun 00:00 dan keyin avtomatik tuziladi — yoki «Qayta hisoblash» ni bosing.</value>
+  </data>
+  <data name="rep.todaySoFar" xml:space="preserve">
+    <value>Bugungi holat (kun tugamagan)</value>
+  </data>
+  <data name="rep.dayReport" xml:space="preserve">
+    <value>Kun hisoboti</value>
+  </data>
+  <data name="rep.builtAt" xml:space="preserve">
+    <value>Tuzilgan:</value>
+  </data>
+  <data name="rep.allGood" xml:space="preserve">
+    <value>Muhim muammo topilmadi — hammasi joyida.</value>
+  </data>
+  <data name="rep.remind" xml:space="preserve">
+    <value>Eslatma yuborish</value>
+  </data>
+  <data name="rep.remindConfirm" xml:space="preserve">
+    <value>Xavf ostidagi o'quvchilarga eslatma bildirishnomasi yuborilsinmi?</value>
+  </data>
+  <data name="rep.recQuiet" xml:space="preserve">
+    <value>Kecha hech kim test ishlamagan. O'quvchilarga jonli dars yoki yangi video dars haqida eslatma yuboring.</value>
+  </data>
+  <data name="rep.recAccDrop" xml:space="preserve">
+    <value>Umumiy aniqlik o'tgan haftaga nisbatan {n} foiz punktga tushdi — qiyin mavzular ko'paygan bo'lishi mumkin.</value>
+  </data>
+  <data name="rep.recAccUp" xml:space="preserve">
+    <value>Ajoyib: umumiy aniqlik o'tgan haftaga nisbatan {n} foiz punktga oshdi.</value>
+  </data>
+  <data name="rep.recMisconception" xml:space="preserve">
+    <value>Umumiy xato tushuncha: noto'g'ri javob berganlarning {share}% i aynan {opt} variantini tanlamoqda — bu savolni jonli darsda alohida tushuntiring.</value>
+  </data>
+  <data name="rep.recKey" xml:space="preserve">
+    <value>Ehtiyot bo'ling: bu savolda kuchli o'quvchilar ({a}%) kuchsizlardan ({b}%) yomonroq natija ko'rsatmoqda — to'g'ri javob kaliti yoki savol matnini tekshiring.</value>
+  </data>
+  <data name="rep.recForgot" xml:space="preserve">
+    <value>{n} ta holatda o'quvchilar avval to'g'ri ishlagan savolini unutgan — takrorlash (Xatolarim) va video darslarni tavsiya qiling.</value>
+  </data>
+  <data name="rep.recRisk" xml:space="preserve">
+    <value>{n} ta o'quvchi avval faol edi, lekin oxirgi kunlarda kirmayapti — eslatma yuboring.</value>
+  </data>
+  <data name="rep.recGolden" xml:space="preserve">
+    <value>«Oltin soat»: o'quvchilar soat {h}:00 da eng aniq ishlaydi ({acc}%), {w}:00 da esa eng yomon ({wacc}%). Jonli darslarni oltin soatga qo'ying.</value>
+  </data>
+  <data name="rep.recAnomaly" xml:space="preserve">
+    <value>{n} ta shubhali natija topildi (juda tez yoki tasodifiy bosishga o'xshash) — tekshirib ko'ring.</value>
+  </data>
+  <data name="rep.recNeverStarted" xml:space="preserve">
+    <value>{n} ta o'quvchi ro'yxatdan o'tganiga 3 kundan oshdi, lekin hali birorta ham test ishlamagan.</value>
+  </data>
+  <data name="rep.kActive" xml:space="preserve">
+    <value>Faol o'quvchilar</value>
+  </data>
+  <data name="rep.vsAvg" xml:space="preserve">
+    <value>7 kunlik o'rtacha: {n}</value>
+  </data>
+  <data name="rep.kAnswers" xml:space="preserve">
+    <value>Javoblar</value>
+  </data>
+  <data name="rep.tests" xml:space="preserve">
+    <value>ta test</value>
+  </data>
+  <data name="rep.kAccuracy" xml:space="preserve">
+    <value>Aniqlik (7 kunga nisbatan)</value>
+  </data>
+  <data name="rep.kPass" xml:space="preserve">
+    <value>Imtihondan o'tish</value>
+  </data>
+  <data name="rep.exams" xml:space="preserve">
+    <value>ta imtihon testi</value>
+  </data>
+  <data name="rep.kMastered" xml:space="preserve">
+    <value>Yangi o'zlashtirilgan</value>
+  </data>
+  <data name="rep.kMasteredSub" xml:space="preserve">
+    <value>birinchi marta to'g'ri ishlangan savollar</value>
+  </data>
+  <data name="rep.kForgotten" xml:space="preserve">
+    <value>Unutilgan</value>
+  </data>
+  <data name="rep.retention" xml:space="preserve">
+    <value>eslab qolish: {n}%</value>
+  </data>
+  <data name="rep.kTime" xml:space="preserve">
+    <value>O'qish vaqti (soat:daq)</value>
+  </data>
+  <data name="rep.kNew" xml:space="preserve">
+    <value>Birinchi kun</value>
+  </data>
+  <data name="rep.kNewSub" xml:space="preserve">
+    <value>birinchi marta test ishlaganlar</value>
+  </data>
+  <data name="rep.hoursTitle" xml:space="preserve">
+    <value>Soatlar bo'yicha faollik va aniqlik</value>
+  </data>
+  <data name="rep.hoursSub" xml:space="preserve">
+    <value>Ustun balandligi — javoblar soni, rangi — aniqlik (yashil — yuqori, qizil — past).</value>
+  </data>
+  <data name="rep.golden" xml:space="preserve">
+    <value>Oltin soat</value>
+  </data>
+  <data name="rep.miscTitle" xml:space="preserve">
+    <value>Umumiy xato tushunchalar</value>
+  </data>
+  <data name="rep.miscSub" xml:space="preserve">
+    <value>Ko'pchilik bir xil noto'g'ri variantni tanlaydigan savollar (30 kun).</value>
+  </data>
+  <data name="rep.miscLine" xml:space="preserve">
+    <value>Xato qilganlarning {a}% i shu variantni tanlagan · {w} xato / {n} javob</value>
+  </data>
+  <data name="rep.discTitle" xml:space="preserve">
+    <value>Savollar sifati (ajratish kuchi)</value>
+  </data>
+  <data name="rep.discSub" xml:space="preserve">
+    <value>Kuchli va kuchsiz o'quvchilar natijasi solishtiriladi. D manfiy bo'lsa — javob kaliti xato bo'lishi mumkin.</value>
+  </data>
+  <data name="rep.discNone" xml:space="preserve">
+    <value>Shubhali savol topilmadi (yoki ma'lumot hali yetarli emas).</value>
+  </data>
+  <data name="rep.strong" xml:space="preserve">
+    <value>Kuchlilar</value>
+  </data>
+  <data name="rep.weak" xml:space="preserve">
+    <value>Kuchsizlar</value>
+  </data>
+  <data name="rep.passTitle" xml:space="preserve">
+    <value>Imtihondan o'tish ehtimoli</value>
+  </data>
+  <data name="rep.passSub" xml:space="preserve">
+    <value>Oxirgi 200 javob asosida: 20 savoldan ko'pi bilan 2 xato qilish ehtimoli. ▲▼ — kechagiga nisbatan o'zgarish.</value>
+  </data>
+  <data name="rep.readyCount" xml:space="preserve">
+    <value>≥80%: {n} ta o'quvchi</value>
+  </data>
+  <data name="rep.riskTitle" xml:space="preserve">
+    <value>Tashlab ketish xavfi</value>
+  </data>
+  <data name="rep.riskSub" xml:space="preserve">
+    <value>Avval faol bo'lib, oxirgi kunlarda kirmayotgan o'quvchilar (baho 0–100).</value>
+  </data>
+  <data name="rep.riskNone" xml:space="preserve">
+    <value>Xavf ostidagi o'quvchi yo'q.</value>
+  </data>
+  <data name="rep.idleDays" xml:space="preserve">
+    <value>{n} kun kirmagan</value>
+  </data>
+  <data name="rep.neverStarted" xml:space="preserve">
+    <value>Yana {n} ta o'quvchi umuman boshlamagan.</value>
+  </data>
+  <data name="rep.forgotTitle" xml:space="preserve">
+    <value>Eng ko'p unutilgan savollar</value>
+  </data>
+  <data name="rep.forgotSub" xml:space="preserve">
+    <value>Avval to'g'ri ishlangan, oradan kamida 3 kun o'tib xato qilingan savollar.</value>
+  </data>
+  <data name="rep.forgotLine" xml:space="preserve">
+    <value>{n} ta o'quvchi unutgan</value>
+  </data>
+  <data name="rep.harderTitle" xml:space="preserve">
+    <value>Kecha keskin qiyinlashgan savollar</value>
+  </data>
+  <data name="rep.harderLine" xml:space="preserve">
+    <value>Kecha {a}%, odatda {b}% · {n} javob</value>
+  </data>
+  <data name="rep.heroesTitle" xml:space="preserve">
+    <value>Kun qahramonlari</value>
+  </data>
+  <data name="rep.heroesSub" xml:space="preserve">
+    <value>Eng ko'p yangi savolni o'zlashtirganlar.</value>
+  </data>
+  <data name="rep.heroLine" xml:space="preserve">
+    <value>+{n} yangi savol</value>
+  </data>
+  <data name="rep.anomTitle" xml:space="preserve">
+    <value>Shubhali natijalar</value>
+  </data>
+  <data name="rep.anomNone" xml:space="preserve">
+    <value>Shubhali natija yo'q.</value>
+  </data>
+  <data name="rep.anom_fast" xml:space="preserve">
+    <value>Juda tez</value>
+  </data>
+  <data name="rep.anom_random" xml:space="preserve">
+    <value>Tasodifiy bosish</value>
+  </data>
+  <data name="rep.anomLine" xml:space="preserve">
+    <value>savolga {s} s · {a}% to'g'ri · {n} savol</value>
+  </data>
+  <data name="rep.noData" xml:space="preserve">
+    <value>Ma'lumot yetarli emas.</value>
+  </data>
+  <data name="notif.comeBack" xml:space="preserve">
+    <value>Sizni sog'indik! Bugun 20 ta savol ishlab, natijangizni saqlab qoling 💪</value>
+  </data>
 </root>

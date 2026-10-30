@@ -28,6 +28,17 @@ public class NotificationService
         return ids.Count;
     }
 
+    /// <summary>Tanlangan foydalanuvchilarga bildirishnoma (masalan, kunlik tahlildagi "xavf ostida" o'quvchilarga eslatma).</summary>
+    public async Task<int> NotifyUsersAsync(IEnumerable<int> userIds, string kind, object args, string? url)
+    {
+        var json = JsonSerializer.Serialize(args);
+        var ids = userIds.Distinct().ToList();
+        var now = DateTime.UtcNow;
+        _db.Notifications.AddRange(ids.Select(id => new UserNotification { UserId = id, Kind = kind, ArgsJson = json, Url = url, CreatedAt = now }));
+        await _db.SaveChangesAsync();
+        return ids.Count;
+    }
+
     public async Task<object> FeedAsync(int userId)
     {
         var items = await _db.Notifications.AsNoTracking()
