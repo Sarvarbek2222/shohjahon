@@ -3111,4 +3111,7 @@
   <data name="notif.comeBack" xml:space="preserve">
     <value>Мы скучаем! Решите сегодня 20 вопросов, чтобы не терять прогресс 💪</value>
   </data>
+  <data name="form.imageShrunk" xml:space="preserve">
+    <value>Изображение автоматически уменьшено: {from} → {to} (качество сохранено)</value>
+  </data>
 </root>

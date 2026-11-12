@@ -3111,4 +3111,7 @@
   <data name="notif.comeBack" xml:space="preserve">
     <value>Sizni sog'indik! Bugun 20 ta savol ishlab, natijangizni saqlab qoling 💪</value>
   </data>
+  <data name="form.imageShrunk" xml:space="preserve">
+    <value>Rasm avtomatik kichraytirildi: {from} → {to} (sifat saqlanadi)</value>
+  </data>
 </root>

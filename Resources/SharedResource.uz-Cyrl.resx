@@ -3111,4 +3111,7 @@
   <data name="notif.comeBack" xml:space="preserve">
     <value>Сизни соғиндик! Бугун 20 та савол ишлаб, натижангизни сақлаб қолинг 💪</value>
   </data>
+  <data name="form.imageShrunk" xml:space="preserve">
+    <value>Расм автоматик кичрайтирилди: {from} → {to} (сифат сақланади)</value>
+  </data>
 </root>
