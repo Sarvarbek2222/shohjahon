@@ -4287,4 +4287,7 @@
   <data name="notif.regNew" xml:space="preserve">
     <value>Yangi ro'yxatdan o'tish arizasi: {name} ({phone})</value>
   </data>
+  <data name="reg.navShort" xml:space="preserve">
+    <value>Arizalar</value>
+  </data>
 </root>

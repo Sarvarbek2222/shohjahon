@@ -4287,4 +4287,7 @@
   <data name="notif.regNew" xml:space="preserve">
     <value>Новая заявка на регистрацию: {name} ({phone})</value>
   </data>
+  <data name="reg.navShort" xml:space="preserve">
+    <value>Заявки</value>
+  </data>
 </root>
