@@ -257,7 +257,7 @@ public class UserService
         var username = config["DefaultAdmin:Username"] ?? "admin";
         var password = config["DefaultAdmin:Password"] ?? "Admin@2026";
 
-        var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
+        var user = await _db.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
             user = new AppUser { Username = username, FullName = "Super Admin" };
@@ -265,6 +265,8 @@ public class UserService
         }
         user.Role = Roles.SuperAdmin;
         user.IsActive = true;
+        user.DeletedAt = null;
+        user.DeletedReason = null;
         SetPassword(user, password);
         await _db.SaveChangesAsync();
 

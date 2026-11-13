@@ -8,7 +8,18 @@ public class AnalyticsSnapshot : BackgroundService
 {
     public static readonly TimeSpan StaleAfter = TimeSpan.FromSeconds(45);
 
-    public sealed record Data(PlatformStats Platform, List<UserStats> Students, DateTime BuiltAt);
+    public sealed record Data(PlatformStats Platform, List<UserStats> Students, LeagueData League, DateTime BuiltAt);
+
+    /// <summary>Oxirgi tayyor natija (kutmasdan; hali tayyor bo'lmasa — null). Sarlavhadagi maqom belgisi uchun.</summary>
+    public Data? Current
+    {
+        get
+        {
+            var d = _data;
+            if (d != null && DateTime.UtcNow - d.BuiltAt > StaleAfter) StartRefresh();
+            return d;
+        }
+    }
 
     private readonly IServiceScopeFactory _scopes;
     private readonly ILogger<AnalyticsSnapshot> _log;
@@ -63,7 +74,9 @@ public class AnalyticsSnapshot : BackgroundService
                 .OrderByDescending(s => s.LastActivity ?? DateTime.MinValue)
                 .ThenBy(s => s.User.Username)
                 .ToList();
-            var data = new Data(platform, students, DateTime.UtcNow);
+            var now = DateTime.UtcNow;
+            var week = await stats.AnswersSinceAsync(now.AddDays(-7));
+            var data = new Data(platform, students, League.Build(students, week, now), now);
             _data = data;
             return data;
         }

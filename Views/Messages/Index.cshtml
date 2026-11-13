@@ -1,0 +1,27 @@
+@* O'quvchi: admin bilan yozishma *@
+@{
+    Layout = "_CabinetLayout";
+    ViewData["TitleKey"] = "msg.title";
+    ViewData["Title"] = L["msg.title"];
+}
+<div class="ca-page-head">
+    <div>
+        <div class="ca-eyebrow" data-i18n="nav.myCabinet">@L["nav.myCabinet"]</div>
+        <h1 class="ca-h1" data-i18n="msg.title">@L["msg.title"]</h1>
+        <p class="ca-sub" data-i18n="msg.sub">@L["msg.sub"]</p>
+    </div>
+</div>
+<div class="ch-wrap single">
+    <section class="ch-pane" id="chatPane">
+        <div class="ch-pane-head">
+            <span class="lg-av">🛡</span>
+            <div><b data-i18n="msg.adminName">@L["msg.adminName"]</b><div class="ca-muted ca-small" data-i18n="msg.adminHint">@L["msg.adminHint"]</div></div>
+        </div>
+        <div class="ch-log" data-log aria-live="polite"></div>
+        <form class="ch-form" data-form autocomplete="off">
+            <textarea rows="1" maxlength="2000" placeholder="@L["msg.placeholder"]" data-i18n-placeholder="msg.placeholder" aria-label="@L["msg.placeholder"]"></textarea>
+            <button type="submit" class="ca-btn ca-btn-primary" data-i18n="msg.send">@L["msg.send"]</button>
+        </form>
+    </section>
+</div>
+<script>document.addEventListener("DOMContentLoaded", function () { Chat.open(document.getElementById("chatPane"), null); });</script>

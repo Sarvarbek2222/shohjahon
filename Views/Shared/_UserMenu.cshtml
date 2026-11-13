@@ -1,4 +1,5 @@
 @* Foydalanuvchi avatari va menyusi (sayt, kabinet va admin paneli uchun umumiy) *@
+@inject AnalyticsSnapshot Snapshot
 @if (User.Identity?.IsAuthenticated == true)
 {
     var name = User.Identity.Name ?? "";
@@ -8,10 +9,14 @@
     if (initials.Length == 0) { initials = "?"; }
     var isAdmin = User.IsInRole(Roles.SuperAdmin);
     var roleKey = "role." + (isAdmin ? Roles.SuperAdmin : Roles.User);
+    // 1–2–3-o'rin maqomi (reyting fonda hisoblanadi — bu yerda kutilmaydi)
+    var uidStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    var myRow = !isAdmin && int.TryParse(uidStr, out var myId) ? Snapshot.Current?.League.Of(myId) : null;
+    var medal = League.BadgeEmoji(myRow?.Badge);
 
     <div class="ui-dd ui-user">
         <button type="button" class="ui-dd-btn ui-user-btn" data-dd aria-haspopup="menu" aria-expanded="false" aria-label="@display">
-            <span class="ui-avatar">@initials</span>
+            <span class="ui-avatar @(medal != null ? "has-medal" : "")">@initials@if (medal != null) {<i class="ui-medal">@medal</i>}</span>
             <span class="ui-user-meta">
                 <span class="ui-user-name">@display</span>
                 <span class="ui-user-role" data-i18n="@roleKey">@L[roleKey]</span>
@@ -24,6 +29,17 @@
                 <div style="min-width:0;">
                     <div class="ui-user-head-name">@display</div>
                     <div class="ui-user-head-sub">@@@name · <span data-i18n="@roleKey">@L[roleKey]</span></div>
+                    @if (myRow != null)
+                    {
+                        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                            @if (myRow.Badge != null)
+                            {
+                                var bk = "lg.badge_" + myRow.Badge;
+                                <span class="lg-badge lg-badge-@myRow.Badge">@medal <span data-i18n="@bk">@L[bk]</span></span>
+                            }
+                            <span class="lg-chip lg-@myRow.Tier">#@myRow.Rank</span>
+                        </div>
+                    }
                 </div>
             </div>
             <div class="ui-dd-sep"></div>

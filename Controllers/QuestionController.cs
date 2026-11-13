@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -29,10 +30,90 @@ public class QuestionController : Controller
         base.OnActionExecuted(context);
     }
 
-    public async Task<IActionResult> Index()
+    /// <summary>
+    /// Savollar bazasi: serverda qidiruv, filtr (mavzu, bilet, rasm, tarjima, video, qiyinlik), saralash va sahifalash —
+    /// sahifa minglab savol bilan ham tez ochiladi.
+    /// </summary>
+    public async Task<IActionResult> Index([FromQuery] QuestionFilter f, [FromServices] Microsoft.Extensions.Caching.Memory.IMemoryCache cache)
     {
-        var questions = await _context.Questions.Include(q => q.Options).ToListAsync();
-        return View(questions);
+        f.Size = f.Size is 25 or 50 or 100 ? f.Size : 25;
+        f.Page = Math.Max(1, f.Page);
+        var byTopic = await _bank.ByTopicAsync();
+        var stats = await cache.GetOrCreateAsync("qs:answerStats", async e =>
+        {
+            e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3);
+            return (await _context.TestAnswers.AsNoTracking().Where(a => a.SelectedOptionId != null)
+                .GroupBy(a => a.QuestionId)
+                .Select(g => new { g.Key, N = g.Count(), W = g.Count(a => !a.IsCorrect) })
+                .ToListAsync()).ToDictionary(x => x.Key, x => (x.N, x.W));
+        }) ?? new();
+        var withVideo = (await _context.TopicLessonQuestions.AsNoTracking().Select(x => x.QuestionId).Distinct().ToListAsync()).ToHashSet();
+
+        var q = _context.Questions.AsNoTracking().AsQueryable();
+        if (f.Id is int id) q = q.Where(x => x.Id == id);
+        if (!string.IsNullOrWhiteSpace(f.Q))
+        {
+            var s = f.Q.Trim();
+            q = q.Where(x => x.QuestionUZ.Contains(s) || (x.QuestionRU != null && x.QuestionRU.Contains(s)) || (x.QuestionUZK != null && x.QuestionUZK.Contains(s)));
+        }
+        if (!string.IsNullOrEmpty(f.Topic) && byTopic.TryGetValue(f.Topic, out var tq))
+        {
+            var ids = tq.Select(x => x.Id).ToList();
+            q = q.Where(x => ids.Contains(x.Id));
+        }
+        if (f.Bilet is int b) q = q.Where(x => x.BiletNumber == b);
+        if (f.Pool == "bilet") q = q.Where(x => x.BiletNumber != null);
+        if (f.Pool == "other") q = q.Where(x => x.BiletNumber == null);
+        if (f.Img == "yes") q = q.Where(x => x.ImageUrl != null && x.ImageUrl != "");
+        if (f.Img == "no") q = q.Where(x => x.ImageUrl == null || x.ImageUrl == "");
+        if (f.Lang == "noru") q = q.Where(x => x.QuestionRU == null || x.QuestionRU == "");
+        if (f.Lang == "nouzk") q = q.Where(x => x.QuestionUZK == null || x.QuestionUZK == "");
+        if (f.Video == "yes") q = q.Where(x => withVideo.Contains(x.Id));
+        if (f.Video == "no") q = q.Where(x => !withVideo.Contains(x.Id));
+
+        List<int> pageIds;
+        var total = await q.CountAsync();
+        if (f.Sort == "hard")
+        {
+            // Qiyinlik bo'yicha — eng ko'p xato qilinganlari (kamida 5 ta javob) birinchi
+            var all = await q.Select(x => x.Id).ToListAsync();
+            pageIds = all.OrderByDescending(x => stats.TryGetValue(x, out var st) && st.N >= 5 ? (double)st.W / st.N : -1)
+                .Skip((f.Page - 1) * f.Size).Take(f.Size).ToList();
+        }
+        else
+        {
+            var ordered = f.Sort switch
+            {
+                "old" => q.OrderBy(x => x.Id),
+                "bilet" => q.OrderBy(x => x.BiletNumber == null).ThenBy(x => x.BiletNumber).ThenBy(x => x.BiletOrder).ThenBy(x => x.Id),
+                _ => q.OrderByDescending(x => x.Id),
+            };
+            pageIds = await ordered.Skip((f.Page - 1) * f.Size).Take(f.Size).Select(x => x.Id).ToListAsync();
+        }
+        var rows = await _context.Questions.AsNoTracking().Include(x => x.Options).Where(x => pageIds.Contains(x.Id)).ToListAsync();
+        var topicOf = byTopic.SelectMany(kv => kv.Value.Select(x => (x.Id, kv.Key))).GroupBy(x => x.Id).ToDictionary(g => g.Key, g => g.First().Key);
+
+        // Yuqoridagi ko'rsatkichlar (butun baza bo'yicha)
+        var all0 = _context.Questions.AsNoTracking();
+        var kpiTotal = await all0.CountAsync();
+        var kpiInBilets = await all0.CountAsync(x => x.BiletNumber != null);
+        var kpiImage = await all0.CountAsync(x => x.ImageUrl != null && x.ImageUrl != "");
+        var kpiNoRu = await all0.CountAsync(x => x.QuestionRU == null || x.QuestionRU == "");
+        var kpiNoUzk = await all0.CountAsync(x => x.QuestionUZK == null || x.QuestionUZK == "");
+
+        return View(new QuestionListModel
+        {
+            Filter = f,
+            Total = total,
+            Rows = pageIds.Select(pid => rows.First(r => r.Id == pid)).Select(r => new QuestionListRow(r,
+                topicOf.GetValueOrDefault(r.Id) ?? r.Topic?.Trim(),
+                stats.TryGetValue(r.Id, out var st) ? st.N : 0, stats.TryGetValue(r.Id, out var st2) ? st2.W : 0,
+                withVideo.Contains(r.Id))).ToList(),
+            Topics = Topics.All.Where(byTopic.ContainsKey).Select(t => new TopicCount(t, byTopic[t].Count)).ToList(),
+            BiletCount = (await _bank.BiletsAsync()).Count,
+            KpiTotal = kpiTotal, KpiInBilets = kpiInBilets, KpiWithImage = kpiImage,
+            KpiNoRu = kpiNoRu, KpiNoUzk = kpiNoUzk, KpiWithVideo = withVideo.Count,
+        });
     }
 
     /// <summary>Admin bosh sahifasi: savollar bazasi ko'rsatkichlari (xotiradagi keshdan).</summary>
@@ -223,7 +304,22 @@ public class QuestionController : Controller
         new(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp" };
 
     private static bool IsAllowedImage(IFormFile file) =>
-        file.Length > 0 && ImageExtensions.Contains(Path.GetExtension(file.FileName));
+        file.Length > 0 && ImageExtensions.Contains(Path.GetExtension(file.FileName)) && HasImageSignature(file);
+
+    /// <summary>Fayl haqiqatan rasmmi — kengaytmasiga emas, ichidagi sarlavhasiga qaraladi (JPEG, PNG, GIF, WebP, BMP).</summary>
+    private static bool HasImageSignature(IFormFile file)
+    {
+        Span<byte> h = stackalloc byte[12];
+        using var s = file.OpenReadStream();
+        var n = s.Read(h);
+        if (n < 4) return false;
+        return (h[0] == 0xFF && h[1] == 0xD8 && h[2] == 0xFF)                                   // JPEG
+            || (h[0] == 0x89 && h[1] == 0x50 && h[2] == 0x4E && h[3] == 0x47)                  // PNG
+            || (h[0] == (byte)'G' && h[1] == (byte)'I' && h[2] == (byte)'F')                   // GIF
+            || (h[0] == (byte)'B' && h[1] == (byte)'M')                                        // BMP
+            || (n >= 12 && h[0] == (byte)'R' && h[1] == (byte)'I' && h[2] == (byte)'F' && h[3] == (byte)'F'
+                && h[8] == (byte)'W' && h[9] == (byte)'E' && h[10] == (byte)'B' && h[11] == (byte)'P'); // WebP
+    }
 
     /// <summary>
     /// Rasmni uploads papkasiga noyob nom bilan saqlaydi (masalan "photo_1_3f9c2a7b.jpg").
@@ -308,6 +404,9 @@ public class QuestionController : Controller
             // shuning uchun avval variantlar, keyin savol o'chiriladi
             _context.Options.RemoveRange(question.Options);
             _context.Questions.Remove(question);
+            // Saqlanganlar va video bog'lanishlarida ham qolmasin
+            _context.SavedQuestions.RemoveRange(_context.SavedQuestions.Where(s => s.QuestionId == id));
+            _context.TopicLessonQuestions.RemoveRange(_context.TopicLessonQuestions.Where(s => s.QuestionId == id));
             await _context.SaveChangesAsync();
             TempData["QsMsgKey"] = "qs.deleted";
 
@@ -316,4 +415,42 @@ public class QuestionController : Controller
         }
         return RedirectToAction(nameof(Index));
     }
+}
+/// <summary>Savollar ro'yxati filtri (manzil satrida saqlanadi — orqaga qaytganda ham qoladi).</summary>
+public class QuestionFilter
+{
+    public string? Q { get; set; }
+    public int? Id { get; set; }
+    public string? Topic { get; set; }
+    public int? Bilet { get; set; }
+    /// <summary>"bilet" — faqat biletlardagi, "other" — biletga kirmaganlar.</summary>
+    public string? Pool { get; set; }
+    public string? Img { get; set; }
+    public string? Lang { get; set; }
+    public string? Video { get; set; }
+    /// <summary>new (standart), old, bilet, hard</summary>
+    public string? Sort { get; set; }
+    public int Page { get; set; } = 1;
+    public int Size { get; set; } = 25;
+}
+
+public record QuestionListRow(Question Q, string? Topic, int Answers, int Wrong, bool HasVideo)
+{
+    public int WrongPct => Answers > 0 ? (int)Math.Round(100.0 * Wrong / Answers) : 0;
+}
+
+public class QuestionListModel
+{
+    public QuestionFilter Filter { get; set; } = new();
+    public int Total { get; set; }
+    public List<QuestionListRow> Rows { get; set; } = new();
+    public List<TopicCount> Topics { get; set; } = new();
+    public int BiletCount { get; set; }
+    public int KpiTotal { get; set; }
+    public int KpiInBilets { get; set; }
+    public int KpiWithImage { get; set; }
+    public int KpiNoRu { get; set; }
+    public int KpiNoUzk { get; set; }
+    public int KpiWithVideo { get; set; }
+    public int Pages => Math.Max(1, (Total + Filter.Size - 1) / Filter.Size);
 }

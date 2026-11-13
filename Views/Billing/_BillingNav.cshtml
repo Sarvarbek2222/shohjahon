@@ -1,0 +1,37 @@
+@* Obuna va to'lovlar bo'limidagi ichki menyu *@
+@{
+    var act = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var msg = TempData["BillMsg"] as string;
+    var err = TempData["BillErr"] as string;
+}
+<div class="ca-page-head">
+    <div>
+        <div class="ca-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
+        <h1 class="ca-h1" data-i18n="bill.title">@L["bill.title"]</h1>
+        <p class="ca-sub" data-i18n="bill.sub">@L["bill.sub"]</p>
+    </div>
+</div>
+<nav class="bl-tabs">
+    <a href="/Billing" class="@(act == "Index" ? "on" : "")">📊 <span data-i18n="bill.tabOverview">@L["bill.tabOverview"]</span></a>
+    <a href="/Billing/Payments" class="@(act is "Payments" or "Payment" ? "on" : "")">💳 <span data-i18n="bill.tabPayments">@L["bill.tabPayments"]</span></a>
+    <a href="/Billing/Plans" class="@(act == "Plans" ? "on" : "")">🏷 <span data-i18n="bill.tabPlans">@L["bill.tabPlans"]</span></a>
+    <a href="/Billing/Settings" class="@(act == "Settings" ? "on" : "")">⚙ <span data-i18n="bill.tabSettings">@L["bill.tabSettings"]</span></a>
+</nav>
+@if (msg != null) { <div class="ca-alert ca-alert-info" data-i18n="@msg">@L[msg]</div> }
+@if (err != null) { <div class="ca-alert" style="border-color:rgba(255,77,106,.5);color:#ffb3c0;" data-i18n="@err">@L[err]</div> }
+<style>
+    .bl-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 16px; padding: 6px; border-radius: 14px; background: var(--ca-surface); border: 1px solid var(--ca-border); width: fit-content; max-width: 100%; }
+    .bl-tabs a { padding: 8px 14px; border-radius: 10px; color: var(--ca-muted); text-decoration: none; font-weight: 600; font-size: 14px; }
+    .bl-tabs a:hover { color: #fff; }
+    .bl-tabs a.on { color: #fff; background: linear-gradient(135deg, rgba(255,45,74,.25), rgba(255,122,69,.15)); }
+    .bl-st { padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .bl-paid { color: var(--ca-ok); background: var(--ca-ok-soft); }
+    .bl-pending { color: var(--ca-warn); background: var(--ca-warn-soft); }
+    .bl-cancelled { color: var(--ca-muted); background: rgba(255,255,255,.06); }
+    .bl-prov { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(51,204,204,.12); color: #33cccc; }
+    .bl-prov.admin { background: rgba(255,255,255,.06); color: var(--ca-muted); }
+    .bl-form { display: grid; gap: 12px; }
+    .bl-form label { display: grid; gap: 4px; font-size: 13px; color: var(--ca-muted); }
+    .bl-form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @@media (max-width: 640px) { .bl-form .row2 { grid-template-columns: 1fr; } }
+</style>

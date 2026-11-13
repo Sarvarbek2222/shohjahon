@@ -112,7 +112,7 @@ namespace propro.Controllers.Api
                 return Error(400, "username_invalid", "Login 3–64 ta belgi: lotin harflari, raqamlar, '.', '_' va '-'.");
             if (string.IsNullOrEmpty(req.Password) || req.Password.Length < UserService.MinPasswordLength)
                 return Error(400, "password_short", "Parol kamida 6 ta belgidan iborat bo'lishi kerak.");
-            if (await _db.Users.AnyAsync(u => u.Username == username))
+            if (await _db.Users.IgnoreQueryFilters().AnyAsync(u => u.Username == username))
                 return Error(409, "username_taken", "Bu login band.");
             if (!req.Unlimited && req.Months <= 0 && req.Days <= 0)
                 return Error(400, "period_required", "Muddatni kiriting yoki 'Cheksiz'ni tanlang.");
@@ -199,7 +199,7 @@ namespace propro.Controllers.Api
             var username = req.Username?.Trim();
             if (!UserService.IsValidUsername(username))
                 return Error(400, "username_invalid", "Login 3–64 ta belgi: lotin harflari, raqamlar, '.', '_' va '-'.");
-            if (await _db.Users.AnyAsync(u => u.Username == username && u.Id != id))
+            if (await _db.Users.IgnoreQueryFilters().AnyAsync(u => u.Username == username && u.Id != id))
                 return Error(409, "username_taken", "Bu login band.");
             if (!Roles.IsValid(req.Role)) return Error(400, "role_invalid", "Rol noto'g'ri.");
             if (!string.IsNullOrEmpty(req.Password) && req.Password.Length < UserService.MinPasswordLength)

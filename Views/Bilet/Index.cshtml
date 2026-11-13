@@ -34,6 +34,21 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
+    .bilet-video {
+        display: block;
+        margin-top: 6px;
+        text-align: center;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #ff8095;
+        text-decoration: none;
+        padding: 4px 6px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 45, 74, .45);
+        background: rgba(255, 45, 74, .1);
+    }
+    .bilet-video:hover { background: rgba(255, 45, 74, .22); color: #fff; }
+
     /* Har bir qatorda 8 ta bilet desktopda */
     @@media (min-width: 1200px) {
         .bilet-col
@@ -106,5 +121,21 @@
             col.appendChild(card);
             container.appendChild(col);
         }
+
+        // Video tushuntirishi bor biletlar — "🎬 Video" tugmasi (dars sifatida ko'rish)
+        try {
+            const vc = await (await fetch('/Bilet/VideoCounts', { credentials: 'same-origin' })).json();
+            Object.keys(vc).forEach(function (n) {
+                const col = container.children[+n - 1];
+                if (!col) return;
+                const a = document.createElement("a");
+                a.className = "bilet-video";
+                a.href = "/Bilet/Lessons?biletNumber=" + n;
+                a.textContent = "🎬 " + I18n.t("bilet.videos", { n: vc[n] });
+                a.setAttribute("data-i18n", "bilet.videos");
+                a.setAttribute("data-i18n-args", JSON.stringify({ n: vc[n] }));
+                col.appendChild(a);
+            });
+        } catch (e) { }
     });
 </script>

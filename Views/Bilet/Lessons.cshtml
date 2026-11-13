@@ -1,0 +1,28 @@
+@model List<TopicLesson>
+@* Bilet videolari: shu bilet savollarini tushuntiradigan videolar (dars sifatida ko'rish) *@
+@{
+    Layout = "_CabinetLayout";
+    var n = (int)ViewBag.Bilet;
+    ViewData["TitleKey"] = "bilet.pageTitle";
+    ViewData["Title"] = L.F("bilet.item", ("n", n));
+    string Fmt(int s) => s >= 3600 ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
+}
+<div class="ca-page-head">
+    <div>
+        <a class="ca-link" href="/Bilet">← <span data-i18n="bilet.list">@L["bilet.list"]</span></a>
+        <h1 class="ca-h1" style="margin-top:8px;">🎬 <span data-i18n="bilet.item" data-i18n-args='{"n":@n}'>@L.F("bilet.item", ("n", n))</span></h1>
+        <p class="ca-sub" data-i18n="bilet.videosSub">@L["bilet.videosSub"]</p>
+    </div>
+    <div class="ca-actions">
+        <a class="ca-btn ca-btn-primary" href="/Bilet/TestPage?biletNumber=@n">@Icons.Target <span data-i18n="bilet.solve">@L["bilet.solve"]</span></a>
+    </div>
+</div>
+<div class="th-videos">
+    @foreach (var v in Model)
+    {
+        <a class="th-video" href="/Topic/Watch/@v.Id">
+            <span class="th-video-ic">@Icons.Play</span>
+            <span><b>@(v.Title ?? L.Topic(v.Topic))</b><small>@Fmt(v.DurationSeconds) · @L.Topic(v.Topic)</small></span>
+        </a>
+    }
+</div>

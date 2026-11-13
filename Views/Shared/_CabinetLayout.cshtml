@@ -1,4 +1,5 @@
-﻿@* Foydalanuvchi kabineti: chap sidebar + yuqori panel (til, profil). Mobil ekranda sidebar chiqib keladigan menyu. *@
+﻿@inject SubscriptionService Subs
+@* Foydalanuvchi kabineti: chap sidebar + yuqori panel (til, profil). Mobil ekranda sidebar chiqib keladigan menyu. *@
 @{
     var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
     var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
@@ -18,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/engage.css" asp-append-version="true" />
     <partial name="_I18nScripts" />
 </head>
 <body class="ca-body">
@@ -41,8 +43,15 @@
                     <span class="ca-nav-count">@(activeMistakes > 99 ? "99+" : activeMistakes)</span>
                 }
             </a>
+            <a class="ca-nav-link @Active("Saved")" asp-controller="Cabinet" asp-action="Saved">
+                <span aria-hidden="true" style="width:18px;text-align:center;">★</span> <span data-i18n="sv.title">@L["sv.title"]</span>
+            </a>
             <a class="ca-nav-link @Active("Analysis")" asp-controller="Cabinet" asp-action="Analysis">
                 @Icons.Sparkles <span data-i18n="cab.analysis">@L["cab.analysis"]</span>
+            </a>
+            <a class="ca-nav-link @(controller.Equals("Messages", StringComparison.OrdinalIgnoreCase) ? "active" : "")" asp-controller="Messages" asp-action="Index">
+                <span aria-hidden="true" style="width:18px;text-align:center;">💬</span> <span data-i18n="msg.title">@L["msg.title"]</span>
+                <span class="ca-nav-count" data-msg-count hidden></span>
             </a>
 
             <div class="ca-nav-label" data-i18n="nav.tests">@L["nav.tests"]</div>
@@ -61,6 +70,12 @@
             <a class="ca-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Live" ? "active" : "")" asp-controller="Live" asp-action="Index">
                 @Icons.Play <span data-i18n="lv.title">@L["lv.title"]</span>
             </a>
+            @if (Subs.VisibleToUsers && !User.IsInRole(Roles.SuperAdmin))
+            {
+                <a class="ca-nav-link @(controller.Equals("Pay", StringComparison.OrdinalIgnoreCase) ? "active" : "")" href="/Pay/My">
+                    @Icons.Shield <span data-i18n="pay.title">@L["pay.title"]</span>
+                </a>
+            }
         </nav>
 
         <div class="ca-side-cta">
@@ -98,6 +113,8 @@
 
     @Html.AntiForgeryToken()
     <script src="~/js/ui.js" asp-append-version="true"></script>
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+    <script>Chat.badge("[data-msg-count]");</script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

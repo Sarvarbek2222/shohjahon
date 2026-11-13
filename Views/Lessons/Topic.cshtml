@@ -1,0 +1,135 @@
+@model LessonTopicModel
+@* Admin: mavzu ichi — savollar qatori. Savollarni belgilab: yangi video yaratish yoki mavjud videoga qo'shish. *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "ls.adminTitle";
+    ViewData["Title"] = L.Topic(Model.Topic);
+    var t = Model.Topic;
+    var enc = Uri.EscapeDataString(t);
+    string Fmt(int s) => s >= 3600 ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
+    var msg = TempData["LsMsg"] as string;
+    var err = TempData["LsErr"] as string;
+}
+<link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
+
+<div class="ca-body-embed">
+    <div class="ca-page-head">
+        <div style="min-width:0;">
+            <a class="ca-link" href="/Lessons">← <span data-i18n="ls.backToList">@L["ls.backToList"]</span></a>
+            <h1 class="ca-h1" style="margin-top:8px;" data-i18n-pick data-uz="@Topics.Display(t, Lang.Uz)" data-ru="@Topics.Display(t, Lang.Ru)" data-uzk="@t">@L.Topic(t)</h1>
+            <p class="ca-sub" data-i18n="ls.topicSub">@L["ls.topicSub"]</p>
+        </div>
+        <a class="ca-btn ca-btn-ghost" href="/Lessons/Edit?topic=@enc">+ <span data-i18n="ls.newEmpty">@L["ls.newEmpty"]</span></a>
+    </div>
+    @if (msg != null) { <div class="ca-alert ca-alert-info" data-i18n="@msg">@L[msg]</div> }
+    @if (err != null) { <div class="ca-alert" style="border-color:rgba(255,77,106,.5);color:#ffb3c0;" data-i18n="@err">@L[err]</div> }
+
+    @if (Model.Lessons.Count > 0)
+    {
+        <div class="ca-card ca-section">
+            <div class="ca-card-head"><h3 class="ca-card-title">🎬 <span data-i18n="ls.topicVideos">@L["ls.topicVideos"]</span></h3></div>
+            <div class="lt-videos">
+                @foreach (var c in Model.Lessons)
+                {
+                    var l = c.Lesson;
+                    var state = !l.HasVideo ? "none" : l.IsPublished ? "pub" : "draft";
+                    var stateKey = state == "pub" ? "ls.statePub" : state == "draft" ? "ls.stateDraft" : "ls.stateNone";
+                    <a class="lt-video" href="/Lessons/Edit/@l.Id">
+                        <b>@(l.Title ?? L.Topic(l.Topic))</b>
+                        <span class="al-status @state" data-i18n="@stateKey">@L[stateKey]</span>
+                        <small>@(l.HasVideo ? Fmt(l.DurationSeconds) + " · " : "")<span data-i18n="ls.nQuestions" data-i18n-args='{"n":@c.Questions}'>@L.F("ls.nQuestions", ("n", c.Questions))</span></small>
+                    </a>
+                }
+            </div>
+        </div>
+    }
+
+    <form method="post" id="pickForm" class="ca-card ca-section" style="padding:0;">
+        @Html.AntiForgeryToken()
+        <div class="lt-bar">
+            <label class="lt-all"><input type="checkbox" id="ltAll" /> <span data-i18n="users.selectAll">@L["users.selectAll"]</span></label>
+            <label class="lt-all"><input type="checkbox" id="ltFree" /> <span data-i18n="ls.onlyFree">@L["ls.onlyFree"]</span></label>
+            <span class="ca-muted ca-small"><b id="ltN">0</b> <span data-i18n="users.selected">@L["users.selected"]</span></span>
+            <span style="flex:1"></span>
+            <button type="button" class="ca-btn ca-btn-primary ca-btn-sm" id="ltNew" disabled>🎬 <span data-i18n="ls.newForSel">@L["ls.newForSel"]</span></button>
+            @if (Model.Lessons.Count > 0)
+            {
+                <select name="lessonId" class="ca-input ca-btn-sm" id="ltLesson" style="max-width:220px;">
+                    @foreach (var c in Model.Lessons)
+                    {
+                        <option value="@c.Lesson.Id">@(c.Lesson.Title ?? L.Topic(c.Lesson.Topic))</option>
+                    }
+                </select>
+                <button type="submit" formaction="/Lessons/Attach" class="ca-btn ca-btn-ghost ca-btn-sm" id="ltAttach" disabled data-i18n="ls.attachSel">@L["ls.attachSel"]</button>
+            }
+        </div>
+        <ol class="lt-list">
+            @foreach (var q in Model.Questions)
+            {
+                <li class="lt-q @(q.Lessons.Count > 0 ? "has" : "")">
+                    <input type="checkbox" name="q" value="@q.Id" class="lt-chk" aria-label="#@q.Number" />
+                    <span class="lt-n">@q.Number</span>
+                    @if (!string.IsNullOrEmpty(q.ImageUrl)) { <img src="/uploads/@q.ImageUrl" alt="" loading="lazy" /> } else { <span class="ae-noimg"></span> }
+                    <span class="lt-t">@q.Text
+                        <small>
+                            @if (q.Bilet is int b) { <span>🎫 @b</span> }
+                            @foreach (var r in q.Lessons) { <a href="/Lessons/Edit/@r.Id" class="lt-tag">🎬 @r.Title</a> }
+                        </small>
+                    </span>
+                </li>
+            }
+        </ol>
+    </form>
+</div>
+<style>
+    .lt-videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+    .lt-video { display: grid; gap: 4px; padding: 12px; border-radius: 14px; background: var(--ca-surface-2); border: 1px solid var(--ca-border); text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+    .lt-video:hover { border-color: var(--ca-border-strong); transform: translateY(-2px); }
+    .lt-video .al-status { justify-self: start; }
+    .lt-video small { color: var(--ca-muted); }
+    .lt-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--ca-border); position: sticky; top: 0; z-index: 3; background: var(--ca-surface); border-radius: 18px 18px 0 0; }
+    .lt-all { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; cursor: pointer; }
+    .lt-list { list-style: none; margin: 0; padding: 0; }
+    .lt-q { display: grid; grid-template-columns: 22px 34px 64px 1fr; gap: 10px; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--ca-border); cursor: pointer; }
+    .lt-q:hover { background: var(--ca-surface-2); }
+    .lt-q.has { box-shadow: inset 3px 0 0 var(--ca-ok); }
+    .lt-q img, .lt-q .ae-noimg { width: 64px; height: 42px; object-fit: cover; border-radius: 6px; }
+    .lt-chk { width: 18px; height: 18px; accent-color: var(--ca-brand); }
+    .lt-n { font-weight: 800; color: var(--ca-muted); text-align: center; }
+    .lt-t { min-width: 0; font-size: 14px; line-height: 1.4; }
+    .lt-t small { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; color: var(--ca-muted); font-size: 12px; }
+    .lt-tag { color: var(--ca-ok); text-decoration: none; padding: 1px 8px; border-radius: 999px; background: var(--ca-ok-soft); }
+    @@media (max-width: 600px) { .lt-q { grid-template-columns: 22px 28px 1fr; } .lt-q img, .lt-q .ae-noimg { display: none; } }
+</style>
+<script>
+    (function () {
+        var boxes = Array.prototype.slice.call(document.querySelectorAll(".lt-chk"));
+        var all = document.getElementById("ltAll"), free = document.getElementById("ltFree");
+        function vis(b) { return !b.closest(".lt-q").hidden; }
+        function sel() { return boxes.filter(function (b) { return b.checked; }); }
+        function upd() {
+            var n = sel().length;
+            document.getElementById("ltN").textContent = n;
+            document.getElementById("ltNew").disabled = n === 0;
+            var at = document.getElementById("ltAttach"); if (at) at.disabled = n === 0;
+            var v = boxes.filter(vis);
+            all.checked = v.length > 0 && v.every(function (b) { return b.checked; });
+        }
+        document.querySelectorAll(".lt-q").forEach(function (li) {
+            li.addEventListener("click", function (e) {
+                if (e.target.closest("a") || e.target.classList.contains("lt-chk")) return;
+                var c = li.querySelector(".lt-chk"); c.checked = !c.checked; upd();
+            });
+        });
+        boxes.forEach(function (b) { b.addEventListener("change", upd); });
+        all.addEventListener("change", function () { boxes.filter(vis).forEach(function (b) { b.checked = all.checked; }); upd(); });
+        free.addEventListener("change", function () {
+            document.querySelectorAll(".lt-q").forEach(function (li) { li.hidden = free.checked && li.classList.contains("has"); });
+            upd();
+        });
+        document.getElementById("ltNew").addEventListener("click", function () {
+            location.href = "/Lessons/Edit?topic=@enc&q=" + sel().map(function (b) { return b.value; }).join(",");
+        });
+        upd();
+    })();
+</script>

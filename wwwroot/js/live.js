@@ -42,8 +42,11 @@
     };
 
     function connect(lessonId, onReconnect) {
+        // SSE ishlatilmaydi: Nginx uni buferlab ushlab qoladi va ulanish "ulanmoqda"da qotib qoladi.
+        // WebSocket (Nginx'da Upgrade sozlangan bo'lsa) yoki long-polling — ikkalasi ham har qanday serverda ishlaydi.
+        var T = signalR.HttpTransportType;
         var conn = new signalR.HubConnectionBuilder()
-            .withUrl("/hubs/live")
+            .withUrl("/hubs/live", { transport: T.WebSockets | T.LongPolling })
             .withAutomaticReconnect([0, 2000, 5000, 10000, 20000, 30000])
             .build();
         var badge = document.querySelector("[data-conn]");
@@ -62,7 +65,7 @@
         var conn = connect(cfg.lessonId, join);
 
         var video = $("#lvVideo"), connecting = $("#lvConnecting"), unmute = $("#lvUnmute"), latency = $("#lvLatency");
-        var player = new StreamPlayer(video, cfg.lessonId, function (state, lag) {
+        var player = new StreamPlayer(video, cfg.lessonId, cfg.k, function (state, lag) {
             connecting.hidden = state === "playing" || state === "needplay";
             $("#lvUnsupported").hidden = state !== "unsupported";
             if (state === "unsupported") connecting.hidden = true;
@@ -322,6 +325,14 @@
             stats: function (kbps, n) { $("#bcRate").textContent = kbps; $("#bcSent").textContent = n; },
             warn: function (w) { $("#bcWarn").hidden = !w; },
             onSourceEnded: function () { bc.stop(); },
+            kind: function (k) { $("#bcFlip").hidden = k !== "camera"; },
+        });
+        $("#bcFlip").addEventListener("click", function () {
+            var b = this;
+            b.disabled = true;
+            bc.flip().then(function (f) { b.classList.toggle("on", f === "environment"); })
+                .catch(function () { stateText.textContent = t("lv.bcFlipFail"); })
+                .then(function () { b.disabled = false; });
         });
         if (!bc.supported) { stateText.textContent = t("lv.bcUnsupported"); document.querySelectorAll("[data-src]").forEach(function (b) { b.disabled = true; }); }
         document.querySelectorAll("[data-src]").forEach(function (b) {
@@ -364,12 +375,27 @@
 
 
     // ═════════ Efir pleeri (o'quvchi): 2 soniyalik WebM bo'laklar → Media Source, jonli chegarada ushlab turiladi ═════════
-    function StreamPlayer(video, lessonId, onState) {
+    function StreamPlayer(video, lessonId, ticket, onState) {
+        var kq = ticket ? "&k=" + encodeURIComponent(ticket) : "";
         var MS = window.ManagedMediaSource || window.MediaSource;
         var self = this, ms = null, sb = null, next = -1, running = false, mseMime = null, queue = [];
         this.supported = !!MS;
 
-        function mseType(m) {
+        // MP4 (H.264): aniq kodek satri bo'lakning o'zidan olinadi (avcC → avc1.PPCCLL) — MSE oddiy "avc1" ni qabul qilmaydi
+        function find(u8, a, b, c, d) {
+            for (var i = 0; i < u8.length - 8; i++) if (u8[i] === a && u8[i + 1] === b && u8[i + 2] === c && u8[i + 3] === d) return i;
+            return -1;
+        }
+        function hex(x) { return (x < 16 ? "0" : "") + x.toString(16); }
+        function mseType(m, first) {
+            if (/^video\/mp4/.test(m || "")) {
+                var u8 = new Uint8Array(first), list = [];
+                var i = find(u8, 0x61, 0x76, 0x63, 0x43); // avcC
+                if (i >= 0) list.push("avc1." + hex(u8[i + 5]) + hex(u8[i + 6]) + hex(u8[i + 7]));
+                if (find(u8, 0x6d, 0x70, 0x34, 0x61) >= 0) list.push("mp4a.40.2");
+                else if (find(u8, 0x4f, 0x70, 0x75, 0x73) >= 0) list.push("opus");
+                return 'video/mp4; codecs="' + (list.length ? list.join(", ") : "avc1.42e01f") + '"';
+            }
             var c = /codecs=([^;]+)/.exec(m || "");
             return c ? 'video/webm; codecs="' + c[1].replace(/,/g, ", ") + '"' : "video/webm";
         }
@@ -391,9 +417,9 @@
         }
         function bufferedEnd() { var b = video.buffered; return b.length ? b.end(b.length - 1) : 0; }
 
-        function open(mime) {
+        function open(mime, first) {
             return new Promise(function (resolve, reject) {
-                mseMime = mseType(mime);
+                mseMime = mseType(mime, first);
                 if (!MS.isTypeSupported(mseMime)) return reject(new Error("unsupported"));
                 ms = new MS();
                 if (window.ManagedMediaSource && MS === window.ManagedMediaSource) video.disableRemotePlayback = true;
@@ -412,10 +438,11 @@
             try {
                 var st = await (await fetch("/Live/StreamState/" + lessonId, { credentials: "same-origin", cache: "no-store" })).json();
                 if (!st.active) { running = false; onState("waiting"); return; }
-                if (!ms) await open(st.mime);
                 next = Math.max(0, st.last - 1);
+                // Pleer birinchi bo'lak kelganda ochiladi; o'qituvchi formati o'zgarsa — qayta ochiladi
+                if (ms && mseMime && mseMime.indexOf(/^video\/mp4/.test(st.mime) ? "mp4" : "webm") < 0) { ms = null; sb = null; }
                 onState("buffering");
-                loop();
+                loop(st.mime);
             } catch (e) {
                 running = false;
                 onState(e.message === "unsupported" ? "unsupported" : "waiting");
@@ -423,15 +450,20 @@
         };
         this.stop = function () { running = false; };
 
-        async function loop() {
+        async function loop(mime) {
             var misses = 0;
             while (running) {
                 var r;
-                try { r = await fetch("/Live/Seg/" + lessonId + "?seq=" + next, { credentials: "same-origin", cache: "no-store" }); }
+                try { r = await fetch("/Live/Seg/" + lessonId + "?seq=" + next + kq, { credentials: "same-origin", cache: "no-store" }); }
                 catch (e) { await sleep(1500); continue; }
                 if (r.ok) {
                     misses = 0;
-                    try { await append(await r.arrayBuffer()); } catch (e) { await sleep(500); }
+                    var buf = await r.arrayBuffer();
+                    if (!ms) {
+                        try { await open(mime, buf); }
+                        catch (e) { running = false; onState(e.message === "unsupported" ? "unsupported" : "waiting"); return; }
+                    }
+                    try { await append(buf); } catch (e) { await sleep(300); }
                     next++;
                     // Jonli chegaradan uzoqlashsa — oldinga sakrash (kechikish ~3–5 s)
                     var end = bufferedEnd();
@@ -451,15 +483,26 @@
             }
         }
         function sleep(ms2) { return new Promise(function (r) { setTimeout(r, ms2); }); }
+
+        // Bo'laklar orasidagi mayda bo'shliqlar (audio/video uzunligi farqi): pleer to'xtab qolmasin — keyingi qismga sakraydi
+        setInterval(function () {
+            if (!running || !ms) return;
+            var b = video.buffered, t = video.currentTime;
+            for (var i = 0; i < b.length; i++) {
+                if (t >= b.start(i) - 0.001 && t <= b.end(i) - 0.15) return;
+                if (b.start(i) > t) { video.currentTime = b.start(i) + 0.02; return; }
+            }
+        }, 400);
     }
 
     // ═════════ Efir uzatuvchi (admin): kamera/ekran + mikrofon → 2 soniyalik WebM bo'laklar → server ═════════
     function Broadcaster(lessonId, token, ui) {
         var stream = null, mic = null, screen = null, audioCtx = null, on = false, rec = null, timer = null;
-        var mime = ["video/webm;codecs=vp8,opus", "video/webm;codecs=vp9,opus", "video/webm"].filter(function (m) {
+        // MP4 (H.264 + AAC) — barcha telefonlar (iPhone ham) ko'ra oladi; brauzer yoza olmasa — WebM
+        var mime = ["video/mp4;codecs=avc1,mp4a.40.2", "video/webm;codecs=vp8,opus", "video/webm;codecs=vp9,opus", "video/webm", "video/mp4"].filter(function (m) {
             return window.MediaRecorder && MediaRecorder.isTypeSupported(m);
         })[0];
-        var queue = [], sending = false, sent = 0, bytesWindow = [], quality = 720;
+        var queue = [], sending = false, sent = 0, bytesWindow = [], quality = 720, facing = "user", kindNow = null;
         this.supported = !!mime && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 
         function bitrate() { return quality >= 1080 ? 2500000 : quality >= 720 ? 1200000 : 700000; }
@@ -473,9 +516,10 @@
 
         this.useSource = async function (kind) {
             var video, audio;
+            kindNow = kind;
             if (kind === "camera") {
                 var cam = await navigator.mediaDevices.getUserMedia({
-                    video: { width: { ideal: quality * 16 / 9 }, height: { ideal: quality }, frameRate: { ideal: 25, max: 30 } },
+                    video: camVideo(),
                     audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
                 });
                 video = cam.getVideoTracks()[0];
@@ -499,6 +543,27 @@
             ui.preview(stream);
             if (!on) { on = true; segment(); }
             ui.state("on");
+            ui.kind(kind);
+        };
+
+        function camVideo() {
+            return { width: { ideal: Math.round(quality * 16 / 9) }, height: { ideal: quality }, frameRate: { ideal: 25, max: 30 }, facingMode: { ideal: facing } };
+        }
+
+        // Old ↔ orqa kamera: efir to'xtamaydi — keyingi bo'lak yangi kameradan yoziladi
+        this.flip = async function () {
+            facing = facing === "user" ? "environment" : "user";
+            if (kindNow !== "camera" || !stream) return facing;
+            var old = stream.getVideoTracks()[0];
+            if (old) old.stop(); // ba'zi telefonlar ikki kamerani birga ocha olmaydi
+            var fresh = await navigator.mediaDevices.getUserMedia({ video: camVideo() });
+            var nv = fresh.getVideoTracks()[0];
+            nv.contentHint = "motion";
+            if (old) stream.removeTrack(old);
+            stream.addTrack(nv);
+            if (screen) { screen.getVideoTracks().forEach(function (x) { screen.removeTrack(x); }); screen.addTrack(nv); }
+            ui.preview(stream);
+            return facing;
         };
 
         this.setQuality = function (q) { quality = q; };
@@ -513,7 +578,7 @@
         function segment() {
             if (!on || !stream) return;
             var parts = [];
-            try { rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: bitrate(), audioBitsPerSecond: 64000 }); }
+            try { rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: bitrate(), audioBitsPerSecond: mime.indexOf("mp4") >= 0 ? 96000 : 64000 }); }
             catch (e) { ui.state("error"); return; }
             rec.ondataavailable = function (e) { if (e.data && e.data.size) parts.push(e.data); };
             rec.onstop = function () {
@@ -559,7 +624,8 @@
             on = false;
             clearTimeout(timer);
             if (rec && rec.state !== "inactive") { rec.onstop = null; rec.stop(); }
-            stopTracks(screen); stopTracks(mic); screen = mic = stream = null;
+            stopTracks(screen); stopTracks(mic); screen = mic = stream = null; kindNow = null;
+            ui.kind(null);
             ui.preview(null);
             ui.state("off");
             fetch("/Live/PushStop/" + lessonId, { method: "POST", credentials: "same-origin", headers: { "RequestVerificationToken": token } }).catch(function () { });

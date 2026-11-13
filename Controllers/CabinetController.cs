@@ -70,8 +70,17 @@ public class CabinetController : Controller
     /// Xatolarni qayta ishlash — test sahifalari bilan bir xil ko'rinish.
     /// ids berilsa — "Savol qidirish"dan tanlangan savol(lar)ni xuddi shu ko'rinishda alohida ishlash.
     /// </summary>
-    public async Task<IActionResult> Practice(string? ids, string? q)
+    public async Task<IActionResult> Practice(string? ids, string? q, bool saved = false)
     {
+        // Saqlangan savollarni ishlash
+        if (saved)
+        {
+            if (!await _db.SavedQuestions.AnyAsync(s => s.UserId == UserId)) return RedirectToAction(nameof(Saved));
+            ViewBag.SavedMode = true;
+            ViewBag.BackUrl = Url.Action(nameof(Saved));
+            return View();
+        }
+
         // "ids=" bo'sh bo'lsa ham qidiruv rejimi (model binding bo'sh qiymatni null qiladi)
         if (Request.Query.ContainsKey("ids"))
         {
@@ -85,6 +94,27 @@ public class CabinetController : Controller
         bool any = await _db.UserMistakes.AnyAsync(m => m.UserId == UserId && m.ResolvedAt == null);
         if (!any) return RedirectToAction(nameof(Mistakes));
         return View();
+    }
+
+    /// <summary>Saqlangan savollar (oxirgi saqlangani birinchi).</summary>
+    public async Task<IActionResult> Saved()
+    {
+        var rows = await _db.SavedQuestions.AsNoTracking().Where(s => s.UserId == UserId)
+            .OrderByDescending(s => s.CreatedAt).Select(s => new { s.QuestionId, s.CreatedAt }).ToListAsync();
+        var byId = (await _bank.AllAsync()).ToDictionary(x => x.Id);
+        var mistakes = (await _db.UserMistakes.AsNoTracking().Where(m => m.UserId == UserId && m.ResolvedAt == null)
+            .Select(m => m.QuestionId).ToListAsync()).ToHashSet();
+        ViewBag.Mistakes = mistakes;
+        return View(rows.Where(r => byId.ContainsKey(r.QuestionId)).Select(r => new SavedRow(byId[r.QuestionId], r.CreatedAt)).ToList());
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetSavedQuestions()
+    {
+        var ids = await _db.SavedQuestions.AsNoTracking().Where(s => s.UserId == UserId)
+            .OrderByDescending(s => s.CreatedAt).Select(s => s.QuestionId).ToListAsync();
+        var byId = (await _bank.AllAsync()).ToDictionary(x => x.Id);
+        return Json(ids.Where(byId.ContainsKey).Select(id => QuestionJson.From(byId[id])));
     }
 
     /// <summary>Qidiruvdan tanlangan savollar — berilgan tartibda (ko'pi bilan QuestionSearch.MaxResults ta).</summary>
@@ -254,3 +284,5 @@ public static class Score
     public static string BarClass(double percent) => percent >= 90 ? "ok" : percent >= 60 ? "warn" : "";
     public static string Pct(double fraction) => Math.Round(fraction * 100).ToString("0");
 }
+
+public record SavedRow(Question Question, DateTime SavedAt);

@@ -26,7 +26,12 @@ public class AnalyticsController : Controller
         // Ma'lumot fonda tayyorlab qo'yiladi — sahifa darhol ochiladi ("Yangilash" — hozir qayta hisoblash)
         var data = await snapshot.GetAsync(force: refresh);
         ViewBag.BuiltAt = data.BuiltAt;
-        var model = new AnalyticsModel { Platform = data.Platform, Students = data.Students };
+        // Onlayn o'quvchilar birinchi, keyin oxirgi faollik bo'yicha
+        var students = data.Students
+            .OrderByDescending(s => presence.IsOnline(s.User.Id))
+            .ThenByDescending(s => presence.LastSeen(s.User) ?? DateTime.MinValue)
+            .ToList();
+        var model = new AnalyticsModel { Platform = data.Platform, Students = students, League = data.League };
         return View(model);
     }
 
@@ -64,4 +69,5 @@ public class AnalyticsModel
 {
     public PlatformStats Platform { get; set; } = new();
     public List<UserStats> Students { get; set; } = new();
+    public LeagueData League { get; set; } = new(new(), DateTime.UtcNow);
 }

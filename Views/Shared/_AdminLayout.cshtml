@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/engage.css" asp-append-version="true" />
     <partial name="_I18nScripts" />
    
     <style>
@@ -498,6 +499,30 @@
             .adm-topbar-right { gap: 6px; }
             .adm-breadcrumb { display: none; }
         }
+        /* ═══ Sidebar — professional ko'rinish ═══ */
+        .adm-sidebar { background: linear-gradient(180deg, #0c0e17 0%, #090a12 100%); border-right: 1px solid rgba(255,255,255,0.06); box-shadow: 8px 0 40px rgba(0,0,0,.35); }
+        .adm-logo { padding: 22px 20px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .adm-logo-icon { background: linear-gradient(135deg, #ff2d4a, #ff7a45); box-shadow: 0 8px 24px rgba(255,45,74,.35); border-radius: 12px; }
+        .adm-logo-text { letter-spacing: .08em; background: linear-gradient(90deg, #fff, #ffb4c0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .adm-nav { padding: 10px 12px 18px; gap: 2px; }
+        .adm-nav-label { margin: 16px 10px 6px; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: #6b7190; font-weight: 700; }
+        .adm-nav-label:first-child { margin-top: 6px; }
+        .adm-link { position: relative; display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px; color: #aeb3c7; font-weight: 600; font-size: 13.5px; transition: background .18s, color .18s, transform .18s; }
+        .adm-link:hover { background: rgba(255,255,255,0.045); color: #fff; transform: translateX(2px); }
+        .adm-link-icon { width: 34px; height: 34px; flex: 0 0 34px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05); font-size: 0; transition: background .18s, border-color .18s, box-shadow .18s; }
+        .adm-link-icon svg { width: 18px; height: 18px; }
+        .adm-link:hover .adm-link-icon { border-color: rgba(255,255,255,0.12); }
+        .adm-link.active { background: linear-gradient(90deg, rgba(255,45,74,.16), rgba(255,45,74,.04)); color: #fff; }
+        .adm-link.active::before { left: -12px; top: 8px; bottom: 8px; width: 4px; border-radius: 0 4px 4px 0; background: linear-gradient(180deg, #ff2d4a, #ff7a45); box-shadow: 0 0 14px rgba(255,45,74,.7); }
+        .adm-link.active .adm-link-icon { background: linear-gradient(135deg, #ff2d4a, #ff7a45); border-color: transparent; color: #fff; box-shadow: 0 6px 18px rgba(255,45,74,.4); }
+        .adm-link .adm-dev-count { margin-left: auto; }
+        .adm-link.logout { margin-top: 4px; color: #ff8095; }
+        .adm-link.logout .adm-link-icon { background: rgba(255,45,74,.08); border-color: rgba(255,45,74,.2); }
+        .adm-nav-divider { margin: 12px 10px; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent); }
+        .adm-sidebar-footer { border-top: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.015); }
+        .adm-user-avatar { background: linear-gradient(135deg, #ff2d4a, #ff7a45); box-shadow: 0 6px 16px rgba(255,45,74,.35); }
+        .adm-nav::-webkit-scrollbar { width: 6px; }
+        .adm-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 6px; }
     </style>
 </head>
 <body>
@@ -524,59 +549,62 @@
         <nav class="adm-nav">
 
             <div class="adm-nav-label" data-i18n="admin.main">@L["admin.main"]</div>
-
-            <a asp-controller="Question" asp-action="Index1" class="adm-link active">
-                <span class="adm-link-icon">📊</span>
+            <a asp-controller="Question" asp-action="Index1" class="adm-link">
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>
                 <span class="adm-link-text" data-i18n="admin.dashboard">@L["admin.dashboard"]</span>
             </a>
-
-            <a asp-controller="Question" asp-action="Index" class="adm-link">
-                <span class="adm-link-icon">📝</span>
-                <span class="adm-link-text" data-i18n="admin.questions">@L["admin.questions"]</span>
-                <span class="adm-link-badge" data-i18n="admin.new">@L["admin.new"]</span>
-            </a>
-
             <a asp-controller="Analytics" asp-action="Index" class="adm-link">
-                <span class="adm-link-icon">📈</span>
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></span>
                 <span class="adm-link-text" data-i18n="admin.analytics">@L["admin.analytics"]</span>
             </a>
-
             <a asp-controller="Reports" asp-action="Index" class="adm-link">
-                <span class="adm-link-icon">🧠</span>
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/></svg></span>
                 <span class="adm-link-text" data-i18n="rep.title">@L["rep.title"]</span>
             </a>
 
+            <div class="adm-nav-label" data-i18n="admin.content">@L["admin.content"]</div>
+            <a asp-controller="Question" asp-action="Index" class="adm-link">
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg></span>
+                <span class="adm-link-text" data-i18n="admin.questions">@L["admin.questions"]</span>
+            </a>
+            <a asp-controller="Question" asp-action="Create" class="adm-link">
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>
+                <span class="adm-link-text" data-i18n="admin.addQuestion">@L["admin.addQuestion"]</span>
+            </a>
             <a asp-controller="Lessons" asp-action="Index" class="adm-link">
-                <span class="adm-link-icon">🎬</span>
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="m17 10 5-3v10l-5-3z"/></svg></span>
                 <span class="adm-link-text" data-i18n="ls.adminTitle">@L["ls.adminTitle"]</span>
             </a>
-
             <a asp-controller="Live" asp-action="Manage" class="adm-link">
-                <span class="adm-link-icon">🔴</span>
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><path d="M7.8 16.2a6 6 0 0 1 0-8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 19.1a10 10 0 0 1 0-14.2M19.1 4.9a10 10 0 0 1 0 14.2"/></svg></span>
                 <span class="adm-link-text" data-i18n="lv.adminTitle">@L["lv.adminTitle"]</span>
             </a>
 
-            <a asp-controller="Question" asp-action="Create" class="adm-link">
-                <span class="adm-link-icon">➕</span>
-                <span class="adm-link-text" data-i18n="admin.addQuestion">@L["admin.addQuestion"]</span>
-            </a>
-
-            <div class="adm-nav-divider"></div>
-            <div class="adm-nav-label" data-i18n="admin.system">@L["admin.system"]</div>
-
+            <div class="adm-nav-label" data-i18n="admin.people">@L["admin.people"]</div>
             <a asp-controller="Users" asp-action="Index" class="adm-link">
-                <span class="adm-link-icon">👥</span>
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
                 <span class="adm-link-text" data-i18n="admin.users">@L["admin.users"]</span>
             </a>
-
+            <a asp-controller="Messages" asp-action="Admin" class="adm-link">
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                <span class="adm-link-text" data-i18n="msg.title">@L["msg.title"]</span>
+                <span class="adm-dev-count" data-msg-count hidden></span>
+            </a>
             <a asp-controller="Users" asp-action="Devices" class="adm-link">
-                <span class="adm-link-icon">🔔</span>
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>
                 <span class="adm-link-text" data-i18n="dev.title">@L["dev.title"]</span>
                 <span class="adm-dev-count" data-dev-count @(pendingDevices == 0 ? "hidden" : "")>@pendingDevices</span>
             </a>
 
-<a asp-controller="Auth" asp-action="Logout" class="adm-link logout">
-                <span class="adm-link-icon">🚪</span>
+            <div class="adm-nav-label" data-i18n="admin.finance">@L["admin.finance"]</div>
+            <a asp-controller="Billing" asp-action="Index" class="adm-link">
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>
+                <span class="adm-link-text" data-i18n="bill.title">@L["bill.title"]</span>
+            </a>
+
+            <div class="adm-nav-divider"></div>
+            <a asp-controller="Auth" asp-action="Logout" class="adm-link logout">
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg></span>
                 <span class="adm-link-text" data-i18n="admin.logout">@L["admin.logout"]</span>
             </a>
 
@@ -693,5 +721,7 @@
     </script>
 
     <script src="~/js/ui.js" asp-append-version="true"></script>
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+    <script>Chat.badge("[data-msg-count]");</script>
 </body>
 </html>

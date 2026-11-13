@@ -64,8 +64,9 @@
                     <div class="ca-bar @Score.BarClass(Model.AccuracyScore)"><i data-w="@Score.Pct(Model.RecentAccuracy)"></i></div>
                 </div>
                 <div class="ca-factor">
-                    <div class="ca-factor-top"><span data-i18n="cab.factorExams">@L["cab.factorExams"]</span><b>@Model.ExamScore%</b></div>
+                    <div class="ca-factor-top"><span data-i18n="cab.factorExams">@L["cab.factorExams"]</span><b>@(Model.ExamAttempts > 0 ? Model.ExamScore + "%" : "—")</b></div>
                     <div class="ca-bar @Score.BarClass(Model.ExamScore)"><i data-w="@Model.ExamScore"></i></div>
+                    <small class="ca-muted ca-small" data-i18n="@(Model.ExamAttempts > 0 ? "cab.factorExamsHint" : "cab.factorExamsNone")">@L[Model.ExamAttempts > 0 ? "cab.factorExamsHint" : "cab.factorExamsNone"]</small>
                 </div>
             </div>
         </div>

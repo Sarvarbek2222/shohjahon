@@ -1,0 +1,103 @@
+@model List<SavedRow>
+@* Saqlangan savollar: ro'yxat, olib tashlash, hammasini ishlash *@
+@{
+    ViewData["TitleKey"] = "sv.title";
+    ViewData["Title"] = L["sv.title"];
+    var mistakes = (HashSet<int>)ViewBag.Mistakes;
+    var removed = TempData["SvMsg"] as int?;
+}
+<div class="ca-page-head">
+    <div>
+        <div class="ca-eyebrow" data-i18n="nav.myCabinet">@L["nav.myCabinet"]</div>
+        <h1 class="ca-h1">★ <span data-i18n="sv.title">@L["sv.title"]</span></h1>
+        <p class="ca-sub" data-i18n="sv.sub">@L["sv.sub"]</p>
+    </div>
+    @if (Model.Count > 0)
+    {
+        <div class="ca-actions">
+            <a class="ca-btn ca-btn-primary" asp-action="Practice" asp-route-saved="true">@Icons.Play <span data-i18n="sv.practiceAll" data-i18n-args='{"n":@Model.Count}'>@L.F("sv.practiceAll", ("n", Model.Count))</span></a>
+        </div>
+    }
+</div>
+
+@if (removed is int n)
+{
+    <div class="ca-card" role="status" style="margin-bottom:12px;border-color:var(--ca-ok);" data-i18n="sv.cleared" data-i18n-args='{"n":@n}'>@L.F("sv.cleared", ("n", n))</div>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="ca-card ca-empty">
+        <div class="ca-empty-icon" style="font-size:34px;">☆</div>
+        <h3 data-i18n="sv.empty">@L["sv.empty"]</h3>
+        <p data-i18n="sv.emptyText">@L["sv.emptyText"]</p>
+        <a class="ca-btn ca-btn-primary" asp-controller="Topic" asp-action="Index">@Icons.Book <span data-i18n="nav.topics">@L["nav.topics"]</span></a>
+    </div>
+}
+else
+{
+    <form asp-controller="Study" asp-action="Clear" method="post" id="svForm" class="ca-card" style="padding:0;">
+        <div class="sv-head">
+            <label class="us-chk-all"><input type="checkbox" id="svAll" /> <span data-i18n="users.selectAll">@L["users.selectAll"]</span></label>
+            <span class="ca-muted ca-small"><b id="svN">0</b> <span data-i18n="users.selected">@L["users.selected"]</span></span>
+            <button type="button" class="ca-btn ca-btn-ghost ca-btn-sm" id="svPractice" disabled>@Icons.Play <span data-i18n="sv.practiceSel">@L["sv.practiceSel"]</span></button>
+            <button type="submit" class="ca-btn ca-btn-ghost ca-btn-sm" id="svRemove" disabled onclick="return confirm(I18n.t('sv.removeConfirm'))">✕ <span data-i18n="sv.removeSel">@L["sv.removeSel"]</span></button>
+        </div>
+        <ol class="sv-list">
+            @foreach (var r in Model)
+            {
+                var q = r.Question;
+                <li class="sv-item">
+                    <input type="checkbox" name="ids" value="@q.Id" class="sv-chk" aria-label="#@q.Id" />
+                    @if (!string.IsNullOrEmpty(q.ImageUrl))
+                    {
+                        <img class="sv-img" src="/uploads/@q.ImageUrl" alt="" loading="lazy" />
+                    }
+                    <div class="sv-body">
+                        <div class="sv-text">@L.Pick(q.QuestionUZ, q.QuestionRU, q.QuestionUZK)</div>
+                        <div class="sv-meta">
+                            @if (!string.IsNullOrWhiteSpace(q.Topic)) { <span>📚 @L.Topic(q.Topic)</span> }
+                            @if (q.BiletNumber is int b && b > 0) { <span>🎫 @L.F("sv.bilet", ("n", b))</span> }
+                            @if (mistakes.Contains(q.Id)) { <span class="sv-bad" data-i18n="sv.inMistakes">@L["sv.inMistakes"]</span> }
+                            <span class="ca-muted">@L.Stamp(r.SavedAt)</span>
+                        </div>
+                    </div>
+                    <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Cabinet/Practice?ids=@q.Id" title="@L["sv.solveOne"]" data-i18n-title="sv.solveOne">@Icons.Play</a>
+                </li>
+            }
+        </ol>
+    </form>
+    <style>
+        .sv-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--ca-border); position: sticky; top: 0; background: var(--ca-surface); z-index: 2; border-radius: 18px 18px 0 0; }
+        .sv-list { list-style: none; margin: 0; padding: 0; }
+        .sv-item { display: flex; gap: 12px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--ca-border); }
+        .sv-item:last-child { border-bottom: 0; }
+        .sv-chk { width: 18px; height: 18px; accent-color: var(--ca-brand); flex: 0 0 auto; }
+        .sv-img { width: 72px; height: 48px; object-fit: cover; border-radius: 8px; flex: 0 0 auto; }
+        .sv-body { flex: 1; min-width: 0; }
+        .sv-text { font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+        .sv-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; font-size: 12px; color: var(--ca-muted); }
+        .sv-bad { color: var(--ca-bad); font-weight: 700; }
+        .us-chk-all { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
+        @@media (max-width: 520px) { .sv-img { display: none; } }
+    </style>
+    <script>
+        (function () {
+            var boxes = Array.prototype.slice.call(document.querySelectorAll(".sv-chk")), all = document.getElementById("svAll");
+            function sel() { return boxes.filter(function (b) { return b.checked; }); }
+            function upd() {
+                var n = sel().length;
+                document.getElementById("svN").textContent = n;
+                document.getElementById("svRemove").disabled = n === 0;
+                document.getElementById("svPractice").disabled = n === 0 || n > 30;
+                all.checked = n === boxes.length; all.indeterminate = n > 0 && n < boxes.length;
+            }
+            boxes.forEach(function (b) { b.addEventListener("change", upd); });
+            all.addEventListener("change", function () { boxes.forEach(function (b) { b.checked = all.checked; }); upd(); });
+            document.getElementById("svPractice").addEventListener("click", function () {
+                location.href = "/Cabinet/Practice?ids=" + sel().map(function (b) { return b.value; }).join(",");
+            });
+            upd();
+        })();
+    </script>
+}

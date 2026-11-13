@@ -1,0 +1,38 @@
+@model CompanyInfo
+@using propro.Localization
+@* Maxfiylik siyosati (ochiq sahifa) *@
+@{
+    Layout = "_PublicLayout";
+    ViewData["TitleKey"] = "pub.privacy";
+    ViewData["Title"] = L["pub.privacy"];
+    var ru = L.Lang == Lang.Ru;
+}
+<article class="pb-doc ca-card" style="padding:28px;">
+    <h1 class="ca-h1" data-i18n="pub.privacy">@L["pub.privacy"]</h1>
+    @if (ru)
+    {
+        <h2>Какие данные мы собираем</h2>
+        <p>Имя, логин, номер телефона, сведения об устройстве (для защиты от передачи аккаунта), результаты тестов и время занятий.</p>
+        <h2>Зачем</h2>
+        <p>Только для работы Сервиса: вход в аккаунт, сохранение прогресса, аналитика обучения, уведомления и связь с вами. Мы не продаём и не передаём данные третьим лицам, кроме случаев, предусмотренных законом.</p>
+        <h2>Оплата</h2>
+        <p>Платежи обрабатывает Payme. Данные банковских карт к нам не поступают и не хранятся.</p>
+        <h2>Защита</h2>
+        <p>Пароли хранятся только в виде криптографического хэша, соединение шифруется (HTTPS), доступ к данным имеют только администраторы.</p>
+        <h2>Удаление</h2>
+        <p>Вы можете попросить удалить аккаунт и данные по телефону @PayController.Phone. Неактивные аккаунты удаляются автоматически.</p>
+    }
+    else
+    {
+        <h2>Qanday ma'lumotlar yig'iladi</h2>
+        <p>Ism, login, telefon raqami, qurilma haqida ma'lumot (hisobni boshqalarga berishdan himoya uchun), test natijalari va o'qish vaqti.</p>
+        <h2>Nima uchun</h2>
+        <p>Faqat Xizmat ishlashi uchun: hisobga kirish, natijalarni saqlash, o'qish tahlili, bildirishnomalar va siz bilan aloqa. Ma'lumotlar uchinchi shaxslarga sotilmaydi va berilmaydi (qonunda belgilangan holatlar bundan mustasno).</p>
+        <h2>To'lov</h2>
+        <p>To'lovlarni Payme qayta ishlaydi. Bank kartasi ma'lumotlari bizga kelmaydi va saqlanmaydi.</p>
+        <h2>Himoya</h2>
+        <p>Parollar faqat kriptografik xesh ko'rinishida saqlanadi, aloqa shifrlangan (HTTPS), ma'lumotlarga faqat administratorlar kira oladi.</p>
+        <h2>O'chirish</h2>
+        <p>Hisobingiz va ma'lumotlaringizni o'chirishni @PayController.Phone raqami orqali so'rashingiz mumkin. Faol bo'lmagan hisoblar avtomatik o'chiriladi.</p>
+    }
+</article>

@@ -12,6 +12,8 @@
     var status = ViewBag.Status as string ?? "";
     var presence = (PresenceTracker)ViewBag.Presence;
     var onlineStudents = Model.Count(u => u.Role == Roles.User && presence.IsOnline(u.Id));
+    var trash = (List<AppUser>)ViewBag.Trash;
+    var msgN = TempData["MsgN"] is int mn ? mn : (int?)null;
 }
 
 <partial name="_UsersStyles" />
@@ -41,7 +43,14 @@
 
     @if (msgKey != null)
     {
-        <div class="us-alert ok" role="status" data-i18n="@msgKey">@L[msgKey]</div>
+        if (msgN is int n)
+        {
+            <div class="us-alert ok" role="status" data-i18n="@msgKey" data-i18n-args='{"n":@n}'>@L.F(msgKey, ("n", n))</div>
+        }
+        else
+        {
+            <div class="us-alert ok" role="status" data-i18n="@msgKey">@L[msgKey]</div>
+        }
     }
     @if (errKey != null)
     {
@@ -53,7 +62,8 @@
         var soonUsers = Model
             .Where(u => u.IsRestricted && u.AccessExpiresAt != null && !u.IsExpired(now) && (u.AccessExpiresAt.Value - now).TotalDays <= 7)
             .OrderBy(u => u.AccessExpiresAt).ToList();
-        var expiredUsers = Model.Where(u => u.IsExpired(now)).OrderByDescending(u => u.AccessExpiresAt).ToList();
+        // Admin o'chirgan yoki nofaol qilgan foydalanuvchilar bu ro'yxatda qayta chiqmaydi
+        var expiredUsers = Model.Where(u => u.IsExpired(now) && u.IsActive).OrderByDescending(u => u.AccessExpiresAt).ToList();
     }
     @if (soonUsers.Count > 0 || expiredUsers.Count > 0)
     {
@@ -70,11 +80,25 @@
                         <span class="us-count-badge @(isSoon ? "" : "red")">@list.Count</span>
                     </h2>
                     <p class="us-hint" data-i18n="@subKey">@L[subKey]</p>
+                    @if (!isSoon)
+                    {
+                        <form asp-action="Bulk" method="post" id="bulkExpired" class="us-bulkbar" data-bulk
+                              onsubmit="return confirm(I18n.t('users.bulkConfirmDelete', { n: this.querySelectorAll('[data-count]')[0].textContent }))">
+                            <input type="hidden" name="op" value="delete" />
+                            <label class="us-chk-all"><input type="checkbox" data-all="bulkExpired" /> <span data-i18n="users.selectAll">@L["users.selectAll"]</span></label>
+                            <span class="us-bulk-n"><b data-count>0</b> <span data-i18n="users.selected">@L["users.selected"]</span></span>
+                            <button type="submit" class="us-btn us-btn-danger us-btn-sm" data-bulk-btn disabled>🗑 <span data-i18n="users.deleteSelected">@L["users.deleteSelected"]</span></button>
+                        </form>
+                    }
                     <div class="us-expiry-list">
                         @foreach (var u in list)
                         {
                             var left = (int)Math.Ceiling((u.AccessExpiresAt!.Value - now).TotalDays);
                             <div class="us-expiry-item">
+                                @if (!isSoon)
+                                {
+                                    <input type="checkbox" class="us-chk" name="ids" value="@u.Id" form="bulkExpired" aria-label="@u.Username" />
+                                }
                                 <div class="us-expiry-who">
                                     <span class="us-login">@u.Username</span>
                                     <span class="us-muted">@u.FullName</span>
@@ -95,6 +119,15 @@
                                     }
                                 </div>
                                 <a asp-action="Edit" asp-route-id="@u.Id" class="us-btn us-btn-ghost us-btn-sm" data-i18n="users.extend">@L["users.extend"]</a>
+                                @if (!isSoon)
+                                {
+                                    <form asp-action="Delete" asp-route-id="@u.Id" method="post" data-name="@u.Username"
+                                          onsubmit="return confirm(I18n.t('users.confirmDelete', { name: this.dataset.name }))">
+                                        <button type="submit" class="us-icon-btn del" title="@L["qs.delete"]" data-i18n-title="qs.delete">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>
+                                        </button>
+                                    </form>
+                                }
                             </div>
                         }
                     </div>
@@ -133,6 +166,14 @@
         <span class="us-found" id="userFound" data-i18n="users.found"></span>
     </div>
 
+    <form asp-action="Bulk" method="post" id="bulkMain" class="us-bulkbar us-bulkbar-float" data-bulk hidden
+          onsubmit="return confirm(I18n.t('users.bulkConfirmDelete', { n: this.querySelector('[data-count]').textContent }))">
+        <input type="hidden" name="op" value="delete" />
+        <span class="us-bulk-n"><b data-count>0</b> <span data-i18n="users.selected">@L["users.selected"]</span></span>
+        <button type="button" class="us-btn us-btn-ghost us-btn-sm" data-clear data-i18n="users.clearSel">@L["users.clearSel"]</button>
+        <button type="submit" class="us-btn us-btn-danger us-btn-sm" data-bulk-btn disabled>🗑 <span data-i18n="users.deleteSelected">@L["users.deleteSelected"]</span></button>
+    </form>
+
     <div class="us-card us-card-list">
         @if (Model.Count == 0)
         {
@@ -144,6 +185,7 @@
                 <table class="us-table" id="usersTable">
                     <thead>
                         <tr>
+                            <th class="us-chk-col"><input type="checkbox" class="us-chk" data-all="bulkMain" aria-label="@L["users.selectAll"]" /></th>
                             <th data-i18n="users.username">@L["users.username"]</th>
                             <th class="hide-sm hide-c-sm" data-i18n="users.fullName">@L["users.fullName"]</th>
                             <th class="hide-sm" data-i18n="users.phone">@L["users.phone"]</th>
@@ -178,6 +220,12 @@
                             var phone = UserService.FormatPhone(u.Phone);
                             <tr data-search="@((u.Username + " " + u.FullName + " " + phone + " " + new string((u.Phone ?? "").Where(char.IsDigit).ToArray())).ToLowerInvariant())" data-tags="@string.Join(" ", tags)" data-role="@u.Role"
                                 data-uid="@u.Id" data-online="@(online ? "1" : "0")" data-seen="@(seen is DateTime sa ? DateTime.SpecifyKind(sa, DateTimeKind.Utc).ToString("o") : "")">
+                                <td class="us-chk-col">
+                                    @if (!isMe)
+                                    {
+                                        <input type="checkbox" class="us-chk" name="ids" value="@u.Id" form="bulkMain" aria-label="@u.Username" />
+                                    }
+                                </td>
                                 <td>
                                     <i class="us-pdot @(online ? "on" : "")" data-pdot aria-hidden="true"></i>
                                     <span class="us-login">@u.Username</span>
@@ -290,6 +338,45 @@
             <div class="us-empty" id="noMatch" hidden data-i18n="users.noMatch">@L["users.noMatch"]</div>
         }
     </div>
+
+    @* 🗑 O'chirilganlar: 3 kun ichida tiklash mumkin, keyin butunlay o'chadi *@
+    @if (trash.Count > 0)
+    {
+        <section class="us-card us-trash" id="trashBox">
+            <h2 class="us-expiry-title">
+                <span aria-hidden="true">🗑</span>
+                <span data-i18n="users.trashTitle">@L["users.trashTitle"]</span>
+                <span class="us-count-badge red">@trash.Count</span>
+            </h2>
+            <p class="us-hint" data-i18n="users.trashSub">@L["users.trashSub"]</p>
+            <form asp-action="Bulk" method="post" id="bulkTrash" class="us-bulkbar" data-bulk>
+                <label class="us-chk-all"><input type="checkbox" data-all="bulkTrash" /> <span data-i18n="users.selectAll">@L["users.selectAll"]</span></label>
+                <span class="us-bulk-n"><b data-count>0</b> <span data-i18n="users.selected">@L["users.selected"]</span></span>
+                <button type="submit" name="op" value="restore" class="us-btn us-btn-primary us-btn-sm" data-bulk-btn disabled>↺ <span data-i18n="users.restoreSelected">@L["users.restoreSelected"]</span></button>
+                <button type="submit" name="op" value="purge" class="us-btn us-btn-danger us-btn-sm" data-bulk-btn disabled
+                        onclick="return confirm(I18n.t('users.purgeConfirm'))">✕ <span data-i18n="users.purgeSelected">@L["users.purgeSelected"]</span></button>
+            </form>
+            <div class="us-expiry-list">
+                @foreach (var u in trash)
+                {
+                    var left = u.DeletedAt!.Value + UserCleanupService.RestoreWindow - now;
+                    var auto = u.DeletedReason == DeleteReasons.Inactive;
+                    <label class="us-expiry-item us-trash-item">
+                        <input type="checkbox" class="us-chk" name="ids" value="@u.Id" form="bulkTrash" />
+                        <div class="us-expiry-who">
+                            <span class="us-login">@u.Username</span>
+                            <span class="us-muted">@u.FullName</span>
+                            <span class="us-pill @(auto ? "exp" : "off")" data-i18n="@(auto ? "users.delAuto" : "users.delAdmin")">@L[auto ? "users.delAuto" : "users.delAdmin"]</span>
+                        </div>
+                        <div class="us-expiry-when">
+                            <span class="us-date">@L.Stamp(u.DeletedAt.Value)</span>
+                            <span class="us-left warn" data-i18n="users.restoreLeft" data-i18n-args='{"d":@((int)Math.Max(0, left.TotalDays)),"h":@(Math.Max(0, left.Hours))}'>@L.F("users.restoreLeft", ("d", (int)Math.Max(0, left.TotalDays)), ("h", Math.Max(0, left.Hours)))</span>
+                        </div>
+                    </label>
+                }
+            </div>
+        </section>
+    }
 </div>
 
 <script>
@@ -391,6 +478,20 @@
                 })
                 .catch(function () { });
         }
+        // Onlayn foydalanuvchilar birinchi, keyin oxirgi faollik bo'yicha (eng yaqini yuqorida)
+        var tbody = document.querySelector("#usersTable tbody");
+        function sortRows() {
+            if (!tbody) return;
+            var sorted = rows.slice().sort(function (a, b) {
+                var oa = a.dataset.online === "1", ob = b.dataset.online === "1";
+                if (oa !== ob) return oa ? -1 : 1;
+                var sa = a.dataset.seen ? Date.parse(a.dataset.seen) : 0, sb = b.dataset.seen ? Date.parse(b.dataset.seen) : 0;
+                return sb - sa;
+            });
+            sorted.forEach(function (tr) { tbody.appendChild(tr); });
+        }
+        var paintBase = paintAll;
+        paintAll = function () { paintBase(); sortRows(); };
         paintAll();
         setInterval(refreshPresence, 30000);
         document.addEventListener("i18n:change", paintAll);
@@ -404,5 +505,33 @@
             if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(tag)) { e.preventDefault(); search.focus(); }
         });
         apply();
+    })();
+
+    // Belgilash: "hammasini belgilash", tanlanganlar soni, tugmalar faqat tanlov bo'lsa faol
+    (function () {
+        document.querySelectorAll("form[data-bulk]").forEach(function (form) {
+            var boxes = function () { return Array.prototype.slice.call(document.querySelectorAll('input[name="ids"][form="' + form.id + '"]')); };
+            var all = document.querySelector('[data-all="' + form.id + '"]');
+            function visible(b) { var tr = b.closest("tr"); return !tr || !tr.hidden; }
+            function update() {
+                var n = boxes().filter(function (b) { return b.checked; }).length;
+                form.querySelector("[data-count]").textContent = n;
+                form.querySelectorAll("[data-bulk-btn]").forEach(function (x) { x.disabled = n === 0; });
+                if (form.classList.contains("us-bulkbar-float")) form.hidden = n === 0;
+                if (all) {
+                    var vis = boxes().filter(visible);
+                    all.checked = vis.length > 0 && vis.every(function (b) { return b.checked; });
+                    all.indeterminate = n > 0 && !all.checked;
+                }
+            }
+            boxes().forEach(function (b) { b.addEventListener("change", update); });
+            if (all) all.addEventListener("change", function () {
+                boxes().filter(visible).forEach(function (b) { b.checked = all.checked; });
+                update();
+            });
+            var clear = form.querySelector("[data-clear]");
+            if (clear) clear.addEventListener("click", function () { boxes().forEach(function (b) { b.checked = false; }); update(); });
+            update();
+        });
     })();
 </script>

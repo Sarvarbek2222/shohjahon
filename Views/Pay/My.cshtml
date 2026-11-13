@@ -1,0 +1,83 @@
+@model List<SubscriptionPlan>
+@* O'quvchi: obuna holati, tariflar (Payme orqali to'lash), to'lovlar tarixi *@
+@{
+    Layout = "_CabinetLayout";
+    ViewData["TitleKey"] = "pay.title";
+    ViewData["Title"] = L["pay.title"];
+    var st = (SubscriptionStatus)ViewBag.Status;
+    var history = (List<Payment>)ViewBag.History;
+    var err = TempData["PayErr"] as string;
+    string Sum(long n) => n.ToString("N0").Replace(",", " ").Replace(" ", " ");
+}
+<div class="ca-page-head">
+    <div>
+        <div class="ca-eyebrow" data-i18n="nav.myCabinet">@L["nav.myCabinet"]</div>
+        <h1 class="ca-h1" data-i18n="pay.title">@L["pay.title"]</h1>
+        <p class="ca-sub" data-i18n="pay.sub">@L["pay.sub"]</p>
+    </div>
+</div>
+@if (err != null) { <div class="ca-alert" style="border-color:rgba(255,77,106,.5);color:#ffb3c0;" data-i18n="@err">@L[err]</div> }
+
+<div class="ca-card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+    <div class="ca-kpi-icon @(st.Active ? (st.ExpiringSoon ? "warn" : "ok") : "brand")" style="width:52px;height:52px;">@Icons.Shield</div>
+    <div style="flex:1;min-width:200px;">
+        @if (st.ExpiresAt == null && st.Active)
+        {
+            <b data-i18n="pay.unlimited">@L["pay.unlimited"]</b>
+        }
+        else if (st.Active)
+        {
+            <b data-i18n="pay.activeUntil" data-i18n-args='{"d":"@L.Stamp(st.ExpiresAt!.Value)"}'>@L.F("pay.activeUntil", ("d", L.Stamp(st.ExpiresAt!.Value)))</b>
+            <div class="ca-muted ca-small" data-i18n="users.daysLeft" data-i18n-args='{"n":@st.DaysLeft}'>@L.F("users.daysLeft", ("n", st.DaysLeft))</div>
+        }
+        else
+        {
+            <b style="color:var(--ca-bad);" data-i18n="pay.expired">@L["pay.expired"]</b>
+        }
+    </div>
+</div>
+
+<div class="pt-grid">
+    @foreach (var p in Model)
+    {
+        <div class="ca-card pt-mini @(p.Badge != null ? "hot" : "")">
+            @if (p.Badge != null) { <span class="lg-chip lg-good">@p.Badge</span> }
+            <h3 style="margin:6px 0 2px;">@p.Name</h3>
+            <div style="font-size:1.6rem;font-weight:900;">@Sum(p.Price) <small class="ca-muted" style="font-size:.9rem;" data-i18n="pub.sum">@L["pub.sum"]</small></div>
+            <div class="ca-muted ca-small" data-i18n="pub.months" data-i18n-args='{"n":@p.Months}'>@L.F("pub.months", ("n", p.Months))</div>
+            <form method="post" action="/Pay/Buy" style="margin-top:12px;">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="planId" value="@p.Id" />
+                <button type="submit" class="ca-btn ca-btn-primary ca-btn-block" data-i18n="pub.payPayme">@L["pub.payPayme"]</button>
+            </form>
+        </div>
+    }
+</div>
+<p class="ca-muted ca-small" style="margin-top:10px;"><span data-i18n="pub.offerNote">@L["pub.offerNote"]</span> <a class="ca-link" href="/Pay/Offer" data-i18n="pub.offer">@L["pub.offer"]</a></p>
+
+@if (history.Count > 0)
+{
+    <div class="ca-card ca-section">
+        <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="pay.history">@L["pay.history"]</h3></div>
+        <div class="ca-table-wrap">
+            <table class="ca-table">
+                <thead><tr><th data-i18n="bill.colDate">@L["bill.colDate"]</th><th data-i18n="bill.colPlan">@L["bill.colPlan"]</th><th class="num" data-i18n="bill.colAmount">@L["bill.colAmount"]</th><th data-i18n="bill.colStatus">@L["bill.colStatus"]</th></tr></thead>
+                <tbody>
+                    @foreach (var h in history)
+                    {
+                        var sk = "bill.st_" + h.Status;
+                        <tr><td class="nowrap">@L.Stamp(h.CreatedAt)</td><td>@(h.Plan?.Name ?? (h.Provider == PaymentProviders.Admin ? L["bill.byAdmin"] : "—"))</td><td class="num">@Sum(h.Amount)</td><td><span class="bl-st bl-@h.Status" data-i18n="@sk">@L[sk]</span></td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<style>
+    .pt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .pt-mini.hot { border-color: rgba(255,45,74,.55); }
+    .bl-st { padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .bl-paid { color: var(--ca-ok); background: var(--ca-ok-soft); }
+    .bl-pending { color: var(--ca-warn); background: var(--ca-warn-soft); }
+    .bl-cancelled { color: var(--ca-muted); background: rgba(255,255,255,.06); }
+</style>

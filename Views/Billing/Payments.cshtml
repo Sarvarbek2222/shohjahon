@@ -1,0 +1,68 @@
+@model List<Payment>
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "bill.title";
+    ViewData["Title"] = L["bill.tabPayments"];
+    string Sum(long n) => n.ToString("N0").Replace(",", " ").Replace(" ", " ");
+    int page = ViewBag.Page, pages = ViewBag.Pages;
+    var qs = $"q={Uri.EscapeDataString((string?)ViewBag.Q ?? "")}&status={ViewBag.Status}&provider={ViewBag.Provider}&from={ViewBag.From}&to={ViewBag.To}";
+}
+<div class="ca-body-embed">
+    <partial name="_BillingNav" />
+    <form method="get" class="ca-card" style="display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:14px;">
+        <label class="ca-search" style="flex:2;min-width:220px;">@Icons.Search<input type="search" name="q" value="@ViewBag.Q" placeholder="@L["bill.searchPh"]" data-i18n-placeholder="bill.searchPh" /></label>
+        <select name="status" class="ca-input" style="flex:1;min-width:130px;">
+            <option value="" data-i18n="bill.allStatuses">@L["bill.allStatuses"]</option>
+            @foreach (var s in new[] { PaymentStatus.Paid, PaymentStatus.Pending, PaymentStatus.Cancelled })
+            {
+                var k = "bill.st_" + s;
+                <option value="@s" selected="@(ViewBag.Status == s)" data-i18n="@k">@L[k]</option>
+            }
+        </select>
+        <select name="provider" class="ca-input" style="flex:1;min-width:130px;">
+            <option value="" data-i18n="bill.allProviders">@L["bill.allProviders"]</option>
+            <option value="payme" selected="@(ViewBag.Provider == "payme")">Payme</option>
+            <option value="admin" selected="@(ViewBag.Provider == "admin")" data-i18n="bill.byAdmin">@L["bill.byAdmin"]</option>
+        </select>
+        <input type="date" name="from" value="@ViewBag.From" class="ca-input" style="flex:1;min-width:140px;" />
+        <input type="date" name="to" value="@ViewBag.To" class="ca-input" style="flex:1;min-width:140px;" />
+        <button class="ca-btn ca-btn-primary" type="submit" data-i18n="bill.filter">@L["bill.filter"]</button>
+        <a class="ca-btn ca-btn-ghost" href="/Billing/Export?@qs">⬇ CSV</a>
+    </form>
+    <div class="ca-card">
+        <div class="ca-card-head">
+            <h3 class="ca-card-title"><span data-i18n="bill.found" data-i18n-args='{"n":@ViewBag.Total}'>@L.F("bill.found", ("n", (int)ViewBag.Total))</span></h3>
+            <span class="ca-muted"><span data-i18n="bill.paidSum">@L["bill.paidSum"]</span>: <b style="color:var(--ca-ok);">@Sum((long)ViewBag.Sum)</b></span>
+        </div>
+        <div class="ca-table-wrap">
+            <table class="ca-table ca-table-cards">
+                <thead><tr><th>#</th><th data-i18n="bill.colDate">@L["bill.colDate"]</th><th data-i18n="bill.colUser">@L["bill.colUser"]</th><th data-i18n="bill.colPlan">@L["bill.colPlan"]</th><th class="num" data-i18n="bill.colAmount">@L["bill.colAmount"]</th><th data-i18n="bill.colProvider">@L["bill.colProvider"]</th><th data-i18n="bill.colStatus">@L["bill.colStatus"]</th><th data-i18n="bill.colUntil">@L["bill.colUntil"]</th></tr></thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        var sk = "bill.st_" + p.Status;
+                        <tr onclick="location.href='/Billing/Payment/@p.Id'" style="cursor:pointer;">
+                            <td data-label="#"><a href="/Billing/Payment/@p.Id">@p.Id</a></td>
+                            <td data-label="@L["bill.colDate"]" class="nowrap">@L.Stamp(p.CreatedAt)</td>
+                            <td data-label="@L["bill.colUser"]">@(p.User?.FullName ?? p.User?.Username ?? "—")<div class="ca-muted ca-small">@(p.User != null ? "@" + p.User.Username : "")</div></td>
+                            <td data-label="@L["bill.colPlan"]">@(p.Plan?.Name ?? (p.Months > 0 || p.Days > 0 ? $"{p.Months} oy {p.Days} kun" : "∞"))</td>
+                            <td data-label="@L["bill.colAmount"]" class="num"><b>@Sum(p.Amount)</b></td>
+                            <td data-label="@L["bill.colProvider"]"><span class="bl-prov @(p.Provider == PaymentProviders.Admin ? "admin" : "")">@(p.Provider == PaymentProviders.Admin ? L["bill.byAdmin"] : p.Provider)</span></td>
+                            <td data-label="@L["bill.colStatus"]"><span class="bl-st bl-@p.Status" data-i18n="@sk">@L[sk]</span></td>
+                            <td data-label="@L["bill.colUntil"]" class="nowrap ca-muted">@(p.PeriodEnd is DateTime e ? L.Stamp(e) : "—")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (pages > 1)
+        {
+            <div style="display:flex;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
+                @for (int i = Math.Max(1, page - 4); i <= Math.Min(pages, page + 4); i++)
+                {
+                    <a class="ca-btn ca-btn-sm @(i == page ? "ca-btn-primary" : "ca-btn-ghost")" href="/Billing/Payments?@qs&page=@i">@i</a>
+                }
+            </div>
+        }
+    </div>
+</div>

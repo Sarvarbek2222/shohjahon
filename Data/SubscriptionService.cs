@@ -46,13 +46,20 @@ public class SubscriptionService
     private readonly AppDbContext _db;
     private readonly PaymentOptions _opt;
 
-    public SubscriptionService(AppDbContext db, IOptions<PaymentOptions> opt)
+    private readonly PaymentSettings _settings;
+
+    public SubscriptionService(AppDbContext db, IOptions<PaymentOptions> opt, PaymentSettings settings)
     {
         _db = db;
-        _opt = opt.Value;
+        _settings = settings;
+        // appsettings.json qiymatlari + admin panelida kiritilganlar (ustun)
+        _opt = settings.Effective(opt.Value);
     }
 
     public PaymentOptions Options => _opt;
+
+    /// <summary>Saytdagi obuna bo'limi o'quvchilarga ko'rinadimi (admin yoqqan va Payme sozlangan).</summary>
+    public bool VisibleToUsers => _settings.VisibleToUsers(_opt);
 
     public Task<List<SubscriptionPlan>> ActivePlansAsync() =>
         _db.SubscriptionPlans.AsNoTracking().Where(p => p.IsActive && p.Price > 0)

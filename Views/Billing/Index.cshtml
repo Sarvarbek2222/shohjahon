@@ -1,0 +1,104 @@
+@model BillingDashboard
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "bill.title";
+    ViewData["Title"] = L["bill.title"];
+    string Sum(long n) => n.ToString("N0").Replace(",", " ").Replace(" ", " ");
+    var max = Math.Max(1, Model.Daily.Count > 0 ? Model.Daily.Max(d => d.Amount) : 1);
+    var okCount = Model.Checks.Count(c => c.Ok);
+}
+<div class="ca-body-embed">
+    <partial name="_BillingNav" />
+
+    <div class="ca-grid ca-grid-kpi">
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon ok">@Icons.TrendUp</div><div><div class="ca-kpi-label" data-i18n="bill.kToday">@L["bill.kToday"]</div><div class="ca-kpi-value">@Sum(Model.RevenueToday) <small data-i18n="pub.sum">@L["pub.sum"]</small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon info">@Icons.Clock</div><div><div class="ca-kpi-label" data-i18n="bill.k30">@L["bill.k30"]</div><div class="ca-kpi-value">@Sum(Model.Revenue30) <small>· @Model.PaidCount30</small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon brand">@Icons.Trophy</div><div><div class="ca-kpi-label" data-i18n="bill.kTotal">@L["bill.kTotal"]</div><div class="ca-kpi-value">@Sum(Model.RevenueTotal) <small data-i18n="pub.sum">@L["pub.sum"]</small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon ok">@Icons.Users</div><div><div class="ca-kpi-label" data-i18n="bill.kActive">@L["bill.kActive"]</div><div class="ca-kpi-value">@Model.ActiveSubscribers <small>· @Model.Payers <span data-i18n="bill.payers">@L["bill.payers"]</span></small></div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon warn">@Icons.Alert</div><div><div class="ca-kpi-label" data-i18n="bill.kExpired">@L["bill.kExpired"]</div><div class="ca-kpi-value">@Model.Expired</div></div></div></div>
+        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon info">@Icons.List</div><div><div class="ca-kpi-label" data-i18n="bill.kPending">@L["bill.kPending"]</div><div class="ca-kpi-value">@Model.PendingCount</div></div></div></div>
+    </div>
+
+    <div class="ca-grid ca-grid-2 ca-section">
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="bill.chart">@L["bill.chart"]</h3></div>
+            <div class="bl-chart">
+                @foreach (var (day, amount) in Model.Daily)
+                {
+                    var h = (int)Math.Round(100.0 * amount / max);
+                    <div class="bl-bar" title="@day.ToString("dd.MM") — @Sum(amount)"><i style="height:@(amount == 0 ? 0 : Math.Max(4, h))%"></i><span>@day.Day</span></div>
+                }
+            </div>
+        </div>
+        <div class="ca-card">
+            <div class="ca-card-head">
+                <div><h3 class="ca-card-title" data-i18n="bill.ready">@L["bill.ready"]</h3><p class="ca-card-sub" data-i18n="bill.readySub">@L["bill.readySub"]</p></div>
+                <span class="lg-chip @(okCount == Model.Checks.Count ? "lg-good" : "lg-average")">@okCount / @Model.Checks.Count</span>
+            </div>
+            <ul class="bl-checks">
+                @foreach (var c in Model.Checks)
+                {
+                    <li class="@(c.Ok ? "ok" : "")">
+                        <span>@(c.Ok ? "✅" : "⬜")</span>
+                        <span data-i18n="@c.Key">@L[c.Key]</span>
+                        @if (c.Url != null) { <a class="ca-link" href="@c.Url" target="@(c.Url.StartsWith("/Pay") ? "_blank" : "_self")">→</a> }
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="ca-grid ca-grid-2 ca-section">
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="bill.recent">@L["bill.recent"]</h3><a class="ca-link" href="/Billing/Payments" data-i18n="cab.viewAll">@L["cab.viewAll"]</a></div>
+            @if (Model.Recent.Count == 0) { <p class="ca-muted ca-small" data-i18n="bill.noPayments">@L["bill.noPayments"]</p> }
+            <div class="rp-list">
+                @foreach (var p in Model.Recent)
+                {
+                    var sk = "bill.st_" + p.Status;
+                    <a class="rp-row" href="/Billing/Payment/@p.Id">
+                        <span class="rp-row-n">#@p.Id · @(p.User?.FullName ?? p.User?.Username ?? "—")</span>
+                        <span class="bl-st bl-@p.Status" data-i18n="@sk">@L[sk]</span>
+                        <b>@Sum(p.Amount)</b>
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="bill.expiring">@L["bill.expiring"]</h3></div>
+            @if (Model.ExpiringSoon.Count == 0) { <p class="ca-muted ca-small" data-i18n="lg.none">@L["lg.none"]</p> }
+            <div class="rp-list">
+                @foreach (var u in Model.ExpiringSoon)
+                {
+                    <div class="rp-row">
+                        <span class="rp-row-n">@(u.FullName ?? u.Username)</span>
+                        <span class="ca-muted ca-small">@L.Stamp(u.AccessExpiresAt!.Value)</span>
+                        <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Messages/Admin?u=@u.Id" title="@L["msg.title"]">💬</a>
+                    </div>
+                }
+            </div>
+            <form method="post" action="/Billing/Grant" class="bl-form" style="margin-top:14px;border-top:1px solid var(--ca-border);padding-top:14px;">
+                @Html.AntiForgeryToken()
+                <b data-i18n="bill.grantTitle">@L["bill.grantTitle"]</b>
+                <div class="row2">
+                    <label><span data-i18n="users.username">@L["users.username"]</span><input class="ca-input" name="username" required maxlength="64" /></label>
+                    <div class="row2">
+                        <label><span data-i18n="bill.months">@L["bill.months"]</span><input class="ca-input" type="number" name="months" min="0" max="36" value="1" /></label>
+                        <label><span data-i18n="bill.days">@L["bill.days"]</span><input class="ca-input" type="number" name="days" min="0" max="1000" value="0" /></label>
+                    </div>
+                </div>
+                <button type="submit" class="ca-btn ca-btn-primary ca-btn-sm" data-i18n="bill.grant">@L["bill.grant"]</button>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .bl-chart { display: grid; grid-template-columns: repeat(30, 1fr); gap: 3px; height: 180px; align-items: end; }
+    .bl-bar { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+    .bl-bar i { display: block; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, #33cccc, #1d8f8f); min-height: 0; transition: filter .15s; }
+    .bl-bar:hover i { filter: brightness(1.3); }
+    .bl-bar span { font-size: 9px; color: var(--ca-muted); text-align: center; margin-top: 3px; }
+    .bl-checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+    .bl-checks li { display: grid; grid-template-columns: 24px 1fr auto; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--ca-surface-2); font-size: 13.5px; }
+    .bl-checks li.ok { color: var(--ca-muted); }
+</style>

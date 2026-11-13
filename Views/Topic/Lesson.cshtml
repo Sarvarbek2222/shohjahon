@@ -2,7 +2,8 @@
 @inject Microsoft.AspNetCore.DataProtection.IDataProtectionProvider Dp
 @* Video dars sahifasi: pleer, bo'limlar (har bir savol tushuntirilishi), savol kartasi, ko'rilgan qismlar xaritasi *@
 @{
-    Layout = "_CabinetLayout";
+    var embed = ViewBag.Embed is true;
+    Layout = embed ? "_EmbedLayout" : "_CabinetLayout";
     ViewData["TitleKey"] = "ls.pageTitle";
     ViewData["Title"] = L.Topic(Model.Topic);
     var l = Model.Lesson;

@@ -86,6 +86,7 @@
                 <div class="lc-bc-row">
                     <button type="button" class="lc-bc-btn" data-src="camera" @(isLive ? "" : "disabled")>📷 <span data-i18n="lv.bcCamera">@L["lv.bcCamera"]</span></button>
                     <button type="button" class="lc-bc-btn" data-src="screen" @(isLive ? "" : "disabled")>🖥 <span data-i18n="lv.bcScreen">@L["lv.bcScreen"]</span></button>
+                    <button type="button" class="lc-bc-btn" id="bcFlip" hidden title="@L["lv.bcFlip"]" data-i18n-title="lv.bcFlip">🔄 <span data-i18n="lv.bcFlip">@L["lv.bcFlip"]</span></button>
                     <button type="button" class="lc-bc-btn" id="bcMic" disabled>🎙 <span data-i18n="lv.bcMic">@L["lv.bcMic"]</span></button>
                     <select class="ca-input lc-bc-q" id="bcQuality" title="@L["lv.bcQuality"]" data-i18n-title="lv.bcQuality">
                         <option value="480">480p</option>

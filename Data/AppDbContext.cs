@@ -22,6 +22,9 @@ public class AppDbContext : DbContext
     public DbSet<LiveQuestion> LiveQuestions { get; set; }
     public DbSet<UserNotification> Notifications { get; set; }
     public DbSet<DailyReport> DailyReports { get; set; }
+    public DbSet<SavedQuestion> SavedQuestions { get; set; }
+    public DbSet<ChatMessage> Messages { get; set; }
+    public DbSet<TopicLessonQuestion> TopicLessonQuestions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +39,8 @@ public class AppDbContext : DbContext
         {
             b.ToTable("Users");
             b.HasIndex(u => u.Username).IsUnique();
+            // O'chirilganlar (tiklash muddatidagilar) hech qayerda ko'rinmaydi; ularni faqat IgnoreQueryFilters() bilan o'qiladi
+            b.HasQueryFilter(u => u.DeletedAt == null);
         });
 
         modelBuilder.Entity<TestAttempt>(b =>
@@ -73,7 +78,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<TopicLesson>(b =>
         {
             b.ToTable("TopicLessons");
-            b.HasIndex(x => x.Topic).IsUnique();
+            b.HasIndex(x => x.Topic);
             b.Ignore(x => x.HasVideo);
             b.HasMany(x => x.Chapters).WithOne().HasForeignKey(c => c.LessonId).OnDelete(DeleteBehavior.Cascade);
         });
@@ -104,6 +109,23 @@ public class AppDbContext : DbContext
             b.ToTable("UserNotifications");
             b.HasIndex(x => new { x.UserId, x.ReadAt });
             b.HasIndex(x => new { x.UserId, x.CreatedAt });
+        });
+        modelBuilder.Entity<SavedQuestion>(b =>
+        {
+            b.ToTable("SavedQuestions");
+            b.HasIndex(x => new { x.UserId, x.QuestionId }).IsUnique();
+        });
+        modelBuilder.Entity<ChatMessage>(b =>
+        {
+            b.ToTable("Messages");
+            b.HasIndex(x => new { x.UserId, x.CreatedAt });
+            b.HasIndex(x => new { x.FromAdmin, x.ReadAt });
+        });
+        modelBuilder.Entity<TopicLessonQuestion>(b =>
+        {
+            b.ToTable("TopicLessonQuestions");
+            b.HasIndex(x => new { x.LessonId, x.QuestionId }).IsUnique();
+            b.HasIndex(x => x.QuestionId);
         });
         modelBuilder.Entity<DailyReport>(b =>
         {

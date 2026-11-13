@@ -14,10 +14,19 @@ namespace propro.Controllers
         private int CurrentUserId => int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : 0;
         private bool IsAdmin => User.IsInRole(Roles.SuperAdmin);
 
-        /// <summary>E'lon qilingan dars (admin — qoralamani ham ko'radi).</summary>
-        private async Task<TopicLesson?> LessonForAsync(string topic) =>
-            await _context.TopicLessons.AsNoTracking().Include(l => l.Chapters)
-                .FirstOrDefaultAsync(l => l.Topic == topic && l.VideoRef != null && (l.IsPublished || IsAdmin));
+        /// <summary>
+        /// Mavzu videolari: asosiy mavzusi shu bo'lgan yoki shu mavzu savollarini tushuntiradigan e'lon qilingan videolar
+        /// (admin — qoralamalarni ham ko'radi). Asosiy mavzusi shu bo'lganlari birinchi.
+        /// </summary>
+        private async Task<List<TopicLesson>> LessonsForAsync(string topic, IReadOnlyCollection<int> questionIds)
+        {
+            var linked = await _context.TopicLessonQuestions.AsNoTracking()
+                .Where(x => questionIds.Contains(x.QuestionId)).Select(x => x.LessonId).Distinct().ToListAsync();
+            return await _context.TopicLessons.AsNoTracking().Include(l => l.Chapters)
+                .Where(l => (l.Topic == topic || linked.Contains(l.Id)) && l.VideoRef != null && (l.IsPublished || IsAdmin))
+                .OrderBy(l => l.Topic == topic ? 0 : 1).ThenBy(l => l.Id)
+                .ToListAsync();
+        }
 
         public async Task<IActionResult> Hub(string topic)
         {
@@ -27,7 +36,8 @@ namespace propro.Controllers
 
             var questions = await _bank.TopicQuestionsAsync(topic);
             var ids = questions.Select(q => q.Id).ToList();
-            var lesson = await LessonForAsync(topic);
+            var lessons = await LessonsForAsync(topic, ids);
+            var lesson = lessons.FirstOrDefault();
 
             // O'quvchining har bir savol bo'yicha oxirgi javobi
             var answers = await _context.TestAnswers.AsNoTracking()
@@ -53,17 +63,25 @@ namespace propro.Controllers
             var withQuestions = Topics.All.Where(t => counts.GetValueOrDefault(t) > 0).ToList();
             var pos = withQuestions.IndexOf(topic);
 
-            var chapterOf = lesson?.Chapters.Where(c => c.QuestionId != null).GroupBy(c => c.QuestionId!.Value)
-                .ToDictionary(g => g.Key, g => g.Min(c => c.StartSeconds)) ?? new();
+            // Har bir savol qaysi videoda (va qaysi soniyadan) tushuntiriladi
+            var lessonIds = lessons.Select(l => l.Id).ToList();
+            var links = await _context.TopicLessonQuestions.AsNoTracking()
+                .Where(x => lessonIds.Contains(x.LessonId) && ids.Contains(x.QuestionId)).ToListAsync();
+            var chapterOf = new Dictionary<int, (int Lesson, int Start)>();
+            foreach (var l in lessons)
+                foreach (var x in links.Where(x => x.LessonId == l.Id))
+                    if (!chapterOf.ContainsKey(x.QuestionId))
+                        chapterOf[x.QuestionId] = (l.Id, l.Chapters.Where(c => c.QuestionId == x.QuestionId).Select(c => c.StartSeconds).DefaultIfEmpty(0).Min());
 
             var model = new TopicHubModel
             {
                 Topic = topic,
                 Lesson = lesson,
+                Lessons = lessons,
                 Progress = progress,
                 Questions = questions.Select((q, i) => new TopicHubQuestion(q.Id, i + 1, q.QuestionUZ, q.QuestionRU, q.QuestionUZK,
                     last.TryGetValue(q.Id, out var ok) ? ok : null, mistakes.Contains(q.Id),
-                    chapterOf.TryGetValue(q.Id, out var s) ? s : null)).ToList(),
+                    chapterOf.TryGetValue(q.Id, out var s) ? s.Start : null, chapterOf.TryGetValue(q.Id, out var s2) ? s2.Lesson : null)).ToList(),
                 Solved = ids.Count(id => everCorrect.Contains(id) && !mistakes.Contains(id)),
                 ActiveMistakes = mistakes.Count,
                 TestsTaken = tests.Count,
@@ -74,14 +92,34 @@ namespace propro.Controllers
             return View(model);
         }
 
+        /// <summary>Eski havola (mavzu bo'yicha) — mavzuning birinchi videosiga.</summary>
         public async Task<IActionResult> Lesson(string topic, int? t)
         {
             topic = (topic ?? "").Trim();
             if (!Topics.All.Contains(topic)) return RedirectToAction(nameof(Index));
-            var lesson = await LessonForAsync(topic);
+            var ids = (await _bank.TopicQuestionsAsync(topic)).Select(q => q.Id).ToList();
+            var lesson = (await LessonsForAsync(topic, ids)).FirstOrDefault();
             if (lesson == null) return RedirectToAction(nameof(Hub), new { topic });
+            return RedirectToAction(nameof(Watch), new { id = lesson.Id, t });
+        }
 
-            var questions = await _bank.TopicQuestionsAsync(topic);
+        /// <summary>
+        /// Video dars. embed=1 — test ishlayotganda ochiladigan oyna uchun (sahifa bezaksiz).
+        /// Bo'limlar: videoda tushuntirilgan savollar (istalgan mavzudan) va admin yozgan qo'shimcha bo'limlar.
+        /// </summary>
+        public async Task<IActionResult> Watch(int id, int? t, string? embed)
+        {
+            var isEmbed = embed is "1" or "true";
+            var lesson = await _context.TopicLessons.AsNoTracking().Include(l => l.Chapters)
+                .FirstOrDefaultAsync(l => l.Id == id && l.VideoRef != null && (l.IsPublished || IsAdmin));
+            if (lesson == null) return isEmbed ? NotFound() : RedirectToAction(nameof(Index));
+            var topic = lesson.Topic;
+
+            var linkedIds = await _context.TopicLessonQuestions.AsNoTracking().Where(x => x.LessonId == id)
+                .OrderBy(x => x.SortOrder).Select(x => x.QuestionId).ToListAsync();
+            var all = (await _bank.AllAsync()).ToDictionary(q => q.Id);
+            var questions = linkedIds.Where(all.ContainsKey).Select(qid => all[qid]).ToList();
+            if (questions.Count == 0) questions = (await _bank.TopicQuestionsAsync(topic)).ToList();
             var number = questions.Select((q, i) => (q.Id, i + 1)).ToDictionary(x => x.Id, x => x.Item2);
             var byId = questions.ToDictionary(q => q.Id);
             var progress = await _context.TopicLessonProgress.AsNoTracking()
@@ -104,8 +142,9 @@ namespace propro.Controllers
             var withQuestions = Topics.All.Where(x => counts.GetValueOrDefault(x) > 0).ToList();
             var pos = withQuestions.IndexOf(topic);
             ViewBag.Watermark = await WatermarkAsync();
+            ViewBag.Embed = isEmbed;
 
-            return View(new LessonPageModel
+            return View("Lesson", new LessonPageModel
             {
                 Topic = topic,
                 Lesson = lesson,
@@ -173,12 +212,13 @@ public class LessonProgressRequest
     public int[]? Buckets { get; set; }
 }
 
-public record TopicHubQuestion(int Id, int Number, string TextUz, string? TextRu, string? TextUzk, bool? LastCorrect, bool InMistakes, int? VideoAt);
+public record TopicHubQuestion(int Id, int Number, string TextUz, string? TextRu, string? TextUzk, bool? LastCorrect, bool InMistakes, int? VideoAt, int? VideoLesson);
 
 public class TopicHubModel
 {
     public string Topic { get; set; } = "";
     public TopicLesson? Lesson { get; set; }
+    public List<TopicLesson> Lessons { get; set; } = new();
     public TopicLessonProgress? Progress { get; set; }
     public List<TopicHubQuestion> Questions { get; set; } = new();
     public int Solved { get; set; }

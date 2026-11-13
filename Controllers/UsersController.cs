@@ -39,6 +39,9 @@ public class UsersController : Controller
                 .ToListAsync())
             .ToHashSet();
         ViewBag.Presence = presence;
+        // O'chirilganlar: 3 kun ichida tiklash mumkin
+        ViewBag.Trash = await _db.Users.IgnoreQueryFilters().AsNoTracking()
+            .Where(u => u.DeletedAt != null).OrderByDescending(u => u.DeletedAt).ToListAsync();
         return View(list);
     }
 
@@ -191,11 +194,74 @@ public class UsersController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        _db.Users.Remove(user);
+        SoftDelete(user);
         await _db.SaveChangesAsync();
 
         TempData["MsgKey"] = "users.deleted";
         return RedirectToAction(nameof(Index));
+    }
+
+    /// <summary>O'chirish = o'chirilganlar ro'yxatiga o'tkazish (3 kun ichida tiklash mumkin). Sessiyalar darhol yopiladi.</summary>
+    private static void SoftDelete(AppUser user, string reason = DeleteReasons.Admin)
+    {
+        user.DeletedAt = DateTime.UtcNow;
+        user.DeletedReason = reason;
+        user.SecurityStamp = Guid.NewGuid().ToString("N");
+    }
+
+    /// <summary>
+    /// Bir nechtasini birdan: op = "delete" (o'chirilganlarga), "restore" (tiklash), "purge" (o'chirilganlardan butunlay).
+    /// O'zini, oxirgi faol super adminni o'chirib bo'lmaydi.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Bulk(string op, int[] ids)
+    {
+        ids = (ids ?? Array.Empty<int>()).Distinct().Take(5000).ToArray();
+        if (ids.Length == 0)
+        {
+            TempData["ErrKey"] = "users.bulkNone";
+            return RedirectToAction(nameof(Index));
+        }
+        var users = await _db.Users.IgnoreQueryFilters().Where(u => ids.Contains(u.Id)).ToListAsync();
+        int n = 0;
+        switch (op)
+        {
+            case "delete":
+                var adminsLeft = await _users.ActiveSuperAdminCountAsync();
+                foreach (var u in users.Where(u => u.DeletedAt == null && u.Id != CurrentUserId))
+                {
+                    if (u.Role == Roles.SuperAdmin && u.IsActive)
+                    {
+                        if (adminsLeft <= 1) continue;
+                        adminsLeft--;
+                    }
+                    SoftDelete(u);
+                    n++;
+                }
+                break;
+            case "restore":
+                foreach (var u in users.Where(u => u.DeletedAt != null))
+                {
+                    u.DeletedAt = null;
+                    u.DeletedReason = null;
+                    // Avtomatik o'chirilgan bo'lsa — darhol yana o'chib ketmasligi uchun faollik hozirdan hisoblanadi
+                    u.LastSeenAt = DateTime.UtcNow;
+                    n++;
+                }
+                break;
+            case "purge":
+                var gone = users.Where(u => u.DeletedAt != null).ToList();
+                _db.Users.RemoveRange(gone);
+                n = gone.Count;
+                break;
+            default:
+                return BadRequest();
+        }
+        await _db.SaveChangesAsync();
+        TempData["MsgKey"] = "users.bulk_" + op;
+        TempData["MsgN"] = n;
+        return RedirectToAction(nameof(Index), null, op == "delete" ? null : "trashBox");
     }
 
     /// <summary>Qurilmani bo'shatish: keyingi kirishda foydalanuvchi qaysi qurilmadan kirsa, o'shanga bog'lanadi.</summary>
@@ -286,6 +352,8 @@ public class UsersController : Controller
             ModelState.AddModelError(nameof(form.Username), T("err.usernameFormat"));
         else if (await _db.Users.AnyAsync(u => u.Username == form.Username && u.Id != form.Id))
             ModelState.AddModelError(nameof(form.Username), T("err.usernameTaken"));
+        else if (await _db.Users.IgnoreQueryFilters().AnyAsync(u => u.Username == form.Username && u.Id != form.Id && u.DeletedAt != null))
+            ModelState.AddModelError(nameof(form.Username), T("err.usernameInTrash"));
 
         if (!Roles.IsValid(form.Role))
             ModelState.AddModelError(nameof(form.Role), T("err.roleInvalid"));

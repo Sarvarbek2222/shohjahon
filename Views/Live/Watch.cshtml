@@ -6,7 +6,7 @@
     ViewData["TitleKey"] = "lv.title";
     ViewData["Title"] = Model.Title;
     string Iso(DateTime d) => DateTime.SpecifyKind(d, DateTimeKind.Utc).ToString("o");
-    var cfg = new { lessonId = Model.Id, status = Model.Status, watermark = ViewBag.Watermark as string };
+    var cfg = new { lessonId = Model.Id, status = Model.Status, watermark = ViewBag.Watermark as string, k = ViewBag.StreamKey as string };
 }
 <link rel="stylesheet" href="~/css/learn.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/live.css" asp-append-version="true" />

@@ -58,9 +58,10 @@
             <div class="ca-factor">
                 <div class="ca-factor-top">
                     <span data-i18n="cab.factorExams">@L["cab.factorExams"]</span>
-                    <b>@s.ExamScore%</b>
+                    <b>@(s.ExamAttempts > 0 ? s.ExamScore + "%" : "—")</b>
                 </div>
                 <div class="ca-bar @Score.BarClass(s.ExamScore)"><i data-w="@s.ExamScore"></i></div>
+                <small class="ca-muted ca-small" data-i18n="@(s.ExamAttempts > 0 ? "cab.factorExamsHint" : "cab.factorExamsNone")">@L[s.ExamAttempts > 0 ? "cab.factorExamsHint" : "cab.factorExamsNone"]</small>
             </div>
         </div>
 

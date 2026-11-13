@@ -1,0 +1,77 @@
+@model Payment
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "bill.title";
+    ViewData["Title"] = "#" + Model.Id;
+    string Sum(long n) => n.ToString("N0").Replace(",", " ").Replace(" ", " ");
+    string Ms(long ms) => ms > 0 ? L.Stamp(DateTimeOffset.FromUnixTimeMilliseconds(ms).UtcDateTime) : "—";
+    var history = (List<Payment>)ViewBag.History;
+    var sk = "bill.st_" + Model.Status;
+}
+<div class="ca-body-embed">
+    <partial name="_BillingNav" />
+    <div class="ca-grid ca-grid-2">
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title">💳 #@Model.Id</h3><span class="bl-st bl-@Model.Status" data-i18n="@sk">@L[sk]</span></div>
+            <dl class="bl-dl">
+                <dt data-i18n="bill.colUser">@L["bill.colUser"]</dt><dd>@if (Model.User != null) {<a class="ca-link" href="/Analytics/Student/@Model.UserId">@(Model.User.FullName ?? Model.User.Username)</a><span class="ca-muted"> @@@Model.User.Username · @UserService.FormatPhone(Model.User.Phone)</span>} else {<span>—</span>}</dd>
+                <dt data-i18n="bill.colPlan">@L["bill.colPlan"]</dt><dd>@(Model.Plan?.Name ?? "—") · @Model.Months oy @(Model.Days > 0 ? Model.Days + " kun" : "")</dd>
+                <dt data-i18n="bill.colAmount">@L["bill.colAmount"]</dt><dd><b>@Sum(Model.Amount)</b> <span data-i18n="pub.sum">@L["pub.sum"]</span></dd>
+                <dt data-i18n="bill.colProvider">@L["bill.colProvider"]</dt><dd>@Model.Provider</dd>
+                <dt data-i18n="bill.colDate">@L["bill.colDate"]</dt><dd>@L.Stamp(Model.CreatedAt)</dd>
+                <dt data-i18n="bill.paidAt">@L["bill.paidAt"]</dt><dd>@(Model.PaidAt is DateTime pa ? L.Stamp(pa) : "—")</dd>
+                <dt data-i18n="bill.period">@L["bill.period"]</dt><dd>@(Model.PeriodStart is DateTime ps ? L.Stamp(ps) : "—") → @(Model.PeriodEnd is DateTime pe ? L.Stamp(pe) : "—")</dd>
+                @if (Model.Provider == PaymentProviders.Payme)
+                {
+                    <dt>Payme ID</dt><dd><code>@(Model.ProviderTransId ?? "—")</code></dd>
+                    <dt data-i18n="bill.pmState">@L["bill.pmState"]</dt><dd>@Model.ProviderState</dd>
+                    <dt data-i18n="bill.pmTimes">@L["bill.pmTimes"]</dt><dd>@Ms(Model.ProviderCreateTime) / @Ms(Model.ProviderPerformTime) / @Ms(Model.ProviderCancelTime)</dd>
+                    @if (Model.CancelReason != null) { <dt data-i18n="bill.pmReason">@L["bill.pmReason"]</dt><dd>@Model.CancelReason</dd> }
+                }
+            </dl>
+            @if (Model.Status == PaymentStatus.Pending && string.IsNullOrEmpty(Model.ProviderTransId))
+            {
+                <form method="post" action="/Billing/CancelOrder/@Model.Id" onsubmit="return confirm(I18n.t('bill.cancelConfirm'))">
+                    @Html.AntiForgeryToken()
+                    <button class="ca-btn ca-btn-ghost ca-btn-sm" type="submit" data-i18n="bill.cancelOrder">@L["bill.cancelOrder"]</button>
+                </form>
+            }
+        </div>
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="bill.userHistory">@L["bill.userHistory"]</h3>
+                @if (Model.User != null) { <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Messages/Admin?u=@Model.UserId">💬 <span data-i18n="msg.title">@L["msg.title"]</span></a> }
+            </div>
+            <div class="rp-list">
+                @foreach (var h in history)
+                {
+                    var hk = "bill.st_" + h.Status;
+                    <a class="rp-row" href="/Billing/Payment/@h.Id">
+                        <span class="rp-row-n">#@h.Id · @L.Stamp(h.CreatedAt)</span>
+                        <span class="bl-st bl-@h.Status" data-i18n="@hk">@L[hk]</span>
+                        <b>@Sum(h.Amount)</b>
+                    </a>
+                }
+            </div>
+            @if (Model.User != null)
+            {
+                <form method="post" action="/Billing/Grant" class="bl-form" style="margin-top:14px;border-top:1px solid var(--ca-border);padding-top:14px;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="username" value="@Model.User.Username" />
+                    <input type="hidden" name="back" value="/Billing/Payment/@Model.Id" />
+                    <b data-i18n="bill.grantTitle">@L["bill.grantTitle"]</b>
+                    <div class="row2">
+                        <label><span data-i18n="bill.months">@L["bill.months"]</span><input class="ca-input" type="number" name="months" min="0" max="36" value="1" /></label>
+                        <label><span data-i18n="bill.days">@L["bill.days"]</span><input class="ca-input" type="number" name="days" min="0" max="1000" value="0" /></label>
+                    </div>
+                    <button type="submit" class="ca-btn ca-btn-primary ca-btn-sm" data-i18n="bill.grant">@L["bill.grant"]</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    .bl-dl { display: grid; grid-template-columns: 150px 1fr; gap: 8px 14px; margin: 0 0 14px; font-size: 14px; }
+    .bl-dl dt { color: var(--ca-muted); }
+    .bl-dl dd { margin: 0; overflow-wrap: anywhere; }
+    @@media (max-width: 520px) { .bl-dl { grid-template-columns: 1fr; } .bl-dl dt { margin-top: 6px; } }
+</style>

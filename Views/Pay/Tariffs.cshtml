@@ -1,0 +1,75 @@
+@model List<SubscriptionPlan>
+@* Ochiq tariflar sahifasi: narxlar va obuna nima beradi (Payme tekshiruvi uchun ham) *@
+@{
+    Layout = "_PublicLayout";
+    ViewData["TitleKey"] = "pub.tariffs";
+    ViewData["Title"] = L["pub.tariffs"];
+    var canBuy = ViewBag.CanBuy is true;
+    var feats = new[] { "pub.f1", "pub.f2", "pub.f3", "pub.f4", "pub.f5", "pub.f6" };
+}
+<div style="text-align:center;max-width:720px;margin:0 auto 28px;">
+    <div class="ca-eyebrow" data-i18n="pub.tariffsKicker">@L["pub.tariffsKicker"]</div>
+    <h1 class="ca-h1" style="font-size:2.1rem;" data-i18n="pub.tariffsTitle">@L["pub.tariffsTitle"]</h1>
+    <p class="ca-sub" data-i18n="pub.tariffsSub">@L["pub.tariffsSub"]</p>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="ca-card ca-empty"><p data-i18n="pub.noPlans">@L["pub.noPlans"]</p></div>
+}
+else
+{
+    <div class="pt-grid">
+        @foreach (var p in Model)
+        {
+            var perMonth = p.Months > 0 ? p.Price / p.Months : p.Price;
+            <div class="pt-card @(p.Badge != null ? "hot" : "")">
+                @if (p.Badge != null) { <span class="pt-badge">@p.Badge</span> }
+                <h3>@p.Name</h3>
+                <div class="pt-price">@p.Price.ToString("N0").Replace(",", " ").Replace(" ", " ") <small data-i18n="pub.sum">@L["pub.sum"]</small></div>
+                <div class="pt-per"><span data-i18n="pub.months" data-i18n-args='{"n":@p.Months}'>@L.F("pub.months", ("n", p.Months))</span> · <span data-i18n="pub.perMonth" data-i18n-args='{"n":"@perMonth.ToString("N0").Replace(",", " ")"}'>@L.F("pub.perMonth", ("n", perMonth.ToString("N0").Replace(",", " ")))</span></div>
+                <ul class="pt-feats">
+                    @foreach (var f in feats) { <li data-i18n="@f">@L[f]</li> }
+                </ul>
+                @if (canBuy)
+                {
+                    <form method="post" action="/Pay/Buy">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="planId" value="@p.Id" />
+                        <button type="submit" class="ca-btn ca-btn-primary ca-btn-block"><span data-i18n="pub.payPayme">@L["pub.payPayme"]</span></button>
+                    </form>
+                }
+                else if (User.Identity?.IsAuthenticated != true)
+                {
+                    <a class="ca-btn ca-btn-primary ca-btn-block" href="/Auth/Login?ReturnUrl=%2FPay%2FTariffs" data-i18n="pub.loginToBuy">@L["pub.loginToBuy"]</a>
+                }
+            </div>
+        }
+    </div>
+}
+
+<div class="ca-card" style="margin-top:28px;">
+    <h3 class="ca-card-title" data-i18n="pub.howTitle">@L["pub.howTitle"]</h3>
+    <ol class="pt-steps">
+        <li data-i18n="pub.how1">@L["pub.how1"]</li>
+        <li data-i18n="pub.how2">@L["pub.how2"]</li>
+        <li data-i18n="pub.how3">@L["pub.how3"]</li>
+    </ol>
+    <p class="ca-muted ca-small" style="margin:8px 0 0;"><span data-i18n="pub.offerNote">@L["pub.offerNote"]</span> <a href="/Pay/Offer" class="ca-link" data-i18n="pub.offer">@L["pub.offer"]</a></p>
+</div>
+
+<style>
+    .pt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .pt-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 24px 20px; border-radius: 20px; background: var(--ca-surface); border: 1px solid var(--ca-border); transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .pt-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.4); border-color: var(--ca-border-strong); }
+    .pt-card.hot { border-color: rgba(255,45,74,.55); background: linear-gradient(180deg, rgba(255,45,74,.12), var(--ca-surface) 55%); }
+    .pt-badge { position: absolute; top: -11px; left: 20px; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #ff2d4a, #ff7a45); box-shadow: 0 6px 18px rgba(255,45,74,.4); }
+    .pt-card h3 { margin: 0; font-size: 1.15rem; }
+    .pt-price { font-size: 2rem; font-weight: 900; letter-spacing: -.02em; }
+    .pt-price small { font-size: 1rem; font-weight: 600; color: var(--ca-muted); }
+    .pt-per { color: var(--ca-muted); font-size: 13.5px; }
+    .pt-feats { list-style: none; padding: 0; margin: 6px 0 12px; display: grid; gap: 7px; flex: 1; }
+    .pt-feats li { position: relative; padding-left: 24px; font-size: 14px; }
+    .pt-feats li::before { content: "✓"; position: absolute; left: 0; color: var(--ca-ok); font-weight: 900; }
+    .pt-steps { margin: 10px 0 0; padding-left: 22px; display: grid; gap: 6px; }
+</style>

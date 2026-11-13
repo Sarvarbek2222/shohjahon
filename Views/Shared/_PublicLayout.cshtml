@@ -1,0 +1,74 @@
+@* Ochiq sahifalar (tariflar, ommaviy oferta, kontaktlar) — tizimga kirmagan foydalanuvchi ham ko'radi *@
+<!DOCTYPE html>
+<html lang="@L.HtmlLang" data-lang="@L.Lang" data-title-key="@ViewData["TitleKey"]" data-title-suffix=" — AVTOPRAVA_SAM" data-lang-reload>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="@L["pub.metaDesc"]" />
+    <title>@ViewData["Title"] — AVTOPRAVA_SAM</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <partial name="_I18nScripts" />
+    <style>
+        body.pb-body { display: block; min-height: 100vh; margin: 0; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--ca-text); background: radial-gradient(1200px 600px at 10% -10%, rgba(255,45,74,.14), transparent 60%), radial-gradient(900px 500px at 110% 0%, rgba(255,122,69,.10), transparent 60%), #07080d; }
+        .pb-top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 14px; padding: 12px 20px; backdrop-filter: blur(12px); background: rgba(7,8,13,.7); border-bottom: 1px solid var(--ca-border); }
+        .pb-logo { display: flex; align-items: center; gap: 10px; color: var(--ca-text); text-decoration: none; font-weight: 800; letter-spacing: .06em; }
+        .pb-logo img { width: 34px; height: 34px; border-radius: 10px; }
+        .pb-nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+        .pb-nav a { color: var(--ca-muted); text-decoration: none; padding: 7px 12px; border-radius: 10px; font-weight: 600; font-size: 14px; }
+        .pb-nav a:hover, .pb-nav a.on { color: #fff; background: rgba(255,255,255,.06); }
+        .pb-main { max-width: 1060px; margin: 0 auto; padding: 34px 20px 60px; }
+        .pb-foot { border-top: 1px solid var(--ca-border); padding: 26px 20px; color: var(--ca-muted); font-size: 13.5px; }
+        .pb-foot-in { max-width: 1060px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 18px 30px; justify-content: space-between; }
+        .pb-foot a { color: var(--ca-text); text-decoration: none; }
+        .pb-foot a:hover { color: var(--ca-brand); }
+        .pb-foot-links { display: flex; flex-wrap: wrap; gap: 14px; }
+        .pb-doc { line-height: 1.7; font-size: 15px; }
+        .pb-doc h2 { font-size: 1.15rem; margin: 26px 0 8px; }
+        .pb-doc p, .pb-doc li { color: #cfd3e0; }
+        .pb-doc ol, .pb-doc ul { padding-left: 22px; }
+        @@media (max-width: 640px) { .pb-top { flex-wrap: wrap; } .pb-nav { margin-left: 0; width: 100%; } }
+    </style>
+</head>
+<body class="pb-body">
+    @{ var act = ViewContext.RouteData.Values["action"]?.ToString(); }
+    <header class="pb-top">
+        <a class="pb-logo" href="/"><img src="~/images/logo-96.png" alt="" /> AVTOPRAVA_SAM</a>
+        <nav class="pb-nav">
+            <a href="/Pay/Tariffs" class="@(act == "Tariffs" ? "on" : "")" data-i18n="pub.tariffs">@L["pub.tariffs"]</a>
+            <a href="/Pay/Offer" class="@(act == "Offer" ? "on" : "")" data-i18n="pub.offer">@L["pub.offer"]</a>
+            <a href="/Pay/Contacts" class="@(act == "Contacts" ? "on" : "")" data-i18n="pub.contacts">@L["pub.contacts"]</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a href="/Cabinet" data-i18n="nav.myCabinet">@L["nav.myCabinet"]</a>
+            }
+            else
+            {
+                <a href="/Auth/Login" data-i18n="pub.login">@L["pub.login"]</a>
+            }
+        </nav>
+        <partial name="_LangDropdown" />
+    </header>
+    <main class="pb-main">
+        @RenderBody()
+    </main>
+    <footer class="pb-foot">
+        <div class="pb-foot-in">
+            <div>
+                <b style="color:var(--ca-text);">AVTOPRAVA_SAM</b><br />
+                <span data-i18n="pub.address">@L["pub.address"]</span><br />
+                ☎ <a href="tel:@PayController.PhoneHref">@PayController.Phone</a>
+            </div>
+            <div class="pb-foot-links">
+                <a href="/Pay/Tariffs" data-i18n="pub.tariffs">@L["pub.tariffs"]</a>
+                <a href="/Pay/Offer" data-i18n="pub.offer">@L["pub.offer"]</a>
+                <a href="/Pay/Contacts" data-i18n="pub.contacts">@L["pub.contacts"]</a>
+                <a href="/Pay/Privacy" data-i18n="pub.privacy">@L["pub.privacy"]</a>
+            </div>
+            <div>© @DateTime.UtcNow.Year AVTOPRAVA_SAM · <span data-i18n="pub.payWith">@L["pub.payWith"]</span> <b style="color:#33cccc;">Payme</b></div>
+        </div>
+    </footer>
+    <script src="~/js/ui.js" asp-append-version="true"></script>
+</body>
+</html>

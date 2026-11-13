@@ -15,6 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/engage.css" asp-append-version="true" />
     <partial name="_I18nScripts" />
     <style>
         .lg-body {
@@ -325,6 +326,12 @@
             </div>
 
             <div class="lg-copy">© 2026 AVTOPRAVA_SAM · <span data-i18n="footer.rights">@L["footer.rights"]</span></div>
+            <div class="lg-copy" style="margin-top:6px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+                <a href="/Pay/Tariffs" style="color:inherit;" data-i18n="pub.tariffs">@L["pub.tariffs"]</a>
+                <a href="/Pay/Offer" style="color:inherit;" data-i18n="pub.offer">@L["pub.offer"]</a>
+                <a href="/Pay/Contacts" style="color:inherit;" data-i18n="pub.contacts">@L["pub.contacts"]</a>
+                <a href="tel:@PayController.PhoneHref" style="color:inherit;">☎ @PayController.Phone</a>
+            </div>
         </section>
 
         <main class="lg-panel">
@@ -346,7 +353,7 @@
                     {
                         <div class="lg-alert @(ViewBag.Notice == true ? "notice" : "")" role="alert">
                             @Icons.Alert
-                            <span data-i18n="@ViewBag.ErrorKey">@ViewBag.Error</span>
+                            <span data-i18n="@ViewBag.ErrorKey" data-i18n-args='@(ViewBag.ErrorArgs is int ea ? "{\"n\":" + ea + "}" : "{}")'>@ViewBag.Error</span>
                         </div>
                     }
 

@@ -58,6 +58,16 @@ public class AppUser
     [MaxLength(16)]
     public string? RegisteredVia { get; set; }
 
+    /// <summary>
+    /// O'chirilgan vaqt (UTC). null — faol hisob. O'chirilgan foydalanuvchi hech qayerda ko'rinmaydi va kira olmaydi;
+    /// 3 kun ichida admin tiklashi mumkin, keyin butunlay o'chiriladi (UserCleanupService).
+    /// </summary>
+    public DateTime? DeletedAt { get; set; }
+
+    /// <summary>DeleteReasons.* — admin o'chirdi yoki 1 hafta faol bo'lmagani uchun avtomatik.</summary>
+    [MaxLength(16)]
+    public string? DeletedReason { get; set; }
+
     /// <summary>Super admin uchun muddat va qurilma cheklovi qo'llanmaydi (o'zini bloklab qo'ymasligi uchun).</summary>
     public bool IsRestricted => Role != Roles.SuperAdmin;
 

@@ -1,0 +1,50 @@
+@model CompanyInfo
+@* Kontaktlar: telefon, manzil, ish vaqti (Payme tekshiruvi talabi) *@
+@{
+    Layout = "_PublicLayout";
+    ViewData["TitleKey"] = "pub.contacts";
+    ViewData["Title"] = L["pub.contacts"];
+}
+<h1 class="ca-h1" data-i18n="pub.contacts">@L["pub.contacts"]</h1>
+<p class="ca-sub" data-i18n="pub.contactsSub">@L["pub.contactsSub"]</p>
+
+<div class="pc-grid">
+    <a class="pc-card" href="tel:@PayController.PhoneHref">
+        <span class="pc-ic">☎</span>
+        <span><small data-i18n="pub.phone">@L["pub.phone"]</small><b>@PayController.Phone</b></span>
+    </a>
+    <div class="pc-card">
+        <span class="pc-ic">📍</span>
+        <span><small data-i18n="pub.addrLabel">@L["pub.addrLabel"]</small><b data-i18n="pub.address">@L["pub.address"]</b></span>
+    </div>
+    <div class="pc-card">
+        <span class="pc-ic">🕘</span>
+        <span><small data-i18n="pub.hoursLabel">@L["pub.hoursLabel"]</small><b data-i18n="pub.hours">@L["pub.hours"]</b></span>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Email))
+    {
+        <a class="pc-card" href="mailto:@Model.Email">
+            <span class="pc-ic">✉</span>
+            <span><small>E-mail</small><b>@Model.Email</b></span>
+        </a>
+    }
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Name))
+{
+    <div class="ca-card" style="margin-top:18px;">
+        <h3 class="ca-card-title" data-i18n="pub.requisites">@L["pub.requisites"]</h3>
+        <p style="margin:6px 0 0;"><b>@Model.Name</b>@if (!string.IsNullOrWhiteSpace(Model.Inn)) {<span> · <span data-i18n="pub.inn">@L["pub.inn"]</span>: @Model.Inn</span>}</p>
+        <p class="ca-muted" style="margin:4px 0 0;" data-i18n="pub.address">@L["pub.address"]</p>
+    </div>
+}
+
+
+<style>
+    .pc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 18px; }
+    .pc-card { display: flex; gap: 14px; align-items: center; padding: 18px; border-radius: 18px; background: var(--ca-surface); border: 1px solid var(--ca-border); color: inherit; text-decoration: none; transition: transform .18s, border-color .18s; }
+    a.pc-card:hover { transform: translateY(-3px); border-color: rgba(255,45,74,.5); }
+    .pc-ic { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 14px; background: var(--ca-brand-soft); font-size: 20px; flex: 0 0 auto; }
+    .pc-card small { display: block; color: var(--ca-muted); font-size: 12px; }
+    .pc-card b { display: block; font-size: 15.5px; }
+</style>

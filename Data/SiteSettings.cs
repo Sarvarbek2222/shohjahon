@@ -33,7 +33,7 @@ public static class SiteSettings
         _singleDevice = on;
     }
 
-    private static async Task<string?> GetAsync(AppDbContext db, string key)
+    public static async Task<string?> GetAsync(AppDbContext db, string key)
     {
         var conn = db.Database.GetDbConnection();
         if (conn.State != ConnectionState.Open) await conn.OpenAsync();
@@ -43,7 +43,7 @@ public static class SiteSettings
         return await cmd.ExecuteScalarAsync() as string;
     }
 
-    private static async Task SetAsync(AppDbContext db, string key, string value)
+    public static async Task SetAsync(AppDbContext db, string key, string value)
     {
         var conn = db.Database.GetDbConnection();
         if (conn.State != ConnectionState.Open) await conn.OpenAsync();

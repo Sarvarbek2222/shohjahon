@@ -1,0 +1,50 @@
+@* Admin: barcha o'quvchilar bilan yozishmalar *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "msg.title";
+    ViewData["Title"] = L["msg.title"];
+    var openUser = ViewBag.OpenUser as MsgUser;
+    var cfg = new { open = openUser?.Id, openName = openUser?.Name, openUser = openUser?.Username };
+}
+<div class="ca-body-embed">
+    <div class="ca-page-head">
+        <div>
+            <div class="ca-eyebrow" data-i18n="admin.panel">@L["admin.panel"]</div>
+            <h1 class="ca-h1" data-i18n="msg.title">@L["msg.title"]</h1>
+            <p class="ca-sub" data-i18n="msg.adminSub">@L["msg.adminSub"]</p>
+        </div>
+    </div>
+    <div class="ch-wrap" data-chat-wrap>
+        <aside class="ch-threads">
+            <div class="ch-threads-head">
+                <label class="ca-search" style="width:100%;">
+                    @Icons.Search
+                    <input type="search" data-thread-search placeholder="@L["msg.search"]" data-i18n-placeholder="msg.search" />
+                </label>
+                <details class="ch-bc">
+                    <summary class="ca-btn ca-btn-ghost ca-btn-sm">📣 <span data-i18n="msg.broadcast">@L["msg.broadcast"]</span></summary>
+                    <form data-broadcast style="display:grid;gap:8px;margin-top:8px;">
+                        <textarea rows="3" maxlength="2000" class="ca-input" placeholder="@L["msg.broadcastPh"]" data-i18n-placeholder="msg.broadcastPh" style="resize:vertical;"></textarea>
+                        <button type="submit" class="ca-btn ca-btn-primary ca-btn-sm" data-i18n="msg.broadcastSend">@L["msg.broadcastSend"]</button>
+                    </form>
+                </details>
+            </div>
+            <div class="ch-thread-list" data-threads></div>
+        </aside>
+        <section class="ch-pane" data-pane>
+            <div class="ch-pane-head">
+                <button type="button" class="ca-btn ca-btn-ghost ca-btn-sm ch-back" data-back>←</button>
+                <b data-pane-name data-i18n="msg.pick">@L["msg.pick"]</b>
+                <a class="ca-link" data-pane-link hidden style="margin-left:auto;" data-i18n="msg.profile">@L["msg.profile"]</a>
+            </div>
+            <div class="ch-log" data-log aria-live="polite">
+                <div class="ch-empty"><span>💬</span><p data-i18n="msg.pickHint">@L["msg.pickHint"]</p></div>
+            </div>
+            <form class="ch-form" data-form autocomplete="off" hidden>
+                <textarea rows="1" maxlength="2000" placeholder="@L["msg.placeholder"]" data-i18n-placeholder="msg.placeholder"></textarea>
+                <button type="submit" class="ca-btn ca-btn-primary" data-i18n="msg.send">@L["msg.send"]</button>
+            </form>
+        </section>
+    </div>
+</div>
+<script>document.addEventListener("DOMContentLoaded", function () { Chat.admin(@Json.Serialize(cfg)); });</script>

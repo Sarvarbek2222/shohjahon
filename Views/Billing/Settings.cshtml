@@ -1,0 +1,61 @@
+@model BillingSettingsForm
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "bill.title";
+    ViewData["Title"] = L["bill.tabSettings"];
+}
+<div class="ca-body-embed">
+    <partial name="_BillingNav" />
+    <div class="ca-grid ca-grid-2">
+        <form method="post" class="ca-card bl-form" autocomplete="off">
+            @Html.AntiForgeryToken()
+            <div class="ca-card-head"><h3 class="ca-card-title">Payme</h3><span class="lg-chip @(Model.Ready ? "lg-good" : "lg-shame")" data-i18n="@(Model.Ready ? "bill.pmReady" : "bill.pmNotReady")">@L[Model.Ready ? "bill.pmReady" : "bill.pmNotReady"]</span></div>
+            <label><span>Merchant ID (Kassa ID)</span><input class="ca-input" name="merchantId" value="@Model.MerchantId" maxlength="24" pattern="[a-fA-F0-9]{24}" placeholder="24 belgili ID" spellcheck="false" /></label>
+            <label>
+                <span data-i18n="bill.key">@L["bill.key"]</span>
+                <input class="ca-input" type="password" name="key" maxlength="100" placeholder="@(Model.HasKey ? "•••••••• (" + L["bill.keySaved"] + ")" : "")" autocomplete="new-password" spellcheck="false" />
+                @if (Model.HasKey) { <span style="display:flex;gap:6px;align-items:center;"><input type="checkbox" name="clearKey" value="true" /> <span data-i18n="bill.clearKey">@L["bill.clearKey"]</span></span> }
+            </label>
+            <label>
+                <span data-i18n="bill.testKey">@L["bill.testKey"]</span>
+                <input class="ca-input" type="password" name="testKey" maxlength="100" placeholder="@(Model.HasTestKey ? "•••••••• (" + L["bill.keySaved"] + ")" : "")" autocomplete="new-password" spellcheck="false" />
+                @if (Model.HasTestKey) { <span style="display:flex;gap:6px;align-items:center;"><input type="checkbox" name="clearTestKey" value="true" /> <span data-i18n="bill.clearKey">@L["bill.clearKey"]</span></span> }
+            </label>
+            <label style="display:flex;flex-direction:row;gap:10px;align-items:center;color:var(--ca-text);"><input type="checkbox" name="useTest" value="true" @(Model.UseTest ? "checked" : "") style="width:18px;height:18px;" /> <span><b data-i18n="bill.useTest">@L["bill.useTest"]</b><br /><small class="ca-muted" data-i18n="bill.useTestHint">@L["bill.useTestHint"]</small></span></label>
+            <label><span data-i18n="bill.returnUrl">@L["bill.returnUrl"]</span><input class="ca-input" name="returnUrl" type="url" value="@Model.ReturnUrl" placeholder="@ViewBag.ReturnDefault" /></label>
+            <label style="display:flex;flex-direction:row;gap:10px;align-items:center;color:var(--ca-text);padding:12px;border-radius:12px;background:var(--ca-surface-2);"><input type="checkbox" name="visible" value="true" @(Model.Visible ? "checked" : "") style="width:20px;height:20px;accent-color:#22c55e;" /> <span><b data-i18n="bill.visible">@L["bill.visible"]</b><br /><small class="ca-muted" data-i18n="bill.visibleHint">@L["bill.visibleHint"]</small></span></label>
+
+            <div class="ca-card-head" style="margin-top:8px;"><h3 class="ca-card-title" data-i18n="pub.requisites">@L["pub.requisites"]</h3></div>
+            <label><span data-i18n="bill.company">@L["bill.company"]</span><input class="ca-input" name="company" value="@Model.Company" maxlength="200" placeholder="YaTT Familiya Ism / MChJ «...»" /></label>
+            <div class="row2">
+                <label><span data-i18n="pub.inn">@L["pub.inn"]</span><input class="ca-input" name="inn" value="@Model.Inn" maxlength="20" inputmode="numeric" /></label>
+                <label><span>E-mail</span><input class="ca-input" type="email" name="email" value="@Model.Email" maxlength="120" /></label>
+            </div>
+            <button class="ca-btn ca-btn-primary" type="submit" data-i18n="ls.save">@L["ls.save"]</button>
+        </form>
+
+        <div class="ca-card">
+            <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="bill.howTitle">@L["bill.howTitle"]</h3></div>
+            <ol class="bl-steps">
+                <li data-i18n="bill.how1">@L["bill.how1"]</li>
+                <li><span data-i18n="bill.how2">@L["bill.how2"]</span><div class="bl-copy"><code id="ep">@ViewBag.Endpoint</code><button type="button" class="ca-btn ca-btn-ghost ca-btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('ep').textContent)">⧉</button></div></li>
+                <li><span data-i18n="bill.how3">@L["bill.how3"]</span> <code>order_id</code></li>
+                <li data-i18n="bill.how4">@L["bill.how4"]</li>
+                <li data-i18n="bill.how5">@L["bill.how5"]</li>
+                <li data-i18n="bill.how6">@L["bill.how6"]</li>
+            </ol>
+            <div class="ca-card-head" style="margin-top:12px;"><h3 class="ca-card-title" data-i18n="bill.pubPages">@L["bill.pubPages"]</h3></div>
+            <ul class="bl-steps" style="list-style:none;padding:0;">
+                <li><a class="ca-link" href="/Pay/Tariffs" target="_blank">/Pay/Tariffs</a> — <span data-i18n="pub.tariffs">@L["pub.tariffs"]</span></li>
+                <li><a class="ca-link" href="/Pay/Offer" target="_blank">/Pay/Offer</a> — <span data-i18n="pub.offer">@L["pub.offer"]</span></li>
+                <li><a class="ca-link" href="/Pay/Contacts" target="_blank">/Pay/Contacts</a> — <span data-i18n="pub.contacts">@L["pub.contacts"]</span></li>
+                <li><a class="ca-link" href="/Pay/Privacy" target="_blank">/Pay/Privacy</a> — <span data-i18n="pub.privacy">@L["pub.privacy"]</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<style>
+    .bl-steps { display: grid; gap: 10px; padding-left: 20px; margin: 0; font-size: 14px; line-height: 1.5; }
+    .bl-copy { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
+    .bl-copy code, .bl-steps code { padding: 4px 8px; border-radius: 8px; background: var(--ca-surface-2); border: 1px solid var(--ca-border); font-size: 12.5px; overflow-wrap: anywhere; }
+</style>

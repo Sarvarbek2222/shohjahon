@@ -29,11 +29,11 @@
     <div class="ca-grid ca-grid-kpi">
         <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon brand">@Icons.Users</div><div><div class="ca-kpi-label" data-i18n="an.students">@L["an.students"]</div><div class="ca-kpi-value">@p.TotalUsers</div></div></div></div>
         <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon ok">@Icons.Flame</div><div><div class="ca-kpi-label" data-i18n="an.active7d">@L["an.active7d"]</div><div class="ca-kpi-value">@p.ActiveUsers7d</div></div></div></div>
-        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon info">@Icons.List</div><div><div class="ca-kpi-label" data-i18n="an.attempts">@L["an.attempts"]</div><div class="ca-kpi-value">@p.TotalAttempts <small>+@p.Attempts7d</small></div></div></div></div>
-        <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon warn">@Icons.Target</div><div><div class="ca-kpi-label" data-i18n="an.accuracy">@L["an.accuracy"]</div><div class="ca-kpi-value">@Score.Pct(p.OverallAccuracy)<small>%</small></div></div></div></div>
         <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon ok">@Icons.Trophy</div><div><div class="ca-kpi-label" data-i18n="an.examPass">@L["an.examPass"]</div><div class="ca-kpi-value">@Score.Pct(p.ExamPassRate)<small>%</small></div></div></div></div>
         <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon brand">@Icons.Ok</div><div><div class="ca-kpi-label" data-i18n="an.readyCount">@L["an.readyCount"]</div><div class="ca-kpi-value">@readyCount <small>/ @Model.Students.Count</small></div></div></div></div>
     </div>
+
+    <partial name="_LeagueBoard" model="Model.League" />
 
     <div class="ca-card ca-section">
         <div class="ca-card-head">
@@ -58,8 +58,10 @@
                 <table class="ca-table ca-table-cards" id="studentsTable">
                     <thead>
                         <tr>
+                            <th class="num" data-i18n="lg.place">@L["lg.place"]</th>
                             <th data-i18n="an.colStudent">@L["an.colStudent"]</th>
                             <th data-i18n="an.colReadiness">@L["an.colReadiness"]</th>
+                            <th data-i18n="lg.week">@L["lg.week"]</th>
                             <th class="num" data-i18n="cab.testsTaken">@L["cab.testsTaken"]</th>
                             <th class="num" data-i18n="cab.avgResult">@L["cab.avgResult"]</th>
                             <th class="num" data-i18n="an.colMistakes">@L["an.colMistakes"]</th>
@@ -71,7 +73,15 @@
                         @foreach (var s in Model.Students)
                         {
                             var initials = string.Concat((s.User.FullName ?? s.User.Username).Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(x => char.ToUpperInvariant(x[0])));
+                            var lr = Model.League.Of(s.User.Id);
                             <tr data-search="@((s.User.Username + " " + s.User.FullName).ToLowerInvariant())">
+                                <td data-label="@L["lg.place"]" class="num">
+                                    @if (lr != null)
+                                    {
+                                        <span class="lg-rank @(lr.Badge != null ? "top" : "")">@(League.BadgeEmoji(lr.Badge) ?? "#")@lr.Rank</span>
+                                    }
+                                    else { <span class="ca-muted">—</span> }
+                                </td>
                                 <td data-label="@L["an.colStudent"]">
                                     <div style="display:flex;align-items:center;gap:10px;min-width:0;">
                                         @{ var on = presence.IsOnline(s.User.Id); }
@@ -103,6 +113,14 @@
                                                 <span class="ca-badge ca-badge-ok" data-i18n="an.readyBadge">@L["an.readyBadge"]</span>
                                             }
                                         </div>
+                                    }
+                                </td>
+                                <td data-label="@L["lg.week"]">
+                                    @if (lr != null)
+                                    {
+                                        var tk = "lg.tier_" + lr.Tier;
+                                        <span class="lg-chip lg-@lr.Tier" data-i18n="@tk">@L[tk]</span>
+                                        <div class="ca-muted ca-small">@lr.Week · @(lr.Week > 0 ? lr.WeekAccuracy + "%" : "—")</div>
                                     }
                                 </td>
                                 <td data-label="@L["cab.testsTaken"]" class="num">@s.TotalAttempts</td>

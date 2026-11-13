@@ -73,7 +73,7 @@
 <div class="th-actions">
     @if (hasVideo)
     {
-        var lsUrl = $"/Topic/Lesson?topic={enc}" + (resumeAt > 0 ? $"&t={resumeAt}" : "");
+        var lsUrl = $"/Topic/Watch/{lesson!.Id}" + (resumeAt > 0 ? $"?t={resumeAt}" : "");
         <a class="th-act video" href="@lsUrl">
             <span class="th-act-ic">@Icons.Play</span>
             <span class="th-act-kicker" data-i18n="th.videoKicker">@L["th.videoKicker"]</span>
@@ -109,6 +109,22 @@
     </a>
 </div>
 
+@if (Model.Lessons.Count > 1)
+{
+    <div class="ca-card ca-section">
+        <div class="ca-card-head"><h3 class="ca-card-title">🎬 <span data-i18n="th.allVideos" data-i18n-args='{"n":@Model.Lessons.Count}'>@L.F("th.allVideos", ("n", Model.Lessons.Count))</span></h3></div>
+        <div class="th-videos">
+            @foreach (var v in Model.Lessons)
+            {
+                <a class="th-video" href="/Topic/Watch/@v.Id">
+                    <span class="th-video-ic">@Icons.Play</span>
+                    <span><b>@(v.Title ?? L.Topic(v.Topic))</b><small>@Fmt(v.DurationSeconds)</small></span>
+                </a>
+            }
+        </div>
+    </div>
+}
+
 <div class="ca-card ca-section">
     <div class="ca-card-head">
         <div>
@@ -123,9 +139,9 @@
             <div class="th-q @cls">
                 <span class="th-q-n">@q.Number</span>
                 <span class="th-q-t" data-i18n-pick data-uz="@q.TextUz" data-ru="@(q.TextRu ?? q.TextUz)" data-uzk="@(q.TextUzk ?? q.TextUz)">@Pick(q.TextUz, q.TextRu ?? q.TextUz, q.TextUzk ?? q.TextUz)</span>
-                @if (q.VideoAt is int at)
+                @if (q.VideoAt is int at && q.VideoLesson is int vl)
                 {
-                    <a class="th-q-go" href="/Topic/Lesson?topic=@enc&t=@at" title="@L["th.watchExplain"]" data-i18n-title="th.watchExplain">@Icons.Play @Fmt(at)</a>
+                    <a class="th-q-go" href="/Topic/Watch/@vl?t=@at" title="@L["th.watchExplain"]" data-i18n-title="th.watchExplain">@Icons.Play @Fmt(at)</a>
                 }
                 else
                 {

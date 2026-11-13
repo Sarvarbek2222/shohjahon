@@ -141,6 +141,17 @@ public class StatsService
         return list;
     }
 
+    /// <summary>Har bir o'quvchining shu vaqtdan beri ishlagan savollari va to'g'ri javoblari (reytingning haftalik qismi).</summary>
+    public async Task<Dictionary<int, (int Answered, int Correct)>> AnswersSinceAsync(DateTime since)
+    {
+        var rows = await _db.TestAnswers.AsNoTracking()
+            .Where(x => x.SelectedOptionId != null && x.Attempt!.FinishedAt >= since)
+            .GroupBy(x => x.Attempt!.UserId)
+            .Select(g => new { UserId = g.Key, A = g.Count(), C = g.Count(x => x.IsCorrect) })
+            .ToListAsync();
+        return rows.ToDictionary(r => r.UserId, r => (r.A, r.C));
+    }
+
     /// <summary>Admin uchun: eng ko'p xato qilinadigan savollar va mavzular.</summary>
     public async Task<PlatformStats> GetPlatformStatsAsync()
     {

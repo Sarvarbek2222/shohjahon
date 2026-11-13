@@ -29,6 +29,7 @@ public static class DbUpgrade
             await EnsureUsersTableAsync(db, log);
             await EnsureUserAccessAsync(db, log);
             await SiteSettings.LoadAsync(db);
+            await scope.ServiceProvider.GetRequiredService<PaymentSettings>().LoadAsync(db);
             log.LogInformation("Bitta qurilma qoidasi (o'quvchilar): {State}", SiteSettings.SingleDevice ? "yoqilgan" : "o'chirilgan");
             var users = scope.ServiceProvider.GetRequiredService<UserService>();
             var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
@@ -64,6 +65,15 @@ public static class DbUpgrade
         catch (Exception ex)
         {
             log.LogError(ex, "Video dars / jonli dars / bildirishnoma jadvallarini tayyorlashda xatolik");
+        }
+
+        try
+        {
+            await EnsureEngagementTablesAsync(db, log);
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, "Saqlangan savollar / xabarlar / video-savol jadvallarini tayyorlashda xatolik");
         }
 
         try
@@ -173,6 +183,8 @@ CREATE TABLE `Users` (
             ("Phone", "varchar(32) CHARACTER SET utf8mb4 NULL"),
             ("RegisteredVia", "varchar(16) CHARACTER SET utf8mb4 NULL"),
             ("LastSeenAt", "datetime(6) NULL"),
+            ("DeletedAt", "datetime(6) NULL"),
+            ("DeletedReason", "varchar(16) CHARACTER SET utf8mb4 NULL"),
         };
         foreach (var (name, type) in columns)
         {
@@ -211,6 +223,77 @@ CREATE TABLE `UserDeviceRequests` (
 ) CHARACTER SET=utf8mb4");
             log.LogInformation("UserDeviceRequests jadvali yaratildi");
         }
+    }
+
+    /// <summary>
+    /// Saqlangan savollar, admin ↔ o'quvchi xabarlari, video dars ↔ savollar bog'lanishi.
+    /// Video darslar endi mavzuga bittadan emas: bitta mavzuda bir nechta video, bitta video bir nechta mavzudagi savollar uchun.
+    /// </summary>
+    private static async Task EnsureEngagementTablesAsync(AppDbContext db, ILogger log)
+    {
+        var conn = db.Database.GetDbConnection();
+        if (conn.State != ConnectionState.Open) await conn.OpenAsync();
+
+        var tables = new (string Name, string Sql)[]
+        {
+            ("SavedQuestions", @"CREATE TABLE `SavedQuestions` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `UserId` int NOT NULL,
+  `QuestionId` int NOT NULL,
+  `CreatedAt` datetime(6) NOT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `IX_SavedQuestions_UserId_QuestionId` (`UserId`, `QuestionId`),
+  CONSTRAINT `FK_SavedQuestions_Users` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+            ("Messages", @"CREATE TABLE `Messages` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `UserId` int NOT NULL,
+  `FromAdmin` tinyint(1) NOT NULL DEFAULT 0,
+  `SenderId` int NOT NULL,
+  `Text` varchar(2000) CHARACTER SET utf8mb4 NOT NULL,
+  `CreatedAt` datetime(6) NOT NULL,
+  `ReadAt` datetime(6) NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_Messages_UserId_CreatedAt` (`UserId`, `CreatedAt`),
+  KEY `IX_Messages_FromAdmin_ReadAt` (`FromAdmin`, `ReadAt`),
+  CONSTRAINT `FK_Messages_Users` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+            ("TopicLessonQuestions", @"CREATE TABLE `TopicLessonQuestions` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `LessonId` int NOT NULL,
+  `QuestionId` int NOT NULL,
+  `SortOrder` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `IX_TopicLessonQuestions_LessonId_QuestionId` (`LessonId`, `QuestionId`),
+  KEY `IX_TopicLessonQuestions_QuestionId` (`QuestionId`),
+  CONSTRAINT `FK_TopicLessonQuestions_TopicLessons` FOREIGN KEY (`LessonId`) REFERENCES `TopicLessons` (`Id`) ON DELETE CASCADE
+) CHARACTER SET utf8mb4"),
+        };
+        foreach (var (name, sql) in tables)
+        {
+            if (await TableExistsAsync(conn, name)) continue;
+            await ExecAsync(conn, sql);
+            log.LogInformation("{Table} jadvali yaratildi", name);
+        }
+
+        if (!await IndexExistsAsync(conn, "Users", "IX_Users_DeletedAt"))
+            await ExecAsync(conn, "CREATE INDEX `IX_Users_DeletedAt` ON `Users` (`DeletedAt`)");
+
+        // Mavzuga bitta video cheklovi olib tashlanadi (bir mavzuda bir nechta video bo'lishi mumkin)
+        if (await IndexExistsAsync(conn, "TopicLessons", "IX_TopicLessons_Topic") &&
+            await ScalarLongAsync(conn, "SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'TopicLessons' AND INDEX_NAME = 'IX_TopicLessons_Topic' AND NON_UNIQUE = 0") > 0)
+        {
+            await ExecAsync(conn, "ALTER TABLE `TopicLessons` DROP INDEX `IX_TopicLessons_Topic`, ADD INDEX `IX_TopicLessons_Topic` (`Topic`)");
+            log.LogInformation("TopicLessons: mavzuga bitta video cheklovi olib tashlandi");
+        }
+
+        // Eski videolar: bo'limlarga bog'langan savollar video savollari ro'yxatiga o'tkaziladi (faqat bir marta)
+        if (await SiteSettings.GetAsync(db, "LessonQuestionsMigrated") == "1") return;
+        await ExecAsync(conn, @"INSERT IGNORE INTO `TopicLessonQuestions` (`LessonId`, `QuestionId`, `SortOrder`)
+SELECT c.`LessonId`, c.`QuestionId`, MIN(c.`SortOrder`) FROM `TopicLessonChapters` c
+WHERE c.`QuestionId` IS NOT NULL AND NOT EXISTS (SELECT 1 FROM `TopicLessonQuestions` x WHERE x.`LessonId` = c.`LessonId`)
+GROUP BY c.`LessonId`, c.`QuestionId`");
+        await SiteSettings.SetAsync(db, "LessonQuestionsMigrated", "1");
     }
 
     /// <summary>Test natijalari, javoblar va xato savollar jadvallari (foydalanuvchi kabineti uchun).</summary>

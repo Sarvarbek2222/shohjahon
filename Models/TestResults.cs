@@ -108,7 +108,7 @@ public static class TestTypes
             "testall" => (Marathon, null),
             "bilet/testpage" => (Bilet, request.Query["biletNumber"].ToString()),
             "topic/test" => (Topic, request.Query["topic"].ToString()),
-            "cabinet/practice" => request.Query.ContainsKey("ids") ? (Search, null) : (Mistakes, null),
+            "cabinet/practice" => request.Query.ContainsKey("ids") || request.Query.ContainsKey("saved") ? (Search, null) : (Mistakes, null),
             _ => null,
         };
     }

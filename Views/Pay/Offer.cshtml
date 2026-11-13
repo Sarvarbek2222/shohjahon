@@ -1,0 +1,56 @@
+@model CompanyInfo
+@using propro.Localization
+@* Ommaviy oferta — obuna xizmati shartlari (Payme tekshiruvi talabi) *@
+@{
+    Layout = "_PublicLayout";
+    ViewData["TitleKey"] = "pub.offer";
+    ViewData["Title"] = L["pub.offer"];
+    var seller = string.IsNullOrWhiteSpace(Model.Name) ? "AVTOPRAVA_SAM" : Model.Name + " (AVTOPRAVA_SAM)";
+    var inn = string.IsNullOrWhiteSpace(Model.Inn) ? null : Model.Inn;
+    var ru = L.Lang == Lang.Ru;
+}
+<article class="pb-doc ca-card" style="padding:28px;">
+    <h1 class="ca-h1" data-i18n="pub.offerTitle">@L["pub.offerTitle"]</h1>
+    <p class="ca-muted ca-small">@(ru ? "Редакция от" : "Tahrir sanasi:") 13.11.2026 · @(ru ? "г. Самарканд" : "Samarqand shahri")</p>
+
+    @if (ru)
+    {
+        <p>Настоящий документ является публичной офертой @seller@(inn != null ? $" (ИНН {inn})" : "") (далее — «Исполнитель») и содержит условия предоставления платного доступа к образовательной онлайн-платформе AVTOPRAVA_SAM для подготовки к экзамену на водительское удостоверение (далее — «Сервис»). Оплата подписки означает полное и безоговорочное принятие (акцепт) настоящей оферты.</p>
+        <h2>1. Предмет</h2>
+        <ol><li>Исполнитель предоставляет Пользователю доступ к Сервису на выбранный срок (подписка): тесты по билетам и темам, режим реального экзамена, видеоуроки, аналитика прогресса, работа над ошибками, онлайн-уроки.</li><li>Перечень тарифов, сроки и цены опубликованы на странице «Тарифы» и являются неотъемлемой частью оферты.</li></ol>
+        <h2>2. Стоимость и порядок оплаты</h2>
+        <ol><li>Цены указаны в узбекских сумах. Оплата производится единовременно за весь срок тарифа через платёжную систему Payme (банковские карты Uzcard, Humo и др.).</li><li>Обязательство по оплате считается исполненным с момента подтверждения платежа платёжной системой.</li><li>Исполнитель не получает и не хранит данные банковских карт — их обрабатывает Payme.</li></ol>
+        <h2>3. Предоставление доступа</h2>
+        <ol><li>Доступ активируется автоматически сразу после подтверждения оплаты. Если подписка уже действует, новый срок добавляется к оставшемуся.</li><li>Доступ предоставляется для одного Пользователя (учётной записи). Передача логина и пароля третьим лицам запрещена; Сервис может ограничить вход с нескольких устройств.</li></ol>
+        <h2>4. Возврат средств</h2>
+        <ol><li>Пользователь вправе отказаться от подписки и вернуть средства в течение 3 (трёх) календарных дней с момента оплаты, если он не начал пользоваться платными материалами.</li><li>В случае технической ошибки (двойное списание, оплата без активации доступа) средства возвращаются полностью.</li><li>Для возврата обратитесь по телефону @PayController.Phone. Возврат осуществляется на карту, с которой была произведена оплата, через Payme в сроки, установленные платёжной системой и банком.</li></ol>
+        <h2>5. Права и обязанности сторон</h2>
+        <ol><li>Исполнитель обеспечивает работоспособность Сервиса, кроме времени плановых технических работ и обстоятельств непреодолимой силы.</li><li>Пользователь обязуется не копировать, не записывать и не распространять материалы Сервиса (видео, тесты, онлайн-уроки).</li><li>При нарушении условий Исполнитель вправе заблокировать доступ без возврата средств.</li></ol>
+        <h2>6. Персональные данные</h2>
+        <p>Пользователь соглашается на обработку своих данных (имя, логин, номер телефона, результаты обучения) исключительно для предоставления Сервиса в соответствии с законодательством Республики Узбекистан. Подробнее — в «Политике конфиденциальности».</p>
+        <h2>7. Прочие условия</h2>
+        <ol><li>Исполнитель может изменять оферту и тарифы; изменения не затрагивают уже оплаченные периоды.</li><li>Споры решаются путём переговоров, а при недостижении согласия — в соответствии с законодательством Республики Узбекистан.</li></ol>
+        <h2>8. Реквизиты и контакты</h2>
+        <p>@seller@(inn != null ? $", ИНН {inn}" : "")<br />Адрес: г. Самарканд, ул. Мир Саид Барака, 22<br />Телефон: <a href="tel:@PayController.PhoneHref">@PayController.Phone</a>@if (!string.IsNullOrWhiteSpace(Model.Email)) {<br />@("E-mail: " + Model.Email)}</p>
+    }
+    else
+    {
+        <p>Ushbu hujjat @seller@(inn != null ? $" (STIR {inn})" : "") (keyingi o'rinlarda — «Ijrochi») tomonidan haydovchilik guvohnomasi imtihoniga tayyorlanish uchun AVTOPRAVA_SAM onlayn ta'lim platformasidan (keyingi o'rinlarda — «Xizmat») pullik foydalanish shartlarini belgilovchi ommaviy ofertadir. Obuna uchun to'lov qilinishi ushbu oferta shartlarini to'liq va so'zsiz qabul qilish (aksept) hisoblanadi.</p>
+        <h2>1. Oferta predmeti</h2>
+        <ol><li>Ijrochi Foydalanuvchiga tanlangan muddatga (obuna) Xizmatdan foydalanish huquqini beradi: biletlar va mavzular bo'yicha testlar, real imtihon rejimi, video darslar, natijalar tahlili, xatolar ustida ishlash, jonli darslar.</li><li>Tariflar, muddatlar va narxlar «Tariflar» sahifasida e'lon qilingan va ushbu ofertaning ajralmas qismi hisoblanadi.</li></ol>
+        <h2>2. Narx va to'lov tartibi</h2>
+        <ol><li>Narxlar O'zbekiston so'mida ko'rsatilgan. To'lov tarifning butun muddati uchun bir martada Payme to'lov tizimi orqali (Uzcard, Humo va boshqa bank kartalari) amalga oshiriladi.</li><li>To'lov majburiyati to'lov tizimi to'lovni tasdiqlagan paytdan bajarilgan hisoblanadi.</li><li>Ijrochi bank kartasi ma'lumotlarini olmaydi va saqlamaydi — ularni Payme qayta ishlaydi.</li></ol>
+        <h2>3. Xizmatdan foydalanish huquqini berish</h2>
+        <ol><li>Kirish huquqi to'lov tasdiqlangan zahoti avtomatik faollashadi. Obuna amal qilayotgan bo'lsa, yangi muddat qolgan muddatga qo'shiladi.</li><li>Kirish bitta Foydalanuvchi (hisob) uchun beriladi. Login va parolni boshqalarga berish taqiqlanadi; Xizmat bir nechta qurilmadan kirishni cheklashi mumkin.</li></ol>
+        <h2>4. Pulni qaytarish</h2>
+        <ol><li>Foydalanuvchi to'lovdan keyin 3 (uch) kalendar kun ichida, agar pullik materiallardan foydalanishni boshlamagan bo'lsa, obunadan voz kechib, pulni qaytarib olishi mumkin.</li><li>Texnik xato bo'lganda (ikki marta yechilgan, to'langan, lekin kirish ochilmagan) pul to'liq qaytariladi.</li><li>Pulni qaytarish uchun @PayController.Phone raqamiga murojaat qiling. Pul to'lov qilingan kartaga Payme orqali, to'lov tizimi va bank belgilagan muddatlarda qaytariladi.</li></ol>
+        <h2>5. Tomonlarning huquq va majburiyatlari</h2>
+        <ol><li>Ijrochi Xizmatning uzluksiz ishlashini ta'minlaydi (rejalashtirilgan texnik ishlar va fors-major holatlari bundan mustasno).</li><li>Foydalanuvchi Xizmat materiallarini (video, testlar, jonli darslar) nusxalamaslik, yozib olmaslik va tarqatmaslik majburiyatini oladi.</li><li>Shartlar buzilganda Ijrochi pulni qaytarmasdan kirishni bloklash huquqiga ega.</li></ol>
+        <h2>6. Shaxsiy ma'lumotlar</h2>
+        <p>Foydalanuvchi o'z ma'lumotlari (ismi, logini, telefon raqami, o'quv natijalari) faqat Xizmatni ko'rsatish maqsadida, O'zbekiston Respublikasi qonunchiligiga muvofiq qayta ishlanishiga rozilik beradi. Batafsil — «Maxfiylik siyosati»da.</p>
+        <h2>7. Boshqa shartlar</h2>
+        <ol><li>Ijrochi oferta va tariflarni o'zgartirishi mumkin; o'zgarishlar allaqachon to'langan davrlarga ta'sir qilmaydi.</li><li>Nizolar muzokaralar yo'li bilan, kelishuvga erishilmasa — O'zbekiston Respublikasi qonunchiligiga muvofiq hal qilinadi.</li></ol>
+        <h2>8. Rekvizitlar va aloqa</h2>
+        <p>@seller@(inn != null ? $", STIR {inn}" : "")<br />Manzil: Samarqand shahri, Mir Said Baraka ko'chasi, 22-uy<br />Telefon: <a href="tel:@PayController.PhoneHref">@PayController.Phone</a>@if (!string.IsNullOrWhiteSpace(Model.Email)) {<br />@("E-mail: " + Model.Email)}</p>
+    }
+</article>

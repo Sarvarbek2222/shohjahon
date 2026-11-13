@@ -1,0 +1,28 @@
+@model Payment?
+@* Payme'dan qaytilgandan keyingi sahifa: to'lov holati (Payme serveri tasdiqlagach "To'landi" bo'ladi) *@
+@{
+    Layout = "_CabinetLayout";
+    ViewData["TitleKey"] = "pay.title";
+    ViewData["Title"] = L["pay.title"];
+    var paid = Model?.Status == PaymentStatus.Paid;
+}
+<div class="ca-card ca-empty" style="max-width:560px;margin:30px auto;">
+    <div class="ca-empty-icon" style="font-size:40px;">@(paid ? "🎉" : Model?.Status == PaymentStatus.Cancelled ? "✕" : "⏳")</div>
+    @if (paid)
+    {
+        <h3 data-i18n="pay.doneTitle">@L["pay.doneTitle"]</h3>
+        <p data-i18n="pay.doneText" data-i18n-args='{"d":"@(Model!.PeriodEnd is DateTime e ? L.Stamp(e) : "")"}'>@L.F("pay.doneText", ("d", Model!.PeriodEnd is DateTime e2 ? L.Stamp(e2) : ""))</p>
+        <a class="ca-btn ca-btn-primary" href="/Cabinet">@Icons.Play <span data-i18n="cab.startTest">@L["cab.startTest"]</span></a>
+    }
+    else if (Model?.Status == PaymentStatus.Cancelled)
+    {
+        <h3 data-i18n="pay.cancelledTitle">@L["pay.cancelledTitle"]</h3>
+        <a class="ca-btn ca-btn-ghost" href="/Pay/My" data-i18n="pay.tryAgain">@L["pay.tryAgain"]</a>
+    }
+    else
+    {
+        <h3 data-i18n="pay.waitTitle">@L["pay.waitTitle"]</h3>
+        <p data-i18n="pay.waitText">@L["pay.waitText"]</p>
+        <script>setTimeout(function () { location.reload(); }, 5000);</script>
+    }
+</div>

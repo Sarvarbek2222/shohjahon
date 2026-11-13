@@ -85,13 +85,7 @@
 
         <div class="rp-kpis">
             <div class="rp-kpi"><span data-i18n="rep.kActive">@L["rep.kActive"]</span><b>@p.Active</b><small>@(p.ActiveAvg7 > 0 ? L.F("rep.vsAvg", ("n", p.ActiveAvg7)) : "")</small></div>
-            <div class="rp-kpi"><span data-i18n="rep.kAnswers">@L["rep.kAnswers"]</span><b>@p.Answers</b><small>@p.Tests <span data-i18n="rep.tests">@L["rep.tests"]</span></small></div>
             <div class="rp-kpi"><span data-i18n="rep.kAccuracy">@L["rep.kAccuracy"]</span><b style="color:@Score.Color(p.Accuracy)">@p.Accuracy%</b><small class="@(p.Accuracy >= p.AccuracyAvg7 ? "up" : "down")">@Delta(p.Accuracy, p.AccuracyAvg7)</small></div>
-            <div class="rp-kpi"><span data-i18n="rep.kPass">@L["rep.kPass"]</span><b>@p.PassRate%</b><small>@p.ExamAttempts <span data-i18n="rep.exams">@L["rep.exams"]</span></small></div>
-            <div class="rp-kpi"><span data-i18n="rep.kMastered">@L["rep.kMastered"]</span><b>@m.Learning.NewlyMastered</b><small data-i18n="rep.kMasteredSub">@L["rep.kMasteredSub"]</small></div>
-            <div class="rp-kpi"><span data-i18n="rep.kForgotten">@L["rep.kForgotten"]</span><b>@m.Learning.Forgotten</b><small>@(m.Learning.RetentionRate > 0 ? L.F("rep.retention", ("n", m.Learning.RetentionRate)) : "")</small></div>
-            <div class="rp-kpi"><span data-i18n="rep.kTime">@L["rep.kTime"]</span><b>@(p.StudyMinutes / 60):@((p.StudyMinutes % 60).ToString("00"))</b><small>🎬 @p.VideoMinutes <span data-i18n="lv.min">@L["lv.min"]</span> · 🔴 @p.LiveAttendees</small></div>
-            <div class="rp-kpi"><span data-i18n="rep.kNew">@L["rep.kNew"]</span><b>@p.FirstTimers</b><small data-i18n="rep.kNewSub">@L["rep.kNewSub"]</small></div>
         </div>
 
         @* Soatlar: javoblar soni (ustun) va aniqlik (rang) *@
@@ -136,13 +130,22 @@
                 @if (!m.Items.Discrimination.Any()) { <p class="ca-muted ca-small" data-i18n="rep.discNone">@L["rep.discNone"]</p> }
                 @foreach (var x in m.Items.Discrimination)
                 {
-                    <div class="rp-item">
+                    var bad = x.A < x.B;
+                    var verdict = bad ? "rep.discBad" : "rep.discWeak";
+                    <div class="rp-item rp-disc">
                         <a class="rp-item-q" href="/Question/Edit/@x.Id">#@x.Id · @x.Text</a>
-                        <div class="rp-dual">
-                            <span><small data-i18n="rep.strong">@L["rep.strong"]</small><b>@x.A%</b></span>
-                            <span><small data-i18n="rep.weak">@L["rep.weak"]</small><b>@x.B%</b></span>
-                            <span class="rp-d @(x.D < 0 ? "neg" : "")"><small>D</small><b>@x.D.ToString("0.00", inv)</b></span>
+                        <div class="rp-disc-row">
+                            <span class="rp-disc-who">👍 <span data-i18n="rep.strong">@L["rep.strong"]</span></span>
+                            <div class="rp-bar ok"><i style="width:@x.A.ToString(inv)%"></i></div>
+                            <b>@x.A%</b>
                         </div>
+                        <div class="rp-disc-row">
+                            <span class="rp-disc-who">🐢 <span data-i18n="rep.weak">@L["rep.weak"]</span></span>
+                            <div class="rp-bar weak"><i style="width:@x.B.ToString(inv)%"></i></div>
+                            <b>@x.B%</b>
+                        </div>
+                        <p class="rp-disc-verdict @(bad ? "bad" : "")">@(bad ? "⚠️" : "❓") <span data-i18n="@verdict">@L[verdict]</span></p>
+                        <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Question/Edit/@x.Id" data-i18n="rep.discCheck">@L["rep.discCheck"]</a>
                     </div>
                 }
             </div>

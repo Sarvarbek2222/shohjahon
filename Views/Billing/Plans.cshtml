@@ -1,0 +1,43 @@
+@model List<SubscriptionPlan>
+@{
+    Layout = "_AdminLayout";
+    ViewData["TitleKey"] = "bill.title";
+    ViewData["Title"] = L["bill.tabPlans"];
+}
+<div class="ca-body-embed">
+    <partial name="_BillingNav" />
+    <p class="ca-muted ca-small" data-i18n="bill.plansHint">@L["bill.plansHint"]</p>
+    <div class="bp-grid">
+        @foreach (var p in Model.Append(new SubscriptionPlan { IsActive = true, Months = 1 }))
+        {
+            var isNew = p.Id == 0;
+            <form method="post" action="/Billing/SavePlan" class="ca-card bl-form @(isNew ? "bp-new" : "") @(p.IsActive || isNew ? "" : "bp-off")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@p.Id" />
+                <b>@(isNew ? "+ " + L["bill.newPlan"] : p.Name)</b>
+                <label><span data-i18n="bill.planName">@L["bill.planName"]</span><input class="ca-input" name="name" value="@p.Name" maxlength="64" required placeholder="1 oy" /></label>
+                <div class="row2">
+                    <label><span data-i18n="bill.months">@L["bill.months"]</span><input class="ca-input" type="number" name="months" min="1" max="36" value="@p.Months" required /></label>
+                    <label><span data-i18n="bill.price">@L["bill.price"]</span><input class="ca-input" type="number" name="price" min="1000" step="1000" value="@(p.Price > 0 ? p.Price.ToString() : "")" required placeholder="99000" /></label>
+                </div>
+                <div class="row2">
+                    <label><span data-i18n="bill.badge">@L["bill.badge"]</span><input class="ca-input" name="badge" value="@p.Badge" maxlength="64" placeholder="@L["bill.badgePh"]" /></label>
+                    <label><span data-i18n="bill.order">@L["bill.order"]</span><input class="ca-input" type="number" name="sortOrder" value="@p.SortOrder" /></label>
+                </div>
+                <label style="display:flex;flex-direction:row;gap:8px;align-items:center;color:var(--ca-text);"><input type="checkbox" name="isActive" value="true" @(p.IsActive ? "checked" : "") style="width:18px;height:18px;accent-color:#22c55e;" /> <span data-i18n="bill.planActive">@L["bill.planActive"]</span></label>
+                <div style="display:flex;gap:8px;">
+                    <button class="ca-btn ca-btn-primary ca-btn-sm" type="submit" data-i18n="ls.save">@L["ls.save"]</button>
+                    @if (!isNew)
+                    {
+                        <button class="ca-btn ca-btn-ghost ca-btn-sm" type="submit" formaction="/Billing/DeletePlan/@p.Id" formnovalidate onclick="return confirm(I18n.t('bill.planDeleteConfirm'))" data-i18n="ls.delete">@L["ls.delete"]</button>
+                    }
+                </div>
+            </form>
+        }
+    </div>
+</div>
+<style>
+    .bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+    .bp-new { border-style: dashed; }
+    .bp-off { opacity: .6; }
+</style>

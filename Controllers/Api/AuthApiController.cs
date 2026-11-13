@@ -48,7 +48,7 @@ namespace propro.Controllers.Api
                 return Error(400, "phone_invalid", "Telefon raqami noto'g'ri.");
             if (req.DeviceId == null || !DeviceRx.IsMatch(req.DeviceId))
                 return Error(400, "device_invalid", "Qurilma aniqlanmadi.");
-            if (await _db.Users.AnyAsync(u => u.Username == username))
+            if (await _db.Users.IgnoreQueryFilters().AnyAsync(u => u.Username == username))
                 return Error(409, "username_taken", "Bu login band. Boshqasini tanlang.");
 
             var user = new AppUser
@@ -77,8 +77,17 @@ namespace propro.Controllers.Api
             if (req.DeviceId == null || !DeviceRx.IsMatch(req.DeviceId))
                 return Error(400, "device_invalid", "Qurilma aniqlanmadi.");
 
+            var guard = HttpContext.RequestServices.GetRequiredService<LoginGuard>();
+            var ip = DeviceGuard.ClientIp(HttpContext);
+            if (guard.Blocked(req.Username, ip) is TimeSpan wait)
+                return Error(429, "locked", $"Juda ko'p noto'g'ri urinish. {Math.Ceiling(wait.TotalMinutes)} daqiqadan keyin qayta urinib ko'ring.");
             var user = await _users.VerifyAsync(req.Username, req.Password);
-            if (user == null) return Error(401, "login_failed", "Login yoki parol noto'g'ri!");
+            if (user == null)
+            {
+                guard.Fail(req.Username, ip);
+                return Error(401, "login_failed", "Login yoki parol noto'g'ri!");
+            }
+            guard.Success(req.Username);
             if (!user.IsActive) return Error(403, "inactive", "Hisobingiz o'chirib qo'yilgan. Administratorga murojaat qiling.");
 
             var check = await _users.CheckDeviceAsync(user, req.DeviceId, Describe(req.DeviceInfo), DeviceGuard.ClientIp(HttpContext));

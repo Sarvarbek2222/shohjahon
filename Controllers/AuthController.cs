@@ -10,11 +10,13 @@ public class AuthController : Controller
 {
     private readonly UserService _users;
     private readonly IStringLocalizer<SharedResource> _t;
+    private readonly LoginGuard _guard;
 
-    public AuthController(UserService users, IStringLocalizer<SharedResource> t)
+    public AuthController(UserService users, IStringLocalizer<SharedResource> t, LoginGuard guard)
     {
         _users = users;
         _t = t;
+        _guard = guard;
     }
 
     [HttpGet]
@@ -35,13 +37,26 @@ public class AuthController : Controller
         ViewBag.ReturnUrl = returnUrl;
         ViewBag.Username = username;
 
+        // Ko'p marta noto'g'ri parol — vaqtincha bloklangan (parolni tanlab topishdan himoya)
+        var ip = DeviceGuard.ClientIp(HttpContext);
+        if (_guard.Blocked(username, ip) is TimeSpan wait)
+        {
+            var min = (int)Math.Ceiling(wait.TotalMinutes);
+            ViewBag.ErrorKey = "login.locked";
+            ViewBag.ErrorArgs = min;
+            ViewBag.Error = _t["login.locked"].Value.Replace("{n}", min.ToString());
+            return View();
+        }
+
         var user = await _users.VerifyAsync(username, password);
         if (user == null)
         {
+            _guard.Fail(username, ip);
             ViewBag.ErrorKey = "login.error";
             ViewBag.Error = _t["login.error"].Value;
             return View();
         }
+        _guard.Success(username);
         var check = await _users.CheckAccessAsync(user, HttpContext);
         if (check != LoginCheck.Ok)
         {

@@ -57,6 +57,8 @@ public partial class LiveController : Controller
         var me = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == UserId);
         var phone = UserService.FormatPhone(me?.Phone);
         ViewBag.Watermark = me == null ? "" : string.IsNullOrEmpty(phone) ? me.Username : me.Username + " · " + phone;
+        // Efir bo'laklari uchun shaxsiy kalit (SignalR ulanishi kechiksa ham efir darhol ochiladi)
+        ViewBag.StreamKey = StreamKey(HttpContext, l.Id, UserId);
         return View(l);
     }
 

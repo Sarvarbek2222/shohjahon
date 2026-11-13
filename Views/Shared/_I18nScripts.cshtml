@@ -1,4 +1,5 @@
-﻿@* Til lug'ati + i18n.js — <head> ichida, sahifa skriptlaridan oldin ulanadi *@
+﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@* Til lug'ati + i18n.js — <head> ichida, sahifa skriptlaridan oldin ulanadi *@
 @* Brauzer tabidagi ikonka — barcha sahifalarda (test sahifalari ham) bir xil logotip *@
 <link rel="icon" type="image/png" href="~/images/favicon.png" asp-append-version="true" />
 <link rel="apple-touch-icon" href="~/images/favicon.png" />
@@ -8,6 +9,8 @@
 @* Onlayn holati: ochiq sahifa (tab ko'rinib turganda) har daqiqada ping yuboradi — admin o'quvchini "onlayn" ko'radi *@
 @if (User.Identity?.IsAuthenticated == true)
 {
+    @* fetch() so'rovlari uchun CSRF kaliti (sahifada forma bo'lmasa ham) *@
+    <meta name="csrf" content="@Xsrf.GetAndStoreTokens(Context).RequestToken" />
     <script>
         (function () {
             function ping() {
@@ -25,4 +28,16 @@
 {
     <script>window.TEST_TRACKER = { type: @Json.Serialize(tracked.Type), ref: @Json.Serialize(tracked.Ref) };</script>
     <script src="~/js/test-tracker.js" asp-append-version="true"></script>
+}
+
+@* Savollar ustida: "Saqlash" va (mavzu/bilet testlarida) "Video tushuntirish" *@
+@if (User.Identity?.IsAuthenticated == true)
+{
+    var studyType = TestTypes.Detect(Context.Request)?.Type;
+    var isPractice = Context.Request.Path.StartsWithSegments("/Cabinet/Practice");
+    if (studyType != null || isPractice)
+    {
+        <script>window.STUDY_TOOLS = { video: @Json.Serialize(studyType == TestTypes.Topic || studyType == TestTypes.Bilet || isPractice) };</script>
+        <script src="~/js/study-tools.js" asp-append-version="true" defer></script>
+    }
 }

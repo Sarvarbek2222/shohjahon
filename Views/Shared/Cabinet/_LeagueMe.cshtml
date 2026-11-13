@@ -1,0 +1,56 @@
+@model UserStats
+@inject AnalyticsSnapshot Snapshot
+@* "Sizning o'rningiz": umumiy reytingdagi o'rin, maqom (1–2–3), haftalik guruh va motivatsion so'z *@
+@{
+    var data = await Snapshot.GetAsync();
+    var me = data.League.Of(Model.User.Id);
+}
+@if (me != null)
+{
+    var tk = "lg.tier_" + me.Tier;
+    // Kun sayin boshqa so'z (bir kun ichida o'zgarmaydi)
+    var variant = (DateTime.UtcNow.DayOfYear + me.UserId) % 3 + 1;
+    var msgKey = me.Badge != null ? "lg.motiv_top" : $"lg.motiv_{me.Tier}_{variant}";
+    var top = data.League.Rows.Where(r => r.Badge != null).Take(3).ToList();
+    var weekPct = (int)Math.Min(100, Math.Round(100.0 * me.Week / Math.Max(1, me.Target)));
+    <div class="ca-card lg-me @(me.Badge != null ? "lg-me-top" : "")">
+        <div class="lg-me-place">
+            <div>
+                <b>@(League.BadgeEmoji(me.Badge) ?? "#" + me.Rank)</b>
+                <small data-i18n="lg.ofN" data-i18n-args='{"r":@me.Rank,"n":@data.League.Total}'>@L.F("lg.ofN", ("r", me.Rank), ("n", data.League.Total))</small>
+            </div>
+        </div>
+        <div style="min-width:0;position:relative;">
+            <h3 data-i18n="lg.youAre" data-i18n-args='{"r":@me.Rank}'>@L.F("lg.youAre", ("r", me.Rank))</h3>
+            <div class="lg-me-row">
+                @if (me.Badge != null)
+                {
+                    var bk = "lg.badge_" + me.Badge;
+                    <span class="lg-badge lg-badge-@me.Badge">@League.BadgeEmoji(me.Badge) <span data-i18n="@bk">@L[bk]</span></span>
+                }
+                <span class="lg-chip lg-@me.Tier" data-i18n="@tk">@L[tk]</span>
+                <span class="ca-muted ca-small"><span data-i18n="lg.mastered">@L["lg.mastered"]</span>: <b>@me.Readiness%</b></span>
+            </div>
+            <p class="lg-me-msg" data-i18n="@msgKey" data-i18n-args='{"r":@me.Rank,"n":@me.Week,"t":@me.Target}'>@L.F(msgKey, ("r", me.Rank), ("n", me.Week), ("t", me.Target))</p>
+            <div class="lg-me-week">
+                <div class="ca-factor">
+                    <div class="ca-factor-top"><span data-i18n="lg.weekNorm">@L["lg.weekNorm"]</span><b>@me.Week / @me.Target</b></div>
+                    <div class="ca-bar @Score.BarClass(weekPct)"><i data-w="@weekPct"></i></div>
+                </div>
+                <div class="ca-factor">
+                    <div class="ca-factor-top"><span data-i18n="lg.weekAcc">@L["lg.weekAcc"]</span><b>@(me.Week > 0 ? me.WeekAccuracy + "%" : "—")</b></div>
+                    <div class="ca-bar @Score.BarClass(me.WeekAccuracy)"><i data-w="@me.WeekAccuracy"></i></div>
+                </div>
+            </div>
+            @if (top.Count > 0)
+            {
+                <div class="lg-me-podium" title="@L["lg.leaders"]" data-i18n-title="lg.leaders">
+                    @foreach (var r in top)
+                    {
+                        <span>@League.BadgeEmoji(r.Badge) @r.Name</span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}

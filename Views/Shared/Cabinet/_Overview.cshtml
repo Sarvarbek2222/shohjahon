@@ -3,6 +3,8 @@
 @{
     var s = Model.Stats;
 }
+@* Reyting: o'rin, maqom, haftalik guruh va motivatsion so'z (test ishlamagan o'quvchiga ham) *@
+<div style="margin-bottom:16px;"><partial name="Cabinet/_LeagueMe" model="s" /></div>
 @if (s.AllAttemptsCount == 0)
 {
     <div class="ca-card ca-empty">

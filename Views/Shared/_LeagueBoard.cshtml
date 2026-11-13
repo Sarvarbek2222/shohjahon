@@ -1,0 +1,81 @@
+@model LeagueData
+@* Admin tahlili: 1–2–3-o'rinlar (maqom) va haftalik guruhlar — yaxshi / o'rtacha / sharmandalar doskasi *@
+@{
+    var top = Model.Rows.Where(r => r.Badge != null).Take(3).ToList();
+    string Initials(string n) => string.Concat(n.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(x => char.ToUpperInvariant(x[0])));
+    var tiers = new[] { (League.Good, "🏆"), (League.Average, "📘"), (League.Shame, "😬") };
+}
+@if (Model.Total > 0)
+{
+    <div class="ca-card ca-section lg-board">
+        <div class="ca-card-head">
+            <div>
+                <h3 class="ca-card-title">🏅 <span data-i18n="lg.title">@L["lg.title"]</span></h3>
+                <p class="ca-card-sub" data-i18n="lg.sub" data-i18n-args='{"n":@(League.DailyTarget * 7)}'>@L.F("lg.sub", ("n", League.DailyTarget * 7))</p>
+            </div>
+        </div>
+
+        @if (top.Count > 0)
+        {
+            <div class="lg-podium">
+                @foreach (var r in top)
+                {
+                    var bk = "lg.badge_" + r.Badge;
+                    <a class="lg-pod lg-pod-@r.Rank" asp-controller="Analytics" asp-action="Student" asp-route-id="@r.UserId">
+                        <span class="lg-pod-medal">@League.BadgeEmoji(r.Badge)</span>
+                        <span class="lg-pod-av">@Initials(r.Name)</span>
+                        <b class="lg-pod-name">@r.Name</b>
+                        <span class="lg-badge lg-badge-@r.Badge" data-i18n="@bk">@L[bk]</span>
+                        <span class="lg-pod-score">@r.Readiness% <small data-i18n="lg.mastered">@L["lg.mastered"]</small></span>
+                    </a>
+                }
+            </div>
+        }
+
+        <div class="lg-cols">
+            @foreach (var (tier, icon) in tiers)
+            {
+                var list = Model.Tier(tier);
+                var tk = "lg.tier_" + tier;
+                var hk = "lg.tierHint_" + tier;
+                <section class="lg-col lg-col-@tier">
+                    <header>
+                        <span class="lg-col-ico">@icon</span>
+                        <div>
+                            <b data-i18n="@tk">@L[tk]</b>
+                            <small data-i18n="@hk">@L[hk]</small>
+                        </div>
+                        <span class="lg-col-n">@list.Count</span>
+                    </header>
+                    @if (list.Count == 0)
+                    {
+                        <p class="ca-muted ca-small lg-empty" data-i18n="lg.none">@L["lg.none"]</p>
+                    }
+                    <ol class="lg-list">
+                        @for (int i = 0; i < list.Count; i++)
+                        {
+                            var r = list[i];
+                            var why = "lg.why_" + r.Reason;
+                            <li class="@(i >= 8 ? "lg-more" : "")" @(i >= 8 ? "hidden" : "")>
+                                <a asp-controller="Analytics" asp-action="Student" asp-route-id="@r.UserId">
+                                    <span class="lg-av">@Initials(r.Name)</span>
+                                    <span class="lg-who">
+                                        <b>@r.Name</b>
+                                        <small data-i18n="@why" data-i18n-args='{"n":@r.Week,"t":@r.Target,"p":@r.WeekAccuracy}'>@L.F(why, ("n", r.Week), ("t", r.Target), ("p", r.WeekAccuracy))</small>
+                                    </span>
+                                    <span class="lg-place">#@r.Rank</span>
+                                </a>
+                            </li>
+                        }
+                    </ol>
+                    @if (list.Count > 8)
+                    {
+                        <button type="button" class="ca-btn ca-btn-ghost ca-btn-sm lg-showall" onclick="this.previousElementSibling.querySelectorAll('.lg-more').forEach(function(x){x.hidden=false});this.remove();">
+                            <span data-i18n="lg.showAll" data-i18n-args='{"n":@list.Count}'>@L.F("lg.showAll", ("n", list.Count))</span>
+                        </button>
+                    }
+                </section>
+            }
+        </div>
+    </div>
+}

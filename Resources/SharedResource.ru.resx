@@ -751,7 +751,7 @@
     <value>Сохранить</value>
   </data>
   <data name="users.confirmDelete" xml:space="preserve">
-    <value>Удалить пользователя «{name}»?</value>
+    <value>Удалить «{name}»? В течение 3 дней можно будет восстановить.</value>
   </data>
   <data name="users.created" xml:space="preserve">
     <value>Пользователь добавлен.</value>
@@ -760,7 +760,7 @@
     <value>Изменения сохранены.</value>
   </data>
   <data name="users.deleted" xml:space="preserve">
-    <value>Пользователь удалён.</value>
+    <value>Пользователь удалён. В течение 3 дней его можно восстановить в разделе «Удалённые».</value>
   </data>
   <data name="users.empty" xml:space="preserve">
     <value>Пользователей нет</value>
@@ -1003,7 +1003,7 @@
     <value>Результаты</value>
   </data>
   <data name="cab.mistakes" xml:space="preserve">
-    <value>Мои ошибки</value>
+    <value>Работа над ошибками</value>
   </data>
   <data name="cab.analysis" xml:space="preserve">
     <value>Анализ</value>
@@ -1177,7 +1177,7 @@
     <value>Точность (последние 200 ответов)</value>
   </data>
   <data name="cab.factorExams" xml:space="preserve">
-    <value>Экзаменационные тесты (последние 5)</value>
+    <value>Результат реального экзамена</value>
   </data>
   <data name="cab.factorCoverage" xml:space="preserve">
     <value>Охват базы вопросов</value>
@@ -1930,7 +1930,7 @@
     <value>Решено верно (из базы)</value>
   </data>
   <data name="cab.readinessRule" xml:space="preserve">
-    <value>Процент готовности — доля верно решённых вопросов базы. Все вопросы решены верно — 100%, вы готовы к экзамену. Вопросы из «Мои ошибки» не учитываются.</value>
+    <value>Процент готовности — доля верно решённых вопросов базы. Все вопросы решены верно — 100%, вы готовы к экзамену. Вопросы из «Работа над ошибками» не учитываются.</value>
   </data>
   <data name="users.phoneHint2" xml:space="preserve">
     <value>Обязательно для ученика. +998 подставляется сам — введите остальные 9 цифр.</value>
@@ -3028,19 +3028,19 @@
     <value>{a}% ошибившихся выбрали этот вариант · {w} ошибок / {n} ответов</value>
   </data>
   <data name="rep.discTitle" xml:space="preserve">
-    <value>Качество вопросов (дискриминация)</value>
+    <value>Подозрительные вопросы — возможно, неверный ключ ответа</value>
   </data>
   <data name="rep.discSub" xml:space="preserve">
-    <value>Сравниваются результаты сильных и слабых учеников. Отрицательный D — возможна ошибка в ключе ответа.</value>
+    <value>Обычно сильные ученики отвечают на вопрос правильнее. Здесь наоборот или разницы нет: ошибаются даже отличники. Возможно, ошибка в тексте вопроса или в отметке «правильного ответа» — откройте и проверьте.</value>
   </data>
   <data name="rep.discNone" xml:space="preserve">
-    <value>Подозрительных вопросов не найдено (или пока мало данных).</value>
+    <value>Подозрительных вопросов нет — ответы выглядят верными ✅</value>
   </data>
   <data name="rep.strong" xml:space="preserve">
-    <value>Сильные</value>
+    <value>Сильные ученики</value>
   </data>
   <data name="rep.weak" xml:space="preserve">
-    <value>Слабые</value>
+    <value>Слабые ученики</value>
   </data>
   <data name="rep.passTitle" xml:space="preserve">
     <value>Вероятность сдачи экзамена</value>
@@ -3113,5 +3113,956 @@
   </data>
   <data name="form.imageShrunk" xml:space="preserve">
     <value>Изображение автоматически уменьшено: {from} → {to} (качество сохранено)</value>
+  </data>
+  <data name="lv.bcFlip" xml:space="preserve">
+    <value>Сменить камеру</value>
+  </data>
+  <data name="lv.bcFlipFail" xml:space="preserve">
+    <value>Не удалось сменить камеру — нет второй камеры или нет разрешения</value>
+  </data>
+  <data name="err.usernameInTrash" xml:space="preserve">
+    <value>Этот логин принадлежит удалённому пользователю. Восстановите его или выберите другой логин.</value>
+  </data>
+  <data name="users.bulkNone" xml:space="preserve">
+    <value>Никто не выбран</value>
+  </data>
+  <data name="users.bulk_delete" xml:space="preserve">
+    <value>Удалено пользователей: {n} (можно восстановить в течение 3 дней)</value>
+  </data>
+  <data name="users.bulk_restore" xml:space="preserve">
+    <value>Восстановлено пользователей: {n}</value>
+  </data>
+  <data name="users.bulk_purge" xml:space="preserve">
+    <value>Окончательно удалено пользователей: {n}</value>
+  </data>
+  <data name="users.bulkConfirmDelete" xml:space="preserve">
+    <value>Удалить выбранных пользователей ({n})? В течение 3 дней можно восстановить.</value>
+  </data>
+  <data name="users.selectAll" xml:space="preserve">
+    <value>Выбрать всех</value>
+  </data>
+  <data name="users.selected" xml:space="preserve">
+    <value>выбрано</value>
+  </data>
+  <data name="users.deleteSelected" xml:space="preserve">
+    <value>Удалить выбранных</value>
+  </data>
+  <data name="users.clearSel" xml:space="preserve">
+    <value>Снять выбор</value>
+  </data>
+  <data name="users.trashTitle" xml:space="preserve">
+    <value>Удалённые</value>
+  </data>
+  <data name="users.trashSub" xml:space="preserve">
+    <value>Удалённый пользователь не может войти и нигде не отображается. В течение 3 дней его можно восстановить — затем он удаляется навсегда. Ученики, которые неделю не заходили и не решали вопросы, попадают сюда автоматически.</value>
+  </data>
+  <data name="users.restoreSelected" xml:space="preserve">
+    <value>Восстановить выбранных</value>
+  </data>
+  <data name="users.purgeSelected" xml:space="preserve">
+    <value>Удалить навсегда</value>
+  </data>
+  <data name="users.purgeConfirm" xml:space="preserve">
+    <value>Выбранные будут удалены навсегда вместе с результатами и историей оплат. Это нельзя отменить. Продолжить?</value>
+  </data>
+  <data name="users.delAuto" xml:space="preserve">
+    <value>Неделю не активен — автоматически</value>
+  </data>
+  <data name="users.delAdmin" xml:space="preserve">
+    <value>Удалён админом</value>
+  </data>
+  <data name="users.restoreLeft" xml:space="preserve">
+    <value>До окончательного удаления: {d} дн. {h} ч.</value>
+  </data>
+  <data name="notif.usersAutoDeleted" xml:space="preserve">
+    <value>Удалено учеников, которые неделю не заходили и не решали вопросы: {n} ({names}). Можно восстановить в течение 3 дней.</value>
+  </data>
+  <data name="lg.place" xml:space="preserve">
+    <value>Место</value>
+  </data>
+  <data name="lg.week" xml:space="preserve">
+    <value>Эта неделя</value>
+  </data>
+  <data name="lg.title" xml:space="preserve">
+    <value>Рейтинг и недельная успеваемость</value>
+  </data>
+  <data name="lg.sub" xml:space="preserve">
+    <value>Место — по доле правильно решённых вопросов базы. Группа — по вопросам за последние 7 дней (норма: {n} в неделю) и проценту правильных ответов.</value>
+  </data>
+  <data name="lg.mastered" xml:space="preserve">
+    <value>освоено</value>
+  </data>
+  <data name="lg.none" xml:space="preserve">
+    <value>Пока никого нет</value>
+  </data>
+  <data name="lg.showAll" xml:space="preserve">
+    <value>Показать всех ({n})</value>
+  </data>
+  <data name="lg.tier_good" xml:space="preserve">
+    <value>Хорошо осваивают</value>
+  </data>
+  <data name="lg.tier_average" xml:space="preserve">
+    <value>Средне осваивают</value>
+  </data>
+  <data name="lg.tier_shame" xml:space="preserve">
+    <value>Доска позора</value>
+  </data>
+  <data name="lg.tierHint_good" xml:space="preserve">
+    <value>Выполнили норму и 85%+ правильных ответов</value>
+  </data>
+  <data name="lg.tierHint_average" xml:space="preserve">
+    <value>Занимаются, но не хватает объёма или точности</value>
+  </data>
+  <data name="lg.tierHint_shame" xml:space="preserve">
+    <value>На этой неделе занимались очень мало или много ошибались</value>
+  </data>
+  <data name="lg.why_few" xml:space="preserve">
+    <value>За неделю всего {n} вопросов (норма {t})</value>
+  </data>
+  <data name="lg.why_errors" xml:space="preserve">
+    <value>{n} вопросов, но лишь {p}% правильно</value>
+  </data>
+  <data name="lg.why_good" xml:space="preserve">
+    <value>{n} вопросов · {p}% правильно</value>
+  </data>
+  <data name="lg.why_moreVolume" xml:space="preserve">
+    <value>{n} вопросов · {p}% правильно — до нормы немного</value>
+  </data>
+  <data name="lg.why_moreAccuracy" xml:space="preserve">
+    <value>{n} вопросов · {p}% правильно — нужно меньше ошибок</value>
+  </data>
+  <data name="lg.badge_champion" xml:space="preserve">
+    <value>Чемпион</value>
+  </data>
+  <data name="lg.badge_master" xml:space="preserve">
+    <value>Мастер</value>
+  </data>
+  <data name="lg.badge_expert" xml:space="preserve">
+    <value>Эксперт</value>
+  </data>
+  <data name="lg.ofN" xml:space="preserve">
+    <value>из {n}</value>
+  </data>
+  <data name="lg.youAre" xml:space="preserve">
+    <value>Вы на {r}-м месте в общем рейтинге</value>
+  </data>
+  <data name="lg.weekNorm" xml:space="preserve">
+    <value>Недельная норма (вопросов)</value>
+  </data>
+  <data name="lg.weekAcc" xml:space="preserve">
+    <value>Правильные ответы за неделю</value>
+  </data>
+  <data name="lg.leaders" xml:space="preserve">
+    <value>Лидеры</value>
+  </data>
+  <data name="lg.motiv_top" xml:space="preserve">
+    <value>Вы среди лучших! Чтобы сохранить статус, занимайтесь хотя бы понемногу каждый день — вас догоняют.</value>
+  </data>
+  <data name="lg.motiv_good_1" xml:space="preserve">
+    <value>Отличный темп! Продолжайте так — и сдадите экзамен с первой попытки.</value>
+  </data>
+  <data name="lg.motiv_good_2" xml:space="preserve">
+    <value>Прекрасный результат! Теперь цельтесь в топ‑3 — этот статус для вас.</value>
+  </data>
+  <data name="lg.motiv_good_3" xml:space="preserve">
+    <value>Знания крепнут. Проверьте себя в режиме реального экзамена!</value>
+  </data>
+  <data name="lg.motiv_average_1" xml:space="preserve">
+    <value>Хорошее начало! Недельная норма — {t} вопросов. Немного больше занятий — и вы перейдёте в группу «Хорошо».</value>
+  </data>
+  <data name="lg.motiv_average_2" xml:space="preserve">
+    <value>Вы на {r}-м месте — каждый верный ответ поднимает вас выше. Начните с исправления ошибок!</value>
+  </data>
+  <data name="lg.motiv_average_3" xml:space="preserve">
+    <value>Стабильность — ключ к победе. Решайте по 20 вопросов в день — результат придёт.</value>
+  </data>
+  <data name="lg.motiv_shame_1" xml:space="preserve">
+    <value>На этой неделе вы на «Доске позора» 😬 Ещё не поздно — решите сегодня 20 вопросов и выберитесь отсюда!</value>
+  </data>
+  <data name="lg.motiv_shame_2" xml:space="preserve">
+    <value>Права сами не придут. За неделю всего {n} вопросов при норме {t}. Давайте начнём!</value>
+  </data>
+  <data name="lg.motiv_shame_3" xml:space="preserve">
+    <value>Другие уходят вперёд — вы тоже сможете! Начните с исправления ошибок — каждая поднимает вас выше.</value>
+  </data>
+  <data name="cab.factorExamsHint" xml:space="preserve">
+    <value>Средний процент правильных ответов в последних 5 тестах «Реальный экзамен». 90% и выше — вы готовы к экзамену.</value>
+  </data>
+  <data name="cab.factorExamsNone" xml:space="preserve">
+    <value>Вы ещё не проходили «Реальный экзамен» — попробуйте, результат появится здесь.</value>
+  </data>
+  <data name="rep.discBad" xml:space="preserve">
+    <value>Сильные ученики ошибаются чаще слабых. Вероятно, правильный ответ отмечен неверно — проверьте.</value>
+  </data>
+  <data name="rep.discWeak" xml:space="preserve">
+    <value>Сильные и слабые отвечают почти одинаково — текст вопроса может быть запутанным или двусмысленным.</value>
+  </data>
+  <data name="rep.discCheck" xml:space="preserve">
+    <value>Открыть и проверить вопрос →</value>
+  </data>
+  <data name="msg.title" xml:space="preserve">
+    <value>Сообщения</value>
+  </data>
+  <data name="msg.sub" xml:space="preserve">
+    <value>Переписка с администратором: задайте вопрос, напишите предложение или проблему — ответ придёт сюда.</value>
+  </data>
+  <data name="msg.adminSub" xml:space="preserve">
+    <value>Переписка с учениками. Найдите любого ученика и напишите ему или отправьте сообщение всем сразу.</value>
+  </data>
+  <data name="msg.adminName" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="msg.adminHint" xml:space="preserve">
+    <value>Обычно отвечает в течение нескольких часов</value>
+  </data>
+  <data name="msg.placeholder" xml:space="preserve">
+    <value>Напишите сообщение… (Enter — отправить, Shift+Enter — новая строка)</value>
+  </data>
+  <data name="msg.send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="msg.empty" xml:space="preserve">
+    <value>Сообщений пока нет. Если есть вопрос — напишите здесь, администратор ответит.</value>
+  </data>
+  <data name="msg.emptyAdmin" xml:space="preserve">
+    <value>С этим учеником ещё нет переписки. Напишите первое сообщение.</value>
+  </data>
+  <data name="msg.today" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="msg.yesterday" xml:space="preserve">
+    <value>Вчера</value>
+  </data>
+  <data name="msg.you" xml:space="preserve">
+    <value>Вы</value>
+  </data>
+  <data name="msg.search" xml:space="preserve">
+    <value>Поиск ученика (имя, логин, телефон)</value>
+  </data>
+  <data name="msg.noThreads" xml:space="preserve">
+    <value>Переписок пока нет. Найдите ученика выше и напишите ему.</value>
+  </data>
+  <data name="msg.noFound" xml:space="preserve">
+    <value>Никто не найден</value>
+  </data>
+  <data name="msg.pick" xml:space="preserve">
+    <value>Выберите диалог</value>
+  </data>
+  <data name="msg.pickHint" xml:space="preserve">
+    <value>Выберите или найдите ученика слева</value>
+  </data>
+  <data name="msg.profile" xml:space="preserve">
+    <value>Аналитика ученика →</value>
+  </data>
+  <data name="msg.broadcast" xml:space="preserve">
+    <value>Сообщение всем</value>
+  </data>
+  <data name="msg.broadcastPh" xml:space="preserve">
+    <value>Сообщение всем активным ученикам…</value>
+  </data>
+  <data name="msg.broadcastSend" xml:space="preserve">
+    <value>Отправить всем</value>
+  </data>
+  <data name="msg.broadcastConfirm" xml:space="preserve">
+    <value>Отправить сообщение всем активным ученикам?</value>
+  </data>
+  <data name="msg.broadcastDone" xml:space="preserve">
+    <value>Сообщение отправлено ученикам: {n}</value>
+  </data>
+  <data name="msg.sendFail" xml:space="preserve">
+    <value>Сообщение не отправлено. Проверьте интернет и попробуйте снова.</value>
+  </data>
+  <data name="msg.tooMany" xml:space="preserve">
+    <value>Слишком часто — попробуйте через минуту.</value>
+  </data>
+  <data name="notif.msgNew" xml:space="preserve">
+    <value>Новое сообщение от администратора: {text}</value>
+  </data>
+  <data name="sv.title" xml:space="preserve">
+    <value>Сохранённые вопросы</value>
+  </data>
+  <data name="sv.sub" xml:space="preserve">
+    <value>Вопросы, сохранённые кнопкой «☆ Сохранить» во время теста. Решайте их отдельно для закрепления.</value>
+  </data>
+  <data name="sv.save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="sv.saved" xml:space="preserve">
+    <value>Сохранено</value>
+  </data>
+  <data name="sv.added" xml:space="preserve">
+    <value>Вопрос добавлен в сохранённые ★</value>
+  </data>
+  <data name="sv.removed" xml:space="preserve">
+    <value>Вопрос удалён из сохранённых</value>
+  </data>
+  <data name="sv.fail" xml:space="preserve">
+    <value>Не удалось сохранить, попробуйте снова</value>
+  </data>
+  <data name="sv.limit" xml:space="preserve">
+    <value>Можно сохранить не более 1000 вопросов</value>
+  </data>
+  <data name="sv.video" xml:space="preserve">
+    <value>Видеообъяснение</value>
+  </data>
+  <data name="sv.close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="sv.practiceAll" xml:space="preserve">
+    <value>Решать все ({n})</value>
+  </data>
+  <data name="sv.practiceSel" xml:space="preserve">
+    <value>Решать выбранные</value>
+  </data>
+  <data name="sv.removeSel" xml:space="preserve">
+    <value>Убрать</value>
+  </data>
+  <data name="sv.removeConfirm" xml:space="preserve">
+    <value>Убрать выбранные вопросы из сохранённых?</value>
+  </data>
+  <data name="sv.cleared" xml:space="preserve">
+    <value>Убрано вопросов: {n}</value>
+  </data>
+  <data name="sv.empty" xml:space="preserve">
+    <value>Сохранённых вопросов пока нет</value>
+  </data>
+  <data name="sv.emptyText" xml:space="preserve">
+    <value>Во время теста сохраняйте сложные или важные вопросы кнопкой «☆ Сохранить» — они появятся здесь.</value>
+  </data>
+  <data name="sv.bilet" xml:space="preserve">
+    <value>Билет {n}</value>
+  </data>
+  <data name="sv.inMistakes" xml:space="preserve">
+    <value>есть ошибка</value>
+  </data>
+  <data name="sv.solveOne" xml:space="preserve">
+    <value>Решить этот вопрос</value>
+  </data>
+  <data name="testType.saved" xml:space="preserve">
+    <value>Сохранённые вопросы</value>
+  </data>
+  <data name="ls.adminSub2" xml:space="preserve">
+    <value>Выберите тему → отметьте вопросы → добавьте для них видео. Одно видео может объяснять вопросы из нескольких тем.</value>
+  </data>
+  <data name="ls.kpiPublishedShort" xml:space="preserve">
+    <value>опубликовано</value>
+  </data>
+  <data name="ls.kpiCovered" xml:space="preserve">
+    <value>Вопросов с видеообъяснением</value>
+  </data>
+  <data name="ls.mExplained" xml:space="preserve">
+    <value>с видео</value>
+  </data>
+  <data name="ls.topicSub" xml:space="preserve">
+    <value>Отметьте вопросы: создайте для них новое видео или добавьте к существующему. Зелёная полоса — вопрос уже объяснён в видео.</value>
+  </data>
+  <data name="ls.newEmpty" xml:space="preserve">
+    <value>Пустое видео</value>
+  </data>
+  <data name="ls.topicVideos" xml:space="preserve">
+    <value>Видео этой темы</value>
+  </data>
+  <data name="ls.nQuestions" xml:space="preserve">
+    <value>{n} вопр.</value>
+  </data>
+  <data name="ls.onlyFree" xml:space="preserve">
+    <value>Только без видео</value>
+  </data>
+  <data name="ls.newForSel" xml:space="preserve">
+    <value>Новое видео для выбранных</value>
+  </data>
+  <data name="ls.attachSel" xml:space="preserve">
+    <value>Добавить к выбранному видео</value>
+  </data>
+  <data name="ls.attached" xml:space="preserve">
+    <value>Вопросы добавлены к видео. Теперь укажите время для каждого.</value>
+  </data>
+  <data name="ls.newVideo" xml:space="preserve">
+    <value>Новое видео</value>
+  </data>
+  <data name="ls.editSub2" xml:space="preserve">
+    <value>Загрузите видео или вставьте ссылку YouTube, выберите вопросы и укажите время начала объяснения каждого.</value>
+  </data>
+  <data name="ls.fTopic" xml:space="preserve">
+    <value>Основная тема</value>
+  </data>
+  <data name="ls.pickedTitle" xml:space="preserve">
+    <value>Вопросы в видео</value>
+  </data>
+  <data name="ls.pickedHint" xml:space="preserve">
+    <value>Добавляйте вопросы из любой темы. Время (м:сс) — место начала объяснения: при нажатии «🎬 Видео» во время теста видео откроется с этого места. ⏱ — подставить текущее время плеера.</value>
+  </data>
+  <data name="ls.pickedSum" xml:space="preserve">
+    <value>{n} вопр. · из {m} тем</value>
+  </data>
+  <data name="ls.addQuestions" xml:space="preserve">
+    <value>Добавить вопросы (выбрать из темы)</value>
+  </data>
+  <data name="ls.pkSearch" xml:space="preserve">
+    <value>Текст или номер вопроса…</value>
+  </data>
+  <data name="ls.noPicked" xml:space="preserve">
+    <value>Вопросы ещё не выбраны. Нажмите «Добавить вопросы».</value>
+  </data>
+  <data name="ls.delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="ls.deleteConfirm" xml:space="preserve">
+    <value>Удалить видео навсегда? Файл, разделы и статистика просмотров тоже удалятся.</value>
+  </data>
+  <data name="ls.deleted" xml:space="preserve">
+    <value>Видео удалено</value>
+  </data>
+  <data name="th.allVideos" xml:space="preserve">
+    <value>Все видео по теме ({n})</value>
+  </data>
+  <data name="bilet.videos" xml:space="preserve">
+    <value>Видео ({n})</value>
+  </data>
+  <data name="bilet.videosSub" xml:space="preserve">
+    <value>Видеоуроки с объяснением вопросов этого билета. Сначала посмотрите, потом решайте билет.</value>
+  </data>
+  <data name="bilet.solve" xml:space="preserve">
+    <value>Решать билет</value>
+  </data>
+  <data name="admin.content" xml:space="preserve">
+    <value>Контент</value>
+  </data>
+  <data name="admin.people" xml:space="preserve">
+    <value>Ученики</value>
+  </data>
+  <data name="admin.finance" xml:space="preserve">
+    <value>Финансы</value>
+  </data>
+  <data name="login.locked" xml:space="preserve">
+    <value>Слишком много неудачных попыток. В целях безопасности вход приостановлен на {n} мин.</value>
+  </data>
+  <data name="qs.kInBilets" xml:space="preserve">
+    <value>В билетах</value>
+  </data>
+  <data name="qs.kNoRu" xml:space="preserve">
+    <value>Нет перевода RU</value>
+  </data>
+  <data name="qs.kNoUzk" xml:space="preserve">
+    <value>Нет кириллицы</value>
+  </data>
+  <data name="qs.kVideo" xml:space="preserve">
+    <value>С видео</value>
+  </data>
+  <data name="qs.allTopics" xml:space="preserve">
+    <value>Все темы</value>
+  </data>
+  <data name="qs.allBilets" xml:space="preserve">
+    <value>Все билеты</value>
+  </data>
+  <data name="qs.moreFilters" xml:space="preserve">
+    <value>Ещё фильтры</value>
+  </data>
+  <data name="qs.poolAll" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="qs.poolBilet" xml:space="preserve">
+    <value>Только в билетах</value>
+  </data>
+  <data name="qs.poolOther" xml:space="preserve">
+    <value>Вне билетов</value>
+  </data>
+  <data name="qs.imgAll" xml:space="preserve">
+    <value>Фото: все</value>
+  </data>
+  <data name="qs.imgYes" xml:space="preserve">
+    <value>С фото</value>
+  </data>
+  <data name="qs.imgNo" xml:space="preserve">
+    <value>Без фото</value>
+  </data>
+  <data name="qs.langAll" xml:space="preserve">
+    <value>Перевод: все</value>
+  </data>
+  <data name="qs.videoAll" xml:space="preserve">
+    <value>Видео: все</value>
+  </data>
+  <data name="qs.videoYes" xml:space="preserve">
+    <value>Есть видео</value>
+  </data>
+  <data name="qs.videoNo" xml:space="preserve">
+    <value>Без видео</value>
+  </data>
+  <data name="qs.sort" xml:space="preserve">
+    <value>Сортировка</value>
+  </data>
+  <data name="qs.sortNew" xml:space="preserve">
+    <value>Сначала новые</value>
+  </data>
+  <data name="qs.sortOld" xml:space="preserve">
+    <value>Сначала старые</value>
+  </data>
+  <data name="qs.sortBilet" xml:space="preserve">
+    <value>По билетам</value>
+  </data>
+  <data name="qs.sortHard" xml:space="preserve">
+    <value>Самые сложные</value>
+  </data>
+  <data name="qs.reset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="qs.found" xml:space="preserve">
+    <value>Вопросов: {n} · {a}–{b}</value>
+  </data>
+  <data name="qs.perPage" xml:space="preserve">
+    <value>на стр.</value>
+  </data>
+  <data name="qs.hasVideo" xml:space="preserve">
+    <value>видео</value>
+  </data>
+  <data name="qs.noCorrect" xml:space="preserve">
+    <value>Правильный ответ не отмечен!</value>
+  </data>
+  <data name="qs.wrongShort" xml:space="preserve">
+    <value>ошибок</value>
+  </data>
+  <data name="qs.noStats" xml:space="preserve">
+    <value>Ещё не решали</value>
+  </data>
+  <data name="qs.statHint" xml:space="preserve">
+    <value>Решали {n} раз, ошибок {w}</value>
+  </data>
+  <data name="bill.title" xml:space="preserve">
+    <value>Подписки и платежи</value>
+  </data>
+  <data name="bill.sub" xml:space="preserve">
+    <value>Поступления через Payme, тарифы, подписчики и настройки.</value>
+  </data>
+  <data name="bill.tabOverview" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="bill.tabPayments" xml:space="preserve">
+    <value>Платежи</value>
+  </data>
+  <data name="bill.tabPlans" xml:space="preserve">
+    <value>Тарифы</value>
+  </data>
+  <data name="bill.tabSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="bill.kToday" xml:space="preserve">
+    <value>Выручка сегодня</value>
+  </data>
+  <data name="bill.k30" xml:space="preserve">
+    <value>Выручка за 30 дней</value>
+  </data>
+  <data name="bill.kTotal" xml:space="preserve">
+    <value>Всего выручка</value>
+  </data>
+  <data name="bill.kActive" xml:space="preserve">
+    <value>Активные подписчики</value>
+  </data>
+  <data name="bill.payers" xml:space="preserve">
+    <value>оплатили</value>
+  </data>
+  <data name="bill.kExpired" xml:space="preserve">
+    <value>Срок истёк</value>
+  </data>
+  <data name="bill.kPending" xml:space="preserve">
+    <value>Ожидают оплаты</value>
+  </data>
+  <data name="bill.chart" xml:space="preserve">
+    <value>Выручка за 30 дней</value>
+  </data>
+  <data name="bill.ready" xml:space="preserve">
+    <value>Готовность к проверке Payme</value>
+  </data>
+  <data name="bill.readySub" xml:space="preserve">
+    <value>Когда всё ✅ — сайт готов к проверке Payme.</value>
+  </data>
+  <data name="bill.chkMerchant" xml:space="preserve">
+    <value>Указан Merchant ID Payme</value>
+  </data>
+  <data name="bill.chkKey" xml:space="preserve">
+    <value>Указан ключ кассы Payme</value>
+  </data>
+  <data name="bill.chkPlans" xml:space="preserve">
+    <value>Есть хотя бы один активный тариф</value>
+  </data>
+  <data name="bill.chkOffer" xml:space="preserve">
+    <value>Страница публичной оферты</value>
+  </data>
+  <data name="bill.chkContacts" xml:space="preserve">
+    <value>Страница контактов (телефон, адрес)</value>
+  </data>
+  <data name="bill.chkTariffs" xml:space="preserve">
+    <value>Страница тарифов с ценами</value>
+  </data>
+  <data name="bill.chkHttps" xml:space="preserve">
+    <value>Сайт работает по HTTPS</value>
+  </data>
+  <data name="bill.chkVisible" xml:space="preserve">
+    <value>Подписка видна ученикам</value>
+  </data>
+  <data name="bill.recent" xml:space="preserve">
+    <value>Последние платежи</value>
+  </data>
+  <data name="bill.noPayments" xml:space="preserve">
+    <value>Платежей пока нет</value>
+  </data>
+  <data name="bill.expiring" xml:space="preserve">
+    <value>Срок истекает в течение 7 дней</value>
+  </data>
+  <data name="bill.grantTitle" xml:space="preserve">
+    <value>Выдать доступ вручную (без оплаты)</value>
+  </data>
+  <data name="bill.months" xml:space="preserve">
+    <value>Месяцев</value>
+  </data>
+  <data name="bill.days" xml:space="preserve">
+    <value>Дней</value>
+  </data>
+  <data name="bill.grant" xml:space="preserve">
+    <value>Выдать доступ</value>
+  </data>
+  <data name="bill.granted" xml:space="preserve">
+    <value>Доступ выдан</value>
+  </data>
+  <data name="bill.userNotFound" xml:space="preserve">
+    <value>Логин не найден (только ученик)</value>
+  </data>
+  <data name="bill.grantInvalid" xml:space="preserve">
+    <value>Укажите срок корректно (мес. 0–36, дн. 0–1000)</value>
+  </data>
+  <data name="bill.searchPh" xml:space="preserve">
+    <value>Логин, имя, телефон, № или Payme ID</value>
+  </data>
+  <data name="bill.allStatuses" xml:space="preserve">
+    <value>Все статусы</value>
+  </data>
+  <data name="bill.allProviders" xml:space="preserve">
+    <value>Все способы</value>
+  </data>
+  <data name="bill.byAdmin" xml:space="preserve">
+    <value>Выдано админом</value>
+  </data>
+  <data name="bill.filter" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="bill.found" xml:space="preserve">
+    <value>Платежей: {n}</value>
+  </data>
+  <data name="bill.paidSum" xml:space="preserve">
+    <value>Оплачено всего</value>
+  </data>
+  <data name="bill.colDate" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="bill.colUser" xml:space="preserve">
+    <value>Ученик</value>
+  </data>
+  <data name="bill.colPlan" xml:space="preserve">
+    <value>Тариф</value>
+  </data>
+  <data name="bill.colAmount" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="bill.colProvider" xml:space="preserve">
+    <value>Способ</value>
+  </data>
+  <data name="bill.colStatus" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="bill.colUntil" xml:space="preserve">
+    <value>Действует до</value>
+  </data>
+  <data name="bill.st_paid" xml:space="preserve">
+    <value>Оплачен</value>
+  </data>
+  <data name="bill.st_pending" xml:space="preserve">
+    <value>Ожидает</value>
+  </data>
+  <data name="bill.st_cancelled" xml:space="preserve">
+    <value>Отменён</value>
+  </data>
+  <data name="bill.paidAt" xml:space="preserve">
+    <value>Время оплаты</value>
+  </data>
+  <data name="bill.period" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="bill.pmState" xml:space="preserve">
+    <value>Состояние Payme</value>
+  </data>
+  <data name="bill.pmTimes" xml:space="preserve">
+    <value>Создана / проведена / отменена</value>
+  </data>
+  <data name="bill.pmReason" xml:space="preserve">
+    <value>Причина отмены</value>
+  </data>
+  <data name="bill.cancelOrder" xml:space="preserve">
+    <value>Отменить заказ</value>
+  </data>
+  <data name="bill.cancelConfirm" xml:space="preserve">
+    <value>Отменить неоплаченный заказ?</value>
+  </data>
+  <data name="bill.orderCancelled" xml:space="preserve">
+    <value>Заказ отменён</value>
+  </data>
+  <data name="bill.cantCancel" xml:space="preserve">
+    <value>Этот заказ нельзя отменить (оплата начата или завершена)</value>
+  </data>
+  <data name="bill.userHistory" xml:space="preserve">
+    <value>Платежи ученика</value>
+  </data>
+  <data name="bill.plansHint" xml:space="preserve">
+    <value>Цена в сумах. Неактивный тариф не виден ученикам. Тариф с оплатами не удаляется — отключается.</value>
+  </data>
+  <data name="bill.newPlan" xml:space="preserve">
+    <value>Новый тариф</value>
+  </data>
+  <data name="bill.planName" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="bill.price" xml:space="preserve">
+    <value>Цена (сум)</value>
+  </data>
+  <data name="bill.badge" xml:space="preserve">
+    <value>Метка</value>
+  </data>
+  <data name="bill.badgePh" xml:space="preserve">
+    <value>Популярный</value>
+  </data>
+  <data name="bill.order" xml:space="preserve">
+    <value>Порядок</value>
+  </data>
+  <data name="bill.planActive" xml:space="preserve">
+    <value>Активен (в продаже)</value>
+  </data>
+  <data name="bill.planSaved" xml:space="preserve">
+    <value>Тариф сохранён</value>
+  </data>
+  <data name="bill.planInvalid" xml:space="preserve">
+    <value>Заполните тариф: название, 1–36 мес., цена от 1 000 сум</value>
+  </data>
+  <data name="bill.planDeleted" xml:space="preserve">
+    <value>Тариф удалён</value>
+  </data>
+  <data name="bill.planDisabled" xml:space="preserve">
+    <value>У тарифа есть платежи — он отключён, а не удалён</value>
+  </data>
+  <data name="bill.planDeleteConfirm" xml:space="preserve">
+    <value>Удалить тариф?</value>
+  </data>
+  <data name="bill.pmReady" xml:space="preserve">
+    <value>Подключено</value>
+  </data>
+  <data name="bill.pmNotReady" xml:space="preserve">
+    <value>Не настроено</value>
+  </data>
+  <data name="bill.key" xml:space="preserve">
+    <value>Ключ кассы («Ключ» в кабинете Payme)</value>
+  </data>
+  <data name="bill.testKey" xml:space="preserve">
+    <value>Тестовый ключ (для песочницы)</value>
+  </data>
+  <data name="bill.keySaved" xml:space="preserve">
+    <value>сохранён</value>
+  </data>
+  <data name="bill.clearKey" xml:space="preserve">
+    <value>Удалить ключ</value>
+  </data>
+  <data name="bill.useTest" xml:space="preserve">
+    <value>Тестовая среда (test.paycom.uz)</value>
+  </data>
+  <data name="bill.useTestHint" xml:space="preserve">
+    <value>Включите на время проверки Payme — реальные деньги не списываются. После проверки выключите.</value>
+  </data>
+  <data name="bill.returnUrl" xml:space="preserve">
+    <value>Адрес возврата после оплаты</value>
+  </data>
+  <data name="bill.visible" xml:space="preserve">
+    <value>Показывать ученикам</value>
+  </data>
+  <data name="bill.visibleHint" xml:space="preserve">
+    <value>Пока выключено, ученики не видят раздел «Подписка» и кнопки оплаты. Включите после ввода ключей Payme.</value>
+  </data>
+  <data name="bill.company" xml:space="preserve">
+    <value>Название ИП / организации</value>
+  </data>
+  <data name="bill.badMerchant" xml:space="preserve">
+    <value>Merchant ID должен состоять из 24 символов (0-9, a-f)</value>
+  </data>
+  <data name="bill.badReturn" xml:space="preserve">
+    <value>Адрес возврата должен начинаться с https://</value>
+  </data>
+  <data name="bill.settingsSaved" xml:space="preserve">
+    <value>Настройки сохранены</value>
+  </data>
+  <data name="bill.howTitle" xml:space="preserve">
+    <value>Как подключить Payme</value>
+  </data>
+  <data name="bill.how1" xml:space="preserve">
+    <value>Создайте кассу на business.payme.uz (на ИП или ООО).</value>
+  </data>
+  <data name="bill.how2" xml:space="preserve">
+    <value>В настройках кассы укажите «Endpoint URL»:</value>
+  </data>
+  <data name="bill.how3" xml:space="preserve">
+    <value>Название поля счёта (account):</value>
+  </data>
+  <data name="bill.how4" xml:space="preserve">
+    <value>Введите ID кассы (Merchant ID) и тестовый ключ в форму слева, включите «Тестовую среду».</value>
+  </data>
+  <data name="bill.how5" xml:space="preserve">
+    <value>Пройдите все тесты в песочнице Payme и отправьте на проверку (страницы тарифов, оферты и контактов готовы).</value>
+  </data>
+  <data name="bill.how6" xml:space="preserve">
+    <value>После одобрения введите боевой ключ, выключите «Тестовую среду» и включите «Показывать ученикам».</value>
+  </data>
+  <data name="bill.pubPages" xml:space="preserve">
+    <value>Публичные страницы (проверяет Payme)</value>
+  </data>
+  <data name="pay.title" xml:space="preserve">
+    <value>Подписка</value>
+  </data>
+  <data name="pay.sub" xml:space="preserve">
+    <value>Срок доступа и его продление. Оплата через Payme — безопасно и быстро.</value>
+  </data>
+  <data name="pay.unlimited" xml:space="preserve">
+    <value>Безлимитный доступ</value>
+  </data>
+  <data name="pay.activeUntil" xml:space="preserve">
+    <value>Подписка активна до {d}</value>
+  </data>
+  <data name="pay.expired" xml:space="preserve">
+    <value>Срок подписки истёк</value>
+  </data>
+  <data name="pay.history" xml:space="preserve">
+    <value>История платежей</value>
+  </data>
+  <data name="pay.errOrder" xml:space="preserve">
+    <value>Не удалось создать заказ. Попробуйте позже.</value>
+  </data>
+  <data name="pay.doneTitle" xml:space="preserve">
+    <value>Оплата получена!</value>
+  </data>
+  <data name="pay.doneText" xml:space="preserve">
+    <value>Подписка активирована до {d}. Удачи!</value>
+  </data>
+  <data name="pay.cancelledTitle" xml:space="preserve">
+    <value>Оплата отменена</value>
+  </data>
+  <data name="pay.tryAgain" xml:space="preserve">
+    <value>Попробовать снова</value>
+  </data>
+  <data name="pay.waitTitle" xml:space="preserve">
+    <value>Проверяем оплату…</value>
+  </data>
+  <data name="pay.waitText" xml:space="preserve">
+    <value>Подписка активируется сразу после подтверждения Payme. Страница обновится сама.</value>
+  </data>
+  <data name="pub.metaDesc" xml:space="preserve">
+    <value>AVTOPRAVA_SAM — онлайн-подготовка к экзамену на права: билеты, темы, видеоуроки.</value>
+  </data>
+  <data name="pub.tariffs" xml:space="preserve">
+    <value>Тарифы</value>
+  </data>
+  <data name="pub.offer" xml:space="preserve">
+    <value>Публичная оферта</value>
+  </data>
+  <data name="pub.offerTitle" xml:space="preserve">
+    <value>Публичная оферта (договор оказания услуг)</value>
+  </data>
+  <data name="pub.contacts" xml:space="preserve">
+    <value>Контакты</value>
+  </data>
+  <data name="pub.privacy" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+  <data name="pub.login" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="pub.address" xml:space="preserve">
+    <value>г. Самарканд, ул. Мир Саид Барака, 22</value>
+  </data>
+  <data name="pub.payWith" xml:space="preserve">
+    <value>Оплата через</value>
+  </data>
+  <data name="pub.tariffsKicker" xml:space="preserve">
+    <value>Подписка</value>
+  </data>
+  <data name="pub.tariffsTitle" xml:space="preserve">
+    <value>Готовьтесь к экзамену уверенно</value>
+  </data>
+  <data name="pub.tariffsSub" xml:space="preserve">
+    <value>Все билеты, темы, режим реального экзамена, видеоуроки и личная аналитика — в одной подписке.</value>
+  </data>
+  <data name="pub.noPlans" xml:space="preserve">
+    <value>Тарифы скоро будут опубликованы.</value>
+  </data>
+  <data name="pub.sum" xml:space="preserve">
+    <value>сум</value>
+  </data>
+  <data name="pub.months" xml:space="preserve">
+    <value>{n} мес.</value>
+  </data>
+  <data name="pub.perMonth" xml:space="preserve">
+    <value>{n} сум/мес.</value>
+  </data>
+  <data name="pub.f1" xml:space="preserve">
+    <value>Тесты по всем билетам и темам</value>
+  </data>
+  <data name="pub.f2" xml:space="preserve">
+    <value>Режим реального экзамена (25 мин, 20 вопросов)</value>
+  </data>
+  <data name="pub.f3" xml:space="preserve">
+    <value>Видеообъяснение к вопросам</value>
+  </data>
+  <data name="pub.f4" xml:space="preserve">
+    <value>Работа над ошибками и сохранённые вопросы</value>
+  </data>
+  <data name="pub.f5" xml:space="preserve">
+    <value>Личная аналитика, рейтинг и онлайн-уроки</value>
+  </data>
+  <data name="pub.f6" xml:space="preserve">
+    <value>На узбекском (латиница, кириллица) и русском</value>
+  </data>
+  <data name="pub.payPayme" xml:space="preserve">
+    <value>Оплатить через Payme</value>
+  </data>
+  <data name="pub.loginToBuy" xml:space="preserve">
+    <value>Войдите, чтобы купить</value>
+  </data>
+  <data name="pub.howTitle" xml:space="preserve">
+    <value>Как это работает</value>
+  </data>
+  <data name="pub.how1" xml:space="preserve">
+    <value>Выберите тариф и нажмите «Оплатить через Payme».</value>
+  </data>
+  <data name="pub.how2" xml:space="preserve">
+    <value>Оплатите картой (Uzcard, Humo) на странице Payme.</value>
+  </data>
+  <data name="pub.how3" xml:space="preserve">
+    <value>Доступ откроется автоматически сразу после оплаты.</value>
+  </data>
+  <data name="pub.offerNote" xml:space="preserve">
+    <value>Оплачивая, вы соглашаетесь с условиями:</value>
+  </data>
+  <data name="pub.contactsSub" xml:space="preserve">
+    <value>По вопросам, предложениям и оплате.</value>
+  </data>
+  <data name="pub.phone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="pub.addrLabel" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="pub.hoursLabel" xml:space="preserve">
+    <value>Время работы</value>
+  </data>
+  <data name="pub.hours" xml:space="preserve">
+    <value>Ежедневно 09:00 — 21:00</value>
+  </data>
+  <data name="pub.requisites" xml:space="preserve">
+    <value>Реквизиты</value>
+  </data>
+  <data name="pub.inn" xml:space="preserve">
+    <value>ИНН</value>
   </data>
 </root>

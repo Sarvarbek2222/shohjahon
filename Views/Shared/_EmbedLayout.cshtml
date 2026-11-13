@@ -1,0 +1,27 @@
+@* Test ishlayotganda oynada ochiladigan sahifa (video tushuntirish): bezaksiz, faqat mazmun *@
+<!DOCTYPE html>
+<html lang="@L.HtmlLang" data-lang="@L.Lang" data-title-key="@ViewData["TitleKey"]">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>@ViewData["Title"] — AVTOPRAVA_SAM</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <partial name="_I18nScripts" />
+    <style>
+        body.ca-body { display: block; background: #0b0d12; }
+        .ca-embed { padding: 12px; }
+        .ca-embed .th-crumbs, .ca-embed .ls-info .ca-btn, .ca-embed .ls-progress, .ca-embed .ls-desc { display: none !important; }
+        .ca-embed .ls-info { margin-top: 8px; }
+        .ca-embed .ls-title { font-size: 1.05rem; }
+    </style>
+</head>
+<body class="ca-body">
+    <main class="ca-embed">
+        @RenderBody()
+    </main>
+    @Html.AntiForgeryToken()
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

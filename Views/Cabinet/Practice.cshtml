@@ -3,9 +3,11 @@
     Layout = null;
     // ids berilsa — "Savol qidirish"dan ochilgan savol(lar); aks holda xatolar ustida ishlash
     var searchIds = ViewBag.Ids as string;
-    var isSearch = searchIds != null;
+    var isSaved = ViewBag.SavedMode is true;
+    var isSearch = searchIds != null || isSaved;
     var backUrl = ViewBag.BackUrl as string ?? "/Cabinet/Mistakes";
-    var titleKey = isSearch ? "testType.search" : "testType.mistakes";
+    var titleKey = isSaved ? "testType.saved" : isSearch ? "testType.search" : "testType.mistakes";
+    var loadUrl = isSaved ? "/Cabinet/GetSavedQuestions" : searchIds != null ? "/Cabinet/GetQuestionsByIds?ids=" + searchIds : "/Cabinet/GetMistakeQuestions";
     ViewData["TitleKey"] = titleKey;
     ViewData["Title"] = L[titleKey];
     if (isSearch) ViewData["BackUrl"] = backUrl;
@@ -488,7 +490,7 @@
             });
 
             async function loadQuestions() {
-                const res = await fetch(@Html.Raw(isSearch ? Json.Serialize("/Cabinet/GetQuestionsByIds?ids=" + searchIds) : Json.Serialize("/Cabinet/GetMistakeQuestions")));
+                const res = await fetch(@Html.Raw(Json.Serialize(loadUrl)));
                 originalQuestions = await res.json();
                 // Nechta savol controllerdan kelsa, o'shancha ishlatiladi (qattiq son yo'q)
                 questions = JSON.parse(JSON.stringify(originalQuestions));

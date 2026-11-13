@@ -39,6 +39,7 @@ builder.Services.AddScoped<LiveService>();
 builder.Services.AddHostedService<LiveReminderService>();
 // Kunlik aqlli tahlil: har kuni 00:00 dan keyin o'tgan kun uchun
 builder.Services.AddHostedService<DailyReportService>();
+builder.Services.AddHostedService<UserCleanupService>(); // 1 hafta faol bo'lmaganlar → o'chirilganlar (3 kun tiklash)
 builder.Services.AddScoped<AiAnalysisService>();
 
 // fetch() so'rovlari antiforgery tokenni shu sarlavhada yuboradi (AI tahlili tugmasi)
@@ -102,6 +103,15 @@ builder.Services.AddAuthentication()
 // 💳 Obuna va to'lovlar (Click, Payme). Sozlamalar: appsettings.json → "Payments"
 builder.Services.Configure<PaymentOptions>(builder.Configuration.GetSection("Payments"));
 builder.Services.AddScoped<SubscriptionService>();
+builder.Services.AddSingleton<PaymentSettings>(); // admin panelidan kiritiladigan Payme sozlamalari (bazada, shifrlangan)
+builder.Services.AddSingleton<LoginGuard>();      // parolni tanlab topishdan himoya
+
+// Nginx orqasida: haqiqiy IP va https (X-Forwarded-For / X-Forwarded-Proto) — faqat shu serverdagi proksidan qabul qilinadi
+builder.Services.Configure<Microsoft.AspNetCore.Builder.ForwardedHeadersOptions>(o =>
+{
+    o.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+});
+builder.WebHost.ConfigureKestrel(o => o.AddServerHeader = false); // server turi oshkor qilinmaydi
 
 builder.Services.AddAuthorization(options =>
 {
@@ -128,6 +138,36 @@ await DbUpgrade.RunAsync(app.Services);
 {
     app.UseExceptionHandler("/Home/Error");
 }*/
+
+app.UseForwardedHeaders();
+
+// 🛡 Xavfsizlik sarlavhalari: boshqa saytga joylashtirish (clickjacking), MIME almashtirish, ortiqcha ruxsatlar va
+// begona skriptlardan himoya. Kamera/mikrofon/ekran — faqat shu sayt (jonli dars uchun).
+app.Use(async (ctx, next) =>
+{
+    var h = ctx.Response.Headers;
+    h["X-Content-Type-Options"] = "nosniff";
+    h["X-Frame-Options"] = "SAMEORIGIN";
+    h["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    h["Permissions-Policy"] = "camera=(self), microphone=(self), display-capture=(self), geolocation=(), payment=(), usb=()";
+    h["Cross-Origin-Opener-Policy"] = "same-origin";
+    if (!h.ContainsKey("Content-Security-Policy"))
+        h["Content-Security-Policy"] =
+            "default-src 'self'; " +
+            "script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com; " +
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+            "font-src 'self' data: https://fonts.gstatic.com; " +
+            "img-src 'self' data: blob: https://i.ytimg.com; " +
+            "media-src 'self' blob:; " +
+            "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; " +
+            "connect-src 'self' ws: wss:; " +
+            "worker-src 'self' blob:; " +
+            "object-src 'none'; base-uri 'self'; " +
+            "form-action 'self' https://checkout.paycom.uz https://checkout.test.paycom.uz; " +
+            "frame-ancestors 'self'";
+    if (ctx.Request.IsHttps) h["Strict-Transport-Security"] = "max-age=31536000";
+    await next();
+});
 
 app.UseResponseCompression();
 
@@ -163,6 +203,13 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Nginx javobni buferlab ushlamasin (SignalR long-polling va efir bo'laklari darhol yetib borsin)
+app.UseWhen(ctx => ctx.Request.Path.StartsWithSegments("/hubs"), b => b.Use(async (ctx, next) =>
+{
+    ctx.Response.Headers["X-Accel-Buffering"] = "no";
+    await next();
+}));
 
 app.MapHub<LiveHub>("/hubs/live");
 
