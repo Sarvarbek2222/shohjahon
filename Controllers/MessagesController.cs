@@ -62,12 +62,8 @@ public class MessagesController : Controller
         q = q?.Trim();
         if (!string.IsNullOrEmpty(q))
             users = users.Where(x => x.Username.Contains(q) || (x.FullName != null && x.FullName.Contains(q)) || (x.Phone != null && x.Phone.Contains(q)));
-        else
-        {
-            var ids = last.Select(x => x.UserId).ToList();
-            users = users.Where(x => ids.Contains(x.Id));
-        }
-        var list = await users.Select(x => new { x.Id, x.Username, x.FullName, x.LastSeenAt, x.LastLoginAt }).Take(200).ToListAsync();
+        // Qidiruv bo'lmasa — barcha o'quvchilar (yozishmasi borlar va onlaynlar yuqorida)
+        var list = await users.Select(x => new { x.Id, x.Username, x.FullName, x.LastSeenAt, x.LastLoginAt }).Take(1000).ToListAsync();
         var byUser = last.ToDictionary(x => x.UserId);
 
         var rows = list.Select(x =>
@@ -85,7 +81,7 @@ public class MessagesController : Controller
                 sort = m?.CreatedAt ?? DateTime.MinValue,
             };
         })
-        .OrderByDescending(r => r.unread > 0).ThenByDescending(r => r.sort).ThenBy(r => r.name)
+        .OrderByDescending(r => r.unread > 0).ThenByDescending(r => r.sort).ThenByDescending(r => r.online).ThenBy(r => r.name)
         .Select(r => new { r.id, r.name, r.username, r.online, r.unread, r.last });
         return Json(rows);
     }

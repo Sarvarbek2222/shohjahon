@@ -4065,4 +4065,226 @@
   <data name="pub.inn" xml:space="preserve">
     <value>ИНН</value>
   </data>
+  <data name="pr.title" xml:space="preserve">
+    <value>Мой дневной анализ</value>
+  </data>
+  <data name="pr.pageSub" xml:space="preserve">
+    <value>Каждый день лично для вас: сколько занимались, что выучили, что забыли и что делать завтра.</value>
+  </data>
+  <data name="pr.sub" xml:space="preserve">
+    <value>Личный анализ в сравнении с предыдущими 7 днями</value>
+  </data>
+  <data name="pr.noWork" xml:space="preserve">
+    <value>В этот день вопросы не решались</value>
+  </data>
+  <data name="pr.moodGreat" xml:space="preserve">
+    <value>Отличный день! Норма выполнена, результат отличный 🔥</value>
+  </data>
+  <data name="pr.moodGood" xml:space="preserve">
+    <value>Хороший день — продолжайте 👍</value>
+  </data>
+  <data name="pr.moodWeak" xml:space="preserve">
+    <value>Было много ошибок — обратите внимание на рекомендации ниже</value>
+  </data>
+  <data name="pr.kAnswered" xml:space="preserve">
+    <value>Решено вопросов</value>
+  </data>
+  <data name="pr.kAccuracy" xml:space="preserve">
+    <value>Правильных ответов</value>
+  </data>
+  <data name="pr.kTime" xml:space="preserve">
+    <value>Время занятий</value>
+  </data>
+  <data name="pr.kNew" xml:space="preserve">
+    <value>Новых освоено</value>
+  </data>
+  <data name="pr.kNewSub" xml:space="preserve">
+    <value>впервые верно</value>
+  </data>
+  <data name="pr.kForgot" xml:space="preserve">
+    <value>Забыто</value>
+  </data>
+  <data name="pr.kForgotSub" xml:space="preserve">
+    <value>раньше верно, теперь ошибка</value>
+  </data>
+  <data name="pr.kExam" xml:space="preserve">
+    <value>Реальный экзамен</value>
+  </data>
+  <data name="pr.kExamSub" xml:space="preserve">
+    <value>сдано / всего</value>
+  </data>
+  <data name="pr.tests" xml:space="preserve">
+    <value>тестов</value>
+  </data>
+  <data name="pr.vsWeek" xml:space="preserve">
+    <value>к среднему за неделю</value>
+  </data>
+  <data name="pr.recTitle" xml:space="preserve">
+    <value>Рекомендации для вас</value>
+  </data>
+  <data name="pr.topicsTitle" xml:space="preserve">
+    <value>Результат по темам</value>
+  </data>
+  <data name="pr.recStart" xml:space="preserve">
+    <value>В этот день занятий не было. Решите сегодня хотя бы 20 вопросов — маленький шаг каждый день даёт большой результат.</value>
+  </data>
+  <data name="pr.recMore" xml:space="preserve">
+    <value>До дневной нормы не хватило {v} вопросов. Завтра решайте не меньше 20.</value>
+  </data>
+  <data name="pr.recTopic" xml:space="preserve">
+    <value>Больше всего ошибок в теме «{v}». Посмотрите видео темы и пройдите её тест ещё раз.</value>
+  </data>
+  <data name="pr.recForgot" xml:space="preserve">
+    <value>Вы забыли {v} вопрос(ов), которые раньше решали верно. Повторите в разделе «Работа над ошибками».</value>
+  </data>
+  <data name="pr.recMistakes" xml:space="preserve">
+    <value>Сейчас не исправлено ошибок: {v}. Исправляйте по 10 в день.</value>
+  </data>
+  <data name="pr.recExam" xml:space="preserve">
+    <value>Хороший результат — проверьте себя в режиме «Реальный экзамен».</value>
+  </data>
+  <data name="pr.recExamFail" xml:space="preserve">
+    <value>Реальный экзамен не сдан. Исправьте ошибки и попробуйте снова завтра.</value>
+  </data>
+  <data name="pr.recGreat" xml:space="preserve">
+    <value>Всё отлично! Держите темп и выходите в лидеры.</value>
+  </data>
+  <data name="lg.navTitle" xml:space="preserve">
+    <value>Рейтинг</value>
+  </data>
+  <data name="lg.you" xml:space="preserve">
+    <value>Вы</value>
+  </data>
+  <data name="bill.onSale" xml:space="preserve">
+    <value>В продаже</value>
+  </data>
+  <data name="bill.offSale" xml:space="preserve">
+    <value>Не в продаже</value>
+  </data>
+  <data name="bill.perMonthShort" xml:space="preserve">
+    <value>мес.</value>
+  </data>
+  <data name="bill.soonTitle" xml:space="preserve">
+    <value>Онлайн-оплата скоро</value>
+  </data>
+  <data name="bill.soonText" xml:space="preserve">
+    <value>Заявка в Payme подана. После ответа оплата будет подключена. Пока ученики видят тарифы, кнопка оплаты в состоянии «скоро»; логин выдаёт только админ.</value>
+  </data>
+  <data name="bill.waitPayme" xml:space="preserve">
+    <value>Ожидается ответ Payme</value>
+  </data>
+  <data name="pay.soonTitle" xml:space="preserve">
+    <value>Оплата скоро заработает</value>
+  </data>
+  <data name="pay.soonText" xml:space="preserve">
+    <value>Онлайн-оплата (Payme) подключается. Пока для подписки свяжитесь с администратором — он продлит доступ.</value>
+  </data>
+  <data name="pay.soonShort" xml:space="preserve">
+    <value>— пока для подписки свяжитесь с администратором.</value>
+  </data>
+  <data name="pay.soonBtn" xml:space="preserve">
+    <value>Скоро</value>
+  </data>
+  <data name="reg.title" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="reg.kicker" xml:space="preserve">
+    <value>Новый ученик</value>
+  </data>
+  <data name="reg.heading" xml:space="preserve">
+    <value>Готовьтесь к экзамену на права вместе с нами</value>
+  </data>
+  <data name="reg.sub" xml:space="preserve">
+    <value>Оставьте заявку — администратор свяжется с вами и выдаст логин и пароль.</value>
+  </data>
+  <data name="reg.step1" xml:space="preserve">
+    <value>Укажите имя и номер телефона</value>
+  </data>
+  <data name="reg.step2" xml:space="preserve">
+    <value>Администратор свяжется с вами</value>
+  </data>
+  <data name="reg.step3" xml:space="preserve">
+    <value>Получаете логин и пароль и начинаете учиться</value>
+  </data>
+  <data name="reg.wantLogin" xml:space="preserve">
+    <value>Желаемый логин (необязательно)</value>
+  </data>
+  <data name="reg.note" xml:space="preserve">
+    <value>Комментарий (необязательно)</value>
+  </data>
+  <data name="reg.notePh" xml:space="preserve">
+    <value>Например: какая категория, когда экзамен...</value>
+  </data>
+  <data name="reg.agree" xml:space="preserve">
+    <value>Согласен с условиями:</value>
+  </data>
+  <data name="reg.send" xml:space="preserve">
+    <value>Отправить заявку</value>
+  </data>
+  <data name="reg.haveLogin" xml:space="preserve">
+    <value>Есть логин?</value>
+  </data>
+  <data name="reg.noLogin" xml:space="preserve">
+    <value>Ещё нет логина?</value>
+  </data>
+  <data name="reg.errName" xml:space="preserve">
+    <value>Укажите имя и фамилию полностью</value>
+  </data>
+  <data name="reg.errAgree" xml:space="preserve">
+    <value>Отметьте согласие с условиями</value>
+  </data>
+  <data name="reg.errMany" xml:space="preserve">
+    <value>Слишком много заявок. Попробуйте через час.</value>
+  </data>
+  <data name="reg.doneTitle" xml:space="preserve">
+    <value>Заявка принята!</value>
+  </data>
+  <data name="reg.againTitle" xml:space="preserve">
+    <value>Ваша заявка уже есть</value>
+  </data>
+  <data name="reg.doneText" xml:space="preserve">
+    <value>Администратор скоро свяжется с вами и выдаст логин и пароль.</value>
+  </data>
+  <data name="reg.adminTitle" xml:space="preserve">
+    <value>Заявки на регистрацию</value>
+  </data>
+  <data name="reg.adminSub" xml:space="preserve">
+    <value>Заявки с сайта. «Выдать логин» — откроется форма пользователя с заполненными данными.</value>
+  </data>
+  <data name="reg.pendingN" xml:space="preserve">
+    <value>новых</value>
+  </data>
+  <data name="reg.none" xml:space="preserve">
+    <value>Заявок пока нет</value>
+  </data>
+  <data name="reg.st_pending" xml:space="preserve">
+    <value>Новая</value>
+  </data>
+  <data name="reg.st_approved" xml:space="preserve">
+    <value>Логин выдан</value>
+  </data>
+  <data name="reg.st_rejected" xml:space="preserve">
+    <value>Отклонена</value>
+  </data>
+  <data name="reg.giveLogin" xml:space="preserve">
+    <value>Выдать логин</value>
+  </data>
+  <data name="reg.reject" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="reg.rejectConfirm" xml:space="preserve">
+    <value>Отклонить заявку?</value>
+  </data>
+  <data name="reg.rejected" xml:space="preserve">
+    <value>Заявка отклонена</value>
+  </data>
+  <data name="reg.openUser" xml:space="preserve">
+    <value>Открыть пользователя →</value>
+  </data>
+  <data name="reg.fromRequest" xml:space="preserve">
+    <value>Из заявки на регистрацию: данные заполнены. Введите пароль и сохраните — заявка закроется.</value>
+  </data>
+  <data name="notif.regNew" xml:space="preserve">
+    <value>Новая заявка на регистрацию: {name} ({phone})</value>
+  </data>
 </root>

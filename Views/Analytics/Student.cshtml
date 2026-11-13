@@ -35,7 +35,11 @@
                 </div>
             </div>
         </div>
-        <a class="ca-btn ca-btn-ghost" asp-controller="Users" asp-action="Edit" asp-route-id="@u.Id">@Icons.User <span data-i18n="qs.edit">@L["qs.edit"]</span></a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a class="ca-btn ca-btn-primary" href="/Analytics/Daily/@u.Id">🧠 <span data-i18n="pr.title">@L["pr.title"]</span></a>
+            <a class="ca-btn ca-btn-ghost" href="/Messages/Admin?u=@u.Id">💬 <span data-i18n="msg.title">@L["msg.title"]</span></a>
+            <a class="ca-btn ca-btn-ghost" asp-controller="Users" asp-action="Edit" asp-route-id="@u.Id">@Icons.User <span data-i18n="qs.edit">@L["qs.edit"]</span></a>
+        </div>
     </div>
 
     <div class="ca-alert ca-alert-info" data-i18n="an.studentNote">@L["an.studentNote"]</div>

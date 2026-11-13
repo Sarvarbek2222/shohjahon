@@ -32,6 +32,7 @@ public class PayController : Controller
     public async Task<IActionResult> Tariffs()
     {
         ViewBag.CanBuy = User.Identity?.IsAuthenticated == true && !User.IsInRole(Roles.SuperAdmin) && _subs.VisibleToUsers;
+        ViewBag.Soon = !_subs.VisibleToUsers;
         return View(await _subs.ActivePlansAsync());
     }
 
@@ -51,7 +52,9 @@ public class PayController : Controller
     [Authorize]
     public async Task<IActionResult> My()
     {
-        if (!_subs.VisibleToUsers || User.IsInRole(Roles.SuperAdmin)) return NotFound();
+        // O'quvchi obuna holati va tariflarni doim ko'radi; to'lov tugmalari Payme ulanguncha "tez kunda"
+        if (User.IsInRole(Roles.SuperAdmin)) return RedirectToAction("Index", "Billing");
+        ViewBag.CanPay = _subs.VisibleToUsers;
         var me = await _db.Users.AsNoTracking().FirstAsync(u => u.Id == Me);
         ViewBag.Status = SubscriptionService.StatusOf(me, DateTime.UtcNow);
         ViewBag.History = await _db.Payments.AsNoTracking().Include(p => p.Plan)

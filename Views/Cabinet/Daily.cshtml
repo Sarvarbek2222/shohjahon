@@ -1,0 +1,14 @@
+@model PersonalDay
+@{
+    ViewData["TitleKey"] = "pr.title";
+    ViewData["Title"] = L["pr.title"];
+    ViewData["DayUrl"] = "/Cabinet/Daily";
+}
+<div class="ca-page-head">
+    <div>
+        <div class="ca-eyebrow" data-i18n="nav.myCabinet">@L["nav.myCabinet"]</div>
+        <h1 class="ca-h1">🧠 <span data-i18n="pr.title">@L["pr.title"]</span></h1>
+        <p class="ca-sub" data-i18n="pr.pageSub">@L["pr.pageSub"]</p>
+    </div>
+</div>
+<partial name="Cabinet/_PersonalDay" model="Model" />

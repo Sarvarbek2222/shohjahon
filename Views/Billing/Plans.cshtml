@@ -1,43 +1,110 @@
 @model List<SubscriptionPlan>
+@* Tariflar: narx kartalari (o'quvchi ko'radigan ko'rinishga yaqin) + tahrirlash oynasi *@
 @{
     Layout = "_AdminLayout";
     ViewData["TitleKey"] = "bill.title";
     ViewData["Title"] = L["bill.tabPlans"];
+    string Sum(long n) => n.ToString("N0").Replace(",", " ").Replace(" ", " ");
 }
 <div class="ca-body-embed">
     <partial name="_BillingNav" />
-    <p class="ca-muted ca-small" data-i18n="bill.plansHint">@L["bill.plansHint"]</p>
+
+    <div class="bp-top">
+        <p class="ca-muted ca-small" style="margin:0;" data-i18n="bill.plansHint">@L["bill.plansHint"]</p>
+        <button type="button" class="ca-btn ca-btn-primary" data-open="0">+ <span data-i18n="bill.newPlan">@L["bill.newPlan"]</span></button>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="ca-card ca-empty"><p data-i18n="pub.noPlans">@L["pub.noPlans"]</p></div>
+    }
     <div class="bp-grid">
-        @foreach (var p in Model.Append(new SubscriptionPlan { IsActive = true, Months = 1 }))
+        @foreach (var p in Model)
         {
-            var isNew = p.Id == 0;
-            <form method="post" action="/Billing/SavePlan" class="ca-card bl-form @(isNew ? "bp-new" : "") @(p.IsActive || isNew ? "" : "bp-off")">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="id" value="@p.Id" />
-                <b>@(isNew ? "+ " + L["bill.newPlan"] : p.Name)</b>
-                <label><span data-i18n="bill.planName">@L["bill.planName"]</span><input class="ca-input" name="name" value="@p.Name" maxlength="64" required placeholder="1 oy" /></label>
-                <div class="row2">
-                    <label><span data-i18n="bill.months">@L["bill.months"]</span><input class="ca-input" type="number" name="months" min="1" max="36" value="@p.Months" required /></label>
-                    <label><span data-i18n="bill.price">@L["bill.price"]</span><input class="ca-input" type="number" name="price" min="1000" step="1000" value="@(p.Price > 0 ? p.Price.ToString() : "")" required placeholder="99000" /></label>
+            var perMonth = p.Months > 0 ? p.Price / p.Months : p.Price;
+            <article class="bp-card @(p.Badge != null ? "hot" : "") @(p.IsActive ? "" : "off")">
+                @if (p.Badge != null) { <span class="bp-badge">@p.Badge</span> }
+                <div class="bp-head">
+                    <h3>@p.Name</h3>
+                    <span class="lg-chip @(p.IsActive ? "lg-good" : "lg-shame")" data-i18n="@(p.IsActive ? "bill.onSale" : "bill.offSale")">@L[p.IsActive ? "bill.onSale" : "bill.offSale"]</span>
                 </div>
-                <div class="row2">
-                    <label><span data-i18n="bill.badge">@L["bill.badge"]</span><input class="ca-input" name="badge" value="@p.Badge" maxlength="64" placeholder="@L["bill.badgePh"]" /></label>
-                    <label><span data-i18n="bill.order">@L["bill.order"]</span><input class="ca-input" type="number" name="sortOrder" value="@p.SortOrder" /></label>
+                <div class="bp-price">@Sum(p.Price) <small data-i18n="pub.sum">@L["pub.sum"]</small></div>
+                <div class="bp-meta">
+                    <span>🗓 <span data-i18n="pub.months" data-i18n-args='{"n":@p.Months}'>@L.F("pub.months", ("n", p.Months))</span></span>
+                    <span>≈ @Sum(perMonth) / <span data-i18n="bill.perMonthShort">@L["bill.perMonthShort"]</span></span>
+                    <span>↕ @p.SortOrder</span>
                 </div>
-                <label style="display:flex;flex-direction:row;gap:8px;align-items:center;color:var(--ca-text);"><input type="checkbox" name="isActive" value="true" @(p.IsActive ? "checked" : "") style="width:18px;height:18px;accent-color:#22c55e;" /> <span data-i18n="bill.planActive">@L["bill.planActive"]</span></label>
-                <div style="display:flex;gap:8px;">
-                    <button class="ca-btn ca-btn-primary ca-btn-sm" type="submit" data-i18n="ls.save">@L["ls.save"]</button>
-                    @if (!isNew)
-                    {
-                        <button class="ca-btn ca-btn-ghost ca-btn-sm" type="submit" formaction="/Billing/DeletePlan/@p.Id" formnovalidate onclick="return confirm(I18n.t('bill.planDeleteConfirm'))" data-i18n="ls.delete">@L["ls.delete"]</button>
-                    }
+                <div class="bp-acts">
+                    <button type="button" class="ca-btn ca-btn-ghost ca-btn-sm" data-open="@p.Id">✎ <span data-i18n="qs.edit">@L["qs.edit"]</span></button>
+                    <form method="post" action="/Billing/DeletePlan/@p.Id" onsubmit="return confirm(I18n.t('bill.planDeleteConfirm'))">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="ca-btn ca-btn-ghost ca-btn-sm bp-del">🗑</button>
+                    </form>
                 </div>
-            </form>
+            </article>
         }
     </div>
 </div>
+
+@* Tahrirlash / yangi tarif oynasi *@
+@foreach (var p in Model.Append(new SubscriptionPlan { IsActive = true, Months = 1, SortOrder = Model.Count + 1 }))
+{
+    <dialog class="bp-dlg" id="dlg-@p.Id">
+        <form method="post" action="/Billing/SavePlan" class="bl-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@p.Id" />
+            <div class="bp-dlg-head">
+                <h3>@(p.Id == 0 ? L["bill.newPlan"] : p.Name)</h3>
+                <button type="button" class="bp-x" data-close>✕</button>
+            </div>
+            <label><span data-i18n="bill.planName">@L["bill.planName"]</span><input class="ca-input" name="name" value="@p.Name" maxlength="64" required placeholder="1 oy" /></label>
+            <div class="row2">
+                <label><span data-i18n="bill.months">@L["bill.months"]</span><input class="ca-input" type="number" name="months" min="1" max="36" value="@p.Months" required /></label>
+                <label><span data-i18n="bill.price">@L["bill.price"]</span><input class="ca-input" type="number" name="price" min="1000" step="1000" value="@(p.Price > 0 ? p.Price.ToString() : "")" required placeholder="99000" /></label>
+            </div>
+            <div class="row2">
+                <label><span data-i18n="bill.badge">@L["bill.badge"]</span><input class="ca-input" name="badge" value="@p.Badge" maxlength="64" placeholder="@L["bill.badgePh"]" /></label>
+                <label><span data-i18n="bill.order">@L["bill.order"]</span><input class="ca-input" type="number" name="sortOrder" value="@p.SortOrder" /></label>
+            </div>
+            <label class="bp-check"><input type="checkbox" name="isActive" value="true" @(p.IsActive ? "checked" : "") /> <span data-i18n="bill.planActive">@L["bill.planActive"]</span></label>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button type="button" class="ca-btn ca-btn-ghost" data-close data-i18n="ls.cancel">@L["ls.cancel"]</button>
+                <button class="ca-btn ca-btn-primary" type="submit" data-i18n="ls.save">@L["ls.save"]</button>
+            </div>
+        </form>
+    </dialog>
+}
+
 <style>
-    .bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
-    .bp-new { border-style: dashed; }
-    .bp-off { opacity: .6; }
+    .bp-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .bp-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 22px 20px 18px; border-radius: 20px; background: var(--ca-surface); border: 1px solid var(--ca-border); transition: transform .18s, box-shadow .18s, border-color .18s; }
+    .bp-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,.35); border-color: var(--ca-border-strong); }
+    .bp-card.hot { border-color: rgba(255,45,74,.5); background: linear-gradient(180deg, rgba(255,45,74,.10), var(--ca-surface) 55%); }
+    .bp-card.off { opacity: .55; }
+    .bp-badge { position: absolute; top: -11px; left: 18px; padding: 3px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #ff2d4a, #ff7a45); }
+    .bp-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .bp-head h3 { margin: 0; font-size: 1.1rem; }
+    .bp-price { font-size: 2rem; font-weight: 900; letter-spacing: -.02em; }
+    .bp-price small { font-size: .95rem; font-weight: 600; color: var(--ca-muted); }
+    .bp-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--ca-muted); font-size: 13px; }
+    .bp-acts { display: flex; gap: 8px; margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--ca-border); }
+    .bp-acts form { margin-left: auto; }
+    .bp-del:hover { background: var(--ca-bad) !important; color: #fff; }
+    .bp-dlg { margin: auto; width: min(520px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--ca-border-strong); border-radius: 20px; background: var(--ca-surface); color: var(--ca-text); }
+    .bp-dlg::backdrop { background: rgba(0,0,0,.65); backdrop-filter: blur(3px); }
+    .bp-dlg form { padding: 20px; }
+    .bp-dlg-head { display: flex; justify-content: space-between; align-items: center; }
+    .bp-dlg-head h3 { margin: 0; }
+    .bp-x { border: 0; background: var(--ca-surface-2); color: #fff; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; }
+    .bp-check { display: flex !important; flex-direction: row !important; gap: 8px; align-items: center; color: var(--ca-text) !important; }
+    .bp-check input { width: 18px; height: 18px; accent-color: #22c55e; }
 </style>
+<script>
+    document.querySelectorAll("[data-open]").forEach(function (b) {
+        b.addEventListener("click", function () { var d = document.getElementById("dlg-" + b.getAttribute("data-open")); if (d) d.showModal(); });
+    });
+    document.querySelectorAll("[data-close]").forEach(function (b) {
+        b.addEventListener("click", function () { b.closest("dialog").close(); });
+    });
+</script>

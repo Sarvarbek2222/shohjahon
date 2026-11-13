@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -87,6 +88,65 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult AccessDenied() => View();
 
+    // ───────── Ro'yxatdan o'tish (ariza): hozircha login faqat admin tomonidan beriladi ─────────
+
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, List<DateTime>> RegHits = new();
+
+    [HttpGet]
+    public IActionResult Register() => View(new RegisterForm());
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterForm form, [FromServices] AppDbContext db, [FromServices] NotificationService notify)
+    {
+        // Bot: yashirin maydon to'ldirilgan bo'lsa — jim "qabul qilindi"
+        if (!string.IsNullOrEmpty(form.Website)) return RedirectToAction(nameof(Registered));
+
+        form.FullName = form.FullName?.Trim();
+        form.Username = string.IsNullOrWhiteSpace(form.Username) ? null : form.Username.Trim();
+        var phone = UserService.NormalizePhone(form.Phone);
+        if (string.IsNullOrWhiteSpace(form.FullName) || form.FullName.Length < 3 || form.FullName.Length > 128) form.ErrorKey = "reg.errName";
+        else if (phone == null) form.ErrorKey = "err.phoneFormat";
+        else if (form.Username != null && !UserService.IsValidUsername(form.Username)) form.ErrorKey = "err.usernameFormat";
+        else if (!form.Agree) form.ErrorKey = "reg.errAgree";
+        if (form.ErrorKey != null) return View(form);
+
+        // Bitta manzildan soatiga ko'pi bilan 5 ta ariza
+        var ip = DeviceGuard.ClientIp(HttpContext) ?? "?";
+        var now = DateTime.UtcNow;
+        var hits = RegHits.GetOrAdd(ip, _ => new List<DateTime>());
+        lock (hits)
+        {
+            hits.RemoveAll(t => now - t > TimeSpan.FromHours(1));
+            if (hits.Count >= 5) { form.ErrorKey = "reg.errMany"; return View(form); }
+            hits.Add(now);
+        }
+
+        if (await db.RegistrationRequests.AnyAsync(r => r.Phone == phone && r.Status == "pending"))
+            return RedirectToAction(nameof(Registered), new { again = true });
+
+        db.RegistrationRequests.Add(new RegistrationRequest
+        {
+            FullName = form.FullName!,
+            Phone = phone!,
+            Username = form.Username,
+            Note = string.IsNullOrWhiteSpace(form.Note) ? null : form.Note.Trim()[..Math.Min(form.Note.Trim().Length, 500)],
+            Ip = ip,
+            CreatedAt = now,
+        });
+        await db.SaveChangesAsync();
+        var admins = await db.Users.AsNoTracking().Where(u => u.Role == Roles.SuperAdmin && u.IsActive).Select(u => u.Id).ToListAsync();
+        await notify.NotifyUsersAsync(admins, "regNew", new { name = form.FullName, phone = UserService.FormatPhone(phone) }, "/Users/Requests");
+        return RedirectToAction(nameof(Registered));
+    }
+
+    [HttpGet]
+    public IActionResult Registered(bool again = false)
+    {
+        ViewBag.Again = again;
+        return View();
+    }
+
     private IActionResult RedirectAfterLogin(bool isSuperAdmin, string? returnUrl)
     {
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -96,4 +156,16 @@ public class AuthController : Controller
             ? RedirectToAction("Index1", "Question")
             : RedirectToAction("Index", "Home");
     }
+}
+
+public class RegisterForm
+{
+    public string? FullName { get; set; }
+    public string? Phone { get; set; }
+    public string? Username { get; set; }
+    public string? Note { get; set; }
+    public bool Agree { get; set; }
+    /// <summary>Botlar uchun tuzoq (odam ko'rmaydi).</summary>
+    public string? Website { get; set; }
+    public string? ErrorKey { get; set; }
 }

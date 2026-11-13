@@ -7,6 +7,7 @@
     var st = (SubscriptionStatus)ViewBag.Status;
     var history = (List<Payment>)ViewBag.History;
     var err = TempData["PayErr"] as string;
+    var canPay = ViewBag.CanPay is true;
     string Sum(long n) => n.ToString("N0").Replace(",", " ").Replace(" ", " ");
 }
 <div class="ca-page-head">
@@ -16,6 +17,10 @@
         <p class="ca-sub" data-i18n="pay.sub">@L["pay.sub"]</p>
     </div>
 </div>
+@if (!canPay)
+{
+    <div class="ca-card pay-soon">⏳ <div><b data-i18n="pay.soonTitle">@L["pay.soonTitle"]</b><p class="ca-muted" style="margin:4px 0 0;" data-i18n="pay.soonText">@L["pay.soonText"]</p></div></div>
+}
 @if (err != null) { <div class="ca-alert" style="border-color:rgba(255,77,106,.5);color:#ffb3c0;" data-i18n="@err">@L[err]</div> }
 
 <div class="ca-card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
@@ -45,11 +50,18 @@
             <h3 style="margin:6px 0 2px;">@p.Name</h3>
             <div style="font-size:1.6rem;font-weight:900;">@Sum(p.Price) <small class="ca-muted" style="font-size:.9rem;" data-i18n="pub.sum">@L["pub.sum"]</small></div>
             <div class="ca-muted ca-small" data-i18n="pub.months" data-i18n-args='{"n":@p.Months}'>@L.F("pub.months", ("n", p.Months))</div>
-            <form method="post" action="/Pay/Buy" style="margin-top:12px;">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="planId" value="@p.Id" />
-                <button type="submit" class="ca-btn ca-btn-primary ca-btn-block" data-i18n="pub.payPayme">@L["pub.payPayme"]</button>
-            </form>
+            @if (canPay)
+            {
+                <form method="post" action="/Pay/Buy" style="margin-top:12px;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="planId" value="@p.Id" />
+                    <button type="submit" class="ca-btn ca-btn-primary ca-btn-block" data-i18n="pub.payPayme">@L["pub.payPayme"]</button>
+                </form>
+            }
+            else
+            {
+                <button type="button" class="ca-btn ca-btn-ghost ca-btn-block" style="margin-top:12px;" disabled>⏳ <span data-i18n="pay.soonBtn">@L["pay.soonBtn"]</span></button>
+            }
         </div>
     }
 </div>
@@ -76,6 +88,9 @@
 <style>
     .pt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
     .pt-mini.hot { border-color: rgba(255,45,74,.55); }
+    .pay-soon { display: flex; gap: 14px; align-items: center; margin-bottom: 16px; font-size: 26px; border-color: rgba(245,165,36,.45); background: linear-gradient(135deg, rgba(245,165,36,.12), var(--ca-surface) 60%); }
+    .pay-soon b { font-size: 15px; }
+    .pay-soon p { font-size: 13.5px; }
     .bl-st { padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; }
     .bl-paid { color: var(--ca-ok); background: var(--ca-ok-soft); }
     .bl-pending { color: var(--ca-warn); background: var(--ca-warn-soft); }

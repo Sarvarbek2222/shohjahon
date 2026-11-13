@@ -32,6 +32,11 @@
     }
 
     <form asp-action="@(Model.IsNew ? "Create" : "Edit")" method="post" class="us-form" autocomplete="off">
+        @if (Model.RequestId is int reqId)
+        {
+            <input type="hidden" name="RequestId" value="@reqId" />
+            <div class="us-alert ok" role="status" data-i18n="reg.fromRequest">@L["reg.fromRequest"]</div>
+        }
         <input type="hidden" asp-for="Id" />
 
         <div class="us-grid-2">

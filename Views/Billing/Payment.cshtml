@@ -52,20 +52,6 @@
                     </a>
                 }
             </div>
-            @if (Model.User != null)
-            {
-                <form method="post" action="/Billing/Grant" class="bl-form" style="margin-top:14px;border-top:1px solid var(--ca-border);padding-top:14px;">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="username" value="@Model.User.Username" />
-                    <input type="hidden" name="back" value="/Billing/Payment/@Model.Id" />
-                    <b data-i18n="bill.grantTitle">@L["bill.grantTitle"]</b>
-                    <div class="row2">
-                        <label><span data-i18n="bill.months">@L["bill.months"]</span><input class="ca-input" type="number" name="months" min="0" max="36" value="1" /></label>
-                        <label><span data-i18n="bill.days">@L["bill.days"]</span><input class="ca-input" type="number" name="days" min="0" max="1000" value="0" /></label>
-                    </div>
-                    <button type="submit" class="ca-btn ca-btn-primary ca-btn-sm" data-i18n="bill.grant">@L["bill.grant"]</button>
-                </form>
-            }
         </div>
     </div>
 </div>

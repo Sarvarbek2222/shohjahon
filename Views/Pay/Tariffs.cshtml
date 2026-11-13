@@ -5,6 +5,7 @@
     ViewData["TitleKey"] = "pub.tariffs";
     ViewData["Title"] = L["pub.tariffs"];
     var canBuy = ViewBag.CanBuy is true;
+    var soon = ViewBag.Soon is true;
     var feats = new[] { "pub.f1", "pub.f2", "pub.f3", "pub.f4", "pub.f5", "pub.f6" };
 }
 <div style="text-align:center;max-width:720px;margin:0 auto 28px;">
@@ -13,6 +14,10 @@
     <p class="ca-sub" data-i18n="pub.tariffsSub">@L["pub.tariffsSub"]</p>
 </div>
 
+@if (soon)
+{
+    <div class="ca-card" style="text-align:center;margin-bottom:18px;border-color:rgba(245,165,36,.45);">⏳ <b data-i18n="pay.soonTitle">@L["pay.soonTitle"]</b> <span class="ca-muted" data-i18n="pay.soonShort">@L["pay.soonShort"]</span></div>
+}
 @if (Model.Count == 0)
 {
     <div class="ca-card ca-empty"><p data-i18n="pub.noPlans">@L["pub.noPlans"]</p></div>
@@ -38,6 +43,10 @@ else
                         <input type="hidden" name="planId" value="@p.Id" />
                         <button type="submit" class="ca-btn ca-btn-primary ca-btn-block"><span data-i18n="pub.payPayme">@L["pub.payPayme"]</span></button>
                     </form>
+                }
+                else if (soon)
+                {
+                    <button type="button" class="ca-btn ca-btn-ghost ca-btn-block" disabled>⏳ <span data-i18n="pay.soonBtn">@L["pay.soonBtn"]</span></button>
                 }
                 else if (User.Identity?.IsAuthenticated != true)
                 {

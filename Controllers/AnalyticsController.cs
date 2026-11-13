@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using propro.Localization;
@@ -44,6 +45,17 @@ public class AnalyticsController : Controller
         var model = await CabinetModel.CreateAsync(_db, stats, isAdminView: true, aiEnabled: _ai.IsEnabled, withMistakeQuestions: true);
         CabinetController.ApplyResultsFilter(model, type, page);
         return View(model);
+    }
+
+    /// <summary>O'quvchining shaxsiy kunlik tahlili (admin ko'rinishi).</summary>
+    public async Task<IActionResult> Daily(int id, string? d, [FromServices] QuestionBank bank, [FromServices] AnalyticsSnapshot snapshot)
+    {
+        var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+        if (user == null) return NotFound();
+        var day = CabinetController.PickDay(d);
+        ViewBag.Day = day;
+        ViewBag.Student = user;
+        return View(await PersonalReport.BuildAsync(_db, bank, id, day, (await snapshot.GetAsync()).League));
     }
 
     public async Task<IActionResult> Attempt(int id)

@@ -1,0 +1,50 @@
+@model RegisterForm
+@* Ro'yxatdan o'tish arizasi: hozircha login faqat admin tomonidan beriladi *@
+@{
+    Layout = "_PublicLayout";
+    ViewData["TitleKey"] = "reg.title";
+    ViewData["Title"] = L["reg.title"];
+}
+<div class="rg-wrap">
+    <div class="rg-side">
+        <div class="ca-eyebrow" data-i18n="reg.kicker">@L["reg.kicker"]</div>
+        <h1 class="ca-h1" style="font-size:2rem;" data-i18n="reg.heading">@L["reg.heading"]</h1>
+        <p class="ca-sub" data-i18n="reg.sub">@L["reg.sub"]</p>
+        <ol class="rg-steps">
+            <li><b>1</b><span data-i18n="reg.step1">@L["reg.step1"]</span></li>
+            <li><b>2</b><span data-i18n="reg.step2">@L["reg.step2"]</span></li>
+            <li><b>3</b><span data-i18n="reg.step3">@L["reg.step3"]</span></li>
+        </ol>
+        <p class="ca-muted ca-small">☎ <a class="ca-link" href="tel:@PayController.PhoneHref">@PayController.Phone</a></p>
+    </div>
+    <form method="post" action="/Auth/Register" class="ca-card rg-form" novalidate>
+        @Html.AntiForgeryToken()
+        <h2 data-i18n="reg.title">@L["reg.title"]</h2>
+        @if (Model.ErrorKey != null)
+        {
+            <div class="ca-alert" style="border-color:rgba(255,77,106,.5);color:#ffb3c0;" role="alert" data-i18n="@Model.ErrorKey">@L[Model.ErrorKey]</div>
+        }
+        <label><span data-i18n="users.fullName">@L["users.fullName"]</span><input class="ca-input" name="FullName" value="@Model.FullName" maxlength="128" required autocomplete="name" placeholder="Aliyev Vali" /></label>
+        <label><span data-i18n="users.phone">@L["users.phone"]</span><input class="ca-input" name="Phone" value="@Model.Phone" maxlength="20" required inputmode="tel" autocomplete="tel" placeholder="+998 90 123 45 67" /></label>
+        <label><span data-i18n="reg.wantLogin">@L["reg.wantLogin"]</span><input class="ca-input" name="Username" value="@Model.Username" maxlength="64" autocomplete="username" placeholder="vali2026" /></label>
+        <label><span data-i18n="reg.note">@L["reg.note"]</span><textarea class="ca-input" name="Note" maxlength="500" rows="3" placeholder="@L["reg.notePh"]">@Model.Note</textarea></label>
+        <input type="text" name="Website" tabindex="-1" autocomplete="off" class="rg-hp" aria-hidden="true" />
+        <label class="rg-agree"><input type="checkbox" name="Agree" value="true" @(Model.Agree ? "checked" : "") /> <span><span data-i18n="reg.agree">@L["reg.agree"]</span> <a class="ca-link" href="/Pay/Offer" target="_blank" data-i18n="pub.offer">@L["pub.offer"]</a>, <a class="ca-link" href="/Pay/Privacy" target="_blank" data-i18n="pub.privacy">@L["pub.privacy"]</a></span></label>
+        <button type="submit" class="ca-btn ca-btn-primary ca-btn-block" data-i18n="reg.send">@L["reg.send"]</button>
+        <p class="ca-muted ca-small" style="text-align:center;margin:0;"><span data-i18n="reg.haveLogin">@L["reg.haveLogin"]</span> <a class="ca-link" href="/Auth/Login" data-i18n="pub.login">@L["pub.login"]</a></p>
+    </form>
+</div>
+<style>
+    .rg-wrap { display: grid; grid-template-columns: 1fr minmax(320px, 440px); gap: 36px; align-items: start; }
+    .rg-steps { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 12px; }
+    .rg-steps li { display: flex; gap: 12px; align-items: center; }
+    .rg-steps b { width: 32px; height: 32px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 10px; background: linear-gradient(135deg, #ff2d4a, #ff7a45); color: #fff; }
+    .rg-form { display: grid; gap: 12px; padding: 24px; }
+    .rg-form h2 { margin: 0 0 4px; font-size: 1.3rem; }
+    .rg-form label { display: grid; gap: 5px; font-size: 13px; color: var(--ca-muted); }
+    .rg-form .ca-input { width: 100%; }
+    .rg-agree { display: flex !important; flex-direction: row; gap: 10px; align-items: flex-start; color: var(--ca-text) !important; }
+    .rg-agree input { width: 18px; height: 18px; margin-top: 2px; accent-color: #ff2d4a; }
+    .rg-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    @@media (max-width: 820px) { .rg-wrap { grid-template-columns: 1fr; } }
+</style>

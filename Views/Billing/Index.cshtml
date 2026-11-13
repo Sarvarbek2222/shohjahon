@@ -19,7 +19,7 @@
         <div class="ca-card ca-card-hover"><div class="ca-kpi"><div class="ca-kpi-icon info">@Icons.List</div><div><div class="ca-kpi-label" data-i18n="bill.kPending">@L["bill.kPending"]</div><div class="ca-kpi-value">@Model.PendingCount</div></div></div></div>
     </div>
 
-    <div class="ca-grid ca-grid-2 ca-section">
+    <div class="ca-section">
         <div class="ca-card">
             <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="bill.chart">@L["bill.chart"]</h3></div>
             <div class="bl-chart">
@@ -29,22 +29,6 @@
                     <div class="bl-bar" title="@day.ToString("dd.MM") — @Sum(amount)"><i style="height:@(amount == 0 ? 0 : Math.Max(4, h))%"></i><span>@day.Day</span></div>
                 }
             </div>
-        </div>
-        <div class="ca-card">
-            <div class="ca-card-head">
-                <div><h3 class="ca-card-title" data-i18n="bill.ready">@L["bill.ready"]</h3><p class="ca-card-sub" data-i18n="bill.readySub">@L["bill.readySub"]</p></div>
-                <span class="lg-chip @(okCount == Model.Checks.Count ? "lg-good" : "lg-average")">@okCount / @Model.Checks.Count</span>
-            </div>
-            <ul class="bl-checks">
-                @foreach (var c in Model.Checks)
-                {
-                    <li class="@(c.Ok ? "ok" : "")">
-                        <span>@(c.Ok ? "✅" : "⬜")</span>
-                        <span data-i18n="@c.Key">@L[c.Key]</span>
-                        @if (c.Url != null) { <a class="ca-link" href="@c.Url" target="@(c.Url.StartsWith("/Pay") ? "_blank" : "_self")">→</a> }
-                    </li>
-                }
-            </ul>
         </div>
     </div>
 
@@ -64,31 +48,16 @@
                 }
             </div>
         </div>
-        <div class="ca-card">
-            <div class="ca-card-head"><h3 class="ca-card-title" data-i18n="bill.expiring">@L["bill.expiring"]</h3></div>
-            @if (Model.ExpiringSoon.Count == 0) { <p class="ca-muted ca-small" data-i18n="lg.none">@L["lg.none"]</p> }
-            <div class="rp-list">
-                @foreach (var u in Model.ExpiringSoon)
-                {
-                    <div class="rp-row">
-                        <span class="rp-row-n">@(u.FullName ?? u.Username)</span>
-                        <span class="ca-muted ca-small">@L.Stamp(u.AccessExpiresAt!.Value)</span>
-                        <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Messages/Admin?u=@u.Id" title="@L["msg.title"]">💬</a>
-                    </div>
-                }
-            </div>
-            <form method="post" action="/Billing/Grant" class="bl-form" style="margin-top:14px;border-top:1px solid var(--ca-border);padding-top:14px;">
-                @Html.AntiForgeryToken()
-                <b data-i18n="bill.grantTitle">@L["bill.grantTitle"]</b>
-                <div class="row2">
-                    <label><span data-i18n="users.username">@L["users.username"]</span><input class="ca-input" name="username" required maxlength="64" /></label>
-                    <div class="row2">
-                        <label><span data-i18n="bill.months">@L["bill.months"]</span><input class="ca-input" type="number" name="months" min="0" max="36" value="1" /></label>
-                        <label><span data-i18n="bill.days">@L["bill.days"]</span><input class="ca-input" type="number" name="days" min="0" max="1000" value="0" /></label>
-                    </div>
-                </div>
-                <button type="submit" class="ca-btn ca-btn-primary ca-btn-sm" data-i18n="bill.grant">@L["bill.grant"]</button>
-            </form>
+        <div class="ca-card bl-soon">
+            <div class="ca-card-head"><h3 class="ca-card-title">⏳ <span data-i18n="bill.soonTitle">@L["bill.soonTitle"]</span></h3></div>
+            <p class="ca-muted" style="margin:0 0 10px;" data-i18n="bill.soonText">@L["bill.soonText"]</p>
+            <ul class="bl-checks">
+                <li class="ok"><span>✅</span><a class="ca-link" href="/Pay/Tariffs" target="_blank" data-i18n="pub.tariffs">@L["pub.tariffs"]</a><span></span></li>
+                <li class="ok"><span>✅</span><a class="ca-link" href="/Pay/Offer" target="_blank" data-i18n="pub.offer">@L["pub.offer"]</a><span></span></li>
+                <li class="ok"><span>✅</span><a class="ca-link" href="/Pay/Contacts" target="_blank" data-i18n="pub.contacts">@L["pub.contacts"]</a><span></span></li>
+                <li class="ok"><span>✅</span><a class="ca-link" href="/Auth/Register" target="_blank" data-i18n="reg.title">@L["reg.title"]</a><span></span></li>
+                <li><span>⏳</span><span data-i18n="bill.waitPayme">@L["bill.waitPayme"]</span><span></span></li>
+            </ul>
         </div>
     </div>
 </div>

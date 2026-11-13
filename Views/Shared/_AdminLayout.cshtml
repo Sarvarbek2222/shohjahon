@@ -585,6 +585,11 @@
                 <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
                 <span class="adm-link-text" data-i18n="admin.users">@L["admin.users"]</span>
             </a>
+            <a asp-controller="Users" asp-action="Requests" class="adm-link">
+                <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>
+                <span class="adm-link-text" data-i18n="reg.adminTitle">@L["reg.adminTitle"]</span>
+                <span class="adm-dev-count" data-reg-count hidden></span>
+            </a>
             <a asp-controller="Messages" asp-action="Admin" class="adm-link">
                 <span class="adm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
                 <span class="adm-link-text" data-i18n="msg.title">@L["msg.title"]</span>
@@ -722,6 +727,17 @@
 
     <script src="~/js/ui.js" asp-append-version="true"></script>
     <script src="~/js/chat.js" asp-append-version="true"></script>
-    <script>Chat.badge("[data-msg-count]");</script>
+    <script>
+        Chat.badge("[data-msg-count]");
+        // Yangi ro'yxatdan o'tish arizalari soni
+        (function () {
+            function upd() {
+                if (document.hidden) return;
+                fetch("/Users/RequestCount", { credentials: "same-origin", cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; })
+                    .then(function (d) { if (!d) return; document.querySelectorAll("[data-reg-count]").forEach(function (el) { el.textContent = d.count; el.hidden = !d.count; }); }).catch(function () { });
+            }
+            upd(); setInterval(upd, 60000);
+        })();
+    </script>
 </body>
 </html>

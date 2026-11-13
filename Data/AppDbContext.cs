@@ -25,6 +25,7 @@ public class AppDbContext : DbContext
     public DbSet<SavedQuestion> SavedQuestions { get; set; }
     public DbSet<ChatMessage> Messages { get; set; }
     public DbSet<TopicLessonQuestion> TopicLessonQuestions { get; set; }
+    public DbSet<RegistrationRequest> RegistrationRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -126,6 +127,12 @@ public class AppDbContext : DbContext
             b.ToTable("TopicLessonQuestions");
             b.HasIndex(x => new { x.LessonId, x.QuestionId }).IsUnique();
             b.HasIndex(x => x.QuestionId);
+        });
+        modelBuilder.Entity<RegistrationRequest>(b =>
+        {
+            b.ToTable("RegistrationRequests");
+            b.HasIndex(x => new { x.Status, x.CreatedAt });
+            b.HasIndex(x => x.Phone);
         });
         modelBuilder.Entity<DailyReport>(b =>
         {

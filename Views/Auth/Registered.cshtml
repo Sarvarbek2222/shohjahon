@@ -1,0 +1,13 @@
+@{
+    Layout = "_PublicLayout";
+    ViewData["TitleKey"] = "reg.title";
+    ViewData["Title"] = L["reg.title"];
+    var again = ViewBag.Again is true;
+}
+<div class="ca-card ca-empty" style="max-width:560px;margin:40px auto;">
+    <div class="ca-empty-icon" style="font-size:44px;">✅</div>
+    <h3 data-i18n="@(again ? "reg.againTitle" : "reg.doneTitle")">@L[again ? "reg.againTitle" : "reg.doneTitle"]</h3>
+    <p data-i18n="reg.doneText">@L["reg.doneText"]</p>
+    <p class="ca-muted">☎ <a class="ca-link" href="tel:@PayController.PhoneHref">@PayController.Phone</a></p>
+    <a class="ca-btn ca-btn-ghost" href="/Pay/Tariffs" data-i18n="pub.tariffs">@L["pub.tariffs"]</a>
+</div>

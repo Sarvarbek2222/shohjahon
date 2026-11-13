@@ -96,6 +96,24 @@ public class CabinetController : Controller
         return View();
     }
 
+    /// <summary>Shaxsiy kunlik tahlil (standart — kecha; d=yyyy-MM-dd — boshqa kun, oxirgi 14 kun ichida).</summary>
+    public async Task<IActionResult> Daily(string? d, [FromServices] AnalyticsSnapshot snapshot)
+    {
+        var day = PickDay(d);
+        ViewBag.Day = day;
+        return View(await PersonalReport.BuildAsync(_db, _bank, UserId, day, (await snapshot.GetAsync()).League));
+    }
+
+    public static DateTime PickDay(string? d)
+    {
+        var today = PersonalReport.LocalToday();
+        return DateTime.TryParseExact(d, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out var x) && x <= today && x >= today.AddDays(-13)
+            ? x.Date : today.AddDays(-1);
+    }
+
+    /// <summary>Reyting: barcha o'quvchilar (o'quvchi o'zini belgilangan holda ko'radi).</summary>
+    public async Task<IActionResult> Rating([FromServices] AnalyticsSnapshot snapshot) => View((await snapshot.GetAsync()).League);
+
     /// <summary>Saqlangan savollar (oxirgi saqlangani birinchi).</summary>
     public async Task<IActionResult> Saved()
     {

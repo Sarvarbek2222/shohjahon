@@ -44,7 +44,7 @@ public static class League
 
             var score = (int)Math.Round(100 * acc * Math.Min(1, (double)a7 / Math.Max(1, target)));
             // Maqom faqat haqiqatan o'zlashtirgan bo'lsa (0% bilan "Chempion" bo'lib qolmasin)
-            var badge = i < Badges.Length && s.Solved > 0 ? Badges[i].Key : null;
+            var badge = i < Badges.Length && s.ReadinessScore >= 1 ? Badges[i].Key : null;
             rows.Add(new LeagueRow(s.User.Id, s.User.FullName ?? s.User.Username, s.User.Username, i + 1,
                 s.ReadinessScore, a7, c7, (int)Math.Round(acc * 100), target, score, tier, reason, badge));
         }

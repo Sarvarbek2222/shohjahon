@@ -4065,4 +4065,226 @@
   <data name="pub.inn" xml:space="preserve">
     <value>STIR</value>
   </data>
+  <data name="pr.title" xml:space="preserve">
+    <value>Kunlik tahlilim</value>
+  </data>
+  <data name="pr.pageSub" xml:space="preserve">
+    <value>Har kuni siz uchun alohida: qancha ishladingiz, nimani o'rgandingiz, nimani unutdingiz va ertaga nima qilish kerak.</value>
+  </data>
+  <data name="pr.sub" xml:space="preserve">
+    <value>Oldingi 7 kun bilan taqqoslangan shaxsiy tahlil</value>
+  </data>
+  <data name="pr.noWork" xml:space="preserve">
+    <value>Bu kuni savol ishlanmagan</value>
+  </data>
+  <data name="pr.moodGreat" xml:space="preserve">
+    <value>Ajoyib kun! Me'yor bajarildi, natija a'lo 🔥</value>
+  </data>
+  <data name="pr.moodGood" xml:space="preserve">
+    <value>Yaxshi kun — davom eting 👍</value>
+  </data>
+  <data name="pr.moodWeak" xml:space="preserve">
+    <value>Xatolar ko'p bo'ldi — quyidagi tavsiyalarga e'tibor bering</value>
+  </data>
+  <data name="pr.kAnswered" xml:space="preserve">
+    <value>Ishlangan savollar</value>
+  </data>
+  <data name="pr.kAccuracy" xml:space="preserve">
+    <value>To'g'ri javoblar</value>
+  </data>
+  <data name="pr.kTime" xml:space="preserve">
+    <value>O'qish vaqti</value>
+  </data>
+  <data name="pr.kNew" xml:space="preserve">
+    <value>Yangi o'zlashtirildi</value>
+  </data>
+  <data name="pr.kNewSub" xml:space="preserve">
+    <value>birinchi marta to'g'ri</value>
+  </data>
+  <data name="pr.kForgot" xml:space="preserve">
+    <value>Unutilgan</value>
+  </data>
+  <data name="pr.kForgotSub" xml:space="preserve">
+    <value>oldin to'g'ri edi, endi xato</value>
+  </data>
+  <data name="pr.kExam" xml:space="preserve">
+    <value>Real imtihon</value>
+  </data>
+  <data name="pr.kExamSub" xml:space="preserve">
+    <value>o'tdi / jami</value>
+  </data>
+  <data name="pr.tests" xml:space="preserve">
+    <value>ta test</value>
+  </data>
+  <data name="pr.vsWeek" xml:space="preserve">
+    <value>haftalik o'rtachaga nisbatan</value>
+  </data>
+  <data name="pr.recTitle" xml:space="preserve">
+    <value>Siz uchun tavsiyalar</value>
+  </data>
+  <data name="pr.topicsTitle" xml:space="preserve">
+    <value>Mavzular bo'yicha natija</value>
+  </data>
+  <data name="pr.recStart" xml:space="preserve">
+    <value>Bu kuni mashg'ulot bo'lmagan. Bugun kamida 20 ta savol ishlang — har kungi kichik qadam imtihonda katta natija beradi.</value>
+  </data>
+  <data name="pr.recMore" xml:space="preserve">
+    <value>Kunlik me'yorga yana {v} ta savol yetmadi. Ertaga 20 tadan kam ishlamang.</value>
+  </data>
+  <data name="pr.recTopic" xml:space="preserve">
+    <value>Eng ko'p xato «{v}» mavzusida. Mavzu videosini ko'rib, shu mavzu testini qayta ishlang.</value>
+  </data>
+  <data name="pr.recForgot" xml:space="preserve">
+    <value>{v} ta savolni unutgansiz (oldin to'g'ri edi). «Xatolarni tuzatish» bo'limida takrorlang.</value>
+  </data>
+  <data name="pr.recMistakes" xml:space="preserve">
+    <value>Hozir {v} ta xato tuzatilmagan. Har kuni ulardan 10 tasini tuzating.</value>
+  </data>
+  <data name="pr.recExam" xml:space="preserve">
+    <value>Natijangiz yaxshi — «Real imtihon» rejimida o'zingizni sinab ko'ring.</value>
+  </data>
+  <data name="pr.recExamFail" xml:space="preserve">
+    <value>Real imtihondan o'ta olmadingiz. Xatolarni tuzatib, ertaga yana urinib ko'ring.</value>
+  </data>
+  <data name="pr.recGreat" xml:space="preserve">
+    <value>Hammasi a'lo! Shu sur'atni saqlang va peshqadamlar qatoriga chiqing.</value>
+  </data>
+  <data name="lg.navTitle" xml:space="preserve">
+    <value>Reyting</value>
+  </data>
+  <data name="lg.you" xml:space="preserve">
+    <value>Siz</value>
+  </data>
+  <data name="bill.onSale" xml:space="preserve">
+    <value>Sotuvda</value>
+  </data>
+  <data name="bill.offSale" xml:space="preserve">
+    <value>Sotuvda emas</value>
+  </data>
+  <data name="bill.perMonthShort" xml:space="preserve">
+    <value>oy</value>
+  </data>
+  <data name="bill.soonTitle" xml:space="preserve">
+    <value>Onlayn to'lov tez kunda</value>
+  </data>
+  <data name="bill.soonText" xml:space="preserve">
+    <value>Payme'ga ariza berilgan. Javob kelgach to'lov ulanadi. Hozircha o'quvchilar tariflarni ko'radi, to'lov tugmasi «tez kunda» holatida; login faqat admin tomonidan beriladi.</value>
+  </data>
+  <data name="bill.waitPayme" xml:space="preserve">
+    <value>Payme javobi kutilmoqda</value>
+  </data>
+  <data name="pay.soonTitle" xml:space="preserve">
+    <value>To'lov tez kunda ishga tushadi</value>
+  </data>
+  <data name="pay.soonText" xml:space="preserve">
+    <value>Onlayn to'lov (Payme) ulanmoqda. Hozircha obuna uchun admin bilan bog'laning — u muddatingizni uzaytiradi.</value>
+  </data>
+  <data name="pay.soonShort" xml:space="preserve">
+    <value>— hozircha obuna uchun admin bilan bog'laning.</value>
+  </data>
+  <data name="pay.soonBtn" xml:space="preserve">
+    <value>Tez kunda</value>
+  </data>
+  <data name="reg.title" xml:space="preserve">
+    <value>Ro'yxatdan o'tish</value>
+  </data>
+  <data name="reg.kicker" xml:space="preserve">
+    <value>Yangi o'quvchi</value>
+  </data>
+  <data name="reg.heading" xml:space="preserve">
+    <value>Haydovchilik imtihoniga biz bilan tayyorlaning</value>
+  </data>
+  <data name="reg.sub" xml:space="preserve">
+    <value>Ariza qoldiring — administrator siz bilan bog'lanadi va login-parol beradi.</value>
+  </data>
+  <data name="reg.step1" xml:space="preserve">
+    <value>Ism va telefon raqamingizni yozing</value>
+  </data>
+  <data name="reg.step2" xml:space="preserve">
+    <value>Administrator siz bilan bog'lanadi</value>
+  </data>
+  <data name="reg.step3" xml:space="preserve">
+    <value>Login-parol olib, o'qishni boshlaysiz</value>
+  </data>
+  <data name="reg.wantLogin" xml:space="preserve">
+    <value>Xohlagan login (ixtiyoriy)</value>
+  </data>
+  <data name="reg.note" xml:space="preserve">
+    <value>Izoh (ixtiyoriy)</value>
+  </data>
+  <data name="reg.notePh" xml:space="preserve">
+    <value>Masalan: qaysi toifa, qachon imtihon...</value>
+  </data>
+  <data name="reg.agree" xml:space="preserve">
+    <value>Shartlarga roziman:</value>
+  </data>
+  <data name="reg.send" xml:space="preserve">
+    <value>Ariza yuborish</value>
+  </data>
+  <data name="reg.haveLogin" xml:space="preserve">
+    <value>Login bormi?</value>
+  </data>
+  <data name="reg.noLogin" xml:space="preserve">
+    <value>Hali login yo'qmi?</value>
+  </data>
+  <data name="reg.errName" xml:space="preserve">
+    <value>Ism-familiyani to'liq yozing</value>
+  </data>
+  <data name="reg.errAgree" xml:space="preserve">
+    <value>Shartlarga roziligingizni belgilang</value>
+  </data>
+  <data name="reg.errMany" xml:space="preserve">
+    <value>Juda ko'p ariza yuborildi. Bir soatdan keyin urinib ko'ring.</value>
+  </data>
+  <data name="reg.doneTitle" xml:space="preserve">
+    <value>Arizangiz qabul qilindi!</value>
+  </data>
+  <data name="reg.againTitle" xml:space="preserve">
+    <value>Arizangiz allaqachon bor</value>
+  </data>
+  <data name="reg.doneText" xml:space="preserve">
+    <value>Administrator tez orada siz bilan bog'lanib, login va parol beradi.</value>
+  </data>
+  <data name="reg.adminTitle" xml:space="preserve">
+    <value>Ro'yxatdan o'tish arizalari</value>
+  </data>
+  <data name="reg.adminSub" xml:space="preserve">
+    <value>Saytdan qoldirilgan arizalar. «Login berish» — ma'lumotlar oldindan to'ldirilgan foydalanuvchi formasi ochiladi.</value>
+  </data>
+  <data name="reg.pendingN" xml:space="preserve">
+    <value>ta yangi</value>
+  </data>
+  <data name="reg.none" xml:space="preserve">
+    <value>Hali ariza yo'q</value>
+  </data>
+  <data name="reg.st_pending" xml:space="preserve">
+    <value>Yangi</value>
+  </data>
+  <data name="reg.st_approved" xml:space="preserve">
+    <value>Login berildi</value>
+  </data>
+  <data name="reg.st_rejected" xml:space="preserve">
+    <value>Rad etildi</value>
+  </data>
+  <data name="reg.giveLogin" xml:space="preserve">
+    <value>Login berish</value>
+  </data>
+  <data name="reg.reject" xml:space="preserve">
+    <value>Rad etish</value>
+  </data>
+  <data name="reg.rejectConfirm" xml:space="preserve">
+    <value>Ariza rad etilsinmi?</value>
+  </data>
+  <data name="reg.rejected" xml:space="preserve">
+    <value>Ariza rad etildi</value>
+  </data>
+  <data name="reg.openUser" xml:space="preserve">
+    <value>Foydalanuvchini ochish →</value>
+  </data>
+  <data name="reg.fromRequest" xml:space="preserve">
+    <value>Ro'yxatdan o'tish arizasidan: ma'lumotlar oldindan to'ldirildi. Parolni kiriting va saqlang — ariza yopiladi.</value>
+  </data>
+  <data name="notif.regNew" xml:space="preserve">
+    <value>Yangi ro'yxatdan o'tish arizasi: {name} ({phone})</value>
+  </data>
 </root>

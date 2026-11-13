@@ -4,6 +4,10 @@
     var top = Model.Rows.Where(r => r.Badge != null).Take(3).ToList();
     string Initials(string n) => string.Concat(n.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(x => char.ToUpperInvariant(x[0])));
     var tiers = new[] { (League.Good, "🏆"), (League.Average, "📘"), (League.Shame, "😬") };
+    // O'quvchi ko'rganda: havolalar yo'q (boshqalarning tahlili ochilmaydi), o'zi belgilanadi
+    var isAdmin = User.IsInRole(Roles.SuperAdmin);
+    var me = ViewData["ViewerId"] as int?;
+    string? Href(int id) => isAdmin ? "/Analytics/Student/" + id : null;
 }
 @if (Model.Total > 0)
 {
@@ -21,7 +25,7 @@
                 @foreach (var r in top)
                 {
                     var bk = "lg.badge_" + r.Badge;
-                    <a class="lg-pod lg-pod-@r.Rank" asp-controller="Analytics" asp-action="Student" asp-route-id="@r.UserId">
+                    <a class="lg-pod lg-pod-@r.Rank @(r.UserId == me ? "me" : "")" href="@Href(r.UserId)">
                         <span class="lg-pod-medal">@League.BadgeEmoji(r.Badge)</span>
                         <span class="lg-pod-av">@Initials(r.Name)</span>
                         <b class="lg-pod-name">@r.Name</b>
@@ -56,11 +60,11 @@
                         {
                             var r = list[i];
                             var why = "lg.why_" + r.Reason;
-                            <li class="@(i >= 8 ? "lg-more" : "")" @(i >= 8 ? "hidden" : "")>
-                                <a asp-controller="Analytics" asp-action="Student" asp-route-id="@r.UserId">
+                            <li class="@(i >= 8 && r.UserId != me ? "lg-more" : "") @(r.UserId == me ? "me" : "")" @(i >= 8 && r.UserId != me ? "hidden" : "")>
+                                <a href="@Href(r.UserId)">
                                     <span class="lg-av">@Initials(r.Name)</span>
                                     <span class="lg-who">
-                                        <b>@r.Name</b>
+                                        <b>@r.Name@if (r.UserId == me) {<span class="lg-you" data-i18n="lg.you">@L["lg.you"]</span>}</b>
                                         <small data-i18n="@why" data-i18n-args='{"n":@r.Week,"t":@r.Target,"p":@r.WeekAccuracy}'>@L.F(why, ("n", r.Week), ("t", r.Target), ("p", r.WeekAccuracy))</small>
                                     </span>
                                     <span class="lg-place">#@r.Rank</span>

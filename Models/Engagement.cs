@@ -51,3 +51,38 @@ public static class DeleteReasons
     /// <summary>1 hafta faol bo'lmagani uchun avtomatik o'chirildi.</summary>
     public const string Inactive = "inactive";
 }
+
+/// <summary>
+/// Saytdan ro'yxatdan o'tish arizasi. Hozircha login faqat admin tomonidan beriladi: admin arizani ko'rib,
+/// shu ma'lumotlar bilan foydalanuvchi yaratadi (ariza "approved") yoki rad etadi.
+/// </summary>
+public class RegistrationRequest
+{
+    public int Id { get; set; }
+
+    [MaxLength(128)]
+    public string FullName { get; set; } = "";
+
+    [MaxLength(32)]
+    public string Phone { get; set; } = "";
+
+    /// <summary>O'quvchi xohlagan login (admin o'zgartirishi mumkin).</summary>
+    [MaxLength(64)]
+    public string? Username { get; set; }
+
+    [MaxLength(500)]
+    public string? Note { get; set; }
+
+    [MaxLength(64)]
+    public string? Ip { get; set; }
+
+    /// <summary>pending, approved, rejected</summary>
+    [MaxLength(16)]
+    public string Status { get; set; } = "pending";
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? ResolvedAt { get; set; }
+
+    /// <summary>Ariza bo'yicha yaratilgan foydalanuvchi.</summary>
+    public int? UserId { get; set; }
+}

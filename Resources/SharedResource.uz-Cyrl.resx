@@ -4065,4 +4065,226 @@
   <data name="pub.inn" xml:space="preserve">
     <value>STIR</value>
   </data>
+  <data name="pr.title" xml:space="preserve">
+    <value>Кунлик таҳлилим</value>
+  </data>
+  <data name="pr.pageSub" xml:space="preserve">
+    <value>Ҳар куни сиз учун алоҳида: қанча ишладингиз, нимани ўргандингиз, нимани унутдингиз ва эртага нима қилиш керак.</value>
+  </data>
+  <data name="pr.sub" xml:space="preserve">
+    <value>Олдинги 7 кун билан таққосланган шахсий таҳлил</value>
+  </data>
+  <data name="pr.noWork" xml:space="preserve">
+    <value>Бу куни савол ишланмаган</value>
+  </data>
+  <data name="pr.moodGreat" xml:space="preserve">
+    <value>Ажойиб кун! Меъёр бажарилди, натижа аъло 🔥</value>
+  </data>
+  <data name="pr.moodGood" xml:space="preserve">
+    <value>Яхши кун — давом этинг 👍</value>
+  </data>
+  <data name="pr.moodWeak" xml:space="preserve">
+    <value>Хатолар кўп бўлди — қуйидаги тавсияларга эътибор беринг</value>
+  </data>
+  <data name="pr.kAnswered" xml:space="preserve">
+    <value>Ишланган саволлар</value>
+  </data>
+  <data name="pr.kAccuracy" xml:space="preserve">
+    <value>Тўғри жавоблар</value>
+  </data>
+  <data name="pr.kTime" xml:space="preserve">
+    <value>Ўқиш вақти</value>
+  </data>
+  <data name="pr.kNew" xml:space="preserve">
+    <value>Янги ўзлаштирилди</value>
+  </data>
+  <data name="pr.kNewSub" xml:space="preserve">
+    <value>биринчи марта тўғри</value>
+  </data>
+  <data name="pr.kForgot" xml:space="preserve">
+    <value>Унутилган</value>
+  </data>
+  <data name="pr.kForgotSub" xml:space="preserve">
+    <value>олдин тўғри эди, энди хато</value>
+  </data>
+  <data name="pr.kExam" xml:space="preserve">
+    <value>Реал имтиҳон</value>
+  </data>
+  <data name="pr.kExamSub" xml:space="preserve">
+    <value>ўтди / жами</value>
+  </data>
+  <data name="pr.tests" xml:space="preserve">
+    <value>та тест</value>
+  </data>
+  <data name="pr.vsWeek" xml:space="preserve">
+    <value>ҳафталик ўртачага нисбатан</value>
+  </data>
+  <data name="pr.recTitle" xml:space="preserve">
+    <value>Сиз учун тавсиялар</value>
+  </data>
+  <data name="pr.topicsTitle" xml:space="preserve">
+    <value>Мавзулар бўйича натижа</value>
+  </data>
+  <data name="pr.recStart" xml:space="preserve">
+    <value>Бу куни машғулот бўлмаган. Бугун камида 20 та савол ишланг — ҳар кунги кичик қадам имтиҳонда катта натижа беради.</value>
+  </data>
+  <data name="pr.recMore" xml:space="preserve">
+    <value>Кунлик меъёрга яна {v} та савол етмади. Эртага 20 тадан кам ишламанг.</value>
+  </data>
+  <data name="pr.recTopic" xml:space="preserve">
+    <value>Энг кўп хато «{v}» мавзусида. Мавзу видеосини кўриб, шу мавзу тестини қайта ишланг.</value>
+  </data>
+  <data name="pr.recForgot" xml:space="preserve">
+    <value>{v} та саволни унутгансиз (олдин тўғри эди). «Хатоларни тузатиш» бўлимида такрорланг.</value>
+  </data>
+  <data name="pr.recMistakes" xml:space="preserve">
+    <value>Ҳозир {v} та хато тузатилмаган. Ҳар куни улардан 10 тасини тузатинг.</value>
+  </data>
+  <data name="pr.recExam" xml:space="preserve">
+    <value>Натижангиз яхши — «Реал имтиҳон» режимида ўзингизни синаб кўринг.</value>
+  </data>
+  <data name="pr.recExamFail" xml:space="preserve">
+    <value>Реал имтиҳондан ўта олмадингиз. Хатоларни тузатиб, эртага яна уриниб кўринг.</value>
+  </data>
+  <data name="pr.recGreat" xml:space="preserve">
+    <value>Ҳаммаси аъло! Шу суръатни сақланг ва пешқадамлар қаторига чиқинг.</value>
+  </data>
+  <data name="lg.navTitle" xml:space="preserve">
+    <value>Рейтинг</value>
+  </data>
+  <data name="lg.you" xml:space="preserve">
+    <value>Сиз</value>
+  </data>
+  <data name="bill.onSale" xml:space="preserve">
+    <value>Сотувда</value>
+  </data>
+  <data name="bill.offSale" xml:space="preserve">
+    <value>Сотувда эмас</value>
+  </data>
+  <data name="bill.perMonthShort" xml:space="preserve">
+    <value>ой</value>
+  </data>
+  <data name="bill.soonTitle" xml:space="preserve">
+    <value>Онлайн тўлов тез кунда</value>
+  </data>
+  <data name="bill.soonText" xml:space="preserve">
+    <value>Паймеъга ариза берилган. Жавоб келгач тўлов уланади. Ҳозирча ўқувчилар тарифларни кўради, тўлов тугмаси «тез кунда» ҳолатида; логин фақат админ томонидан берилади.</value>
+  </data>
+  <data name="bill.waitPayme" xml:space="preserve">
+    <value>Пайме жавоби кутилмоқда</value>
+  </data>
+  <data name="pay.soonTitle" xml:space="preserve">
+    <value>Тўлов тез кунда ишга тушади</value>
+  </data>
+  <data name="pay.soonText" xml:space="preserve">
+    <value>Онлайн тўлов (Пайме) уланмоқда. Ҳозирча обуна учун админ билан боғланинг — у муддатингизни узайтиради.</value>
+  </data>
+  <data name="pay.soonShort" xml:space="preserve">
+    <value>— ҳозирча обуна учун админ билан боғланинг.</value>
+  </data>
+  <data name="pay.soonBtn" xml:space="preserve">
+    <value>Тез кунда</value>
+  </data>
+  <data name="reg.title" xml:space="preserve">
+    <value>Рўйхатдан ўтиш</value>
+  </data>
+  <data name="reg.kicker" xml:space="preserve">
+    <value>Янги ўқувчи</value>
+  </data>
+  <data name="reg.heading" xml:space="preserve">
+    <value>Ҳайдовчилик имтиҳонига биз билан тайёрланинг</value>
+  </data>
+  <data name="reg.sub" xml:space="preserve">
+    <value>Ариза қолдиринг — администратор сиз билан боғланади ва логин-парол беради.</value>
+  </data>
+  <data name="reg.step1" xml:space="preserve">
+    <value>Исм ва телефон рақамингизни ёзинг</value>
+  </data>
+  <data name="reg.step2" xml:space="preserve">
+    <value>Администратор сиз билан боғланади</value>
+  </data>
+  <data name="reg.step3" xml:space="preserve">
+    <value>Логин-парол олиб, ўқишни бошлайсиз</value>
+  </data>
+  <data name="reg.wantLogin" xml:space="preserve">
+    <value>Хоҳлаган логин (ихтиёрий)</value>
+  </data>
+  <data name="reg.note" xml:space="preserve">
+    <value>Изоҳ (ихтиёрий)</value>
+  </data>
+  <data name="reg.notePh" xml:space="preserve">
+    <value>Масалан: қайси тоифа, қачон имтиҳон...</value>
+  </data>
+  <data name="reg.agree" xml:space="preserve">
+    <value>Шартларга розиман:</value>
+  </data>
+  <data name="reg.send" xml:space="preserve">
+    <value>Ариза юбориш</value>
+  </data>
+  <data name="reg.haveLogin" xml:space="preserve">
+    <value>Логин борми?</value>
+  </data>
+  <data name="reg.noLogin" xml:space="preserve">
+    <value>Ҳали логин йўқми?</value>
+  </data>
+  <data name="reg.errName" xml:space="preserve">
+    <value>Исм-фамилияни тўлиқ ёзинг</value>
+  </data>
+  <data name="reg.errAgree" xml:space="preserve">
+    <value>Шартларга розилигингизни белгиланг</value>
+  </data>
+  <data name="reg.errMany" xml:space="preserve">
+    <value>Жуда кўп ариза юборилди. Бир соатдан кейин уриниб кўринг.</value>
+  </data>
+  <data name="reg.doneTitle" xml:space="preserve">
+    <value>Аризангиз қабул қилинди!</value>
+  </data>
+  <data name="reg.againTitle" xml:space="preserve">
+    <value>Аризангиз аллақачон бор</value>
+  </data>
+  <data name="reg.doneText" xml:space="preserve">
+    <value>Администратор тез орада сиз билан боғланиб, логин ва парол беради.</value>
+  </data>
+  <data name="reg.adminTitle" xml:space="preserve">
+    <value>Рўйхатдан ўтиш аризалари</value>
+  </data>
+  <data name="reg.adminSub" xml:space="preserve">
+    <value>Сайтдан қолдирилган аризалар. «Логин бериш» — маълумотлар олдиндан тўлдирилган фойдаланувчи формаси очилади.</value>
+  </data>
+  <data name="reg.pendingN" xml:space="preserve">
+    <value>та янги</value>
+  </data>
+  <data name="reg.none" xml:space="preserve">
+    <value>Ҳали ариза йўқ</value>
+  </data>
+  <data name="reg.st_pending" xml:space="preserve">
+    <value>Янги</value>
+  </data>
+  <data name="reg.st_approved" xml:space="preserve">
+    <value>Логин берилди</value>
+  </data>
+  <data name="reg.st_rejected" xml:space="preserve">
+    <value>Рад этилди</value>
+  </data>
+  <data name="reg.giveLogin" xml:space="preserve">
+    <value>Логин бериш</value>
+  </data>
+  <data name="reg.reject" xml:space="preserve">
+    <value>Рад этиш</value>
+  </data>
+  <data name="reg.rejectConfirm" xml:space="preserve">
+    <value>Ариза рад этилсинми?</value>
+  </data>
+  <data name="reg.rejected" xml:space="preserve">
+    <value>Ариза рад этилди</value>
+  </data>
+  <data name="reg.openUser" xml:space="preserve">
+    <value>Фойдаланувчини очиш →</value>
+  </data>
+  <data name="reg.fromRequest" xml:space="preserve">
+    <value>Рўйхатдан ўтиш аризасидан: маълумотлар олдиндан тўлдирилди. Паролни киритинг ва сақланг — ариза ёпилади.</value>
+  </data>
+  <data name="notif.regNew" xml:space="preserve">
+    <value>Янги рўйхатдан ўтиш аризаси: {name} ({phone})</value>
+  </data>
 </root>

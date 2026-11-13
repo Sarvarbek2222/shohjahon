@@ -258,6 +258,21 @@ CREATE TABLE `UserDeviceRequests` (
   KEY `IX_Messages_FromAdmin_ReadAt` (`FromAdmin`, `ReadAt`),
   CONSTRAINT `FK_Messages_Users` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4"),
+            ("RegistrationRequests", @"CREATE TABLE `RegistrationRequests` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `FullName` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+  `Phone` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
+  `Username` varchar(64) CHARACTER SET utf8mb4 NULL,
+  `Note` varchar(500) CHARACTER SET utf8mb4 NULL,
+  `Ip` varchar(64) CHARACTER SET utf8mb4 NULL,
+  `Status` varchar(16) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'pending',
+  `CreatedAt` datetime(6) NOT NULL,
+  `ResolvedAt` datetime(6) NULL,
+  `UserId` int NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_RegistrationRequests_Status_CreatedAt` (`Status`, `CreatedAt`),
+  KEY `IX_RegistrationRequests_Phone` (`Phone`)
+) CHARACTER SET utf8mb4"),
             ("TopicLessonQuestions", @"CREATE TABLE `TopicLessonQuestions` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `LessonId` int NOT NULL,

@@ -1,0 +1,99 @@
+@model PersonalDay
+@* Shaxsiy kunlik tahlil (o'quvchi kabineti va admin → o'quvchi sahifasi uchun umumiy). ViewData["DayUrl"] — kun tanlash havolasi asosi. *@
+@{
+    var baseUrl = ViewData["DayUrl"] as string ?? "/Cabinet/Daily";
+    var sep = baseUrl.Contains('?') ? "&" : "?";
+    var today = PersonalReport.LocalToday();
+    string Dur(int s) => s >= 3600 ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}" : $"{s / 60}:{s % 60:00}";
+    string DayLabel(DateTime d) => d == today ? L["msg.today"] : d == today.AddDays(-1) ? L["msg.yesterday"] : d.ToString("dd.MM");
+    int Delta(int a, int b) => a - b;
+    var m = Model;
+}
+<div class="pr-days">
+    @for (int i = 0; i < 14; i++)
+    {
+        var d = today.AddDays(-i);
+        <a class="pr-day @(d == m.Day ? "on" : "")" href="@baseUrl@sep@("d=" + d.ToString("yyyy-MM-dd"))">@DayLabel(d)</a>
+    }
+</div>
+
+<div class="pr-hero ca-card">
+    <div>
+        <div class="ca-eyebrow">@m.Day.ToString("dd.MM.yyyy") · @DayLabel(m.Day)</div>
+        @if (m.Answered == 0)
+        {
+            <h2 class="pr-title" data-i18n="pr.noWork">@L["pr.noWork"]</h2>
+        }
+        else
+        {
+            var mood = m.Accuracy >= 85 && m.Answered >= League.DailyTarget ? "pr.moodGreat" : m.Accuracy >= 70 ? "pr.moodGood" : "pr.moodWeak";
+            <h2 class="pr-title" data-i18n="@mood">@L[mood]</h2>
+        }
+        <p class="ca-muted" style="margin:6px 0 0;" data-i18n="pr.sub">@L["pr.sub"]</p>
+    </div>
+    @if (m.League != null)
+    {
+        <div class="pr-rank">
+            <b>@(League.BadgeEmoji(m.League.Badge) ?? "#" + m.League.Rank)</b>
+            <small>@L.F("lg.ofN", ("n", m.LeagueTotal))</small>
+            <span class="lg-chip lg-@m.League.Tier" data-i18n="@("lg.tier_" + m.League.Tier)">@L["lg.tier_" + m.League.Tier]</span>
+        </div>
+    }
+</div>
+
+<div class="pr-kpis">
+    <div class="pr-kpi"><span data-i18n="pr.kAnswered">@L["pr.kAnswered"]</span><b>@m.Answered</b>
+        <small class="@(Delta(m.Answered, m.AvgAnswered7) >= 0 ? "up" : "down")">@(Delta(m.Answered, m.AvgAnswered7) >= 0 ? "▲" : "▼") @Math.Abs(Delta(m.Answered, m.AvgAnswered7)) <span data-i18n="pr.vsWeek">@L["pr.vsWeek"]</span></small></div>
+    <div class="pr-kpi"><span data-i18n="pr.kAccuracy">@L["pr.kAccuracy"]</span><b style="color:@Score.Color(m.Accuracy)">@(m.Answered > 0 ? m.Accuracy + "%" : "—")</b>
+        @if (m.Answered > 0 && m.AvgAccuracy7 > 0) { <small class="@(m.Accuracy >= m.AvgAccuracy7 ? "up" : "down")">@(m.Accuracy >= m.AvgAccuracy7 ? "▲" : "▼") @Math.Abs(m.Accuracy - m.AvgAccuracy7)% <span data-i18n="pr.vsWeek">@L["pr.vsWeek"]</span></small> }</div>
+    <div class="pr-kpi"><span data-i18n="pr.kTime">@L["pr.kTime"]</span><b>@Dur(m.Seconds)</b><small>@m.Tests <span data-i18n="pr.tests">@L["pr.tests"]</span></small></div>
+    <div class="pr-kpi"><span data-i18n="pr.kNew">@L["pr.kNew"]</span><b style="color:var(--ca-ok)">+@m.NewlyMastered</b><small data-i18n="pr.kNewSub">@L["pr.kNewSub"]</small></div>
+    <div class="pr-kpi"><span data-i18n="pr.kForgot">@L["pr.kForgot"]</span><b style="color:@(m.Forgotten > 0 ? "var(--ca-bad)" : "inherit")">@m.Forgotten</b><small data-i18n="pr.kForgotSub">@L["pr.kForgotSub"]</small></div>
+    <div class="pr-kpi"><span data-i18n="pr.kExam">@L["pr.kExam"]</span><b>@m.ExamsPassed / @m.Exams</b><small data-i18n="pr.kExamSub">@L["pr.kExamSub"]</small></div>
+</div>
+
+<div class="ca-grid ca-grid-2 ca-section">
+    <div class="ca-card">
+        <div class="ca-card-head"><h3 class="ca-card-title">💡 <span data-i18n="pr.recTitle">@L["pr.recTitle"]</span></h3></div>
+        <ul class="pr-recs">
+            @foreach (var r in m.Recommendations)
+            {
+                var v = r.Value is string topic ? L.Topic(topic) : r.Value?.ToString() ?? "";
+                <li>@L.F(r.Key, ("v", v))</li>
+            }
+        </ul>
+    </div>
+    <div class="ca-card">
+        <div class="ca-card-head"><h3 class="ca-card-title">📚 <span data-i18n="pr.topicsTitle">@L["pr.topicsTitle"]</span></h3></div>
+        @if (m.Topics.Count == 0) { <p class="ca-muted ca-small" data-i18n="an.noData">@L["an.noData"]</p> }
+        @foreach (var t in m.Topics.Take(8))
+        {
+            <div class="ca-topic">
+                <div style="min-width:0;"><div class="ca-topic-name">@L.Topic(t.Topic)</div><div class="ca-topic-meta">@t.Correct / @t.Answered</div></div>
+                <b style="color:@Score.Color(t.Accuracy);">@t.Accuracy%</b>
+                <div class="ca-bar @Score.BarClass(t.Accuracy)"><i style="width:@t.Accuracy%"></i></div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .pr-days { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; }
+    .pr-day { flex: 0 0 auto; padding: 6px 12px; border-radius: 999px; background: var(--ca-surface); border: 1px solid var(--ca-border); color: var(--ca-muted); text-decoration: none; font-size: 13px; font-weight: 600; }
+    .pr-day.on { color: #fff; background: linear-gradient(135deg, #ff2d4a, #ff7a45); border-color: transparent; }
+    .pr-hero { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; background: linear-gradient(135deg, rgba(255,45,74,.12), var(--ca-surface) 60%); }
+    .pr-title { margin: 6px 0 0; font-size: 1.35rem; }
+    .pr-rank { display: grid; justify-items: center; gap: 4px; padding: 12px 18px; border-radius: 16px; background: var(--ca-surface-2); border: 1px solid var(--ca-border); }
+    .pr-rank b { font-size: 1.8rem; font-weight: 900; line-height: 1; }
+    .pr-rank small { color: var(--ca-muted); font-size: 12px; }
+    .pr-kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .pr-kpi { display: grid; gap: 2px; padding: 14px; border-radius: 16px; background: var(--ca-surface); border: 1px solid var(--ca-border); }
+    .pr-kpi span { font-size: 12px; color: var(--ca-muted); }
+    .pr-kpi b { font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+    .pr-kpi small { font-size: 11.5px; color: var(--ca-muted); }
+    .pr-kpi small.up { color: var(--ca-ok); }
+    .pr-kpi small.down { color: var(--ca-bad); }
+    .pr-recs { margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.5; }
+    @@media (max-width: 1000px) { .pr-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @@media (max-width: 520px) { .pr-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

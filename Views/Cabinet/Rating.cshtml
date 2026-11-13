@@ -1,0 +1,24 @@
+@model LeagueData
+@* Reyting — barcha o'quvchilar; o'quvchining o'zi belgilangan *@
+@{
+    ViewData["TitleKey"] = "lg.navTitle";
+    ViewData["Title"] = L["lg.navTitle"];
+    var uid = int.TryParse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value, out var x) ? x : 0;
+    ViewData["ViewerId"] = (int?)uid;
+    var me = Model.Of(uid);
+}
+<div class="ca-page-head">
+    <div>
+        <div class="ca-eyebrow" data-i18n="nav.myCabinet">@L["nav.myCabinet"]</div>
+        <h1 class="ca-h1">🏅 <span data-i18n="lg.navTitle">@L["lg.navTitle"]</span></h1>
+        @if (me != null)
+        {
+            <p class="ca-sub" data-i18n="lg.youAre" data-i18n-args='{"r":@me.Rank}'>@L.F("lg.youAre", ("r", me.Rank))</p>
+        }
+    </div>
+</div>
+<partial name="_LeagueBoard" model="Model" view-data="ViewData" />
+<script>
+    // O'zini topib, ekranga olib keladi
+    (function () { var el = document.querySelector(".lg-list li.me"); if (el) el.scrollIntoView({ block: "center" }); })();
+</script>

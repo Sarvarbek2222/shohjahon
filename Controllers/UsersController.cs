@@ -60,7 +60,48 @@ public class UsersController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create() => View("Form", new UserForm { Role = Roles.User, IsActive = true, AccessMode = UserForm.Unlimited, AccessUnit = "m", AccessAmount = 1 });
+    public async Task<IActionResult> Create(int? req)
+    {
+        var form = new UserForm { Role = Roles.User, IsActive = true, AccessMode = UserForm.Unlimited, AccessUnit = "m", AccessAmount = 1 };
+        // Ro'yxatdan o'tish arizasidan: ism, telefon va xohlagan login oldindan to'ldiriladi
+        if (req is int rid && await _db.RegistrationRequests.AsNoTracking().FirstOrDefaultAsync(r => r.Id == rid && r.Status == "pending") is { } r)
+        {
+            form.RequestId = r.Id;
+            form.FullName = r.FullName;
+            form.Phone = UserService.FormatPhone(r.Phone);
+            form.Username = r.Username;
+        }
+        return View("Form", form);
+    }
+
+    /// <summary>Ro'yxatdan o'tish arizalari (saytdan). "Login berish" — shu ma'lumotlar bilan foydalanuvchi yaratish.</summary>
+    [HttpGet]
+    public async Task<IActionResult> Requests()
+    {
+        var list = await _db.RegistrationRequests.AsNoTracking()
+            .Where(r => r.Status == "pending" || r.CreatedAt > DateTime.UtcNow.AddDays(-30))
+            .OrderBy(r => r.Status != "pending").ThenByDescending(r => r.CreatedAt).Take(300).ToListAsync();
+        return View(list);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> RejectRequest(int id)
+    {
+        var r = await _db.RegistrationRequests.FirstOrDefaultAsync(x => x.Id == id && x.Status == "pending");
+        if (r != null)
+        {
+            r.Status = "rejected";
+            r.ResolvedAt = DateTime.UtcNow;
+            await _db.SaveChangesAsync();
+            TempData["MsgKey"] = "reg.rejected";
+        }
+        return RedirectToAction(nameof(Requests));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> RequestCount() =>
+        Json(new { count = await _db.RegistrationRequests.CountAsync(r => r.Status == "pending") });
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -83,6 +124,15 @@ public class UsersController : Controller
         _users.SetPassword(user, form.Password!);
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
+
+        // Ariza bo'yicha yaratildi — ariza yopiladi
+        if (form.RequestId is int rid && await _db.RegistrationRequests.FirstOrDefaultAsync(r => r.Id == rid) is { } req)
+        {
+            req.Status = "approved";
+            req.ResolvedAt = DateTime.UtcNow;
+            req.UserId = user.Id;
+            await _db.SaveChangesAsync();
+        }
 
         TempData["MsgKey"] = "users.created";
         return RedirectToAction(nameof(Index));
@@ -390,6 +440,9 @@ public class UserForm
     public string? ConfirmPassword { get; set; }
 
     public bool IsNew => Id == 0;
+
+    /// <summary>Ro'yxatdan o'tish arizasidan yaratilayotgan bo'lsa — ariza raqami.</summary>
+    public int? RequestId { get; set; }
 
     // Kirish muddati: "keep" — o'zgartirmaslik, "set" — hozirdan boshlab N kun/oy, "unlimited" — cheksiz
     public const string Keep = "keep";

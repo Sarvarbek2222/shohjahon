@@ -46,6 +46,12 @@
             <a class="ca-nav-link @Active("Saved")" asp-controller="Cabinet" asp-action="Saved">
                 <span aria-hidden="true" style="width:18px;text-align:center;">★</span> <span data-i18n="sv.title">@L["sv.title"]</span>
             </a>
+            <a class="ca-nav-link @Active("Daily")" asp-controller="Cabinet" asp-action="Daily">
+                <span aria-hidden="true" style="width:18px;text-align:center;">🧠</span> <span data-i18n="pr.title">@L["pr.title"]</span>
+            </a>
+            <a class="ca-nav-link @Active("Rating")" asp-controller="Cabinet" asp-action="Rating">
+                <span aria-hidden="true" style="width:18px;text-align:center;">🏅</span> <span data-i18n="lg.navTitle">@L["lg.navTitle"]</span>
+            </a>
             <a class="ca-nav-link @Active("Analysis")" asp-controller="Cabinet" asp-action="Analysis">
                 @Icons.Sparkles <span data-i18n="cab.analysis">@L["cab.analysis"]</span>
             </a>
@@ -70,7 +76,7 @@
             <a class="ca-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Live" ? "active" : "")" asp-controller="Live" asp-action="Index">
                 @Icons.Play <span data-i18n="lv.title">@L["lv.title"]</span>
             </a>
-            @if (Subs.VisibleToUsers && !User.IsInRole(Roles.SuperAdmin))
+            @if (!User.IsInRole(Roles.SuperAdmin))
             {
                 <a class="ca-nav-link @(controller.Equals("Pay", StringComparison.OrdinalIgnoreCase) ? "active" : "")" href="/Pay/My">
                     @Icons.Shield <span data-i18n="pay.title">@L["pay.title"]</span>

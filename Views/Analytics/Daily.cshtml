@@ -1,0 +1,19 @@
+@model PersonalDay
+@{
+    Layout = "_AdminLayout";
+    var u = (AppUser)ViewBag.Student;
+    ViewData["TitleKey"] = "pr.title";
+    ViewData["Title"] = (u.FullName ?? u.Username) + " — " + L["pr.title"];
+    ViewData["DayUrl"] = "/Analytics/Daily/" + u.Id;
+}
+<div class="ca-body-embed">
+    <div class="ca-page-head">
+        <div>
+            <a class="ca-link" href="/Analytics/Student/@u.Id">← @(u.FullName ?? u.Username)</a>
+            <h1 class="ca-h1" style="margin-top:8px;">🧠 <span data-i18n="pr.title">@L["pr.title"]</span></h1>
+            <p class="ca-sub">@@@u.Username</p>
+        </div>
+        <a class="ca-btn ca-btn-ghost" href="/Messages/Admin?u=@u.Id">💬 <span data-i18n="msg.title">@L["msg.title"]</span></a>
+    </div>
+    <partial name="Cabinet/_PersonalDay" model="Model" />
+</div>
