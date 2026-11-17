@@ -4353,4 +4353,112 @@
   <data name="qs.statsPending" xml:space="preserve">
     <value>Статистика сложности считается — обновите страницу через несколько секунд. Пока показаны сначала новые вопросы.</value>
   </data>
+  <data name="ar.nav" xml:space="preserve">
+    <value>Самые сложные вопросы</value>
+  </data>
+  <data name="ar.title" xml:space="preserve">
+    <value>Арена сложных вопросов</value>
+  </data>
+  <data name="ar.kicker" xml:space="preserve">
+    <value>Арена сложных вопросов</value>
+  </data>
+  <data name="ar.period" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="ar.p_day" xml:space="preserve">
+    <value>День</value>
+  </data>
+  <data name="ar.p_week" xml:space="preserve">
+    <value>Неделя</value>
+  </data>
+  <data name="ar.p_month" xml:space="preserve">
+    <value>Месяц</value>
+  </data>
+  <data name="ar.h_day" xml:space="preserve">
+    <value>Самые сложные вопросы дня</value>
+  </data>
+  <data name="ar.h_week" xml:space="preserve">
+    <value>Самые сложные вопросы недели</value>
+  </data>
+  <data name="ar.h_month" xml:space="preserve">
+    <value>Самые сложные вопросы месяца</value>
+  </data>
+  <data name="ar.sub" xml:space="preserve">
+    <value>Вопросы, на которых ученики ошибались чаще всего. Решите их — и на экзамене вас ничто не удивит.</value>
+  </data>
+  <data name="ar.sQuestions" xml:space="preserve">
+    <value>сложнейших вопросов</value>
+  </data>
+  <data name="ar.sAvgWrong" xml:space="preserve">
+    <value>ошибок в среднем</value>
+  </data>
+  <data name="ar.sAnswers" xml:space="preserve">
+    <value>ответов проанализировано</value>
+  </data>
+  <data name="ar.sYou" xml:space="preserve">
+    <value>решено вами</value>
+  </data>
+  <data name="ar.challenge" xml:space="preserve">
+    <value>Вызов: решите все {n}?</value>
+  </data>
+  <data name="ar.challengeSub" xml:space="preserve">
+    <value>Все вопросы в одном тесте</value>
+  </data>
+  <data name="ar.conquered" xml:space="preserve">
+    <value>🏆 Арена покорена — все сложные вопросы решены!</value>
+  </data>
+  <data name="ar.progress" xml:space="preserve">
+    <value>Вы решили {s} из {n} — продолжайте!</value>
+  </data>
+  <data name="ar.emptyTitle" xml:space="preserve">
+    <value>Сложных вопросов пока нет</value>
+  </data>
+  <data name="ar.empty" xml:space="preserve">
+    <value>За этот период накоплено мало ответов. Выберите другой период или загляните позже.</value>
+  </data>
+  <data name="ar.boss_day" xml:space="preserve">
+    <value>👑 Самый сложный вопрос дня</value>
+  </data>
+  <data name="ar.boss_week" xml:space="preserve">
+    <value>👑 Самый сложный вопрос недели</value>
+  </data>
+  <data name="ar.boss_month" xml:space="preserve">
+    <value>👑 Самый сложный вопрос месяца</value>
+  </data>
+  <data name="ar.wrongOf" xml:space="preserve">
+    <value>Решали {n} учеников — {p}% ответов неверные</value>
+  </data>
+  <data name="ar.trap" xml:space="preserve">
+    <value>Ловушка:</value>
+  </data>
+  <data name="ar.trapPct" xml:space="preserve">
+    <value>выбрали {p}%</value>
+  </data>
+  <data name="ar.mineOk" xml:space="preserve">
+    <value>✓ Вы решили</value>
+  </data>
+  <data name="ar.mineBad" xml:space="preserve">
+    <value>✕ Вы ошиблись — попробуйте снова</value>
+  </data>
+  <data name="ar.solveIt" xml:space="preserve">
+    <value>Решить</value>
+  </data>
+  <data name="ar.dist" xml:space="preserve">
+    <value>Распределение ответов</value>
+  </data>
+  <data name="ar.answersShort" xml:space="preserve">
+    <value>ответов</value>
+  </data>
+  <data name="ar.people" xml:space="preserve">
+    <value>учеников</value>
+  </data>
+  <data name="ar.note_day" xml:space="preserve">
+    <value>По ответам за последние 24 часа (вопросы, решённые не менее 3 раз). Обновляется каждые 10 минут.</value>
+  </data>
+  <data name="ar.note_week" xml:space="preserve">
+    <value>По ответам за последние 7 дней (вопросы, решённые не менее 5 раз). Обновляется каждые 10 минут.</value>
+  </data>
+  <data name="ar.note_month" xml:space="preserve">
+    <value>По ответам за последние 30 дней (вопросы, решённые не менее 10 раз). Обновляется каждые 10 минут.</value>
+  </data>
 </root>

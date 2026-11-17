@@ -49,6 +49,9 @@
             <a class="ca-nav-link @Active("Daily")" asp-controller="Cabinet" asp-action="Daily">
                 <span aria-hidden="true" style="width:18px;text-align:center;">🧠</span> <span data-i18n="pr.title">@L["pr.title"]</span>
             </a>
+            <a class="ca-nav-link @(controller.Equals("Arena", StringComparison.OrdinalIgnoreCase) ? "active" : "")" href="/Arena">
+                <span aria-hidden="true" style="width:18px;text-align:center;">🔥</span> <span data-i18n="ar.nav">@L["ar.nav"]</span>
+            </a>
             <a class="ca-nav-link @Active("Rating")" asp-controller="Cabinet" asp-action="Rating">
                 <span aria-hidden="true" style="width:18px;text-align:center;">🏅</span> <span data-i18n="lg.navTitle">@L["lg.navTitle"]</span>
             </a>

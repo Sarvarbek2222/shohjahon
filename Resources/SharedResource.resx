@@ -4353,4 +4353,112 @@
   <data name="qs.statsPending" xml:space="preserve">
     <value>Qiyinlik statistikasi hisoblanmoqda — bir necha soniyadan keyin sahifani yangilang. Hozircha yangi savollar birinchi ko'rsatilmoqda.</value>
   </data>
+  <data name="ar.nav" xml:space="preserve">
+    <value>Eng qiyin savollar</value>
+  </data>
+  <data name="ar.title" xml:space="preserve">
+    <value>Qiyinlar arenasi</value>
+  </data>
+  <data name="ar.kicker" xml:space="preserve">
+    <value>Qiyinlar arenasi</value>
+  </data>
+  <data name="ar.period" xml:space="preserve">
+    <value>Davr</value>
+  </data>
+  <data name="ar.p_day" xml:space="preserve">
+    <value>Kun</value>
+  </data>
+  <data name="ar.p_week" xml:space="preserve">
+    <value>Hafta</value>
+  </data>
+  <data name="ar.p_month" xml:space="preserve">
+    <value>Oy</value>
+  </data>
+  <data name="ar.h_day" xml:space="preserve">
+    <value>Kunning eng qiyin savollari</value>
+  </data>
+  <data name="ar.h_week" xml:space="preserve">
+    <value>Haftaning eng qiyin savollari</value>
+  </data>
+  <data name="ar.h_month" xml:space="preserve">
+    <value>Oyning eng qiyin savollari</value>
+  </data>
+  <data name="ar.sub" xml:space="preserve">
+    <value>O'quvchilar eng ko'p adashgan savollar. Ularni yeching — imtihonda sizni hech narsa hayron qoldirmaydi.</value>
+  </data>
+  <data name="ar.sQuestions" xml:space="preserve">
+    <value>eng qiyin savol</value>
+  </data>
+  <data name="ar.sAvgWrong" xml:space="preserve">
+    <value>o'rtacha xato</value>
+  </data>
+  <data name="ar.sAnswers" xml:space="preserve">
+    <value>javob tahlil qilindi</value>
+  </data>
+  <data name="ar.sYou" xml:space="preserve">
+    <value>siz yechgansiz</value>
+  </data>
+  <data name="ar.challenge" xml:space="preserve">
+    <value>Chaqiriq: {n} tasini yecha olasizmi?</value>
+  </data>
+  <data name="ar.challengeSub" xml:space="preserve">
+    <value>Hammasini bitta testda ishlash</value>
+  </data>
+  <data name="ar.conquered" xml:space="preserve">
+    <value>🏆 Arena zabt etildi — barcha qiyin savollar yechilgan!</value>
+  </data>
+  <data name="ar.progress" xml:space="preserve">
+    <value>Siz {s} / {n} tasini yechgansiz — davom eting!</value>
+  </data>
+  <data name="ar.emptyTitle" xml:space="preserve">
+    <value>Hozircha qiyin savol yo'q</value>
+  </data>
+  <data name="ar.empty" xml:space="preserve">
+    <value>Bu davrda yetarlicha javob to'planmagan. Boshqa davrni tanlang yoki keyinroq qayting.</value>
+  </data>
+  <data name="ar.boss_day" xml:space="preserve">
+    <value>👑 Kunning eng qiyin savoli</value>
+  </data>
+  <data name="ar.boss_week" xml:space="preserve">
+    <value>👑 Haftaning eng qiyin savoli</value>
+  </data>
+  <data name="ar.boss_month" xml:space="preserve">
+    <value>👑 Oyning eng qiyin savoli</value>
+  </data>
+  <data name="ar.wrongOf" xml:space="preserve">
+    <value>{n} ta o'quvchi ishladi — javoblarning {p}% xato</value>
+  </data>
+  <data name="ar.trap" xml:space="preserve">
+    <value>Tuzoq javob:</value>
+  </data>
+  <data name="ar.trapPct" xml:space="preserve">
+    <value>{p}% shuni tanlagan</value>
+  </data>
+  <data name="ar.mineOk" xml:space="preserve">
+    <value>✓ Siz yechgansiz</value>
+  </data>
+  <data name="ar.mineBad" xml:space="preserve">
+    <value>✕ Siz adashgansiz — qayta urining</value>
+  </data>
+  <data name="ar.solveIt" xml:space="preserve">
+    <value>Yechish</value>
+  </data>
+  <data name="ar.dist" xml:space="preserve">
+    <value>Javoblar taqsimoti</value>
+  </data>
+  <data name="ar.answersShort" xml:space="preserve">
+    <value>javob</value>
+  </data>
+  <data name="ar.people" xml:space="preserve">
+    <value>o'quvchi</value>
+  </data>
+  <data name="ar.note_day" xml:space="preserve">
+    <value>Oxirgi 24 soat ichidagi javoblar bo'yicha (kamida 3 marta ishlangan savollar). Har 10 daqiqada yangilanadi.</value>
+  </data>
+  <data name="ar.note_week" xml:space="preserve">
+    <value>Oxirgi 7 kun ichidagi javoblar bo'yicha (kamida 5 marta ishlangan savollar). Har 10 daqiqada yangilanadi.</value>
+  </data>
+  <data name="ar.note_month" xml:space="preserve">
+    <value>Oxirgi 30 kun ichidagi javoblar bo'yicha (kamida 10 marta ishlangan savollar). Har 10 daqiqada yangilanadi.</value>
+  </data>
 </root>

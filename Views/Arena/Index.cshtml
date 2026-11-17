@@ -1,0 +1,216 @@
+@model HardSet
+@* 🔥 Qiyinlar arenasi: kun / hafta / oyning eng qiyin savollari — admin va o'quvchilar uchun *@
+@{
+    var isAdmin = User.IsInRole(Roles.SuperAdmin);
+    Layout = isAdmin ? "_AdminLayout" : "_CabinetLayout";
+    ViewData["TitleKey"] = "ar.title";
+    ViewData["Title"] = L["ar.title"];
+    var mine = (Dictionary<int, bool>)ViewBag.Mine;
+    var p = Model.Period;
+    var items = Model.Items;
+    var hero = items.FirstOrDefault();
+    var solved = items.Count(i => mine.TryGetValue(i.Q.Id, out var ok) && ok);
+    var tried = items.Count(i => mine.ContainsKey(i.Q.Id));
+    var allIds = string.Join(",", items.Select(i => i.Q.Id));
+    var avgWrong = items.Count > 0 ? (int)Math.Round(items.Average(i => i.WrongPct)) : 0;
+    var solvedPct = items.Count > 0 ? (int)Math.Round(100.0 * solved / items.Count) : 0;
+    string Img(Question q, int w) => string.IsNullOrEmpty(q.ImageUrl) ? $"/images/avprsm.png?w={w}" : $"/uploads/{q.ImageUrl}?w={w}";
+    string Heat(int pct) => pct >= 75 ? "inferno" : pct >= 55 ? "hot" : pct >= 35 ? "warm" : "mild";
+    var periodKey = "ar.p_" + p;
+}
+<div class="@(isAdmin ? "ca-body-embed" : "") ar">
+    <section class="ar-hero">
+        <div class="ar-hero-bg" aria-hidden="true"></div>
+        <div class="ar-hero-top">
+            <div>
+                <div class="ar-kicker">🔥 <span data-i18n="ar.kicker">@L["ar.kicker"]</span></div>
+                <h1 class="ar-title"><span data-i18n="@("ar.h_" + p)">@L["ar.h_" + p]</span></h1>
+                <p class="ar-sub" data-i18n="ar.sub">@L["ar.sub"]</p>
+            </div>
+            <nav class="ar-tabs" aria-label="@L["ar.period"]">
+                @foreach (var per in HardQuestions.Periods)
+                {
+                    var k = "ar.p_" + per;
+                    <a href="?p=@per" class="@(per == p ? "on" : "")" data-i18n="@k">@L[k]</a>
+                }
+            </nav>
+        </div>
+
+        <div class="ar-stats">
+            <div class="ar-stat"><b>@items.Count</b><span data-i18n="ar.sQuestions">@L["ar.sQuestions"]</span></div>
+            <div class="ar-stat"><b>@avgWrong%</b><span data-i18n="ar.sAvgWrong">@L["ar.sAvgWrong"]</span></div>
+            <div class="ar-stat"><b>@Model.TotalAnswers</b><span data-i18n="ar.sAnswers">@L["ar.sAnswers"]</span></div>
+            @if (!isAdmin && items.Count > 0)
+            {
+                <div class="ar-stat ar-me">
+                    <div class="ar-ring" style="--p:@solvedPct"><b>@solved</b><small>/@items.Count</small></div>
+                    <span data-i18n="ar.sYou">@L["ar.sYou"]</span>
+                </div>
+            }
+        </div>
+
+        @if (items.Count > 0)
+        {
+            <div class="ar-cta">
+                <a class="ar-go" href="/Cabinet/Practice?ids=@allIds">
+                    <span class="ar-go-ic">⚔</span>
+                    <span><b data-i18n="ar.challenge" data-i18n-args='{"n":@items.Count}'>@L.F("ar.challenge", ("n", items.Count))</b><small data-i18n="ar.challengeSub">@L["ar.challengeSub"]</small></span>
+                </a>
+                @if (!isAdmin && tried > 0)
+                {
+                    <span class="ar-badge-line">
+                        @if (solved == items.Count) { <span data-i18n="ar.conquered">@L["ar.conquered"]</span> }
+                        else { <span data-i18n="ar.progress" data-i18n-args='{"s":@solved,"n":@items.Count}'>@L.F("ar.progress", ("s", solved), ("n", items.Count))</span> }
+                    </span>
+                }
+            </div>
+        }
+    </section>
+
+    @if (items.Count == 0)
+    {
+        <div class="ca-card ca-empty" style="margin-top:16px;"><div class="ca-empty-icon" style="font-size:40px;">🧊</div><h3 data-i18n="ar.emptyTitle">@L["ar.emptyTitle"]</h3><p data-i18n="ar.empty">@L["ar.empty"]</p></div>
+    }
+    else
+    {
+        @* 1-o'rin — katta karta *@
+        <article class="ar-boss @Heat(hero!.WrongPct)">
+            <div class="ar-boss-img"><img src="@Img(hero.Q, 640)" alt="" loading="lazy" /><span class="ar-crown">👑 #1</span></div>
+            <div class="ar-boss-body">
+                <div class="ar-boss-kicker" data-i18n="@("ar.boss_" + p)">@L["ar.boss_" + p]</div>
+                <h2>@L.Pick(hero.Q.QuestionUZ, hero.Q.QuestionRU, hero.Q.QuestionUZK)</h2>
+                <div class="ar-meter"><div class="ar-meter-bar"><i style="width:@hero.WrongPct%"></i></div><b>@hero.WrongPct%</b></div>
+                <p class="ar-meter-cap" data-i18n="ar.wrongOf" data-i18n-args='{"p":@hero.WrongPct,"n":@hero.People}'>@L.F("ar.wrongOf", ("p", hero.WrongPct), ("n", hero.People))</p>
+                @if (hero.Trap != null)
+                {
+                    <div class="ar-trap">🪤 <span><b data-i18n="ar.trap">@L["ar.trap"]</b> «@L.Pick(hero.Trap.Option.OptionUZ, hero.Trap.Option.OptionRU, hero.Trap.Option.OptionUZK)» — <span data-i18n="ar.trapPct" data-i18n-args='{"p":@hero.TrapPct}'>@L.F("ar.trapPct", ("p", hero.TrapPct))</span></span></div>
+                }
+                <div class="ar-actions">
+                    @if (!isAdmin && mine.TryGetValue(hero.Q.Id, out var hok))
+                    {
+                        <span class="ar-mine @(hok ? "ok" : "bad")" data-i18n="@(hok ? "ar.mineOk" : "ar.mineBad")">@L[hok ? "ar.mineOk" : "ar.mineBad"]</span>
+                    }
+                    <a class="ca-btn ca-btn-primary" href="/Cabinet/Practice?ids=@hero.Q.Id">⚔ <span data-i18n="ar.solveIt">@L["ar.solveIt"]</span></a>
+                    @if (isAdmin) { <a class="ca-btn ca-btn-ghost" href="/Question/Edit/@hero.Q.Id">✎ <span data-i18n="qs.edit">@L["qs.edit"]</span></a> }
+                </div>
+            </div>
+        </article>
+
+        <div class="ar-grid">
+            @foreach (var it in items.Skip(1))
+            {
+                var has = mine.TryGetValue(it.Q.Id, out var ok);
+                <article class="ar-card @Heat(it.WrongPct) @(has ? (ok ? "done" : "fail") : "")">
+                    <div class="ar-card-top">
+                        <span class="ar-rank">#@it.Rank</span>
+                        <span class="ar-heat">🔥 @it.WrongPct%</span>
+                        @if (has) { <span class="ar-mine @(ok ? "ok" : "bad")">@(ok ? "✓" : "✕")</span> }
+                    </div>
+                    <div class="ar-card-main">
+                        <img src="@Img(it.Q, 200)" alt="" loading="lazy" />
+                        <p>@L.Pick(it.Q.QuestionUZ, it.Q.QuestionRU, it.Q.QuestionUZK)</p>
+                    </div>
+                    <div class="ar-meter sm"><div class="ar-meter-bar"><i style="width:@it.WrongPct%"></i></div></div>
+                    @if (it.Trap != null)
+                    {
+                        <div class="ar-trap sm">🪤 «@L.Pick(it.Trap.Option.OptionUZ, it.Trap.Option.OptionRU, it.Trap.Option.OptionUZK)» · @it.TrapPct%</div>
+                    }
+                    @if (isAdmin)
+                    {
+                        <details class="ar-dist">
+                            <summary data-i18n="ar.dist">@L["ar.dist"]</summary>
+                            @foreach (var o in it.Options)
+                            {
+                                <div class="ar-dist-row @(o.Option.IsCorrect ? "ok" : "")"><span>@(o.Option.IsCorrect ? "✓ " : "")@L.Pick(o.Option.OptionUZ, o.Option.OptionRU, o.Option.OptionUZK)</span><b>@it.Pct(o)%</b></div>
+                            }
+                            <small class="ca-muted">@it.Answers <span data-i18n="ar.answersShort">@L["ar.answersShort"]</span> · @it.People <span data-i18n="ar.people">@L["ar.people"]</span></small>
+                        </details>
+                    }
+                    <div class="ar-card-acts">
+                        <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Cabinet/Practice?ids=@it.Q.Id">⚔ <span data-i18n="ar.solveIt">@L["ar.solveIt"]</span></a>
+                        @if (isAdmin) { <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Question/Edit/@it.Q.Id">✎</a> }
+                    </div>
+                </article>
+            }
+        </div>
+        <p class="ca-muted ca-small" style="margin-top:14px;" data-i18n="@("ar.note_" + p)">@L["ar.note_" + p]</p>
+    }
+</div>
+
+<style>
+    .ar { --heat: #ff7a45; }
+    .ar-hero { position: relative; overflow: hidden; border-radius: 24px; padding: 26px; border: 1px solid rgba(255,122,69,.35);
+        background: radial-gradient(900px 300px at 0% 0%, rgba(255,45,74,.28), transparent 60%), radial-gradient(700px 300px at 100% 100%, rgba(255,170,0,.18), transparent 60%), #0e0f17; }
+    .ar-hero-bg { position: absolute; inset: auto -60px -80px auto; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,122,69,.35), transparent 65%); filter: blur(10px); animation: arPulse 4s ease-in-out infinite; pointer-events: none; }
+    @@keyframes arPulse { 50% { transform: scale(1.15); opacity: .7; } }
+    .ar-hero-top { position: relative; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+    .ar-kicker { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #ffb36b; }
+    .ar-title { margin: 6px 0 4px; font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 900; letter-spacing: -.02em; background: linear-gradient(90deg, #fff, #ffc59a 60%, #ff7a45); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .ar-sub { margin: 0; color: #c9cbd8; max-width: 620px; }
+    .ar-tabs { display: flex; gap: 4px; padding: 5px; border-radius: 14px; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.08); }
+    .ar-tabs a { padding: 8px 16px; border-radius: 10px; color: #b8bccc; text-decoration: none; font-weight: 700; font-size: 14px; transition: background .15s, color .15s; }
+    .ar-tabs a.on { color: #fff; background: linear-gradient(135deg, #ff2d4a, #ff7a45); box-shadow: 0 6px 18px rgba(255,45,74,.4); }
+    .ar-stats { position: relative; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .ar-stat { display: grid; gap: 2px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); min-width: 130px; }
+    .ar-stat b { font-size: 1.6rem; font-weight: 900; }
+    .ar-stat span { font-size: 12px; color: #9da2b6; }
+    .ar-me { display: flex; align-items: center; gap: 12px; }
+    .ar-ring { --p: 0; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(#22c55e calc(var(--p) * 1%), rgba(255,255,255,.08) 0); position: relative; }
+    .ar-ring::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: #13141d; }
+    .ar-ring b, .ar-ring small { position: relative; }
+    .ar-ring b { font-size: 1.1rem; line-height: 1; }
+    .ar-ring small { font-size: 10px; color: #9da2b6; margin-top: -14px; }
+    .ar-cta { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 20px; }
+    .ar-go { display: inline-flex; align-items: center; gap: 14px; padding: 14px 22px 14px 14px; border-radius: 18px; text-decoration: none; color: #fff;
+        background: linear-gradient(135deg, #ff2d4a, #ff7a45); box-shadow: 0 14px 34px rgba(255,45,74,.45); transition: transform .15s, box-shadow .15s; }
+    .ar-go:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 18px 44px rgba(255,45,74,.55); }
+    .ar-go-ic { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; background: rgba(0,0,0,.2); font-size: 22px; }
+    .ar-go b { display: block; font-size: 1.05rem; }
+    .ar-go small { display: block; opacity: .85; font-size: 12.5px; }
+    .ar-badge-line { padding: 8px 14px; border-radius: 999px; background: rgba(34,197,94,.12); color: #86efac; font-weight: 700; font-size: 13px; }
+
+    .ar-boss { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr); gap: 0; margin-top: 18px; border-radius: 22px; overflow: hidden; background: var(--ca-surface); border: 1px solid rgba(255,122,69,.45); box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+    .ar-boss-img { position: relative; min-height: 240px; background: #000; }
+    .ar-boss-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .ar-crown { position: absolute; left: 14px; top: 14px; padding: 6px 12px; border-radius: 999px; font-weight: 900; background: linear-gradient(135deg, #ffe58a, #f5b301); color: #1a1300; box-shadow: 0 6px 18px rgba(245,179,1,.45); }
+    .ar-boss-body { padding: 22px 24px; display: grid; gap: 10px; align-content: start; }
+    .ar-boss-kicker { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; color: #ffb36b; }
+    .ar-boss h2 { margin: 0; font-size: 1.25rem; line-height: 1.4; }
+    .ar-meter { display: flex; align-items: center; gap: 12px; }
+    .ar-meter b { font-size: 1.8rem; font-weight: 900; color: #ff7a45; min-width: 72px; text-align: right; }
+    .ar-meter-bar { flex: 1; height: 12px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
+    .ar-meter-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f5a524, #ff2d4a); }
+    .ar-meter.sm .ar-meter-bar { height: 6px; }
+    .ar-meter-cap { margin: -4px 0 0; color: var(--ca-muted); font-size: 13px; }
+    .ar-trap { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; background: rgba(255,45,74,.10); border: 1px dashed rgba(255,45,74,.45); font-size: 13.5px; line-height: 1.45; }
+    .ar-trap.sm { font-size: 12px; padding: 6px 9px; }
+    .ar-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 4px; }
+    .ar-mine { font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+    .ar-mine.ok { color: #86efac; background: rgba(34,197,94,.14); }
+    .ar-mine.bad { color: #fda4af; background: rgba(239,68,68,.14); }
+
+    .ar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-top: 16px; }
+    .ar-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 18px; background: var(--ca-surface); border: 1px solid var(--ca-border); transition: transform .18s, box-shadow .18s, border-color .18s; }
+    .ar-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(0,0,0,.4); }
+    .ar-card.inferno { border-color: rgba(255,45,74,.55); }
+    .ar-card.hot { border-color: rgba(255,122,69,.45); }
+    .ar-card.done { box-shadow: inset 0 0 0 1px rgba(34,197,94,.45); }
+    .ar-card-top { display: flex; align-items: center; gap: 8px; }
+    .ar-rank { font-weight: 900; font-size: 1.1rem; color: #fff; }
+    .ar-heat { margin-left: auto; font-weight: 800; font-size: 13px; padding: 3px 10px; border-radius: 999px; background: rgba(255,122,69,.14); color: #ffb36b; }
+    .inferno .ar-heat { background: rgba(255,45,74,.18); color: #ff8095; }
+    .ar-card-main { display: grid; grid-template-columns: 92px 1fr; gap: 10px; align-items: start; }
+    .ar-card-main img { width: 92px; height: 64px; object-fit: cover; border-radius: 10px; background: #000; }
+    .ar-card-main p { margin: 0; font-size: 13.5px; line-height: 1.45; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .ar-card-acts { display: flex; gap: 6px; margin-top: auto; }
+    .ar-dist summary { cursor: pointer; font-size: 12.5px; color: var(--ca-muted); }
+    .ar-dist-row { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; padding: 4px 0; border-bottom: 1px solid var(--ca-border); }
+    .ar-dist-row.ok { color: var(--ca-ok); }
+    @@media (max-width: 760px) {
+        .ar-hero { padding: 18px; }
+        .ar-boss { grid-template-columns: 1fr; }
+        .ar-boss-img { min-height: 200px; }
+        .ar-tabs { width: 100%; }
+        .ar-tabs a { flex: 1; text-align: center; }
+    }
+</style>

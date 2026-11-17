@@ -4353,4 +4353,112 @@
   <data name="qs.statsPending" xml:space="preserve">
     <value>Қийинлик статистикаси ҳисобланмоқда — бир неча сониядан кейин саҳифани янгиланг. Ҳозирча янги саволлар биринчи кўрсатилмоқда.</value>
   </data>
+  <data name="ar.nav" xml:space="preserve">
+    <value>Энг қийин саволлар</value>
+  </data>
+  <data name="ar.title" xml:space="preserve">
+    <value>Қийинлар аренаси</value>
+  </data>
+  <data name="ar.kicker" xml:space="preserve">
+    <value>Қийинлар аренаси</value>
+  </data>
+  <data name="ar.period" xml:space="preserve">
+    <value>Давр</value>
+  </data>
+  <data name="ar.p_day" xml:space="preserve">
+    <value>Кун</value>
+  </data>
+  <data name="ar.p_week" xml:space="preserve">
+    <value>Ҳафта</value>
+  </data>
+  <data name="ar.p_month" xml:space="preserve">
+    <value>Ой</value>
+  </data>
+  <data name="ar.h_day" xml:space="preserve">
+    <value>Куннинг энг қийин саволлари</value>
+  </data>
+  <data name="ar.h_week" xml:space="preserve">
+    <value>Ҳафтанинг энг қийин саволлари</value>
+  </data>
+  <data name="ar.h_month" xml:space="preserve">
+    <value>Ойнинг энг қийин саволлари</value>
+  </data>
+  <data name="ar.sub" xml:space="preserve">
+    <value>Ўқувчилар энг кўп адашган саволлар. Уларни ечинг — имтиҳонда сизни ҳеч нарса ҳайрон қолдирмайди.</value>
+  </data>
+  <data name="ar.sQuestions" xml:space="preserve">
+    <value>энг қийин савол</value>
+  </data>
+  <data name="ar.sAvgWrong" xml:space="preserve">
+    <value>ўртача хато</value>
+  </data>
+  <data name="ar.sAnswers" xml:space="preserve">
+    <value>жавоб таҳлил қилинди</value>
+  </data>
+  <data name="ar.sYou" xml:space="preserve">
+    <value>сиз ечгансиз</value>
+  </data>
+  <data name="ar.challenge" xml:space="preserve">
+    <value>Чақириқ: {n} тасини еча оласизми?</value>
+  </data>
+  <data name="ar.challengeSub" xml:space="preserve">
+    <value>Ҳаммасини битта тестда ишлаш</value>
+  </data>
+  <data name="ar.conquered" xml:space="preserve">
+    <value>🏆 Арена забт этилди — барча қийин саволлар ечилган!</value>
+  </data>
+  <data name="ar.progress" xml:space="preserve">
+    <value>Сиз {s} / {n} тасини ечгансиз — давом этинг!</value>
+  </data>
+  <data name="ar.emptyTitle" xml:space="preserve">
+    <value>Ҳозирча қийин савол йўқ</value>
+  </data>
+  <data name="ar.empty" xml:space="preserve">
+    <value>Бу даврда етарлича жавоб тўпланмаган. Бошқа даврни танланг ёки кейинроқ қайтинг.</value>
+  </data>
+  <data name="ar.boss_day" xml:space="preserve">
+    <value>👑 Куннинг энг қийин саволи</value>
+  </data>
+  <data name="ar.boss_week" xml:space="preserve">
+    <value>👑 Ҳафтанинг энг қийин саволи</value>
+  </data>
+  <data name="ar.boss_month" xml:space="preserve">
+    <value>👑 Ойнинг энг қийин саволи</value>
+  </data>
+  <data name="ar.wrongOf" xml:space="preserve">
+    <value>{n} та ўқувчи ишлади — жавобларнинг {p}% хато</value>
+  </data>
+  <data name="ar.trap" xml:space="preserve">
+    <value>Тузоқ жавоб:</value>
+  </data>
+  <data name="ar.trapPct" xml:space="preserve">
+    <value>{p}% шуни танлаган</value>
+  </data>
+  <data name="ar.mineOk" xml:space="preserve">
+    <value>✓ Сиз ечгансиз</value>
+  </data>
+  <data name="ar.mineBad" xml:space="preserve">
+    <value>✕ Сиз адашгансиз — қайта урининг</value>
+  </data>
+  <data name="ar.solveIt" xml:space="preserve">
+    <value>Ечиш</value>
+  </data>
+  <data name="ar.dist" xml:space="preserve">
+    <value>Жавоблар тақсимоти</value>
+  </data>
+  <data name="ar.answersShort" xml:space="preserve">
+    <value>жавоб</value>
+  </data>
+  <data name="ar.people" xml:space="preserve">
+    <value>ўқувчи</value>
+  </data>
+  <data name="ar.note_day" xml:space="preserve">
+    <value>Охирги 24 соат ичидаги жавоблар бўйича (камида 3 марта ишланган саволлар). Ҳар 10 дақиқада янгиланади.</value>
+  </data>
+  <data name="ar.note_week" xml:space="preserve">
+    <value>Охирги 7 кун ичидаги жавоблар бўйича (камида 5 марта ишланган саволлар). Ҳар 10 дақиқада янгиланади.</value>
+  </data>
+  <data name="ar.note_month" xml:space="preserve">
+    <value>Охирги 30 кун ичидаги жавоблар бўйича (камида 10 марта ишланган саволлар). Ҳар 10 дақиқада янгиланади.</value>
+  </data>
 </root>
