@@ -191,6 +191,23 @@ public class MessagesController : Controller
         return Ok(new { deleted = n });
     }
 
+    /// <summary>Admin: tanlangan o'quvchilarning (yoki all=true — barcha) yozishmalarini butunlay o'chirish.</summary>
+    [Authorize(Roles = Roles.SuperAdmin)]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteThreads(int[]? users, bool all = false)
+    {
+        var q = _db.Messages.AsQueryable();
+        if (!all)
+        {
+            var list = (users ?? Array.Empty<int>()).Distinct().Take(5000).ToList();
+            if (list.Count == 0) return BadRequest(new { error = "none" });
+            q = q.Where(m => list.Contains(m.UserId));
+        }
+        var n = await q.ExecuteDeleteAsync();
+        return Ok(new { deleted = n });
+    }
+
     /// <summary>O'qilmagan xabarlar soni (menyudagi belgi uchun).</summary>
     [HttpGet]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]

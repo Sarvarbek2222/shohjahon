@@ -161,3 +161,10 @@
 .ch-log.selecting .ch-msg.sel { outline: 2px solid #ff2d4a; outline-offset: 2px; }
 .ch-log.selecting .ch-msg.sel::before { background: #ff2d4a; border-color: #ff2d4a; }
 .ch-log.selecting { padding-left: 34px; padding-right: 34px; }
+
+/* Xabarlar: o'quvchilarni tanlab suhbatlarni o'chirish */
+.ch-pickbar { border-top: 0; }
+.ch-pickbar label.ch-tool-n { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; margin-right: 0; }
+.ch-pickbar label.ch-tool-n[hidden], .ch-pickbar .ch-tool-n[hidden] { display: none; }
+.ch-pick { width: 17px; height: 17px; accent-color: #ff2d4a; flex: 0 0 auto; pointer-events: none; }
+.ch-thread.picked { background: rgba(255, 45, 74, .12); }

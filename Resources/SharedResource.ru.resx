@@ -4332,4 +4332,22 @@
   <data name="reg.deletedN" xml:space="preserve">
     <value>Удалено заявок: {n}</value>
   </data>
+  <data name="msg.pickUsers" xml:space="preserve">
+    <value>Выбрать учеников</value>
+  </data>
+  <data name="msg.wipeAll" xml:space="preserve">
+    <value>Удалить все переписки</value>
+  </data>
+  <data name="msg.deleteChats" xml:space="preserve">
+    <value>Удалить переписки</value>
+  </data>
+  <data name="msg.deleteChatsConfirm" xml:space="preserve">
+    <value>Удалить всю переписку с выбранными учениками ({n}) у обеих сторон? Это нельзя отменить.</value>
+  </data>
+  <data name="msg.wipeAllConfirm" xml:space="preserve">
+    <value>Удалить ВСЕ переписки со ВСЕМИ учениками? Это нельзя отменить.</value>
+  </data>
+  <data name="msg.chatsDeleted" xml:space="preserve">
+    <value>Удалено сообщений: {n}</value>
+  </data>
 </root>

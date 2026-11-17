@@ -211,6 +211,7 @@
         var search = document.querySelector("[data-thread-search]"), pane = document.querySelector("[data-pane]");
         var head = pane.querySelector("[data-pane-name]"), link = pane.querySelector("[data-pane-link]");
         var current = null, openId = cfg.open || null, timer = null;
+        var picking = false, picked = {}, shown = [];
 
         function initials(n) { return (n || "?").split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join(""); }
         function render(rows) {
@@ -219,9 +220,10 @@
                 var p = document.createElement("p"); p.className = "ca-muted ca-small"; p.style.padding = "14px";
                 p.textContent = t(search.value.trim() ? "msg.noFound" : "msg.noThreads"); listEl.appendChild(p); return;
             }
+            shown = rows;
             rows.forEach(function (r) {
                 var a = document.createElement("a");
-                a.className = "ch-thread" + (r.id === openId ? " active" : "");
+                a.className = "ch-thread" + (r.id === openId ? " active" : "") + (picking && picked[r.id] ? " picked" : "");
                 a.href = "?u=" + r.id;
                 a.innerHTML = '<span class="lg-av"></span><span class="ch-thread-mid"><b></b><small></small></span><span class="ch-thread-side"></span>';
                 a.querySelector(".lg-av").textContent = initials(r.name);
@@ -231,7 +233,16 @@
                 var side = a.querySelector(".ch-thread-side");
                 if (r.last) { var tm = document.createElement("span"); tm.textContent = hm(new Date(r.last.at)); side.appendChild(tm); }
                 if (r.unread) { var u = document.createElement("span"); u.className = "ch-unread"; u.textContent = r.unread; side.appendChild(u); }
-                a.addEventListener("click", function (e) { e.preventDefault(); open(r.id, r.name, r.username); });
+                if (picking) {
+                    var cb = document.createElement("input");
+                    cb.type = "checkbox"; cb.className = "ch-pick"; cb.checked = !!picked[r.id]; cb.tabIndex = -1;
+                    a.insertBefore(cb, a.firstChild);
+                }
+                a.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    if (picking) { if (picked[r.id]) delete picked[r.id]; else picked[r.id] = 1; render(shown); pickBar(); return; }
+                    open(r.id, r.name, r.username);
+                });
                 listEl.appendChild(a);
             });
         }
@@ -253,6 +264,60 @@
             listEl.querySelectorAll(".ch-thread").forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "?u=" + id); });
             pane.querySelector("textarea").focus();
         }
+        // ── O'quvchilarni tanlab, ularning butun yozishmasini o'chirish ──
+        var bar = document.createElement("div");
+        bar.className = "ch-tools ch-pickbar";
+        bar.innerHTML =
+            '<button type="button" class="ch-tool" data-p="start"></button>' +
+            '<button type="button" class="ch-tool danger" data-p="wipe"></button>' +
+            '<label class="ch-tool-n" data-p-allwrap hidden><input type="checkbox" data-p="all" /> <span></span></label>' +
+            '<span class="ch-tool-n" data-p-n hidden></span>' +
+            '<button type="button" class="ch-tool danger" data-p="del" hidden></button>' +
+            '<button type="button" class="ch-tool" data-p="cancel" hidden></button>';
+        listEl.parentNode.insertBefore(bar, listEl);
+        function q(sel) { return bar.querySelector(sel); }
+        function pickBar() {
+            var n = Object.keys(picked).length;
+            q('[data-p="start"]').textContent = "☑ " + t("msg.pickUsers");
+            q('[data-p="wipe"]').textContent = "🗑 " + t("msg.wipeAll");
+            q('[data-p="del"]').textContent = "🗑 " + t("msg.deleteChats");
+            q('[data-p="cancel"]').textContent = t("users.clearSel");
+            q("[data-p-allwrap] span").textContent = t("users.selectAll");
+            q("[data-p-n]").textContent = t("msg.selectedN", { n: n });
+            q('[data-p="start"]').hidden = picking; q('[data-p="wipe"]').hidden = picking;
+            q("[data-p-allwrap]").hidden = !picking; q("[data-p-n]").hidden = !picking;
+            q('[data-p="del"]').hidden = !picking; q('[data-p="del"]').disabled = n === 0;
+            q('[data-p="cancel"]').hidden = !picking;
+            q('[data-p="all"]').checked = picking && shown.length > 0 && shown.every(function (r) { return picked[r.id]; });
+        }
+        function delThreads(params, msg) {
+            if (!confirm(msg)) return;
+            post("/Messages/DeleteThreads", params).then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+                .then(function (d) {
+                    if (openId && (params.all || picked[openId])) { var lg = pane.querySelector("[data-log]"); lg.querySelectorAll(".ch-msg, .ch-day").forEach(function (el) { el.remove(); }); }
+                    picked = {}; picking = false; pickBar(); load();
+                    alert(t("msg.chatsDeleted", { n: d.deleted }));
+                }).catch(function () { alert(t("msg.deleteFail")); });
+        }
+        bar.addEventListener("click", function (e) {
+            var b = e.target.closest("[data-p]");
+            if (!b) return;
+            var p = b.getAttribute("data-p");
+            if (p === "start") { picking = true; picked = {}; render(shown); pickBar(); }
+            else if (p === "cancel") { picking = false; picked = {}; render(shown); pickBar(); }
+            else if (p === "all") { if (b.checked) shown.forEach(function (r) { picked[r.id] = 1; }); else picked = {}; render(shown); pickBar(); }
+            else if (p === "del") {
+                var ids = Object.keys(picked);
+                if (!ids.length) return;
+                var params = new URLSearchParams();
+                ids.forEach(function (id) { params.append("users", id); });
+                delThreads(params, t("msg.deleteChatsConfirm", { n: ids.length }));
+            }
+            else if (p === "wipe") delThreads({ all: "true" }, t("msg.wipeAllConfirm"));
+        });
+        document.addEventListener("i18n:change", pickBar);
+        pickBar();
+
         var deb = null;
         search.addEventListener("input", function () { clearTimeout(deb); deb = setTimeout(load, 250); });
         var back = pane.querySelector("[data-back]");

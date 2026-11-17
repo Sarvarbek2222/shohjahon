@@ -4332,4 +4332,22 @@
   <data name="reg.deletedN" xml:space="preserve">
     <value>{n} ta ariza o'chirildi</value>
   </data>
+  <data name="msg.pickUsers" xml:space="preserve">
+    <value>O'quvchilarni tanlash</value>
+  </data>
+  <data name="msg.wipeAll" xml:space="preserve">
+    <value>Barcha suhbatlarni o'chirish</value>
+  </data>
+  <data name="msg.deleteChats" xml:space="preserve">
+    <value>Suhbatlarini o'chirish</value>
+  </data>
+  <data name="msg.deleteChatsConfirm" xml:space="preserve">
+    <value>Tanlangan {n} ta o'quvchi bilan butun yozishma ikkala tomonda ham o'chirilsinmi? Qaytarib bo'lmaydi.</value>
+  </data>
+  <data name="msg.wipeAllConfirm" xml:space="preserve">
+    <value>BARCHA o'quvchilar bilan BARCHA yozishmalar o'chirilsinmi? Qaytarib bo'lmaydi.</value>
+  </data>
+  <data name="msg.chatsDeleted" xml:space="preserve">
+    <value>{n} ta xabar o'chirildi</value>
+  </data>
 </root>
