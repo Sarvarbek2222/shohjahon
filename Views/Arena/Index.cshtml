@@ -49,7 +49,7 @@
             }
         </div>
 
-        @if (items.Count > 0)
+        @if (items.Count > 0 && !isAdmin)
         {
             <div class="ar-cta">
                 <a class="ar-go" href="/Cabinet/Practice?ids=@allIds">
@@ -95,7 +95,7 @@
                     {
                         <span class="ar-mine @(hok ? "ok" : "bad")" data-i18n="@(hok ? "ar.mineOk" : "ar.mineBad")">@L[hok ? "ar.mineOk" : "ar.mineBad"]</span>
                     }
-                    <a class="ca-btn ca-btn-primary" href="/Cabinet/Practice?ids=@hero.Q.Id">⚔ <span data-i18n="ar.solveIt">@L["ar.solveIt"]</span></a>
+                    @if (!isAdmin) { <a class="ca-btn ca-btn-primary" href="/Cabinet/Practice?ids=@hero.Q.Id">⚔ <span data-i18n="ar.solveIt">@L["ar.solveIt"]</span></a> }
                     @if (isAdmin) { <a class="ca-btn ca-btn-ghost" href="/Question/Edit/@hero.Q.Id">✎ <span data-i18n="qs.edit">@L["qs.edit"]</span></a> }
                 </div>
             </div>
@@ -132,7 +132,7 @@
                         </details>
                     }
                     <div class="ar-card-acts">
-                        <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Cabinet/Practice?ids=@it.Q.Id">⚔ <span data-i18n="ar.solveIt">@L["ar.solveIt"]</span></a>
+                        @if (!isAdmin) { <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Cabinet/Practice?ids=@it.Q.Id">⚔ <span data-i18n="ar.solveIt">@L["ar.solveIt"]</span></a> }
                         @if (isAdmin) { <a class="ca-btn ca-btn-ghost ca-btn-sm" href="/Question/Edit/@it.Q.Id">✎</a> }
                     </div>
                 </article>

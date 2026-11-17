@@ -212,6 +212,26 @@ app.UseWhen(ctx => ctx.Request.Path.StartsWithSegments("/hubs"), b => b.Use(asyn
     await next();
 }));
 
+// Admin test ishlamaydi: test sahifalari (real imtihon, biletlar, mavzular, marafon, xatolar, saqlanganlar) —
+// admin paneliga qaytariladi; natija saqlash so'rovi ham rad etiladi
+app.Use(async (ctx, next) =>
+{
+    if (ctx.User.IsInRole(Roles.SuperAdmin))
+    {
+        if (TestTypes.Detect(ctx.Request) != null && HttpMethods.IsGet(ctx.Request.Method))
+        {
+            ctx.Response.Redirect("/Question/Index1");
+            return;
+        }
+        if (ctx.Request.Path.StartsWithSegments("/Cabinet/SaveResult"))
+        {
+            ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return;
+        }
+    }
+    await next();
+});
+
 app.MapHub<LiveHub>("/hubs/live");
 
 app.MapControllerRoute(

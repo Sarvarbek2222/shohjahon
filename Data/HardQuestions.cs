@@ -51,16 +51,23 @@ public static class HardQuestions
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var bank = scope.ServiceProvider.GetRequiredService<QuestionBank>();
             db.Database.SetCommandTimeout(300);
+            // Har bir davr o'ziga xos: haftalik ro'yxatda kunlikdagilar, oylikda kunlik va haftalikdagilar takrorlanmaydi
+            var shown = new HashSet<int>();
             foreach (var p in Periods)
             {
-                try { cache.Set(Key(p), await BuildAsync(db, bank, p), TimeSpan.FromMinutes(30)); }
+                try
+                {
+                    var set = await BuildAsync(db, bank, p, shown);
+                    foreach (var it in set.Items) shown.Add(it.Q.Id);
+                    cache.Set(Key(p), set, TimeSpan.FromMinutes(30));
+                }
                 catch (Exception ex) { log.LogWarning(ex, "Eng qiyin savollar ({Period}) hisoblanmadi", p); }
             }
         }
         finally { Gate.Release(); }
     }
 
-    private static async Task<HardSet> BuildAsync(AppDbContext db, QuestionBank bank, string period)
+    private static async Task<HardSet> BuildAsync(AppDbContext db, QuestionBank bank, string period, HashSet<int> exclude)
     {
         var (span, min) = Spec(period);
         var since = DateTime.UtcNow - span;
@@ -82,7 +89,7 @@ public static class HardQuestions
         }
 
         var items = rows.GroupBy(r => r.QuestionId)
-            .Where(g => byId.ContainsKey(g.Key))
+            .Where(g => byId.ContainsKey(g.Key) && !exclude.Contains(g.Key))
             .Select(g => new { Id = g.Key, N = g.Count(), W = g.Count(r => !r.Ok), Rows = g })
             .Where(x => x.N >= min && x.W > 0)
             .OrderByDescending(x => (double)x.W / x.N).ThenByDescending(x => x.W).ThenBy(x => x.Id)

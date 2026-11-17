@@ -4456,15 +4456,18 @@
     <value>Oxirgi 24 soat ichidagi javoblar bo'yicha (kamida 3 marta ishlangan savollar). Har 10 daqiqada yangilanadi.</value>
   </data>
   <data name="ar.note_week" xml:space="preserve">
-    <value>Oxirgi 7 kun ichidagi javoblar bo'yicha (kamida 5 marta ishlangan savollar). Har 10 daqiqada yangilanadi.</value>
+    <value>Oxirgi 7 kun ichidagi javoblar bo'yicha (kamida 5 marta ishlangan savollar). Kunlik ro'yxatdagi savollar bu yerda takrorlanmaydi. Har 10 daqiqada yangilanadi.</value>
   </data>
   <data name="ar.note_month" xml:space="preserve">
-    <value>Oxirgi 30 kun ichidagi javoblar bo'yicha (kamida 10 marta ishlangan savollar). Har 10 daqiqada yangilanadi.</value>
+    <value>Oxirgi 30 kun ichidagi javoblar bo'yicha (kamida 10 marta ishlangan savollar). Kunlik va haftalik ro'yxatdagi savollar bu yerda takrorlanmaydi. Har 10 daqiqada yangilanadi.</value>
   </data>
   <data name="ar.preparing" xml:space="preserve">
     <value>Arena tayyorlanmoqda…</value>
   </data>
   <data name="ar.preparingSub" xml:space="preserve">
     <value>Eng qiyin savollar fonda hisoblanmoqda. Sahifa bir necha soniyada o'zi yangilanadi.</value>
+  </data>
+  <data name="admin.takeTest" xml:space="preserve">
+    <value>Test ishlash</value>
   </data>
 </root>
