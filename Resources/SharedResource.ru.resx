@@ -4461,4 +4461,10 @@
   <data name="ar.note_month" xml:space="preserve">
     <value>По ответам за последние 30 дней (вопросы, решённые не менее 10 раз). Обновляется каждые 10 минут.</value>
   </data>
+  <data name="ar.preparing" xml:space="preserve">
+    <value>Арена готовится…</value>
+  </data>
+  <data name="ar.preparingSub" xml:space="preserve">
+    <value>Самые сложные вопросы считаются в фоне. Страница обновится сама через несколько секунд.</value>
+  </data>
 </root>

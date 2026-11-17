@@ -39,6 +39,7 @@ builder.Services.AddScoped<LiveService>();
 builder.Services.AddHostedService<LiveReminderService>();
 // Kunlik aqlli tahlil: har kuni 00:00 dan keyin o'tgan kun uchun
 builder.Services.AddHostedService<DailyReportService>();
+builder.Services.AddHostedService<HardQuestionsWarmup>(); // "Qiyinlar arenasi" fonda, har 10 daqiqada
 builder.Services.AddHostedService<UserCleanupService>(); // 1 hafta faol bo'lmaganlar → o'chirilganlar (3 kun tiklash)
 builder.Services.AddScoped<AiAnalysisService>();
 

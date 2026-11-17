@@ -22,9 +22,17 @@ public class ArenaController : Controller
         _cache = cache;
     }
 
-    public async Task<IActionResult> Index(string? p)
+    public async Task<IActionResult> Index(string? p, [FromServices] IServiceScopeFactory scopes, [FromServices] ILogger<ArenaController> log)
     {
-        var set = await HardQuestions.GetAsync(_db, _bank, _cache, p ?? "week");
+        p = HardQuestions.Periods.Contains(p) ? p! : "week";
+        // Natija fonda tayyorlanadi — sahifa hech qachon kutmaydi; hali tayyor bo'lmasa "tayyorlanmoqda" ko'rsatiladi
+        var set = HardQuestions.Peek(_cache, scopes, log, p);
+        if (set == null)
+        {
+            ViewBag.Mine = new Dictionary<int, bool>();
+            ViewBag.Preparing = true;
+            return View(new HardSet(p, DateTime.UtcNow, new(), 0, DateTime.UtcNow));
+        }
         var mine = new Dictionary<int, bool>(); // savol → oxirgi javobi to'g'rimi
         if (!User.IsInRole(Roles.SuperAdmin) && int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var uid) && set.Items.Count > 0)
         {

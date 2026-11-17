@@ -4461,4 +4461,10 @@
   <data name="ar.note_month" xml:space="preserve">
     <value>Oxirgi 30 kun ichidagi javoblar bo'yicha (kamida 10 marta ishlangan savollar). Har 10 daqiqada yangilanadi.</value>
   </data>
+  <data name="ar.preparing" xml:space="preserve">
+    <value>Arena tayyorlanmoqda…</value>
+  </data>
+  <data name="ar.preparingSub" xml:space="preserve">
+    <value>Eng qiyin savollar fonda hisoblanmoqda. Sahifa bir necha soniyada o'zi yangilanadi.</value>
+  </data>
 </root>

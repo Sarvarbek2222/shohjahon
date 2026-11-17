@@ -309,6 +309,17 @@ CREATE TABLE `UserDeviceRequests` (
             }
         }
 
+        // Davr bo'yicha hisoblar (arena, haftalik reyting, kunlik tahlil) uchun — urinish tugagan vaqt indeksi
+        try
+        {
+            if (!await IndexExistsAsync(conn, "TestAttempts", "IX_TestAttempts_FinishedAt"))
+            {
+                await ExecAsync(conn, "CREATE INDEX `IX_TestAttempts_FinishedAt` ON `TestAttempts` (`FinishedAt`)", 600);
+                log.LogInformation("TestAttempts.FinishedAt indeksi qo'shildi");
+            }
+        }
+        catch (Exception ex) { log.LogWarning(ex, "TestAttempts.FinishedAt indeksini qo'shib bo'lmadi"); }
+
         if (!await IndexExistsAsync(conn, "Users", "IX_Users_DeletedAt"))
             await ExecAsync(conn, "CREATE INDEX `IX_Users_DeletedAt` ON `Users` (`DeletedAt`)");
 

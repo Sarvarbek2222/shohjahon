@@ -4461,4 +4461,10 @@
   <data name="ar.note_month" xml:space="preserve">
     <value>Охирги 30 кун ичидаги жавоблар бўйича (камида 10 марта ишланган саволлар). Ҳар 10 дақиқада янгиланади.</value>
   </data>
+  <data name="ar.preparing" xml:space="preserve">
+    <value>Арена тайёрланмоқда…</value>
+  </data>
+  <data name="ar.preparingSub" xml:space="preserve">
+    <value>Энг қийин саволлар фонда ҳисобланмоқда. Саҳифа бир неча сонияда ўзи янгиланади.</value>
+  </data>
 </root>

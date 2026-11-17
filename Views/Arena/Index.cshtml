@@ -67,7 +67,12 @@
         }
     </section>
 
-    @if (items.Count == 0)
+    @if (ViewBag.Preparing is true)
+    {
+        <div class="ca-card ca-empty" style="margin-top:16px;"><div class="ca-empty-icon" style="font-size:40px;">⏳</div><h3 data-i18n="ar.preparing">@L["ar.preparing"]</h3><p data-i18n="ar.preparingSub">@L["ar.preparingSub"]</p></div>
+        <script>setTimeout(function () { location.reload(); }, 5000);</script>
+    }
+    else if (items.Count == 0)
     {
         <div class="ca-card ca-empty" style="margin-top:16px;"><div class="ca-empty-icon" style="font-size:40px;">🧊</div><h3 data-i18n="ar.emptyTitle">@L["ar.emptyTitle"]</h3><p data-i18n="ar.empty">@L["ar.empty"]</p></div>
     }
