@@ -284,11 +284,29 @@ CREATE TABLE `UserDeviceRequests` (
   CONSTRAINT `FK_TopicLessonQuestions_TopicLessons` FOREIGN KEY (`LessonId`) REFERENCES `TopicLessons` (`Id`) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4"),
         };
+        // Har bir jadval alohida: biri yaratilmasa ham qolganlari yaratiladi. Tashqi kalit (FK) bilan yaratib
+        // bo'lmasa (masalan, eski jadvallar boshqa turdagi bo'lsa) — FK siz yaratiladi (ma'lumot baribir to'g'ri saqlanadi)
         foreach (var (name, sql) in tables)
         {
-            if (await TableExistsAsync(conn, name)) continue;
-            await ExecAsync(conn, sql);
-            log.LogInformation("{Table} jadvali yaratildi", name);
+            try
+            {
+                if (await TableExistsAsync(conn, name)) continue;
+                try
+                {
+                    await ExecAsync(conn, sql);
+                }
+                catch (Exception ex)
+                {
+                    log.LogWarning(ex, "{Table} jadvalini FK bilan yaratib bo'lmadi — FK siz yaratiladi", name);
+                    var noFk = System.Text.RegularExpressions.Regex.Replace(sql, @",\s*CONSTRAINT `[^`]+` FOREIGN KEY[^)]*\)\s*REFERENCES[^)]*\)(\s*ON DELETE \w+)?", "");
+                    await ExecAsync(conn, noFk);
+                }
+                log.LogInformation("{Table} jadvali yaratildi", name);
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, "{Table} jadvalini yaratishda xatolik", name);
+            }
         }
 
         if (!await IndexExistsAsync(conn, "Users", "IX_Users_DeletedAt"))

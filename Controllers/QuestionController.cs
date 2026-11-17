@@ -39,15 +39,24 @@ public class QuestionController : Controller
         f.Size = f.Size is 25 or 50 or 100 ? f.Size : 25;
         f.Page = Math.Max(1, f.Page);
         var byTopic = await _bank.ByTopicAsync();
-        var stats = await cache.GetOrCreateAsync("qs:answerStats", async e =>
+        // Qo'shimcha ma'lumotlar (statistika, video belgisi) — xato bersa ham ro'yxat baribir ochiladi
+        var log = HttpContext.RequestServices.GetRequiredService<ILogger<QuestionController>>();
+        Dictionary<int, (int N, int W)> stats = new();
+        try
         {
-            e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3);
-            return (await _context.TestAnswers.AsNoTracking().Where(a => a.SelectedOptionId != null)
-                .GroupBy(a => a.QuestionId)
-                .Select(g => new { g.Key, N = g.Count(), W = g.Count(a => !a.IsCorrect) })
-                .ToListAsync()).ToDictionary(x => x.Key, x => (x.N, x.W));
-        }) ?? new();
-        var withVideo = (await _context.TopicLessonQuestions.AsNoTracking().Select(x => x.QuestionId).Distinct().ToListAsync()).ToHashSet();
+            stats = await cache.GetOrCreateAsync("qs:answerStats", async e =>
+            {
+                e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3);
+                return (await _context.TestAnswers.AsNoTracking().Where(a => a.SelectedOptionId != null)
+                    .GroupBy(a => a.QuestionId)
+                    .Select(g => new { g.Key, N = g.Count(), W = g.Count(a => !a.IsCorrect) })
+                    .ToListAsync()).ToDictionary(x => x.Key, x => (x.N, x.W));
+            }) ?? new();
+        }
+        catch (Exception ex) { log.LogWarning(ex, "Savollar statistikasini o'qib bo'lmadi"); }
+        var withVideo = new HashSet<int>();
+        try { withVideo = (await _context.TopicLessonQuestions.AsNoTracking().Select(x => x.QuestionId).Distinct().ToListAsync()).ToHashSet(); }
+        catch (Exception ex) { log.LogWarning(ex, "Video bog'lanishlarini o'qib bo'lmadi"); }
 
         var q = _context.Questions.AsNoTracking().AsQueryable();
         if (f.Id is int id) q = q.Where(x => x.Id == id);
@@ -68,8 +77,11 @@ public class QuestionController : Controller
         if (f.Img == "no") q = q.Where(x => x.ImageUrl == null || x.ImageUrl == "");
         if (f.Lang == "noru") q = q.Where(x => x.QuestionRU == null || x.QuestionRU == "");
         if (f.Lang == "nouzk") q = q.Where(x => x.QuestionUZK == null || x.QuestionUZK == "");
-        if (f.Video == "yes") q = q.Where(x => withVideo.Contains(x.Id));
-        if (f.Video == "no") q = q.Where(x => !withVideo.Contains(x.Id));
+        if (f.Video is "yes" or "no")
+        {
+            var vids = withVideo.ToList();
+            q = f.Video == "yes" ? q.Where(x => vids.Contains(x.Id)) : q.Where(x => !vids.Contains(x.Id));
+        }
 
         List<int> pageIds;
         var total = await q.CountAsync();
