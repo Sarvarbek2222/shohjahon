@@ -31,100 +31,127 @@ public class QuestionController : Controller
     }
 
     /// <summary>
-    /// Savollar bazasi: serverda qidiruv, filtr (mavzu, bilet, rasm, tarjima, video, qiyinlik), saralash va sahifalash —
-    /// sahifa minglab savol bilan ham tez ochiladi.
+    /// Savollar bazasi: qidiruv, filtr (mavzu, bilet, rasm, tarjima, video), saralash va sahifalash — xotiradagi
+    /// savollar keshidan (bazaga murojaatsiz, darhol ochiladi). Bazadan faqat sahifadagi 25–100 ta savolning
+    /// statistikasi (indeks bo'yicha) va video bog'lanishlari o'qiladi. "Eng qiyinlari" uchun umumiy statistika
+    /// fonda tayyorlanadi va 10 daqiqa keshlanadi.
     /// </summary>
-    public async Task<IActionResult> Index([FromQuery] QuestionFilter f, [FromServices] Microsoft.Extensions.Caching.Memory.IMemoryCache cache)
+    public async Task<IActionResult> Index([FromQuery] QuestionFilter f, [FromServices] IMemoryCache cache, [FromServices] IServiceScopeFactory scopes)
     {
         f.Size = f.Size is 25 or 50 or 100 ? f.Size : 25;
         f.Page = Math.Max(1, f.Page);
-        var byTopic = await _bank.ByTopicAsync();
-        // Qo'shimcha ma'lumotlar (statistika, video belgisi) — xato bersa ham ro'yxat baribir ochiladi
         var log = HttpContext.RequestServices.GetRequiredService<ILogger<QuestionController>>();
-        Dictionary<int, (int N, int W)> stats = new();
-        try
-        {
-            stats = await cache.GetOrCreateAsync("qs:answerStats", async e =>
-            {
-                e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3);
-                return (await _context.TestAnswers.AsNoTracking().Where(a => a.SelectedOptionId != null)
-                    .GroupBy(a => a.QuestionId)
-                    .Select(g => new { g.Key, N = g.Count(), W = g.Count(a => !a.IsCorrect) })
-                    .ToListAsync()).ToDictionary(x => x.Key, x => (x.N, x.W));
-            }) ?? new();
-        }
-        catch (Exception ex) { log.LogWarning(ex, "Savollar statistikasini o'qib bo'lmadi"); }
+        var all = await _bank.AllAsync();
+        var byTopic = await _bank.ByTopicAsync();
+        var topicOf = byTopic.SelectMany(kv => kv.Value.Select(x => (x.Id, kv.Key))).GroupBy(x => x.Id).ToDictionary(g => g.Key, g => g.First().Key);
+
         var withVideo = new HashSet<int>();
         try { withVideo = (await _context.TopicLessonQuestions.AsNoTracking().Select(x => x.QuestionId).Distinct().ToListAsync()).ToHashSet(); }
         catch (Exception ex) { log.LogWarning(ex, "Video bog'lanishlarini o'qib bo'lmadi"); }
 
-        var q = _context.Questions.AsNoTracking().AsQueryable();
+        static bool Empty(string? v) => string.IsNullOrWhiteSpace(v);
+        IEnumerable<Question> q = all;
         if (f.Id is int id) q = q.Where(x => x.Id == id);
-        if (!string.IsNullOrWhiteSpace(f.Q))
+        if (!Empty(f.Q))
         {
-            var s = f.Q.Trim();
-            q = q.Where(x => x.QuestionUZ.Contains(s) || (x.QuestionRU != null && x.QuestionRU.Contains(s)) || (x.QuestionUZK != null && x.QuestionUZK.Contains(s)));
+            var s = f.Q!.Trim();
+            q = q.Where(x => (x.QuestionUZ ?? "").Contains(s, StringComparison.OrdinalIgnoreCase)
+                          || (x.QuestionRU ?? "").Contains(s, StringComparison.OrdinalIgnoreCase)
+                          || (x.QuestionUZK ?? "").Contains(s, StringComparison.OrdinalIgnoreCase));
         }
-        if (!string.IsNullOrEmpty(f.Topic) && byTopic.TryGetValue(f.Topic, out var tq))
+        if (!Empty(f.Topic) && byTopic.TryGetValue(f.Topic!, out var tq))
         {
-            var ids = tq.Select(x => x.Id).ToList();
+            var ids = tq.Select(x => x.Id).ToHashSet();
             q = q.Where(x => ids.Contains(x.Id));
         }
         if (f.Bilet is int b) q = q.Where(x => x.BiletNumber == b);
         if (f.Pool == "bilet") q = q.Where(x => x.BiletNumber != null);
         if (f.Pool == "other") q = q.Where(x => x.BiletNumber == null);
-        if (f.Img == "yes") q = q.Where(x => x.ImageUrl != null && x.ImageUrl != "");
-        if (f.Img == "no") q = q.Where(x => x.ImageUrl == null || x.ImageUrl == "");
-        if (f.Lang == "noru") q = q.Where(x => x.QuestionRU == null || x.QuestionRU == "");
-        if (f.Lang == "nouzk") q = q.Where(x => x.QuestionUZK == null || x.QuestionUZK == "");
-        if (f.Video is "yes" or "no")
-        {
-            var vids = withVideo.ToList();
-            q = f.Video == "yes" ? q.Where(x => vids.Contains(x.Id)) : q.Where(x => !vids.Contains(x.Id));
-        }
+        if (f.Img == "yes") q = q.Where(x => !Empty(x.ImageUrl));
+        if (f.Img == "no") q = q.Where(x => Empty(x.ImageUrl));
+        if (f.Lang == "noru") q = q.Where(x => Empty(x.QuestionRU));
+        if (f.Lang == "nouzk") q = q.Where(x => Empty(x.QuestionUZK));
+        if (f.Video == "yes") q = q.Where(x => withVideo.Contains(x.Id));
+        if (f.Video == "no") q = q.Where(x => !withVideo.Contains(x.Id));
+        var filtered = q.ToList();
 
-        List<int> pageIds;
-        var total = await q.CountAsync();
+        // Qiyinlik bo'yicha saralash — umumiy statistika kerak: tayyor bo'lsa keshdan, bo'lmasa fonda boshlanadi
+        Dictionary<int, (int N, int W)>? global = null;
         if (f.Sort == "hard")
         {
-            // Qiyinlik bo'yicha — eng ko'p xato qilinganlari (kamida 5 ta javob) birinchi
-            var all = await q.Select(x => x.Id).ToListAsync();
-            pageIds = all.OrderByDescending(x => stats.TryGetValue(x, out var st) && st.N >= 5 ? (double)st.W / st.N : -1)
-                .Skip((f.Page - 1) * f.Size).Take(f.Size).ToList();
-        }
-        else
-        {
-            var ordered = f.Sort switch
+            global = cache.Get<Dictionary<int, (int N, int W)>>(StatsKey);
+            if (global == null)
             {
-                "old" => q.OrderBy(x => x.Id),
-                "bilet" => q.OrderBy(x => x.BiletNumber == null).ThenBy(x => x.BiletNumber).ThenBy(x => x.BiletOrder).ThenBy(x => x.Id),
-                _ => q.OrderByDescending(x => x.Id),
-            };
-            pageIds = await ordered.Skip((f.Page - 1) * f.Size).Take(f.Size).Select(x => x.Id).ToListAsync();
+                StartGlobalStats(cache, scopes, log);
+                ViewBag.StatsPending = true;
+            }
         }
-        var rows = await _context.Questions.AsNoTracking().Include(x => x.Options).Where(x => pageIds.Contains(x.Id)).ToListAsync();
-        var topicOf = byTopic.SelectMany(kv => kv.Value.Select(x => (x.Id, kv.Key))).GroupBy(x => x.Id).ToDictionary(g => g.Key, g => g.First().Key);
+        IEnumerable<Question> ordered = f.Sort switch
+        {
+            "old" => filtered.OrderBy(x => x.Id),
+            "bilet" => filtered.OrderBy(x => x.BiletNumber == null).ThenBy(x => x.BiletNumber).ThenBy(x => x.BiletOrder).ThenBy(x => x.Id),
+            "hard" when global != null => filtered.OrderByDescending(x => global.TryGetValue(x.Id, out var st) && st.N >= 5 ? (double)st.W / st.N : -1).ThenBy(x => x.Id),
+            _ => filtered.OrderByDescending(x => x.Id),
+        };
+        var page = ordered.Skip((f.Page - 1) * f.Size).Take(f.Size).ToList();
 
-        // Yuqoridagi ko'rsatkichlar (butun baza bo'yicha)
-        var all0 = _context.Questions.AsNoTracking();
-        var kpiTotal = await all0.CountAsync();
-        var kpiInBilets = await all0.CountAsync(x => x.BiletNumber != null);
-        var kpiImage = await all0.CountAsync(x => x.ImageUrl != null && x.ImageUrl != "");
-        var kpiNoRu = await all0.CountAsync(x => x.QuestionRU == null || x.QuestionRU == "");
-        var kpiNoUzk = await all0.CountAsync(x => x.QuestionUZK == null || x.QuestionUZK == "");
+        // Faqat sahifadagi savollar statistikasi (QuestionId indeksi bo'yicha — tez)
+        var stats = new Dictionary<int, (int N, int W)>();
+        if (global != null) stats = global;
+        else if (page.Count > 0)
+        {
+            try
+            {
+                var pids = page.Select(x => x.Id).ToList();
+                stats = (await _context.TestAnswers.AsNoTracking()
+                    .Where(a => pids.Contains(a.QuestionId) && a.SelectedOptionId != null)
+                    .GroupBy(a => a.QuestionId)
+                    .Select(g => new { g.Key, N = g.Count(), W = g.Count(a => !a.IsCorrect) })
+                    .ToListAsync()).ToDictionary(x => x.Key, x => (x.N, x.W));
+            }
+            catch (Exception ex) { log.LogWarning(ex, "Savollar statistikasini o'qib bo'lmadi"); }
+        }
 
         return View(new QuestionListModel
         {
             Filter = f,
-            Total = total,
-            Rows = pageIds.Select(pid => rows.First(r => r.Id == pid)).Select(r => new QuestionListRow(r,
-                topicOf.GetValueOrDefault(r.Id) ?? r.Topic?.Trim(),
+            Total = filtered.Count,
+            Rows = page.Select(r => new QuestionListRow(r, topicOf.GetValueOrDefault(r.Id) ?? r.Topic?.Trim(),
                 stats.TryGetValue(r.Id, out var st) ? st.N : 0, stats.TryGetValue(r.Id, out var st2) ? st2.W : 0,
                 withVideo.Contains(r.Id))).ToList(),
             Topics = Topics.All.Where(byTopic.ContainsKey).Select(t => new TopicCount(t, byTopic[t].Count)).ToList(),
             BiletCount = (await _bank.BiletsAsync()).Count,
-            KpiTotal = kpiTotal, KpiInBilets = kpiInBilets, KpiWithImage = kpiImage,
-            KpiNoRu = kpiNoRu, KpiNoUzk = kpiNoUzk, KpiWithVideo = withVideo.Count,
+            KpiTotal = all.Count,
+            KpiInBilets = all.Count(x => x.BiletNumber != null),
+            KpiWithImage = all.Count(x => !Empty(x.ImageUrl)),
+            KpiNoRu = all.Count(x => Empty(x.QuestionRU)),
+            KpiNoUzk = all.Count(x => Empty(x.QuestionUZK)),
+            KpiWithVideo = withVideo.Count,
+        });
+    }
+
+    private const string StatsKey = "qs:globalStats";
+    private static int _statsRunning;
+
+    /// <summary>Barcha savollar bo'yicha javoblar statistikasi — fonda (sahifa kutmaydi), bir vaqtda faqat bittasi.</summary>
+    private static void StartGlobalStats(IMemoryCache cache, IServiceScopeFactory scopes, ILogger log)
+    {
+        if (Interlocked.Exchange(ref _statsRunning, 1) == 1) return;
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                using var scope = scopes.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.SetCommandTimeout(300);
+                var dict = (await db.TestAnswers.AsNoTracking().Where(a => a.SelectedOptionId != null)
+                    .GroupBy(a => a.QuestionId)
+                    .Select(g => new { g.Key, N = g.Count(), W = g.Count(a => !a.IsCorrect) })
+                    .ToListAsync()).ToDictionary(x => x.Key, x => (x.N, x.W));
+                cache.Set(StatsKey, dict, TimeSpan.FromMinutes(10));
+            }
+            catch (Exception ex) { log.LogWarning(ex, "Savollar umumiy statistikasini hisoblab bo'lmadi"); }
+            finally { Interlocked.Exchange(ref _statsRunning, 0); }
         });
     }
 

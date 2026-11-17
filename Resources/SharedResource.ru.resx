@@ -4350,4 +4350,7 @@
   <data name="msg.chatsDeleted" xml:space="preserve">
     <value>Удалено сообщений: {n}</value>
   </data>
+  <data name="qs.statsPending" xml:space="preserve">
+    <value>Статистика сложности считается — обновите страницу через несколько секунд. Пока показаны сначала новые вопросы.</value>
+  </data>
 </root>

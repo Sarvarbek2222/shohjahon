@@ -4350,4 +4350,7 @@
   <data name="msg.chatsDeleted" xml:space="preserve">
     <value>{n} та хабар ўчирилди</value>
   </data>
+  <data name="qs.statsPending" xml:space="preserve">
+    <value>Қийинлик статистикаси ҳисобланмоқда — бир неча сониядан кейин саҳифани янгиланг. Ҳозирча янги саволлар биринчи кўрсатилмоқда.</value>
+  </data>
 </root>

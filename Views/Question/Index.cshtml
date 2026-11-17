@@ -31,6 +31,11 @@
         <div class="ca-alert ca-alert-info qs-flash" role="status" data-i18n="@qsMsg">@L[qsMsg]</div>
     }
 
+    @if (ViewBag.StatsPending is true)
+    {
+        <div class="ca-alert ca-alert-info" data-i18n="qs.statsPending">@L["qs.statsPending"]</div>
+    }
+
     <div class="qx-kpis">
         <a class="qx-kpi" href="?"><b>@Model.KpiTotal</b><span data-i18n="qs.total">@L["qs.total"]</span></a>
         <a class="qx-kpi" href="?pool=bilet&sort=bilet"><b>@Model.KpiInBilets</b><span data-i18n="qs.kInBilets">@L["qs.kInBilets"]</span></a>
