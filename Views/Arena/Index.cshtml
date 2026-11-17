@@ -14,7 +14,7 @@
     var allIds = string.Join(",", items.Select(i => i.Q.Id));
     var avgWrong = items.Count > 0 ? (int)Math.Round(items.Average(i => i.WrongPct)) : 0;
     var solvedPct = items.Count > 0 ? (int)Math.Round(100.0 * solved / items.Count) : 0;
-    string Img(Question q, int w) => string.IsNullOrEmpty(q.ImageUrl) ? $"/images/avprsm.png?w={w}" : $"/uploads/{q.ImageUrl}?w={w}";
+    string Img(Question q, int w) => string.IsNullOrEmpty(q.ImageUrl) ? "/images/avprsm1%20rrr.png" : $"/uploads/{q.ImageUrl}?w={w}";
     string Heat(int pct) => pct >= 75 ? "inferno" : pct >= 55 ? "hot" : pct >= 35 ? "warm" : "mild";
     var periodKey = "ar.p_" + p;
 }
