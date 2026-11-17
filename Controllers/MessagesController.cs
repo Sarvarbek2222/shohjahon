@@ -132,10 +132,14 @@ public class MessagesController : Controller
             .Where(m => m.UserId == thread && m.FromAdmin == IsAdmin && m.ReadAt != null)
             .MaxAsync(m => (int?)m.Id) ?? 0;
 
+        // O'chirilgan xabarlar ikkala tomonda ham yo'qolsin: suhbatdagi mavjud xabarlar ro'yxati (faqat raqamlar)
+        var ids = await _db.Messages.AsNoTracking().Where(m => m.UserId == thread).OrderByDescending(m => m.Id).Take(500).Select(m => m.Id).ToListAsync();
+
         return Json(new
         {
             items = items.Select(m => new { id = m.Id, text = m.Text, mine = m.FromAdmin == IsAdmin, at = Iso(m.CreatedAt) }),
             readUpTo = myLastRead,
+            ids,
         });
     }
 
@@ -164,6 +168,27 @@ public class MessagesController : Controller
         // O'quvchiga — qo'ng'iroqcha orqali bildirishnoma (sahifada bo'lmasa ham ko'radi)
         if (IsAdmin) await _notify.NotifyUsersAsync(new[] { thread }, "msgNew", new { text = Short(text) }, "/Messages");
         return Ok(new { id = msg.Id, text = msg.Text, mine = true, at = Iso(msg.CreatedAt) });
+    }
+
+    /// <summary>
+    /// Xabarlarni o'chirish — ikkala tomonda ham yo'qoladi. ids berilsa — tanlanganlar, all=true — butun suhbat.
+    /// O'quvchi faqat o'z suhbatidagi xabarlarni, admin — istalgan o'quvchi suhbatidagini o'chiradi.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int? u, int[]? ids, bool all = false)
+    {
+        var thread = IsAdmin ? u ?? 0 : Me;
+        if (thread == 0) return BadRequest();
+        var q = _db.Messages.Where(m => m.UserId == thread);
+        if (!all)
+        {
+            var list = (ids ?? Array.Empty<int>()).Distinct().Take(1000).ToList();
+            if (list.Count == 0) return BadRequest(new { error = "none" });
+            q = q.Where(m => list.Contains(m.Id));
+        }
+        var n = await q.ExecuteDeleteAsync();
+        return Ok(new { deleted = n });
     }
 
     /// <summary>O'qilmagan xabarlar soni (menyudagi belgi uchun).</summary>

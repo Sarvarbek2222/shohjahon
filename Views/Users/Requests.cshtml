@@ -5,6 +5,9 @@
     ViewData["TitleKey"] = "reg.adminTitle";
     ViewData["Title"] = L["reg.adminTitle"];
     var msgKey = TempData["MsgKey"] as string;
+    var errKey = TempData["ErrKey"] as string;
+    var msgN = TempData["MsgN"] as int?;
+    var rejectedN = Model.Count(r => r.Status == "rejected");
     var pending = Model.Count(r => r.Status == "pending");
 }
 <div class="ca-body-embed">
@@ -16,7 +19,23 @@
         </div>
         <span class="lg-chip @(pending > 0 ? "lg-shame" : "lg-good")" style="font-size:14px;">@pending <span data-i18n="reg.pendingN">@L["reg.pendingN"]</span></span>
     </div>
-    @if (msgKey != null) { <div class="ca-alert ca-alert-info" data-i18n="@msgKey">@L[msgKey]</div> }
+    @if (msgKey != null) { <div class="ca-alert ca-alert-info" data-i18n="@msgKey" data-i18n-args='{"n":@(msgN ?? 0)}'>@L.F(msgKey, ("n", msgN ?? 0))</div> }
+    @if (errKey != null) { <div class="ca-alert" style="border-color:rgba(255,77,106,.5);color:#ffb3c0;" data-i18n="@errKey">@L[errKey]</div> }
+    @if (Model.Count > 0)
+    {
+        <form method="post" action="/Users/DeleteRequests" id="rqBulk" class="rq-bar">
+            @Html.AntiForgeryToken()
+            <label class="rq-all"><input type="checkbox" id="rqAll" /> <span data-i18n="users.selectAll">@L["users.selectAll"]</span></label>
+            <span class="ca-muted ca-small"><b id="rqN">0</b> <span data-i18n="users.selected">@L["users.selected"]</span></span>
+            <span style="flex:1"></span>
+            <button type="submit" class="ca-btn ca-btn-ghost ca-btn-sm" id="rqDelSel" disabled onclick="return confirm(I18n.t('reg.delSelConfirm'))">🗑 <span data-i18n="users.deleteSelected">@L["users.deleteSelected"]</span></button>
+            @if (rejectedN > 0)
+            {
+                <button type="submit" name="scope" value="rejected" class="ca-btn ca-btn-ghost ca-btn-sm" onclick="return confirm(I18n.t('reg.delRejectedConfirm'))">✕ <span data-i18n="reg.delRejected" data-i18n-args='{"n":@rejectedN}'>@L.F("reg.delRejected", ("n", rejectedN))</span></button>
+            }
+            <button type="submit" name="scope" value="all" class="ca-btn ca-btn-sm rq-danger" onclick="return confirm(I18n.t('reg.delAllConfirm'))">🗑 <span data-i18n="reg.delAll">@L["reg.delAll"]</span></button>
+        </form>
+    }
     @if (Model.Count == 0)
     {
         <div class="ca-card ca-empty"><div class="ca-empty-icon">📝</div><p data-i18n="reg.none">@L["reg.none"]</p></div>
@@ -26,6 +45,7 @@
         {
             var sk = "reg.st_" + r.Status;
             <article class="ca-card rq @(r.Status)">
+                <input type="checkbox" class="rq-chk" name="ids" value="@r.Id" form="rqBulk" aria-label="@r.FullName" />
                 <div class="rq-main">
                     <b>@r.FullName</b>
                     <a class="ca-link" href="tel:@r.Phone">@UserService.FormatPhone(r.Phone)</a>
@@ -47,6 +67,14 @@
                     {
                         <a class="ca-link" href="/Users/Edit/@uid" data-i18n="reg.openUser">@L["reg.openUser"]</a>
                     }
+                    @if (r.Status != "pending")
+                    {
+                        <form method="post" action="/Users/DeleteRequests" onsubmit="return confirm(I18n.t('reg.delOneConfirm'))">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="ids" value="@r.Id" />
+                            <button type="submit" class="ca-btn ca-btn-ghost ca-btn-sm rq-del" title="@L["ls.delete"]">🗑</button>
+                        </form>
+                    }
                 </div>
             </article>
         }
@@ -54,6 +82,12 @@
 </div>
 <style>
     .rq-list { display: grid; gap: 10px; }
+    .rq-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; padding: 10px 14px; border-radius: 14px; background: var(--ca-surface); border: 1px solid var(--ca-border); position: sticky; top: 70px; z-index: 5; }
+    .rq-all { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; cursor: pointer; }
+    .rq-chk, .rq-all input { width: 18px; height: 18px; accent-color: #ff2d4a; flex: 0 0 auto; }
+    .rq-danger { background: #ef4444; color: #fff; border: 0; }
+    .rq-del:hover { background: var(--ca-bad) !important; color: #fff; }
+    .rq-bar button:disabled { opacity: .45; cursor: not-allowed; }
     .rq { display: flex; justify-content: space-between; gap: 14px; align-items: center; flex-wrap: wrap; }
     .rq.pending { border-color: rgba(245,165,36,.45); }
     .rq.rejected, .rq.approved { opacity: .65; }
@@ -66,3 +100,18 @@
     .bl-pending { color: var(--ca-warn); background: var(--ca-warn-soft); }
     .bl-cancelled { color: var(--ca-muted); background: rgba(255,255,255,.06); }
 </style>
+<script>
+    (function () {
+        var boxes = Array.prototype.slice.call(document.querySelectorAll(".rq-chk")), all = document.getElementById("rqAll");
+        if (!all) return;
+        function upd() {
+            var n = boxes.filter(function (b) { return b.checked; }).length;
+            document.getElementById("rqN").textContent = n;
+            document.getElementById("rqDelSel").disabled = n === 0;
+            all.checked = n > 0 && n === boxes.length; all.indeterminate = n > 0 && n < boxes.length;
+        }
+        boxes.forEach(function (b) { b.addEventListener("change", upd); });
+        all.addEventListener("change", function () { boxes.forEach(function (b) { b.checked = all.checked; }); upd(); });
+        upd();
+    })();
+</script>

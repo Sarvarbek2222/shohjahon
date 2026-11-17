@@ -42,6 +42,7 @@
             var el = document.createElement("div");
             el.className = "ch-msg" + (m.mine ? " mine" : "");
             el.dataset.id = m.id;
+            el.dataset.at = m.at;
             el.textContent = m.text;
             var tm = document.createElement("time");
             tm.textContent = hm(d);
@@ -70,6 +71,7 @@
                     var atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
                     d.items.forEach(function (m) { if (m.id > last) { bubble(m); last = m.id; } });
                     readUpTo = d.readUpTo || readUpTo;
+                    if (d.ids) syncDeleted(d.ids);
                     ticks(); empty();
                     if (d.items.length && (atBottom || last === d.items[d.items.length - 1].id)) log.scrollTop = log.scrollHeight;
                     document.dispatchEvent(new CustomEvent("chat:read"));
@@ -99,9 +101,104 @@
             if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); form.requestSubmit(); }
         });
         input.addEventListener("input", function () { input.style.height = "auto"; input.style.height = Math.min(160, input.scrollHeight) + "px"; });
+        // ── O'chirish: boshqa tomon o'chirgan xabarlar ham shu yerdan yo'qoladi ──
+        function syncDeleted(ids) {
+            var set = {}, min = Infinity;
+            ids.forEach(function (i) { set[i] = 1; if (i < min) min = i; });
+            var full = ids.length < 500;
+            log.querySelectorAll(".ch-msg").forEach(function (el) {
+                var id = +el.dataset.id;
+                if (!set[id] && (full || id > min)) el.remove();
+            });
+            tidy();
+        }
+        function tidy() {
+            // Ichida xabar qolmagan sana ajratgichlari olib tashlanadi
+            log.querySelectorAll(".ch-day").forEach(function (sep) {
+                var n = sep.nextElementSibling;
+                if (!n || n.classList.contains("ch-day")) sep.remove();
+            });
+            var lastSep = log.querySelectorAll(".ch-day");
+            lastDay = null;
+            if (lastSep.length) {
+                var msgs = log.querySelectorAll(".ch-msg");
+                if (msgs.length) lastDay = dayKey(new Date(msgs[msgs.length - 1].dataset.at));
+            }
+            empty();
+        }
+
+        // Tanlash rejimi: xabarlarni belgilab o'chirish yoki butun suhbatni o'chirish
+        var old = root.querySelector(".ch-tools");
+        if (old) old.remove();
+        var tools = document.createElement("div");
+        tools.className = "ch-tools";
+        tools.innerHTML =
+            '<button type="button" class="ch-tool" data-act="select"></button>' +
+            '<button type="button" class="ch-tool danger" data-act="all"></button>' +
+            '<span class="ch-tool-n" hidden></span>' +
+            '<button type="button" class="ch-tool danger" data-act="del" hidden></button>' +
+            '<button type="button" class="ch-tool" data-act="cancel" hidden></button>';
+        log.parentNode.insertBefore(tools, log);
+        var selecting = false;
+        function label() {
+            tools.querySelector('[data-act="select"]').textContent = "☑ " + t("msg.select");
+            tools.querySelector('[data-act="all"]').textContent = "🗑 " + t("msg.deleteAll");
+            tools.querySelector('[data-act="del"]').textContent = "🗑 " + t("msg.deleteSel");
+            tools.querySelector('[data-act="cancel"]').textContent = t("users.clearSel");
+            var n = log.querySelectorAll(".ch-msg.sel").length;
+            var nEl = tools.querySelector(".ch-tool-n");
+            nEl.textContent = t("msg.selectedN", { n: n });
+            nEl.hidden = !selecting;
+            tools.querySelector('[data-act="select"]').hidden = selecting;
+            tools.querySelector('[data-act="all"]').hidden = selecting;
+            tools.querySelector('[data-act="del"]').hidden = !selecting;
+            tools.querySelector('[data-act="del"]').disabled = n === 0;
+            tools.querySelector('[data-act="cancel"]').hidden = !selecting;
+        }
+        function setSelecting(on) {
+            selecting = on;
+            log.classList.toggle("selecting", on);
+            if (!on) log.querySelectorAll(".ch-msg.sel").forEach(function (el) { el.classList.remove("sel"); });
+            label();
+        }
+        function remove(params, done) {
+            post("/Messages/Delete", params).then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+                .then(done).catch(function () { alert(t("msg.deleteFail")); });
+        }
+        log.addEventListener("click", function (e) {
+            if (!selecting) return;
+            var m = e.target.closest(".ch-msg");
+            if (!m) return;
+            m.classList.toggle("sel");
+            label();
+        });
+        tools.addEventListener("click", function (e) {
+            var b = e.target.closest("[data-act]");
+            if (!b) return;
+            var act = b.getAttribute("data-act");
+            if (act === "select") setSelecting(true);
+            else if (act === "cancel") setSelecting(false);
+            else if (act === "del") {
+                var sel = Array.prototype.slice.call(log.querySelectorAll(".ch-msg.sel"));
+                if (!sel.length || !confirm(t("msg.deleteSelConfirm", { n: sel.length }))) return;
+                var params = new URLSearchParams();
+                if (userId) params.append("u", userId);
+                sel.forEach(function (el) { params.append("ids", el.dataset.id); });
+                remove(params, function () { sel.forEach(function (el) { el.remove(); }); setSelecting(false); tidy(); document.dispatchEvent(new CustomEvent("chat:sent")); });
+            } else if (act === "all") {
+                if (!log.querySelector(".ch-msg") || !confirm(t("msg.deleteAllConfirm"))) return;
+                remove(userId ? { u: userId, all: "true" } : { all: "true" }, function () {
+                    log.querySelectorAll(".ch-msg, .ch-day").forEach(function (el) { el.remove(); });
+                    lastDay = null; tidy(); document.dispatchEvent(new CustomEvent("chat:sent"));
+                });
+            }
+        });
+        document.addEventListener("i18n:change", label);
+        label();
+
         poll();
         timer = setInterval(function () { if (document.visibilityState === "visible") poll(); }, 4000);
-        this.stop = function () { stopped = true; clearInterval(timer); };
+        this.stop = function () { stopped = true; clearInterval(timer); tools.remove(); };
         empty();
     }
 

@@ -79,7 +79,6 @@ public class UsersController : Controller
     public async Task<IActionResult> Requests()
     {
         var list = await _db.RegistrationRequests.AsNoTracking()
-            .Where(r => r.Status == "pending" || r.CreatedAt > DateTime.UtcNow.AddDays(-30))
             .OrderBy(r => r.Status != "pending").ThenByDescending(r => r.CreatedAt).Take(300).ToListAsync();
         return View(list);
     }
@@ -96,6 +95,29 @@ public class UsersController : Controller
             await _db.SaveChangesAsync();
             TempData["MsgKey"] = "reg.rejected";
         }
+        return RedirectToAction(nameof(Requests));
+    }
+
+    /// <summary>Arizalarni o'chirish: ids — tanlanganlar; scope = "rejected" — barcha rad etilganlar, "all" — hammasi.</summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteRequests(int[]? ids, string? scope)
+    {
+        var q = _db.RegistrationRequests.AsQueryable();
+        if (scope == "rejected") q = q.Where(r => r.Status == "rejected");
+        else if (scope != "all")
+        {
+            var list = (ids ?? Array.Empty<int>()).Distinct().Take(1000).ToList();
+            if (list.Count == 0)
+            {
+                TempData["ErrKey"] = "users.bulkNone";
+                return RedirectToAction(nameof(Requests));
+            }
+            q = q.Where(r => list.Contains(r.Id));
+        }
+        var n = await q.ExecuteDeleteAsync();
+        TempData["MsgKey"] = "reg.deletedN";
+        TempData["MsgN"] = n;
         return RedirectToAction(nameof(Requests));
     }
 

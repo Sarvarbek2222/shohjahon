@@ -4290,4 +4290,46 @@
   <data name="reg.navShort" xml:space="preserve">
     <value>Arizalar</value>
   </data>
+  <data name="msg.select" xml:space="preserve">
+    <value>Tanlash</value>
+  </data>
+  <data name="msg.deleteAll" xml:space="preserve">
+    <value>Hammasini o'chirish</value>
+  </data>
+  <data name="msg.deleteSel" xml:space="preserve">
+    <value>O'chirish</value>
+  </data>
+  <data name="msg.selectedN" xml:space="preserve">
+    <value>{n} ta tanlandi</value>
+  </data>
+  <data name="msg.deleteSelConfirm" xml:space="preserve">
+    <value>Tanlangan {n} ta xabar ikkala tomonda ham o'chirilsinmi? Qaytarib bo'lmaydi.</value>
+  </data>
+  <data name="msg.deleteAllConfirm" xml:space="preserve">
+    <value>Butun yozishma ikkala tomonda ham o'chirilsinmi? Qaytarib bo'lmaydi.</value>
+  </data>
+  <data name="msg.deleteFail" xml:space="preserve">
+    <value>O'chirib bo'lmadi, qayta urinib ko'ring</value>
+  </data>
+  <data name="reg.delAll" xml:space="preserve">
+    <value>Hammasini o'chirish</value>
+  </data>
+  <data name="reg.delRejected" xml:space="preserve">
+    <value>Rad etilganlarni o'chirish ({n})</value>
+  </data>
+  <data name="reg.delSelConfirm" xml:space="preserve">
+    <value>Tanlangan arizalar o'chirilsinmi?</value>
+  </data>
+  <data name="reg.delRejectedConfirm" xml:space="preserve">
+    <value>Barcha rad etilgan arizalar o'chirilsinmi?</value>
+  </data>
+  <data name="reg.delAllConfirm" xml:space="preserve">
+    <value>BARCHA arizalar (yangilari ham) o'chirilsinmi? Qaytarib bo'lmaydi.</value>
+  </data>
+  <data name="reg.delOneConfirm" xml:space="preserve">
+    <value>Ariza o'chirilsinmi?</value>
+  </data>
+  <data name="reg.deletedN" xml:space="preserve">
+    <value>{n} ta ariza o'chirildi</value>
+  </data>
 </root>

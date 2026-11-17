@@ -145,3 +145,19 @@
 .lg-pod.me { outline: 2px solid #ff2d4a; outline-offset: 2px; }
 .lg-you { margin-left: 6px; font-size: 10.5px; font-weight: 800; padding: 1px 7px; border-radius: 999px; background: #ff2d4a; color: #fff; vertical-align: middle; }
 .lg-list a:not([href]), .lg-pod:not([href]) { cursor: default; }
+
+/* Xabarlar: tanlash va o'chirish */
+.ch-tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--ca-border); background: var(--ca-surface-2); }
+.ch-tool { border: 1px solid var(--ca-border-strong); background: var(--ca-surface); color: var(--ca-text); font: inherit; font-size: 12.5px; font-weight: 600; padding: 5px 11px; border-radius: 999px; cursor: pointer; }
+.ch-tool:hover { border-color: rgba(255,255,255,.3); }
+.ch-tool.danger { color: #ff8095; border-color: rgba(255,45,74,.4); }
+.ch-tool.danger:hover:not(:disabled) { background: #ef4444; color: #fff; border-color: #ef4444; }
+.ch-tool:disabled { opacity: .45; cursor: not-allowed; }
+.ch-tool-n { font-size: 12.5px; color: var(--ca-muted); margin-right: auto; }
+.ch-log.selecting .ch-msg { cursor: pointer; position: relative; user-select: none; }
+.ch-log.selecting .ch-msg::before { content: ""; position: absolute; top: 8px; width: 16px; height: 16px; border-radius: 5px; border: 2px solid var(--ca-border-strong); background: var(--ca-surface); }
+.ch-log.selecting .ch-msg:not(.mine)::before { right: -26px; }
+.ch-log.selecting .ch-msg.mine::before { left: -26px; }
+.ch-log.selecting .ch-msg.sel { outline: 2px solid #ff2d4a; outline-offset: 2px; }
+.ch-log.selecting .ch-msg.sel::before { background: #ff2d4a; border-color: #ff2d4a; }
+.ch-log.selecting { padding-left: 34px; padding-right: 34px; }
